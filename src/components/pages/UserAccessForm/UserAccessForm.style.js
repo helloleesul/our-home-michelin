@@ -14,12 +14,15 @@ export const ChefImage = styled.img`
 `;
 
 export const Text = styled.h2`
-  padding-bottom: ${({ paddingBottom }) => (paddingBottom ? "20px" : "50px")};
+  padding-bottom: 50px;
   font-size: ${({ fontSize }) => fontSize || "25px"};
+  &:hover {
+    cursor: pointer;
+    border-color: orange;
+  }
 `;
 export const InputContainer = styled.div`
   width: 550px;
-  height: ${({ height }) => (height ? "550px" : "350px")};
   border: 1px solid #ffe9e4;
   background-color: #ffe9e4;
   border-radius: 15px;
@@ -38,5 +41,14 @@ export const Btn = styled.button`
   background-color: #f7411f;
   color: white;
   font-size: 16px;
-  margin-bottom: 10px;
+  margin-bottom: 25px;
+  right: 590px;
+  &:focus {
+    outline: none;
+    border-color: orange;
+  }
+  &:hover {
+    cursor: pointer;
+    border-color: orange;
+  }
 `;

@@ -9,17 +9,16 @@ function Join(props) {
     { label: "비밀번호" },
     { label: "비밀번호 확인" },
   ];
-  const heightValue = true;
-  const paddingBottom = true;
+
   const Text = "회원가입";
   const subText = "계정이 이미 있으신가요? 로그인 하러가기";
+  const showBtn = true;
   return (
     <UserAccessForm
       inputs={customInputs}
-      paddingBottom={paddingBottom}
-      height={heightValue}
       Text={Text}
       subText={subText}
+      showBtn={showBtn}
     />
   );
 }

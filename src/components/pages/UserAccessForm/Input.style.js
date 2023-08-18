@@ -14,13 +14,36 @@ export const Label = styled.label`
 
 export const UserInput = styled.input`
   width: 350px;
-  height: 30px;
+  height: 35px;
   padding-left: 8px;
   border: 1px solid #ccc;
   border-radius: 15px;
-
+  position: relative;
   &:focus {
     outline: none;
+    border-color: orange;
+  }
+  &:hover {
+    cursor: pointer;
+    border-color: orange;
+  }
+`;
+
+export const Button = styled.button`
+  height: 25px;
+  font-size: 12px;
+  border-radius: 15px;
+  border: 1px solid white;
+  position: absolute;
+  margin-top: 23px;
+  margin-left: 295px;
+  align-items: center;
+  &:focus {
+    outline: none;
+    border-color: orange;
+  }
+  &:hover {
+    cursor: pointer;
     border-color: orange;
   }
 `;
