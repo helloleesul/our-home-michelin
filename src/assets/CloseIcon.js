@@ -12,12 +12,12 @@ function CloseIcon({ color }) {
       <path
         d="M2 1.58398L21.4985 21.0825"
         stroke={color}
-        stroke-width="3.58593"
+        strokeWidth="3.58593"
       />
       <path
         d="M21.498 1.58398L1.99955 21.0825"
         stroke={color}
-        stroke-width="3.58593"
+        strokeWidth="3.58593"
       />
     </svg>
   );
