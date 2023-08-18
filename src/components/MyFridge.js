@@ -2,7 +2,30 @@ import React from "react";
 import CloseIcon from "../assets/CloseIcon";
 import { Header, Content } from "./MyFridge.style";
 
-function MyFridge({ onClose }) {
+MyFridge.defaultProps = {
+  fridgeData: [
+    {
+      type: "육류",
+      ingredient: [
+        {
+          name: "닭고기",
+          bestBefore: "20230817",
+        },
+      ],
+    },
+    {
+      type: "야채류",
+      ingredient: [
+        {
+          name: "토마토",
+          bestBefore: "20230817",
+        },
+      ],
+    },
+  ],
+};
+
+function MyFridge({ onClose, fridgeData }) {
   return (
     <>
       <Header>
@@ -11,7 +34,13 @@ function MyFridge({ onClose }) {
           <CloseIcon color="#fff" />
         </button>
       </Header>
-      <Content></Content>
+      <Content>
+        {fridgeData?.length !== 0 ? (
+          <p>냉장고 식재료 채워졌음</p>
+        ) : (
+          <p>냉장고 식재료 비었음</p>
+        )}
+      </Content>
     </>
   );
 }
