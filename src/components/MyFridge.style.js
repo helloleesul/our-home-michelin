@@ -1,12 +1,12 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
-const padding = css({
+const commonStyle = css({
   padding: "1.5rem 2rem",
 });
 
 export const Header = styled.header`
-  ${padding}
+  ${commonStyle}
   color: #fff;
   background-color: #464646;
   display: flex;
@@ -25,5 +25,5 @@ export const Header = styled.header`
 `;
 
 export const Content = styled.div`
-  ${padding}
+  ${commonStyle}
 `;
