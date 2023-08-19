@@ -18,6 +18,14 @@ function UserAccessForm(props) {
       navigate("/login");
     }
   };
+
+  const handleClick = () => {
+    if (location.pathname === "/login") {
+      alert("로그인 버튼 클릭");
+    } else {
+      alert("회원가입  버튼 클릭");
+    }
+  };
   return (
     <S.Container>
       <S.ChefImage src={chef1} alt="요리사캐릭터" />
@@ -36,7 +44,7 @@ function UserAccessForm(props) {
           />
         ))}
 
-        <S.Btn>{Text}</S.Btn>
+        <S.Btn onClick={handleClick}>{Text}</S.Btn>
         <S.Text fontSize="13px" onClick={handlePageNavigation}>
           {subText}
         </S.Text>
