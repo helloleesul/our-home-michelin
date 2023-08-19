@@ -1,11 +1,16 @@
 import React from "react";
-import { Container } from "./Layout";
 import Navigation from "./Navigation";
+import { Container } from "./Layout";
+import * as S from "./Header.style";
 
 function Header(props) {
   return (
     <header>
-      <Container>Header</Container>
+      <Container>
+        <S.Title to="/">
+          우리집 <span>냉슐랭</span>
+        </S.Title>
+      </Container>
       <Navigation />
     </header>
   );
