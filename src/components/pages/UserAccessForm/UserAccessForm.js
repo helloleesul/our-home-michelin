@@ -9,7 +9,7 @@ function UserAccessForm(props) {
   const { inputs, text, subText, showBtn } = props;
 
   const [inputValues, setInputValues] = useState([]);
-
+  const [token, setToken] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -26,9 +26,13 @@ function UserAccessForm(props) {
       alert("로그인 버튼 클릭");
       console.log(inputValues);
       try {
-        const response = await axios.post("http://localhost:3000/api/login/", {
-          data: inputValues,
+        const response = await axios.post("http://localhost:3001/api/login/", {
+          email: inputValues[0],
+          password: inputValues[1],
         });
+        if (response.data.success) {
+          setToken(response.data.token);
+        }
         console.log("서버 응답:", response.data);
       } catch (error) {
         console.error("에러:", error);
