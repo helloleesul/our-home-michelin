@@ -40,6 +40,21 @@ function UserAccessForm(props) {
     } else {
       alert("회원가입 버튼 클릭");
       console.log(inputValues);
+      try {
+        const response = await axios.post("http://localhost:3001/api/login/", {
+          name: inputValues[0],
+          nickname: inputValues[1],
+          email: inputValues[2],
+          password: inputValues[4],
+          password: inputValues[5],
+        });
+        if (response.data.success) {
+          setToken(response.data.token);
+        }
+        console.log("서버 응답:", response.data);
+      } catch (error) {
+        console.error("에러:", error);
+      }
     }
   };
 
