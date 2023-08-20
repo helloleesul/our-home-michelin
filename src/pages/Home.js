@@ -3,6 +3,7 @@ import * as S from "./Home.style"
 import { Container } from "../components/common/Layout";
 import Contents from "../components/pages/home/Contents";
 import mainRefrigerator from "../assets/img/mainRefrigerator.png";
+import MyFridgeButton from "../components/common/MyFridgeButton"
 
 
 
@@ -197,6 +198,7 @@ function Home(props) {
             renderContent={CONTENT_ITEMS[index](foodsData)}
           />
         ))}
+        <MyFridgeButton/>
       </Container>
     </nav>
   );
