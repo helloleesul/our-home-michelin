@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { MAIN_THEME_COLOR } from "../libs/const/color";
 
 export const Wrap = styled.article`
   width: 600px;
@@ -8,7 +9,7 @@ export const Wrap = styled.article`
 export const Box = styled.section`
   border-radius: 10px;
   margin-bottom: 30px;
-  background: #464646;
+  background: ${MAIN_THEME_COLOR[1]};
   overflow: hidden;
   h3 {
     color: #fff;
@@ -33,10 +34,10 @@ export const BoxTitle = styled.div`
   justify-content: space-between;
   font-size: 20px;
   font-weight: 600;
-  color: #464646;
+  color: ${MAIN_THEME_COLOR[1]};
   margin-bottom: 25px;
   h4 {
-    background-color: #464646;
+    background-color: ${MAIN_THEME_COLOR[1]};
     color: #fff;
     width: 110px;
     text-align: center;
@@ -58,14 +59,14 @@ export const UnorderList = styled.ul`
     justify-content: space-between;
     width: calc(50% - 30px);
     font-weight: 500;
-    color: #464646;
+    color: ${MAIN_THEME_COLOR[1]};
     .weight,
     .line {
       opacity: 0.3;
     }
     .line {
       height: 1px;
-      background: #464646;
+      background: ${MAIN_THEME_COLOR[1]};
       flex: 1;
       margin: 0 20px;
     }
@@ -78,10 +79,10 @@ export const OrderList = styled.ol`
     gap: 12px;
     margin-bottom: 15px;
     font-size: 17px;
-    color: #464646;
+    color: ${MAIN_THEME_COLOR[1]};
     font-weight: 500;
     .stepCount {
-      background-color: #f7411f;
+      background-color: ${MAIN_THEME_COLOR[0]};
       border-radius: 100px;
       width: 30px;
       height: 30px;
@@ -106,7 +107,7 @@ export const Owner = styled.section`
     align-items: center;
     .nickName {
       .editorUser {
-        color: #f7411f;
+        color: ${MAIN_THEME_COLOR[0]};
         padding-right: 5px;
       }
     }
@@ -125,7 +126,7 @@ export const Owner = styled.section`
   }
   .buttons {
     font-size: 25px;
-    color: #f7411f;
+    color: ${MAIN_THEME_COLOR[0]};
     font-weight: 900;
     display: flex;
     justify-content: space-between;
@@ -156,10 +157,10 @@ export const Buttons = styled.section`
     padding: 8px 20px;
     cursor: pointer;
     &.editBtn {
-      background: #f7411f;
+      background: ${MAIN_THEME_COLOR[0]};
     }
     &.deleteBtn {
-      background: #464646;
+      background: ${MAIN_THEME_COLOR[1]};
     }
   }
 `;

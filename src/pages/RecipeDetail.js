@@ -4,6 +4,7 @@ import MyFridge from "../components/MyFridge";
 import * as Detail from "./RecipeDetail.style";
 import { FillHeart, StrokeHeart } from "../assets/HeartIcon";
 import { FillBookMark, StrokeBookMark } from "../assets/BookMarkIcon";
+import { MAIN_THEME_COLOR } from "../libs/const/color";
 
 RecipeDetail.defaultProps = {
   recipeData: {
@@ -90,10 +91,10 @@ function RecipeDetail({ recipeData }) {
           <div className="buttons">
             <span>{recipeData.likeCount}</span>
             <button>
-              <StrokeHeart color={"#F7411F"} />
+              <StrokeHeart color={MAIN_THEME_COLOR[0]} />
             </button>
             <button>
-              <StrokeBookMark color={"#F7411F"} />
+              <StrokeBookMark color={MAIN_THEME_COLOR[0]} />
             </button>
           </div>
         </Detail.Owner>

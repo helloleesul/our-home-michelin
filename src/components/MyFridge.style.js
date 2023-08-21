@@ -1,5 +1,6 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
+import { MAIN_THEME_COLOR } from "../libs/const/color";
 
 const commonStyle = css({
   padding: "1.5rem 2rem",
@@ -8,7 +9,7 @@ const commonStyle = css({
 export const Header = styled.header`
   ${commonStyle}
   color: #fff;
-  background-color: #464646;
+  background-color: ${MAIN_THEME_COLOR[1]};
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -32,7 +33,7 @@ export const IngredientList = styled.div``;
 export const Fridge = styled.div``;
 
 export const EmptyFridge = styled.div`
-  color: #464646;
+  color: ${MAIN_THEME_COLOR[1]};
   text-align: center;
   img {
     margin: 0 auto;
@@ -50,7 +51,7 @@ export const EmptyFridge = styled.div`
     margin-bottom: 40px;
   }
   button {
-    background: #f7411f;
+    background: ${MAIN_THEME_COLOR[0]};
     border: none;
     font-size: 16px;
     color: #fff;
