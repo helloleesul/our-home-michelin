@@ -12,7 +12,7 @@ function RecipeDetail(props) {
     <>
       {/* 내 냉장고 임시 작업용 START */}
       <button onClick={() => setShowModal(true)}>냉장고 버튼 예시</button>
-      <PortalModal handleShowModal={showModal} size="md">
+      <PortalModal handleShowModal={showModal} size={"40%"}>
         <MyFridge onClose={() => setShowModal(false)} />
       </PortalModal>
       {/* 내 냉장고 임시 작업용 END */}
