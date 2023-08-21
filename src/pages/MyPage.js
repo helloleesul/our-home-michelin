@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import * as S from "./MyPage.style";
 import BasicProfileImg from "../assets/img/BasicProfileImg.png";
 import PortalModal from "../components/common/PortalModal";
@@ -7,6 +8,10 @@ function MyPage(props) {
   const [showModal, setShowModal] = useState(false);
   const closeModal = () => {
     setShowModal(false);
+  };
+  const navigate = useNavigate();
+  const handleButtonClick = () => {
+    navigate("/mypage/info");
   };
   return (
     <>
@@ -22,7 +27,7 @@ function MyPage(props) {
         <S.ModalContainer>
           <S.Label>비밀번호</S.Label>
           <S.Input type="password"></S.Input>
-          <S.ModalBtn>확인</S.ModalBtn>
+          <S.ModalBtn onClick={handleButtonClick}>확인</S.ModalBtn>
         </S.ModalContainer>
       </PortalModal>
       <S.Container>
