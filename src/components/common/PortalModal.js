@@ -2,7 +2,12 @@ import React from "react";
 import { createPortal } from "react-dom";
 import * as Modal from "./PortalModal.style";
 
-function PortalModal({ children, handleShowModal, size }) {
+function PortalModal({
+  children,
+  handleShowModal,
+  size,
+  container = document.body,
+}) {
   return (
     <>
       {handleShowModal &&
@@ -12,7 +17,7 @@ function PortalModal({ children, handleShowModal, size }) {
               <Modal.Box size={size}>{children}</Modal.Box>
             </Modal.Wrap>
           </Modal.Background>,
-          document.body
+          container
         )}
     </>
   );

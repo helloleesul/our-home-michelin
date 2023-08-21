@@ -21,12 +21,5 @@ export const Box = styled.div(({ size }) => ({
   borderRadius: "20px",
   overflow: "hidden",
   boxShadow: "0px 7px 18px 0px rgba(0, 0, 0, 0.3)",
-  width:
-    size === "sm"
-      ? "20%"
-      : size === "md"
-      ? "40%"
-      : size === "lg"
-      ? "60%"
-      : "20%",
+  width: size,
 }));
