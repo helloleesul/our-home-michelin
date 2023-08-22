@@ -29,7 +29,7 @@ const INGREDIENT_DATA = ingredientTypes.map((type, index) => {
     ingredient: ingredients[index].map((ingredient) => {
       return {
         name: ingredient.name,
-        selected: false,
+        // selected: false,
         imgUrl: ingredient.imgUrl,
       };
     }),
