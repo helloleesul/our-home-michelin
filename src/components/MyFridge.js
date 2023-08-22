@@ -67,7 +67,8 @@ function MyFridge({ onClose }) {
                     {group.ingredient.map((item, index) => {
                       return (
                         <li key={index}>
-                          <button>{item.name}</button>
+                          <input type="checkbox" />
+                          <label>{item.name}</label>
                         </li>
                       );
                     })}
