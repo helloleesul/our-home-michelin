@@ -8,6 +8,7 @@ import {
   IngredientList,
 } from "./MyFridge.style";
 import fridgeImg from "../assets/img/emptyFridge.svg";
+import ingredientData from "../libs/const/ingredientData.json";
 
 MyFridge.defaultProps = {
   fridgeData: [
@@ -34,48 +35,7 @@ MyFridge.defaultProps = {
 
 function MyFridge({ onClose, fridgeData }) {
   const [ingredientAdder, setIngredientAdder] = useState(false);
-  const [IngredientData, setIngredientData] = useState([
-    {
-      type: "육류",
-      ingredient: [
-        {
-          name: "닭고기",
-          selected: false,
-          imgUrl: "",
-        },
-        {
-          name: "돼지고기",
-          selected: false,
-          imgUrl: "",
-        },
-        {
-          name: "소고기",
-          selected: false,
-          imgUrl: "",
-        },
-      ],
-    },
-    {
-      type: "야채류",
-      ingredient: [
-        {
-          name: "가지",
-          selected: false,
-          imgUrl: "",
-        },
-        {
-          name: "고추",
-          selected: false,
-          imgUrl: "",
-        },
-        {
-          name: "양파",
-          selected: false,
-          imgUrl: "",
-        },
-      ],
-    },
-  ]);
+  const [IngredientData, setIngredientData] = useState(ingredientData);
 
   return (
     <>
@@ -87,6 +47,7 @@ function MyFridge({ onClose, fridgeData }) {
       </Header>
       <Content>
         {ingredientAdder ? (
+          // 재료 추가하기 컴포넌트
           <IngredientList>
             {IngredientData.map((group, index) => {
               return (
@@ -103,9 +64,12 @@ function MyFridge({ onClose, fridgeData }) {
             <button onClick={() => setIngredientAdder(false)}>돌아가기</button>
             <button onClick={() => setIngredientAdder(false)}>추가완료</button>
           </IngredientList>
-        ) : fridgeData?.length === 0 ? (
+        ) : // 내 냉장고 컴포넌트
+        fridgeData?.length === 0 ? (
+          // 재료 있을 때
           <Fridge>냉장고 식재료 채워졌음</Fridge>
         ) : (
+          // 재료 없을 때
           <EmptyFridge>
             <img src={fridgeImg} alt="빈 식재료" />
             <h4>냉장고가 비었어요!</h4>
