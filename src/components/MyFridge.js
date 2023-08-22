@@ -11,32 +11,40 @@ import {
 import fridgeImg from "../assets/img/emptyFridge.svg";
 import INGREDIENT_DATA from "../libs/const/ingredientData";
 
-MyFridge.defaultProps = {
-  fridgeData: [
-    {
-      type: "육류",
-      ingredient: [
-        {
-          name: "닭고기",
-          bestBefore: "20230817",
-        },
-      ],
-    },
-    {
-      type: "야채류",
-      ingredient: [
-        {
-          name: "토마토",
-          bestBefore: "20230817",
-        },
-      ],
-    },
-  ],
-};
+const myFridgeData = [
+  {
+    name: "닭고기",
+    bestBefore: "20230817",
+  },
+  {
+    name: "닭고기",
+    bestBefore: "20230817",
+  },
+  {
+    name: "닭고기",
+    bestBefore: "20230817",
+  },
+  {
+    name: "닭고기",
+    bestBefore: "20230817",
+  },
+  {
+    name: "닭고기",
+    bestBefore: "20230817",
+  },
+  {
+    name: "닭고기",
+    bestBefore: "20230817",
+  },
+];
 
-function MyFridge({ onClose, fridgeData }) {
+function MyFridge({ onClose }) {
   const [ingredientAdder, setIngredientAdder] = useState(false);
-  const [IngredientData, setIngredientData] = useState(INGREDIENT_DATA);
+  const [ingredientData, setIngredientData] = useState(INGREDIENT_DATA);
+  // 나의 식재료
+  const [safeIngredients, setSafeIngredients] = useState(myFridgeData);
+  // 소비기한 마감 식재료
+  const [spoiledIngredients, setSpoiledIngredients] = useState(myFridgeData);
 
   return (
     <>
@@ -50,7 +58,8 @@ function MyFridge({ onClose, fridgeData }) {
         {ingredientAdder ? (
           // 재료 추가하기 컴포넌트
           <IngredientList>
-            {IngredientData.map((group, index) => {
+            <h4>재료 추가하기</h4>
+            {ingredientData.map((group, index) => {
               return (
                 <IngredientGroup key={index}>
                   <h5>{group.type}</h5>
@@ -58,7 +67,8 @@ function MyFridge({ onClose, fridgeData }) {
                     {group.ingredient.map((item, index) => {
                       return (
                         <li key={index}>
-                          <button>{item.name}</button>
+                          <input type="checkbox" />
+                          <label>{item.name}</label>
                         </li>
                       );
                     })}
@@ -70,9 +80,41 @@ function MyFridge({ onClose, fridgeData }) {
             <button onClick={() => setIngredientAdder(false)}>추가완료</button>
           </IngredientList>
         ) : // 내 냉장고 컴포넌트
-        fridgeData?.length === 0 ? (
+        myFridgeData?.length !== 0 ? (
           // 재료 있을 때
-          <Fridge>냉장고 식재료 채워졌음</Fridge>
+          <Fridge>
+            <IngredientList>
+              <h4>나의 식재료</h4>
+              <IngredientGroup>
+                <h5>식재료</h5>
+                <ul>
+                  {safeIngredients.map((item, index) => {
+                    return (
+                      <li key={index}>
+                        <button>{item.name}</button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </IngredientGroup>
+              <IngredientGroup>
+                <h5>소비기한 마감 식재료</h5>
+                <ul>
+                  {spoiledIngredients.map((item, index) => {
+                    return (
+                      <li key={index}>
+                        <button>{item.name}</button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </IngredientGroup>
+              <button>레시피 검색하기</button>
+              <button onClick={() => setIngredientAdder(true)}>
+                재료 추가하기
+              </button>
+            </IngredientList>
+          </Fridge>
         ) : (
           // 재료 없을 때
           <EmptyFridge>
