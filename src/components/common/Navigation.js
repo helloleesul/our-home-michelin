@@ -31,14 +31,14 @@ function Navigation(props) {
               active={activeLink === "popular" && !props.resetNavLinks}
               onClick={() => handleNavLinkClick("popular")}
             >
-              인기레시피
+              5스타 레시피
             </S.CustomNavLink>
             <S.CustomNavLink
               to="/recipe"
               active={activeLink === "all" && !props.resetNavLinks}
               onClick={() => handleNavLinkClick("all")}
             >
-              전체레시피
+              전체 레시피
             </S.CustomNavLink>
             <S.CustomNavLink
               to="/recipe/write"

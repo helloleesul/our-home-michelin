@@ -11,6 +11,7 @@ const CenterBox = styled.div`
 const BackgroundBox = styled.div`
   width: 85%;
   height: 800px;
+  margin: 40px 0;
   background-color: #FFE9E4;
   border-radius: 30px;
   display: flex;

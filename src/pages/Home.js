@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import * as S from "./Home.style"
 import { Container } from "../components/common/Layout";
 import Contents from "../components/pages/home/Contents";
+import EditorBox from "../components/pages/editor/EditorBox";
 import mainRefrigerator from "../assets/img/mainRefrigerator.png";
 import MyFridgeButton from "../components/common/MyFridgeButton"
 
 
 
-const foodsData = [
+const foodList = [
   {
     id: 1,
     name: "커비",
@@ -95,73 +96,15 @@ const foodsData = [
 
 ];
 
-const renderBestFoods = (foodsData) => {
-  return foodsData.slice(0, 5).map((food) => (
-    <div key={food.id}>
-      <a><S.Food src={food.profileImage} alt={food.name} /></a>
-      <p>{food.name}</p>
-    </div>
-  ));
-};
 
-const renderEditors = (foodsData) => {
-  return foodsData.slice(0, 6).map((foods) => (
-    <div key={foods.id}>
-      <a><S.Editor src={foods.profileImage} alt={foods.name} /></a>
-      <p>{foods.name}</p>
-    </div>
-  ));
-};
-
-const getFoodComponents = (foodsData) => {
-  const chunkSize = 5;
-  const totalChunks = 2;
-
-  const chunks = Array.from({ length: totalChunks }, (_, index) => (
-    <React.Fragment key={index}>
-      {foodsData
-        .slice(index * chunkSize, (index + 1) * chunkSize)
-        .map((food) => (
-          <div key={`Food-${index}`}>
-            <a><S.Food src={food.profileImage} alt={food.name} /></a>
-            <p style={{marginTop: '10px'}}>{food.name}</p>
-          </div>
-        ))}
-    </React.Fragment>
-  ));
-
-  return chunks;
-};
-const CONTENT_LENGTH = 3;
-const CONTENT_TITLES = [
-  {
-    before: "올해의 ",
-    highlight: "에디터",
-    after: "",
-  },
-  {
-    before: "",
-    highlight: "인기 ",
-    after: "레시피",
-  },
-  {
-    before: "",
-    highlight: "전체 ",
-    after: "레시피",
-  },
-];
-
-const CONTENT_ITEMS = [
-  (editorsData) => renderEditors(editorsData),
-  (foodsData) => renderBestFoods(foodsData),
-  (foodsData) => getFoodComponents(foodsData),
-];
 
 // 1) 가져와야될 3개 컨텐츠 데이터를 promise(병렬)로 호출(api 통신);
 // 2) 상태 저장(setMainDatas)
 // 3) return ( mainDatas 렌더링 )
 
 function Home(props) {
+  const itemsPerPage = 6; // 한 페이지에 보여줄 에디터 개수
+  const [startIndex, setStartIndex] = useState(0);
   // const [foods, setFoods] = useState([]); // [[length: 5] [length: 5] [length: 5]]
   // const [mainDatas, setMainDatas] = useState([]);
 
@@ -180,27 +123,32 @@ function Home(props) {
   // }, []);
 
   return (
-    <nav>
-      <Container>
-        <S.RefrigeratorContainer>
-          <S.MainRefrigerator src={mainRefrigerator} alt="mainRefrigerator" />
-          <p>
-            냉장고에 <span>김치, 돼지고기...</span>가 있어요.
-            <br />더 채우러 갈까요?
-          </p>
-        </S.RefrigeratorContainer>
+  <S.Div>
+    <Container>
+      <S.RefrigeratorContainer>
+        <S.MainRefrigerator src={mainRefrigerator} alt="mainRefrigerator" />
+        <p>
+          냉장고에 <span>김치, 돼지고기...</span>가 있어요.
+          <br />더 채우러 갈까요?
+        </p>
+      </S.RefrigeratorContainer>
+    </Container>
+    <Container>
+      <S.Text>
+        <p><span>올해의 </span>에디터</p>
+        <S.SeeMoreLink to="/editor">더보기</S.SeeMoreLink>
+      </S.Text>
+      <EditorBox editorList={foodList} startIndex={startIndex} itemsPerPage={itemsPerPage} />
+    </Container>
+    <Container>
+      <S.Text>
+        <p><span>5스타 </span>레시피</p>
+        <S.SeeMoreLink to="/editor">더보기</S.SeeMoreLink>
+      </S.Text>
+      <Contents foodList={foodList} startIndex={startIndex} itemsPerPage="5" />
       </Container>
-      <Container>
-        {Array.from({ length: CONTENT_LENGTH }, (_, index) => (
-          <Contents
-            key={`Content-Section-${index}`}
-            title={CONTENT_TITLES[index]}
-            renderContent={CONTENT_ITEMS[index](foodsData)}
-          />
-        ))}
-        <MyFridgeButton/>
-      </Container>
-    </nav>
+    <MyFridgeButton />
+  </S.Div>
   );
 }
 
