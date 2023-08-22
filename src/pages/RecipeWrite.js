@@ -1,6 +1,7 @@
 // (참고)스타일링 하지 않은 상태입니다.
 import React, { useState, useEffect } from "react";
 import axios from "axios"; // 백엔드 api 레시피..
+import CloseIcon from "../assets/CloseIcon.js";
 
 function RecipeWrite(props) {
   const [title, setTitle] = useState(""); // 레시피 제목
@@ -10,9 +11,11 @@ function RecipeWrite(props) {
   const [newIngredientAmount, setNewIngredientAmount] = useState("");
   const [recipeSteps, setRecipeSteps] = useState([]); // 요리 과정
   // 레시피 대표 이미지 첨부하기 추가해야함 -> 피그마에 그린대로는 아니지만 일단 구현함
-  const [recipeImg, setRecipeImg] = useState(
-    "https://lh3.googleusercontent.com/EbXw8rOdYxOGdXEFjgNP8lh-YAuUxwhOAe2jhrz3sgqvPeMac6a6tHvT35V6YMbyNvkZL4R_a2hcYBrtfUhLvhf-N2X3OB9cvH4uMw=w1064-v0"
-  );
+  // camera icon url : "https://lh3.googleusercontent.com/EbXw8rOdYxOGdXEFjgNP8lh-YAuUxwhOAe2jhrz3sgqvPeMac6a6tHvT35V6YMbyNvkZL4R_a2hcYBrtfUhLvhf-N2X3OB9cvH4uMw=w1064-v0"
+
+  const defaultRecipeImgUrl = require("../assets/img/recipeDefaultImg.png");
+
+  const [recipeImg, setRecipeImg] = useState(defaultRecipeImgUrl);
 
   const handleImgUpload = (e) => {
     const file = e.target.files[0];
@@ -24,16 +27,10 @@ function RecipeWrite(props) {
       reader.readAsDataURL(file);
     }
   };
-  /*
-  const handleImgUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const imgUrl = URL.createObjectURL(file);
-      setRecipeImg(`url(${imgUrl})`);
-    }
-    
+
+  const handleImgDelete = () => {
+    setRecipeImg(defaultRecipeImgUrl);
   };
-  */
 
   const handleDeleteIngredient = (idx) => {
     const updatedIngredients = [...ingredients];
@@ -197,36 +194,60 @@ function RecipeWrite(props) {
               width: "30%",
             }}
           >
-            <form action="/form/submit" method="get">
-              <div
-                id="recipe-img-container"
+            <div
+              style={{
+                width: "200px",
+                height: "200px",
+              }}
+            >
+              <button
+                id="delete-img-btn"
+                onClick={handleImgDelete}
                 style={{
-                  width: "200px",
-                  height: "200px",
-                  backgroundImage: `url(${recipeImg})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
+                  float: "right",
+                  right: "0",
+                  padding: "5px",
+                  weight: "30px",
+                  height: "33px",
+                  border: "none",
+                  borderRadius: "2px",
+                  cursor: "pointer",
+                  background: "rgba(0,0,0,0.8)",
                 }}
               >
-                <label
-                  className="label"
+                <CloseIcon color="white" />
+              </button>
+              <form action="/form/submit" method="get">
+                <div
+                  id="recipe-img-container"
                   style={{
-                    width: "inherit",
-                    height: "inherit",
-                    cursor: "pointer",
-                    display: "inline-block",
+                    width: "200px",
+                    height: "200px",
+                    backgroundImage: `url(${recipeImg})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
                   }}
                 >
-                  <input
-                    style={{ position: "absolute", top: "-1000px" }}
-                    id="fileInput"
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImgUpload}
-                  />
-                </label>
-              </div>
-            </form>
+                  <label
+                    className="label"
+                    style={{
+                      width: "inherit",
+                      height: "inherit",
+                      cursor: "pointer",
+                      display: "inline-block",
+                    }}
+                  >
+                    <input
+                      style={{ position: "absolute", top: "-1000px" }}
+                      id="fileInput"
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImgUpload}
+                    />
+                  </label>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
         <div>
