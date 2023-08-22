@@ -26,7 +26,7 @@ function UserAccessForm(props) {
       alert("로그인 버튼 클릭");
       console.log(inputValues);
       try {
-        const response = await axios.post("http://localhost:3001/api/login/", {
+        const response = await axios.post("/api/login/", {
           email: inputValues[0],
           password: inputValues[1],
         });
@@ -34,8 +34,12 @@ function UserAccessForm(props) {
           setToken(response.data.token);
         }
         console.log("서버 응답:", response.data);
+        console.log(response.data.message);
       } catch (error) {
         console.error("에러:", error);
+        if (error.response) {
+          console.log("서버 응답 데이터:", error.response.data);
+        }
       }
     } else {
       alert("회원가입 버튼 클릭");
