@@ -7,9 +7,9 @@ export const Title = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2.5rem;
+  font-size: 40px;
   text-align: center;
-  padding: 2.5rem 0;
+  padding: 20px 0 52px;
   font-weight: 800;
   color: #464646;
   text-decoration: none;
@@ -17,4 +17,32 @@ export const Title = styled(Link)`
   span {
     color: #F7411F;
   }
+`;
+
+export const User = styled.div`
+  display: flex;
+  justify-content: flex-end; /* 오른쪽 정렬 */
+  padding: 20px 30px 0 0;
+`;
+
+export const JoinMypage = styled(Link)`
+  display: inline-block;
+  width: fit-content;
+  text-align: right;
+  text-decoration: none;
+  color: #464646;
+  font-size: 14px;
+`;
+
+export const LoginLogout = styled(Link)`
+  display: inline-block;
+  margin-left: 10px;
+  width: fit-content;
+  text-align: right;
+  text-decoration: none;
+  color: #464646;
+  font-size: 14px;
+`;
+
+export const IconBox = styled.div`
 `;

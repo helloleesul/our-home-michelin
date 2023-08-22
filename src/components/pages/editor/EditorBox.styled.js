@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 
-
 export const Section = styled.div`
   width: 1000px;
   display: flex;
@@ -10,8 +9,10 @@ export const Section = styled.div`
   padding: 20px 0;
 `;
 
-export const FoodImage = styled.img`
-  width: 176px;
-  height: 132px;
+
+export const EditorImage = styled.img`
+  width: 124px;
+  height: 124px;
+  border-radius: 50%;
   margin-bottom: 10px;
 `;
