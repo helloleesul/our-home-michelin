@@ -6,9 +6,10 @@ import {
   EmptyFridge,
   Fridge,
   IngredientList,
+  IngredientGroup,
 } from "./MyFridge.style";
 import fridgeImg from "../assets/img/emptyFridge.svg";
-import ingredientData from "../libs/const/ingredientData.json";
+import INGREDIENT_DATA from "../libs/const/ingredientData";
 
 MyFridge.defaultProps = {
   fridgeData: [
@@ -35,7 +36,7 @@ MyFridge.defaultProps = {
 
 function MyFridge({ onClose, fridgeData }) {
   const [ingredientAdder, setIngredientAdder] = useState(false);
-  const [IngredientData, setIngredientData] = useState(ingredientData);
+  const [IngredientData, setIngredientData] = useState(INGREDIENT_DATA);
 
   return (
     <>
@@ -51,14 +52,18 @@ function MyFridge({ onClose, fridgeData }) {
           <IngredientList>
             {IngredientData.map((group, index) => {
               return (
-                <div key={index}>
+                <IngredientGroup key={index}>
                   <h5>{group.type}</h5>
                   <ul>
                     {group.ingredient.map((item, index) => {
-                      return <li key={index}>{item.name}</li>;
+                      return (
+                        <li key={index}>
+                          <button>{item.name}</button>
+                        </li>
+                      );
                     })}
                   </ul>
-                </div>
+                </IngredientGroup>
               );
             })}
             <button onClick={() => setIngredientAdder(false)}>돌아가기</button>
