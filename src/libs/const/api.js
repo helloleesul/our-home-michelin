@@ -2,7 +2,8 @@ import axios from "axios";
 
 // default 설정
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:3001/api",
+  // setupProxy target설정으로 baseURL의 http://localhost:3001 제외하였음
+  baseURL: "/api",
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
@@ -42,7 +43,7 @@ const requestApi = async (method, url, data = {}) => {
   try {
     const response = await axiosInstance({
       method,
-      url: `${url}`,
+      url: url,
       data,
     });
 
