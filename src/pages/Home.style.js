@@ -17,6 +17,7 @@ export const RefrigeratorContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 
   p {
     margin: 0 20px 0;
