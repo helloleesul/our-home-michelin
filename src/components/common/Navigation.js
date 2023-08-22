@@ -21,28 +21,28 @@ function Navigation(props) {
           <S.NavContainer>
             <S.CustomNavLink
               to="/editor"
-              active={activeLink === "editor" && !props.resetNavLinks}
+              active={activeLink === "editor" && !props.resetNavLinks ? "true" : undefined}
               onClick={() => handleNavLinkClick("editor")}
             >
               냉슐랭 에디터
             </S.CustomNavLink>
             <S.CustomNavLink
               to="/recipe"
-              active={activeLink === "popular" && !props.resetNavLinks}
+              active={activeLink === "popular" && !props.resetNavLinks ? "true" : undefined}
               onClick={() => handleNavLinkClick("popular")}
             >
               5스타 레시피
             </S.CustomNavLink>
             <S.CustomNavLink
               to="/recipe"
-              active={activeLink === "all" && !props.resetNavLinks}
+              active={activeLink === "all" && !props.resetNavLinks ? "true" : undefined}
               onClick={() => handleNavLinkClick("all")}
             >
               전체 레시피
             </S.CustomNavLink>
             <S.CustomNavLink
               to="/recipe/write"
-              active={activeLink === "write" && !props.resetNavLinks}
+              active={activeLink === "write" && !props.resetNavLinks ? "true" : undefined}
               onClick={() => handleNavLinkClick("write")}
             >
               레시피 작성

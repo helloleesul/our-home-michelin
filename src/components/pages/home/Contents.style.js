@@ -7,11 +7,13 @@ export const Section = styled.div`
   justify-content: space-between;
   align-items: center;
   text-align: center;
-  padding: 20px 0;
+  margin: 20px 0;
+  cursor: pointer;
 `;
 
 export const FoodImage = styled.img`
   width: 176px;
   height: 132px;
+  object-fit: cover;
   margin-bottom: 10px;
 `;
