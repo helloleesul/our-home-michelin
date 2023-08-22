@@ -5,6 +5,8 @@ import Contents from "../components/pages/home/Contents";
 import EditorBox from "../components/pages/editor/EditorBox";
 import mainRefrigerator from "../assets/img/mainRefrigerator.png";
 import MyFridgeButton from "../components/common/MyFridgeButton"
+import PortalModal from "../components/common/PortalModal";
+import MyFridge from "../components/MyFridge";
 
 
 
@@ -105,6 +107,7 @@ const foodList = [
 function Home(props) {
   const itemsPerPage = 6; // 한 페이지에 보여줄 에디터 개수
   const [startIndex, setStartIndex] = useState(0);
+  const [showModal, setShowModal] = useState(false);
   // const [foods, setFoods] = useState([]); // [[length: 5] [length: 5] [length: 5]]
   // const [mainDatas, setMainDatas] = useState([]);
 
@@ -124,13 +127,16 @@ function Home(props) {
 
   return (
   <S.Div>
-      <S.RefrigeratorContainer>
+      <S.RefrigeratorContainer onClick={() => setShowModal(true)}>
         <S.MainRefrigerator src={mainRefrigerator} alt="mainRefrigerator" />
         <p>
           냉장고에 <span>김치, 돼지고기...</span>가 있어요.
           <br />더 채우러 갈까요?
         </p>
       </S.RefrigeratorContainer>
+      <PortalModal handleShowModal={showModal} size="md">
+        <MyFridge onClose={() => setShowModal(false)} />
+      </PortalModal>
     <Container>
       <S.Text>
         <p><span>올해의 </span>에디터</p>

@@ -7,12 +7,14 @@ export const Section = styled.div`
   align-items: center;
   text-align: center;
   padding: 20px 0;
+  cursor: pointer;
 `;
 
 
 export const EditorImage = styled.img`
   width: 124px;
   height: 124px;
+  object-fit: cover;
   border-radius: 50%;
   margin-bottom: 10px;
 `;

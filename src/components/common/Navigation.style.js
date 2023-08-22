@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import { NavLink } from "react-router-dom";
 
 export const Nav = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 100%;
   background-color: #F7411F;
 `;

@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { Container } from "../components/common/Layout";
 import * as S from "./Editor.styled";
 import EditorBox from "../components/pages/editor/EditorBox";
-import EditorRecipe from "../components/pages/editor/EditorRecipe";
+import Contents from "../components/pages/home/Contents";
 import nextYear from "../../src/assets/img/Next.png"
 import prevYear from "../../src/assets/img/Prev.png"
 import nextEditor from "../../src/assets/img/editorNext.png";
@@ -74,6 +73,7 @@ const editorData = [
 function Editor() {
   const itemsPerPage = 6; // 한 페이지에 보여줄 에디터 개수
   const [startIndex, setStartIndex] = useState(0);
+  const [currentYear, setCurrentYear] = useState(2023); // 초기 년도 설정
 
   const handlePrevClick = () => {
     if (startIndex > 0) {
@@ -87,20 +87,33 @@ function Editor() {
     }
   };
 
+  const editorPrevClick = () => {
+    setCurrentYear(currentYear - 1);
+  };
+
+  const editorNextClick = () => {
+    setCurrentYear(currentYear + 1);
+  };
+
   return (
-    <Container>
+    <S.CenterBox>
       <S.YearEditors>
-        <p><img src={prevYear} alt="prevYear" /></p>
-        <h4><span>2023년</span> 올해의 에디터</h4>
-        <p><img src={nextYear} alt="nextYear" /></p>
+        <a onClick={editorPrevClick}><img src={prevYear} alt="prevYear" /></a>
+        <h4><span>{currentYear}년</span> 올해의 에디터</h4>
+        <a onClick={editorNextClick}> <img src={nextYear} alt="nextYear" /></a>
       </S.YearEditors>
       <S.NextEditorContaner>
         <a onClick={handlePrevClick}><img src={prevEditor} alt="prevEditor" /></a>
         <EditorBox editorList={editorData} startIndex={startIndex} itemsPerPage={itemsPerPage} />
         <a onClick={handleNextClick}><img src={nextEditor} alt="nextEditor" /></a>
       </S.NextEditorContaner>
-      <EditorRecipe/>
-    </Container>
+      <S.BackgroundBox>
+        <Contents foodList={editorData} startIndex={0} itemsPerPage={5} />
+        <Contents foodList={editorData} startIndex={0} itemsPerPage={5} />
+        <Contents foodList={editorData} startIndex={0} itemsPerPage={5} />
+        <Contents foodList={editorData} startIndex={0} itemsPerPage={5} />
+      </S.BackgroundBox>
+    </S.CenterBox>
   );
 }
 

@@ -23,6 +23,7 @@ export const User = styled.div`
   display: flex;
   justify-content: flex-end; /* 오른쪽 정렬 */
   padding: 20px 30px 0 0;
+  box-sizing: border-box;
 `;
 
 export const JoinMypage = styled(Link)`
