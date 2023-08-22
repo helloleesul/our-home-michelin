@@ -2,7 +2,6 @@ import React from "react";
 import UserAccessForm from "../components/pages/UserAccessForm/UserAccessForm";
 
 const customInputs = [
-  "이름",
   "닉네임",
   "이메일",
   "인증번호",
