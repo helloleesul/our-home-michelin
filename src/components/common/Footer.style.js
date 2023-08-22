@@ -5,7 +5,6 @@ export const FooterBox = styled.div`
   height: 100px;
   background-color: #464646;
   margin-top: 60px;
-  box-sizing: border-box;
 `;
 
 export const FooterText = styled.div`

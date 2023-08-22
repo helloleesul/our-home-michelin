@@ -7,6 +7,7 @@ export const Section = styled.div`
   justify-content: space-between;
   align-items: center;
   text-align: center;
+  box-sizing: border-box;
   margin: 20px 0;
   cursor: pointer;
 `;
