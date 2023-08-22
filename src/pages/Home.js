@@ -124,7 +124,6 @@ function Home(props) {
 
   return (
   <S.Div>
-    <Container>
       <S.RefrigeratorContainer>
         <S.MainRefrigerator src={mainRefrigerator} alt="mainRefrigerator" />
         <p>
@@ -132,7 +131,6 @@ function Home(props) {
           <br />더 채우러 갈까요?
         </p>
       </S.RefrigeratorContainer>
-    </Container>
     <Container>
       <S.Text>
         <p><span>올해의 </span>에디터</p>
@@ -145,8 +143,16 @@ function Home(props) {
         <p><span>5스타 </span>레시피</p>
         <S.SeeMoreLink to="/editor">더보기</S.SeeMoreLink>
       </S.Text>
-      <Contents foodList={foodList} startIndex={startIndex} itemsPerPage="5" />
-      </Container>
+      <Contents foodList={foodList} startIndex={startIndex} itemsPerPage={5} />
+    </Container>
+    <Container>
+      <S.Text>
+        <p><span>전체 </span>레시피</p>
+        <S.SeeMoreLink to="/editor">더보기</S.SeeMoreLink>
+      </S.Text>
+      <Contents foodList={foodList} startIndex={0} itemsPerPage={5} />
+      <Contents foodList={foodList} startIndex={5} itemsPerPage={5} />
+    </Container>
     <MyFridgeButton />
   </S.Div>
   );

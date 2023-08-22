@@ -13,7 +13,7 @@ export const MainRefrigerator = styled.img`
 `;
 
 export const RefrigeratorContainer = styled.div`
-  padding: 30px 0;
+  padding: 30px 0 10px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -29,24 +29,6 @@ export const RefrigeratorContainer = styled.div`
   }
 `;
 
-export const Editor = styled.img`
-  width: 124px; /* 이미지 너비 설정 */
-  height: 124px;
-  border-radius: 50%;
-  margin-bottom: 10px;
-`;
-
-
-export const Food = styled.img`
-  width: 176px; /* 이미지 너비 설정 */
-  height: 132px;
-  margin-bottom: 10px;
-`;
-
-export const ContentGrid = styled.div`
-
-`;
-
 export const SeeMoreLink = styled(Link)`
   text-decoration: none;
   color: #464646;
@@ -60,6 +42,7 @@ export const Text = styled.nav`
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
+  padding: 36px 0 8px;
   
   span {
     color: #f7411f;

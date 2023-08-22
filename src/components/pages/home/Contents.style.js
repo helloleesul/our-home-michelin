@@ -13,4 +13,5 @@ export const Section = styled.div`
 export const FoodImage = styled.img`
   width: 176px;
   height: 132px;
+  margin-bottom: 10px;
 `;
