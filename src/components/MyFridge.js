@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CloseIcon from "../assets/CloseIcon";
 import {
   Header,
@@ -10,41 +10,49 @@ import {
 } from "./MyFridge.style";
 import fridgeImg from "../assets/img/emptyFridge.svg";
 import INGREDIENT_DATA from "../libs/const/ingredientData";
+import requestApi from "../libs/const/api";
 
-const myFridgeData = [
-  {
-    name: "닭고기",
-    bestBefore: "20230817",
-  },
-  {
-    name: "닭고기",
-    bestBefore: "20230817",
-  },
-  {
-    name: "닭고기",
-    bestBefore: "20230817",
-  },
-  {
-    name: "닭고기",
-    bestBefore: "20230817",
-  },
-  {
-    name: "닭고기",
-    bestBefore: "20230817",
-  },
-  {
-    name: "닭고기",
-    bestBefore: "20230817",
-  },
-];
+const USER_ID = "64e5cbde1c156c99026dda11";
 
 function MyFridge({ onClose }) {
   const [ingredientAdder, setIngredientAdder] = useState(false);
   const [ingredientData, setIngredientData] = useState(INGREDIENT_DATA);
+  // 유저 냉장고 데이터
+  const [userFridgeData, setUserFridgeData] = useState([]);
   // 나의 식재료
-  const [safeIngredients, setSafeIngredients] = useState(myFridgeData);
+  const [safeIngredients, setSafeIngredients] = useState([]);
   // 소비기한 마감 식재료
-  const [spoiledIngredients, setSpoiledIngredients] = useState(myFridgeData);
+  const [spoiledIngredients, setSpoiledIngredients] = useState([]);
+
+  useEffect(() => {
+    getUserFridge();
+  }, []);
+
+  async function getUserFridge() {
+    try {
+      const response = await requestApi("get", `/user/${USER_ID}/fridge`);
+      // 응답 데이터 처리
+      console.log("유저 냉장고 식재료", response);
+      setUserFridgeData(response);
+    } catch (error) {
+      // 에러 처리
+      console.log(error);
+    }
+  }
+  async function addIngredient() {
+    try {
+      const response = await requestApi("post", `/user/${USER_ID}/fridge`, {
+        ingredientName: "토마토",
+        imageUrl: "/",
+        bestBefore: "20230823",
+      });
+      // 응답 데이터 처리
+      console.log(response);
+    } catch (error) {
+      // 에러 처리
+      console.log(error);
+    }
+  }
 
   return (
     <>
@@ -77,10 +85,10 @@ function MyFridge({ onClose }) {
               );
             })}
             <button onClick={() => setIngredientAdder(false)}>돌아가기</button>
-            <button onClick={() => setIngredientAdder(false)}>추가완료</button>
+            <button onClick={addIngredient}>추가완료</button>
           </IngredientList>
         ) : // 내 냉장고 컴포넌트
-        myFridgeData?.length !== 0 ? (
+        userFridgeData?.length !== 0 ? (
           // 재료 있을 때
           <Fridge>
             <IngredientList>
@@ -88,25 +96,25 @@ function MyFridge({ onClose }) {
               <IngredientGroup>
                 <h5>식재료</h5>
                 <ul>
-                  {safeIngredients.map((item, index) => {
-                    return (
-                      <li key={index}>
-                        <button>{item.name}</button>
-                      </li>
-                    );
-                  })}
+                  {/* {safeIngredients.map((item, index) => {
+                        return (
+                          <li key={index}>
+                            <button>{item.name}</button>
+                          </li>
+                        );
+                      })} */}
                 </ul>
               </IngredientGroup>
               <IngredientGroup>
                 <h5>소비기한 마감 식재료</h5>
                 <ul>
-                  {spoiledIngredients.map((item, index) => {
-                    return (
-                      <li key={index}>
-                        <button>{item.name}</button>
-                      </li>
-                    );
-                  })}
+                  {/* {spoiledIngredients.map((item, index) => {
+                        return (
+                          <li key={index}>
+                            <button>{item.name}</button>
+                          </li>
+                        );
+                      })} */}
                 </ul>
               </IngredientGroup>
               <button>레시피 검색하기</button>
