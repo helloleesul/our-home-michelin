@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import * as S from "../components/pages/UserAccessForm/UserAccessForm.style";
 import Input from "../components/pages/myInfo/Input";
 import chef1 from "../assets/img/chef1.png";
@@ -7,8 +8,36 @@ import ModalBox from "../components/common/ModalBox";
 
 function MyInfo(props) {
   const [showModal, setShowModal] = useState(false);
+  const [nickname, setNickName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const closeModal = () => {
     setShowModal(false);
+  };
+  const handleSaveClick = async () => {
+    const userData = {
+      nickName: nickname,
+      email: email,
+      password: password,
+    };
+
+    try {
+      const response = await axios.post("/api/myinfo", userData);
+      console.log(response.data);
+    } catch (error) {
+      console.error("에러", error);
+      console.log(error.response.data.message);
+    }
+  };
+  const handleUserDelete = async () => {
+    try {
+      const response = await axios.delete("/api/myinfo");
+      console.log(response.data);
+    } catch (error) {
+      console.error("에러", error);
+      console.log(error.response.data.message);
+    }
   };
   return (
     <>
@@ -19,11 +48,25 @@ function MyInfo(props) {
         <S.ChefImage src={chef1} alt="요리사캐릭터" />
         <S.InputContainer>
           <S.Text style={{ cursor: "auto" }}>회원정보 수정</S.Text>
-          <Input text="닉네임" type="text" showBtn="true" />
-          <Input text="이메일" type="text" />
-          <Input text="비밀번호" type="password" showBtn="true"></Input>
+          <Input
+            text="닉네임"
+            type="text"
+            showBtn="true"
+            onChange={(event) => setNickName(event.target.value)}
+          />
+          <Input
+            text="이메일"
+            type="text"
+            onChange={(event) => setEmail(event.target.value)}
+          />
+          <Input
+            text="비밀번호"
+            type="password"
+            showBtn="true"
+            onChange={(event) => setPassword(event.target.value)}
+          />
           <S.Text></S.Text>
-          <S.Btn>저장</S.Btn>
+          <S.Btn onClick={handleSaveClick}>저장</S.Btn>
           <S.Text fontSize="13px" onClick={() => setShowModal(true)}>
             회원탈퇴
           </S.Text>

@@ -29,13 +29,13 @@ export const InputContainer = styled.div`
 
 export const Button = styled.button`
   height: 25px;
-  width: 35px;
+  width: 60px;
   font-size: 12px;
   border-radius: 10px;
   border: 1px solid white;
   position: absolute;
   margin-top: 23px;
-  margin-left: 320px;
+  margin-left: 295px;
   align-items: center;
 
   &:hover {
