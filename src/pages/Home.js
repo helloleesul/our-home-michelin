@@ -106,7 +106,7 @@ const foodList = [
 
 function Home(props) {
   const itemsPerPage = 6; // 한 페이지에 보여줄 에디터 개수
-  const [startIndex, setStartIndex] = useState(0);
+  const [startIndex, setStartIndex] = useState(0);//시작하는 지점
   const [showModal, setShowModal] = useState(false);
   // const [foods, setFoods] = useState([]); // [[length: 5] [length: 5] [length: 5]]
   // const [mainDatas, setMainDatas] = useState([]);
@@ -119,11 +119,6 @@ function Home(props) {
   //   ]);
   //   setMainDatas(mainDatas);
   // };
-
-  // useEffect(() => {
-  //   // Home 컴포넌트가 처음 딱 한번 마운트 되는 순간.
-  //   fetchMainData();
-  // }, []);
 
   return (
   <S.Div>
