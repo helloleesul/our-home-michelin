@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "@emotion/styled";
 import Header from "./Header";
 import Footer from "./Footer";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 
 const Container = styled.div`
   min-width: 768px;
@@ -20,6 +20,16 @@ const Wrap = styled.div`
 `;
 
 export default function Layout(props) {
+  const location = useLocation();
+  const getUserAuth = () => {
+    // auth api
+    // 인증 true false 상태관리 확인해서 return문 아래 보여주는 것 컨트롤
+  };
+  // 두번째 방법
+  // useAuth custom Hooks 만들어서 사용
+  useEffect(() => {
+    getUserAuth();
+  }, [location.pathname]);
   return (
     <Wrap>
       <Header />
