@@ -30,6 +30,15 @@ function MyInfo(props) {
       console.log(error.response.data.message);
     }
   };
+  const handleUserDelete = async () => {
+    try {
+      const response = await axios.delete("/api/myinfo");
+      console.log(response.data);
+    } catch (error) {
+      console.error("에러", error);
+      console.log(error.response.data.message);
+    }
+  };
   return (
     <>
       <PortalModal handleShowModal={showModal} size={"35%"}>
