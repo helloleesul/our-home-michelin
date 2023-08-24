@@ -24,7 +24,6 @@ export const UserInput = styled.input`
     border-color: orange;
   }
   &:hover {
-    cursor: pointer;
     border-color: orange;
   }
 `;

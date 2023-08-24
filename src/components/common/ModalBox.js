@@ -25,7 +25,7 @@ function ModalBox(props) {
           data: { password: password.toString() },
         });
         if (response.data) {
-          alert(response.data);
+          alert("회원탈퇴 처리가 완료되었습니다.");
           navigate("/login");
         }
       } catch (error) {
