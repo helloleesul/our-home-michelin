@@ -154,7 +154,6 @@ function Home(props) {
       <Contents foodList={foodList} startIndex={0} itemsPerPage={5} />
       <Contents foodList={foodList} startIndex={5} itemsPerPage={5} />
     </Container>
-    <MyFridgeButton />
   </S.Div>
   );
 }

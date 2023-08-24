@@ -6,7 +6,6 @@ import { NavLink } from "react-router-dom";
 export const Nav = styled.nav`
   position: sticky;
   top: 0;
-  z-index: 100;
   width: 100%;
   background-color: #F7411F;
   
