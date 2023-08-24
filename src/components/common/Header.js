@@ -31,7 +31,6 @@ function Header(props) {
           우리집 <span>냉슐랭</span>
         </S.Title>
       </Container>
-      <Navigation resetNavLinks={resetNavLinks} setResetNavLinks={setResetNavLinks} />
     </header>
   );
 }

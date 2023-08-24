@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import * as S from "./Editor.styled";
+import * as S from "./Editor.style";
 import EditorBox from "../components/pages/editor/EditorBox";
 import Contents from "../components/pages/home/Contents";
 import nextYear from "../../src/assets/img/Next.png"

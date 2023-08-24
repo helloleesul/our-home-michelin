@@ -1,5 +1,5 @@
 import React from "react";
-import * as S from "./EditorBox.styled";
+import * as S from "./EditorBox.style";
 
 function EditorBox({ editorList, startIndex, itemsPerPage }) {
   const visibleEditors = editorList.slice(startIndex, startIndex + itemsPerPage);

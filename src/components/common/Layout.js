@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import styled from "@emotion/styled";
 import Header from "./Header";
 import Footer from "./Footer";
+import Navigation from "./Navigation";
 import { Outlet, useLocation } from "react-router-dom";
 
 const Container = styled.div`
@@ -17,6 +18,7 @@ const Wrap = styled.div`
   main {
     flex: 1;
   }
+  
 `;
 
 export default function Layout(props) {
@@ -33,6 +35,7 @@ export default function Layout(props) {
   return (
     <Wrap>
       <Header />
+      <Navigation />
       <main>
         <Container>
           <Outlet />
