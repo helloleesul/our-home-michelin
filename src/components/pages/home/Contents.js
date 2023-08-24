@@ -7,10 +7,10 @@ function Contents({ foodList, startIndex, itemsPerPage }) {
   return (
     <S.Section>
       {visibleFoods.map((foods, index) => (
-        <div key={foods.id + index}>
+        <S.RecipeLink key={foods.id + index} to={`/recipe/${foods.id}`}>
           <S.FoodImage src={foods.profileImage} alt={foods.name} />
           <p>{foods.name}</p>
-        </div>
+        </S.RecipeLink>
       ))}
     </S.Section>
   );

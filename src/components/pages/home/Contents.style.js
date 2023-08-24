@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { Link } from "react-router-dom";
 
 
 export const Section = styled.div`
@@ -17,4 +18,9 @@ export const FoodImage = styled.img`
   height: 132px;
   object-fit: cover;
   margin-bottom: 10px;
+`;
+
+export const RecipeLink = styled(Link)`
+  text-decoration: none;
+  color: #464646;
 `;

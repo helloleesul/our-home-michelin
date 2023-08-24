@@ -25,7 +25,7 @@ export const RefrigeratorContainer = styled.div`
 
   p span {
     font-weight: 800;
-    font-size: 1.2rem;
+    font-size: 1rem;
     color: #f7411f;
   }
 `;
