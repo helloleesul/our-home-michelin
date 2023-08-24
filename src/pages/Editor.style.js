@@ -8,7 +8,7 @@ export const YearEditors = styled.div`
   padding: 40px 0;
   h4 {
     text-align: center;
-    font-size: 34px;
+    font-size: 32px;
     font-weight: 800;
   }
   h4 span{

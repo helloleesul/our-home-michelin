@@ -13,5 +13,6 @@ export const RefrigeratorButton = styled.button`
   border-radius: 50%;
   box-sizing: border-box;
   border: none;
+  cursor: pointer;
   background-color: #F7411F;
 `;
