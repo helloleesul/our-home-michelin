@@ -1,19 +1,21 @@
-import React, { useMemo } from "react";
+import React, { useMemo, forwardRef } from "react";
 import { useLocation } from "react-router-dom";
 import { InputContainer, Label, UserInput, Button } from "./Input.style";
 
 const isVisibleIndex = [1, 2];
-
-function Input(props) {
+const Input = forwardRef((props, ref) => {
   const { text, showBtn, index, buttonText, onInputChange, handleMail } = props;
 
   const location = useLocation();
 
   let inputType = "";
+  let placeholderText = "";
   if (location.pathname === "/login") {
     inputType = index === 1 ? "password" : "text";
   } else {
     inputType = index === 3 || index === 4 ? "password" : "text";
+    placeholderText =
+      index === 0 ? "닉네임 2글자 이상 입력해주세요." : `${text} 입력해주세요.`;
   }
 
   const buttonVisible = useMemo(
@@ -32,8 +34,9 @@ function Input(props) {
       <UserInput
         type={inputType}
         id={text}
-        placeholder={`${text}을 입력해주세요.`}
+        placeholder={placeholderText}
         onChange={handleInputChange}
+        ref={ref} // ref 전달
       ></UserInput>
       {buttonVisible && (
         <Button
@@ -47,6 +50,6 @@ function Input(props) {
       )}
     </InputContainer>
   );
-}
+});
 
 export default Input;
