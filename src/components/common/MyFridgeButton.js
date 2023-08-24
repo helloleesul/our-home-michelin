@@ -7,14 +7,14 @@ import * as S from "./MyFridgeButton.style";
 function MyFridgeButton(props) {
   const [showModal, setShowModal] = useState(false);
 
-  return(
+  return (
     <>
-    <S.RefrigeratorButton onClick={() => setShowModal(true)}>
-      <S.MainRefrigerator src={mainRefrigerator} alt="mainRefrigerator" />
-    </S.RefrigeratorButton>
-    <PortalModal handleShowModal={showModal} size="md">
-      <MyFridge onClose={() => setShowModal(false)} />
-    </PortalModal>
+      <S.RefrigeratorButton onClick={() => setShowModal(true)}>
+        <S.MainRefrigerator src={mainRefrigerator} alt="mainRefrigerator" />
+      </S.RefrigeratorButton>
+      <PortalModal handleShowModal={showModal} size={"40%"}>
+        <MyFridge onClose={() => setShowModal(false)} />
+      </PortalModal>
     </>
   );
 }

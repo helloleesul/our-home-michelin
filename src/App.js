@@ -24,7 +24,7 @@ const resetFont = `"Pretendard Variable", Pretendard, -apple-system,
 const resetStyles = css`
   ${reset}
   html,body, #root {
-    height: 100%;
+    min-height: 100%;
   }
   body,
   input,
