@@ -1,21 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-
+import axios from "axios";
 import CloseIcon from "../../assets/CloseIcon";
 import * as S from "./ModalBox.style.js";
 function ModalBox(props) {
   const location = useLocation();
   const navigate = useNavigate();
-
-  const handlePageNavigation = () => {
+  const [password, setPassword] = useState("");
+  const handleClick = async () => {
     if (location.pathname === "/mypage") {
-      navigate("/mypage/info");
+      try {
+        const response = await axios.post("/api/confirm-password", {
+          password: password,
+        });
+        if (response.data) {
+          navigate("/mypage/info");
+        }
+      } catch (error) {
+        alert(error.response.data.error);
+      }
     } else {
-      navigate("/login");
+      try {
+        const response = await axios.delete("/api/myinfo/", {
+          data: { password: password.toString() },
+        });
+        if (response.data) {
+          alert(response.data);
+          navigate("/login");
+        }
+      } catch (error) {
+        alert(error.response.data.message);
+      }
     }
   };
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
 
-  console.log(location.pathname);
   return (
     <>
       <S.CloseBtn onClick={props.closeModal}>
@@ -27,8 +48,8 @@ function ModalBox(props) {
       </S.ModalContainer>
       <S.ModalContainer>
         <S.Label>비밀번호</S.Label>
-        <S.Input type="password"></S.Input>
-        <S.ModalBtn onClick={handlePageNavigation}>확인</S.ModalBtn>
+        <S.Input type="password" onChange={handlePasswordChange}></S.Input>
+        <S.ModalBtn onClick={handleClick}>확인</S.ModalBtn>
       </S.ModalContainer>
     </>
   );
