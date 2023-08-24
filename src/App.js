@@ -44,8 +44,9 @@ function App() {
             <Route path="/" element={<Home />}></Route>
             <Route path="/login" element={<Login />}></Route>
             <Route path="/join" element={<Join />}></Route>
-            <Route path="/recipe" element={<RecipeList />}></Route>
             <Route path="/editor" element={<Editor />}></Route>
+            <Route path="/recipe/popular" element={<RecipeList />}></Route>
+            <Route path="/recipe/all" element={<RecipeList />}></Route>
             <Route path="/recipe/:detail" element={<RecipeDetail />}></Route>
             <Route path="/recipe/write" element={<RecipeWrite />}></Route>
             <Route path="/mypage" element={<MyPage />}></Route>
