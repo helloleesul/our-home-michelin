@@ -23,37 +23,39 @@ function UserAccessForm(props) {
 
   const handleClick = async () => {
     if (location.pathname === "/login") {
-      alert("로그인 버튼 클릭");
-      console.log(inputValues);
       try {
-        const response = await axios.post("http://localhost:3001/api/login/", {
+        const response = await axios.post("/api/login/", {
           email: inputValues[0],
           password: inputValues[1],
         });
-        if (response.data.success) {
+        if (response.data) {
           setToken(response.data.token);
+          navigate("/");
         }
-        console.log("서버 응답:", response.data);
       } catch (error) {
         console.error("에러:", error);
+        if (error.response.data.error) {
+          alert(error.response.data.error);
+        } else {
+          alert("로그인 정보를 입력해주세요.");
+        }
       }
     } else {
-      alert("회원가입 버튼 클릭");
-      console.log(inputValues);
       try {
-        const response = await axios.post("http://localhost:3001/api/login/", {
-          name: inputValues[0],
-          nickname: inputValues[1],
-          email: inputValues[2],
-          password: inputValues[4],
-          password: inputValues[5],
+        const response = await axios.post("api/join/", {
+          nickName: inputValues[0],
+          email: inputValues[1],
+          password: inputValues[3],
         });
-        if (response.data.success) {
-          setToken(response.data.token);
+        if (response.data) {
+          alert("회원가입 성공");
         }
-        console.log("서버 응답:", response.data);
       } catch (error) {
         console.error("에러:", error);
+        if (error.response) {
+          alert("모든 정보를 입력해주세요.");
+        }
+        console.log("서버 응답 데이터:", error.response.data);
       }
     }
   };
@@ -65,6 +67,17 @@ function UserAccessForm(props) {
       return updatedValues;
     });
   };
+
+  // const handleMail = async (email) => {
+  //   try {
+  //     const response = await axios.post("/api/join", {
+  //       email: inputValues[1],
+  //     });
+  //     console.log(response.data.message);
+  //   } catch (error) {
+  //     console.error("에러:", error);
+  //   }
+  // };
 
   return (
     <S.Container>
@@ -79,7 +92,7 @@ function UserAccessForm(props) {
             showBtn={showBtn}
             index={index}
             buttonText={
-              index === 2 ? "인증번호" : index === 3 ? "인증확인" : ""
+              index === 1 ? "인증번호" : index === 2 ? "인증확인" : ""
             }
             onInputChange={(index, value) => handleInputChange(index, value)}
           />

@@ -30,6 +30,31 @@ export const Content = styled.div`
 `;
 
 export const IngredientList = styled.div``;
+
+export const IngredientGroup = styled.div`
+  margin-bottom: 24px;
+  h5 {
+    color: #b0b0b0;
+    text-align: center;
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+  ul {
+    padding: 20px;
+    border: 1px solid #b0b0b0;
+    border-radius: 14px;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+    li {
+      button {
+        width: 100%;
+      }
+    }
+  }
+`;
+
 export const Fridge = styled.div``;
 
 export const EmptyFridge = styled.div`

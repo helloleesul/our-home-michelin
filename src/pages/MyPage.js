@@ -1,34 +1,20 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import * as S from "./MyPage.style";
 import BasicProfileImg from "../assets/img/BasicProfileImg.png";
 import PortalModal from "../components/common/PortalModal";
-import CloseIcon from "../assets/CloseIcon";
+import ModalBox from "../components/common/ModalBox";
+
+const text = "회원정보 수정";
 function MyPage(props) {
   const [showModal, setShowModal] = useState(false);
   const closeModal = () => {
     setShowModal(false);
   };
-  const navigate = useNavigate();
-  const handleButtonClick = () => {
-    navigate("/mypage/info");
-  };
+
   return (
     <>
       <PortalModal handleShowModal={showModal} size={"35%"}>
-        <S.CloseBtn onClick={closeModal}>
-          <CloseIcon color="black" />
-        </S.CloseBtn>
-
-        <S.ModalContainer>
-          <S.Text fontSize="25px">회원 정보 수정</S.Text>
-          <S.Text>회원정보를 수정하시려면 비밀번호를 입력해주세요.</S.Text>
-        </S.ModalContainer>
-        <S.ModalContainer>
-          <S.Label>비밀번호</S.Label>
-          <S.Input type="password"></S.Input>
-          <S.ModalBtn onClick={handleButtonClick}>확인</S.ModalBtn>
-        </S.ModalContainer>
+        <ModalBox closeModal={closeModal} text="회원정보 수정"></ModalBox>
       </PortalModal>
       <S.Container>
         <S.UserContainer>
@@ -36,9 +22,7 @@ function MyPage(props) {
           <S.InfoContainer>
             <S.Text>킹석맨 (닉네임)</S.Text>
             <S.Text>se0kmin@gmail.com (이메일)</S.Text>
-            <S.Button onClick={() => setShowModal(true)}>
-              회원정보 수정
-            </S.Button>
+            <S.Button onClick={() => setShowModal(true)}>{text}</S.Button>
           </S.InfoContainer>
           <S.GradeContainer>
             <S.TextContainer>

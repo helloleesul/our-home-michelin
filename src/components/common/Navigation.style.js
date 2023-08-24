@@ -1,8 +1,10 @@
+// Navigation.style.js
+
 import styled from "@emotion/styled";
 import { NavLink } from "react-router-dom";
 
 export const Nav = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 100%;
   background-color: #F7411F;
 `;
@@ -20,8 +22,10 @@ export const CustomNavLink = styled(NavLink)`
   text-align: center;
   text-decoration: none;
   padding: 1rem;
-  width: 33.3%;
-
+  width: 25%;
+  background-color: ${(props) => (props.active ? "#FF755B" : "transparent")};
+  
   &:hover {
     background-color: #FF755B;
+  }
 `;

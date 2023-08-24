@@ -4,7 +4,6 @@ import * as S from "./Footer.style";
 
 function Footer(props) {
   return (
-    <footer>
       <S.FooterBox>
         <Container>
           <S.FooterText>
@@ -14,7 +13,6 @@ function Footer(props) {
           </S.FooterText>
         </Container>
       </S.FooterBox>
-    </footer>
   );
 }
 

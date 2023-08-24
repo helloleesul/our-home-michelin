@@ -1,20 +1,17 @@
 import React from "react";
 import * as S from "./Contents.style"; // Contents 스타일을 모두 가져옴
 
-function Contents({ title, renderContent }) {
+function Contents({ foodList, startIndex, itemsPerPage }) {
+  const visibleFoods= foodList.slice(startIndex, startIndex + itemsPerPage);
+
   return (
     <S.Section>
-      <dt>
-        <S.Text>
-          {title.before}
-          <span>{title.highlight}</span>
-          {title.after}
-        </S.Text>
-        <S.SeeMoreLink to="/editor">더보기</S.SeeMoreLink>
-      </dt>
-      <dd>
-        {renderContent}
-      </dd>
+      {visibleFoods.map((foods, index) => (
+        <div key={foods.id + index}>
+          <S.FoodImage src={foods.profileImage} alt={foods.name} />
+          <p>{foods.name}</p>
+        </div>
+      ))}
     </S.Section>
   );
 }

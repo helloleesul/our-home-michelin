@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CloseIcon from "../assets/CloseIcon";
 import {
   Header,
@@ -6,76 +6,53 @@ import {
   EmptyFridge,
   Fridge,
   IngredientList,
+  IngredientGroup,
 } from "./MyFridge.style";
 import fridgeImg from "../assets/img/emptyFridge.svg";
+import INGREDIENT_DATA from "../libs/const/ingredientData";
+import requestApi from "../libs/const/api";
 
-MyFridge.defaultProps = {
-  fridgeData: [
-    {
-      type: "육류",
-      ingredient: [
-        {
-          name: "닭고기",
-          bestBefore: "20230817",
-        },
-      ],
-    },
-    {
-      type: "야채류",
-      ingredient: [
-        {
-          name: "토마토",
-          bestBefore: "20230817",
-        },
-      ],
-    },
-  ],
-};
+const USER_ID = "64e5cbde1c156c99026dda11";
 
-function MyFridge({ onClose, fridgeData }) {
+function MyFridge({ onClose }) {
   const [ingredientAdder, setIngredientAdder] = useState(false);
-  const [IngredientData, setIngredientData] = useState([
-    {
-      type: "육류",
-      ingredient: [
-        {
-          name: "닭고기",
-          selected: false,
-          imgUrl: "",
-        },
-        {
-          name: "돼지고기",
-          selected: false,
-          imgUrl: "",
-        },
-        {
-          name: "소고기",
-          selected: false,
-          imgUrl: "",
-        },
-      ],
-    },
-    {
-      type: "야채류",
-      ingredient: [
-        {
-          name: "가지",
-          selected: false,
-          imgUrl: "",
-        },
-        {
-          name: "고추",
-          selected: false,
-          imgUrl: "",
-        },
-        {
-          name: "양파",
-          selected: false,
-          imgUrl: "",
-        },
-      ],
-    },
-  ]);
+  const [ingredientData, setIngredientData] = useState(INGREDIENT_DATA);
+  // 유저 냉장고 데이터
+  const [userFridgeData, setUserFridgeData] = useState([]);
+  // 나의 식재료
+  const [safeIngredients, setSafeIngredients] = useState([]);
+  // 소비기한 마감 식재료
+  const [spoiledIngredients, setSpoiledIngredients] = useState([]);
+
+  useEffect(() => {
+    getUserFridge();
+  }, []);
+
+  async function getUserFridge() {
+    try {
+      const response = await requestApi("get", `/user/${USER_ID}/fridge`);
+      // 응답 데이터 처리
+      console.log("유저 냉장고 식재료", response);
+      setUserFridgeData(response);
+    } catch (error) {
+      // 에러 처리
+      console.log(error);
+    }
+  }
+  async function addIngredient() {
+    try {
+      const response = await requestApi("post", `/user/${USER_ID}/fridge`, {
+        ingredientName: "토마토",
+        imageUrl: "/",
+        bestBefore: "20230823",
+      });
+      // 응답 데이터 처리
+      console.log(response);
+    } catch (error) {
+      // 에러 처리
+      console.log(error);
+    }
+  }
 
   return (
     <>
@@ -87,25 +64,67 @@ function MyFridge({ onClose, fridgeData }) {
       </Header>
       <Content>
         {ingredientAdder ? (
+          // 재료 추가하기 컴포넌트
           <IngredientList>
-            {IngredientData.map((group, index) => {
+            <h4>재료 추가하기</h4>
+            {ingredientData.map((group, index) => {
               return (
-                <div key={index}>
+                <IngredientGroup key={index}>
                   <h5>{group.type}</h5>
                   <ul>
                     {group.ingredient.map((item, index) => {
-                      return <li key={index}>{item.name}</li>;
+                      return (
+                        <li key={index}>
+                          <input type="checkbox" />
+                          <label>{item.name}</label>
+                        </li>
+                      );
                     })}
                   </ul>
-                </div>
+                </IngredientGroup>
               );
             })}
             <button onClick={() => setIngredientAdder(false)}>돌아가기</button>
-            <button onClick={() => setIngredientAdder(false)}>추가완료</button>
+            <button onClick={addIngredient}>추가완료</button>
           </IngredientList>
-        ) : fridgeData?.length === 0 ? (
-          <Fridge>냉장고 식재료 채워졌음</Fridge>
+        ) : // 내 냉장고 컴포넌트
+        userFridgeData?.length !== 0 ? (
+          // 재료 있을 때
+          <Fridge>
+            <IngredientList>
+              <h4>나의 식재료</h4>
+              <IngredientGroup>
+                <h5>식재료</h5>
+                <ul>
+                  {/* {safeIngredients.map((item, index) => {
+                        return (
+                          <li key={index}>
+                            <button>{item.name}</button>
+                          </li>
+                        );
+                      })} */}
+                </ul>
+              </IngredientGroup>
+              <IngredientGroup>
+                <h5>소비기한 마감 식재료</h5>
+                <ul>
+                  {/* {spoiledIngredients.map((item, index) => {
+                        return (
+                          <li key={index}>
+                            <button>{item.name}</button>
+                          </li>
+                        );
+                      })} */}
+                </ul>
+              </IngredientGroup>
+              <button>레시피 검색하기</button>
+              <button onClick={() => setIngredientAdder(true)}>
+                재료 추가하기
+              </button>
+            </IngredientList>
+          </Fridge>
         ) : (
+          // 재료 없을 때
           <EmptyFridge>
             <img src={fridgeImg} alt="빈 식재료" />
             <h4>냉장고가 비었어요!</h4>

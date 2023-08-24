@@ -2,8 +2,9 @@ import styled from "@emotion/styled";
 
 export const FooterBox = styled.div`
   width: 100%;
-  height: 100%;
+  height: 100px;
   background-color: #464646;
+  margin-top: 60px;
 `;
 
 export const FooterText = styled.div`
