@@ -23,7 +23,7 @@ function MyInfo(props) {
     };
 
     try {
-      const response = await axios.post("/api/myinfo", userData);
+      const response = await axios.put("/api/myinfo", userData);
       console.log(response.data);
     } catch (error) {
       console.error("에러", error);
