@@ -10,18 +10,20 @@ function RecipeWrite(props) {
   const [newIngredientName, setNewIngredientName] = useState("");
   const [newIngredientAmount, setNewIngredientAmount] = useState("");
   const [recipeSteps, setRecipeSteps] = useState([]); // 요리 과정
-  // 레시피 대표 이미지 첨부하기 추가해야함 -> 피그마에 그린대로는 아니지만 일단 구현함
-  // camera icon url : "https://lh3.googleusercontent.com/EbXw8rOdYxOGdXEFjgNP8lh-YAuUxwhOAe2jhrz3sgqvPeMac6a6tHvT35V6YMbyNvkZL4R_a2hcYBrtfUhLvhf-N2X3OB9cvH4uMw=w1064-v0"
+  const [isHovered, setIsHovered] = useState(false);
+  const [recipeImg, setRecipeImg] = useState("");
+  const [stateFile, setStateFile] = useState(null);
 
   const defaultRecipeImgUrl = require("../assets/img/recipeDefaultImg.png");
-
-  const [recipeImg, setRecipeImg] = useState(defaultRecipeImgUrl);
+  const plzUploadImgUrl = require("../assets/img/plzUploadImg.png");
 
   const handleImgUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
+        setStateFile(reader.result);
+        // setRecipeImg(stateFile);  // 화면에 업로드한 이미지 미리보기 X
         setRecipeImg(reader.result);
       };
       reader.readAsDataURL(file);
@@ -29,7 +31,12 @@ function RecipeWrite(props) {
   };
 
   const handleImgDelete = () => {
-    setRecipeImg(defaultRecipeImgUrl);
+    // setRecipeImg(stateFile);
+    setRecipeImg("");
+  };
+
+  const handleDeleteImage = () => {
+    handleImgDelete();
   };
 
   const handleDeleteIngredient = (idx) => {
@@ -92,18 +99,29 @@ function RecipeWrite(props) {
       document.getElementById("recipe-servings-select").value
     );
 
-    const newRecipe = {
-      title,
-      recipeType: selectedType,
-      recipeServing: selectedServing,
-      ingredients,
-      process: recipeSteps,
-    };
-    console.log("newRecipe");
-    console.log(newRecipe);
+    let newRecipe;
+    // 작성자가 이미지 파일 미업로드로 레시피 등록하는 경우, 'defaultRecipeImgUrl'로 레시피 대표 이미지 처리
+    if (stateFile === null) {
+      newRecipe = {
+        title,
+        recipeType: selectedType,
+        recipeServing: selectedServing,
+        ingredients,
+        process: recipeSteps,
+        imageUrl: defaultRecipeImgUrl,
+      };
+    } else {
+      newRecipe = {
+        title,
+        recipeType: selectedType,
+        recipeServing: selectedServing,
+        ingredients,
+        process: recipeSteps,
+      };
+    }
 
     axios
-      .post("/recipe", newRecipe)
+      .post("/api/recipes", newRecipe)
       .then((response) => {
         console.log("Recipe created: ", response.data);
       })
@@ -132,12 +150,15 @@ function RecipeWrite(props) {
             <div>
               <label htmlFor="recipe-type-select">
                 {/* 요리 종류 _ 저장 방식에 대한 고민 발생 (월요일 백오피스아워 시간에 질문 예정) 요리 종류 */}
-                <select name="recipe-types" id="recipe-type-select">
-                  <option value="반찬" selected>
-                    반찬
-                  </option>
-                  <option value="국&찌개">국&찌개</option>
+                <select
+                  name="recipe-types"
+                  id="recipe-type-select"
+                  defaultValue="간단한 요리"
+                >
                   <option value="메인요리">메인요리</option>
+                  <option value="국&찌개">국&찌개</option>
+                  <option value="반찬">반찬</option>
+                  <option value="간단한 요리">간단한 요리</option>
                   <option value="디저트">디저트</option>
                 </select>
               </label>
@@ -145,12 +166,14 @@ function RecipeWrite(props) {
             <div>
               <label htmlFor="recipe-servings-select">
                 인분수량
-                <select name="recipe-serving" id="recipe-servings-select">
-                  <option value="0" selected>
-                    1인분
-                  </option>
-                  <option value="1">2인분</option>
-                  <option value="2">n인분</option>
+                <select
+                  name="recipe-serving"
+                  id="recipe-servings-select"
+                  defaultValue="1"
+                >
+                  <option value="1">1인분</option>
+                  <option value="2">2인분</option>
+                  <option value="3">3인분 이상</option>
                 </select>
               </label>
             </div>
@@ -159,6 +182,7 @@ function RecipeWrite(props) {
                 재료
                 <br />
                 <input
+                  id="recipe-ingredient"
                   value={newIngredientName}
                   onChange={handleIngredientNameChange}
                   placeholder="식재료명"
@@ -189,34 +213,36 @@ function RecipeWrite(props) {
           <div
             id="recipe-form-top-right"
             style={{
-              position: "fixed",
               right: "0",
               width: "30%",
             }}
           >
             <div
+              id="upload-img-container"
               style={{
+                position: "relative",
                 width: "200px",
                 height: "200px",
+                backgroundImage: `url(${plzUploadImgUrl})`,
               }}
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
             >
-              <button
-                id="delete-img-btn"
-                onClick={handleImgDelete}
-                style={{
-                  float: "right",
-                  right: "0",
-                  padding: "5px",
-                  weight: "30px",
-                  height: "33px",
-                  border: "none",
-                  borderRadius: "2px",
-                  cursor: "pointer",
-                  background: "rgba(0,0,0,0.8)",
-                }}
-              >
-                <CloseIcon color="white" />
-              </button>
+              {recipeImg !== "" && isHovered && (
+                <div
+                  onClick={handleImgDelete}
+                  style={{
+                    position: "absolute",
+                    right: "0",
+                    padding: "3px",
+                    borderRadius: "2px",
+                    cursor: "pointer",
+                    backgroundColor: "rgba(0,0,0,0.7)",
+                  }}
+                >
+                  <CloseIcon color={"#fff"} />
+                </div>
+              )}
               <form action="/form/submit" method="get">
                 <div
                   id="recipe-img-container"
@@ -229,6 +255,7 @@ function RecipeWrite(props) {
                   }}
                 >
                   <label
+                    htmlFor="fileInput"
                     className="label"
                     style={{
                       width: "inherit",
