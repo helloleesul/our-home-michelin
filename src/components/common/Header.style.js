@@ -16,7 +16,7 @@ export const Title = styled(Link)`
   text-decoration: none;
 
   span {
-    color: #F7411F;
+    color: #f7411f;
   }
 `;
 
@@ -29,7 +29,6 @@ export const User = styled.div`
 `;
 
 export const JoinMypage = styled(Link)`
-  display: inline-block;
   width: fit-content;
   text-align: right;
   text-decoration: none;
@@ -38,7 +37,6 @@ export const JoinMypage = styled(Link)`
 `;
 
 export const LoginLogout = styled(Link)`
-  display: inline-block;
   margin-left: 10px;
   width: fit-content;
   text-align: right;

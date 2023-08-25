@@ -25,8 +25,8 @@ function MyFridgeButton({ isAuth }) {
           alt="mainRefrigerator"
         />
       </S.RefrigeratorButton>
-      <PortalModal handleShowModal={showModal} size="md">
-        <MyFridge onClose={() => setShowModal(false)} />
+      <PortalModal handleShowModal={showModal} size={"40%"}>
+        <MyFridge onClose={() => setShowModal(false)} isAuth={isAuth} />
       </PortalModal>
     </>
   );
