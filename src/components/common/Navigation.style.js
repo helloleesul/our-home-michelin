@@ -3,16 +3,18 @@
 import styled from "@emotion/styled";
 import { NavLink } from "react-router-dom";
 
-export const Nav = styled.div`
+export const Nav = styled.nav`
+  position: sticky;
+  top: 0;
   width: 100%;
-  height: 100%;
   background-color: #F7411F;
+  
 `;
 
 export const NavContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center; /* 수직 가운데 정렬 */
+  align-items: center; 
   height: 100%;
   width: 1200px; 
 `;
@@ -21,9 +23,11 @@ export const CustomNavLink = styled(NavLink)`
   color: white;
   text-align: center;
   text-decoration: none;
-  padding: 1rem;
+  padding: 12px 0;
   width: 25%;
-  background-color: ${(props) => (props.active ? "#FF755B" : "transparent")};
+  &.active{
+    background-color: #FF755B
+  }
   
   &:hover {
     background-color: #FF755B;

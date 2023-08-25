@@ -1,18 +1,21 @@
 import styled from "@emotion/styled";
+import { MAIN_THEME_COLOR } from "../libs/const/color";
 export const Container = styled.div`
   display: flex;
   justify-content: center;
+  margin-top: -35px;
 `;
 
 export const UserContainer = styled.div`
-  width: 650px;
+  width: 100%;
   height: 100px;
   margin-top: 50px;
   padding-left: 80px;
-  border: 1px solid #e0dfe1;
+  border: 1px solid ${MAIN_THEME_COLOR[0]};
   border-radius: 15px;
   display: flex;
   align-items: center;
+  margin-bottom: 35px;
 `;
 
 export const ProfileImg = styled.img`
@@ -67,56 +70,108 @@ export const TextContainer = styled.div`
   gap: 10px;
 `;
 
-//모달 스타일
-export const ModalContainer = styled.div`
+// 레시피 목록
+export const RecipeBoxContainer = styled.div`
+  display: flex;
+  height: 800px;
+`;
+export const RecipeContainer = styled.div`
+  width: 100%;
+  border: 1px solid blue;
+`;
+
+export const RecipeList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  border: 1px solid blue;
+  padding-left: 18px;
+`;
+
+export const RecipeCard = styled.div`
+  width: calc(18%);
+  height: 150px;
+  border: 1px solid red;
+  padding: 10px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  background-color: #f0f0f0;
+  cursor: pointer;
+`;
+
+export const TabsContainer = styled.div`
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 15px;
+  border: 1px solid black;
+  width: 200px;
+`;
+
+export const TabButton = styled.button`
+  padding: 10px;
+  background-color: white;
+  border: 1px solid ${MAIN_THEME_COLOR[0]};
+  border-radius: 5px;
+  margin: 0 10px;
+  cursor: pointer;
+  font-size: 14px;
+`;
+
+export const countContainer = styled.div`
+  border: 1px solid blue;
+  margin-bottom: 25px;
+  display: flex;
+`;
+export const allCount = styled.div`
+  width: 25%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 5px;
-  padding-top: 30px;
+  border-right: 1px solid ${MAIN_THEME_COLOR[0]};
 `;
-export const ModalBtn = styled.button`
-  width: 360px;
-  height: 40px;
+
+export const menuCount = styled.div`
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  border: 1px solid black;
+`;
+
+export const conterTitleText = styled.p`
+  font-size: 18px;
+  padding-bottom: 5px;
+  cursor: pointer;
+`;
+
+export const menuCountBox = styled.div`
+  width: 15%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const Pagination = styled.div`
+  display: flex;
+  justify-content: center;
   margin-top: 20px;
-  border-radius: 15px;
-  border: 1px solid #f7411f;
-  background-color: #f7411f;
+`;
+
+export const PaginationButton = styled.button`
+  background-color: ${MAIN_THEME_COLOR[0]};
   color: white;
-  font-size: 16px;
-  margin-bottom: 25px;
-  right: 590px;
-`;
-
-export const Input = styled.input`
-  width: 350px;
-  height: 35px;
-  padding-left: 8px;
-  margin-top: -10px;
-  border: 1px solid #ccc;
-  border-radius: 15px;
-  position: relative;
-  &:focus {
-    outline: none;
-    border-color: orange;
-  }
-  &:hover {
-    cursor: pointer;
-    border-color: orange;
-  }
-`;
-export const Label = styled.label`
-  font-weight: bold;
-  font-size: 12px;
-  margin-bottom: 4px;
-  margin-right: 310px;
-`;
-
-export const CloseBtn = styled.button`
-  background: transparent;
   border: none;
-  margin-left: 610px;
-  padding-top: 20px;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin: 0 5px;
+  cursor: pointer;
+  &:hover {
+    background-color: ${MAIN_THEME_COLOR[1]};
+  }
 `;

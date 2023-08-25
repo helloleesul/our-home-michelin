@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import * as S from "./Editor.styled";
+import * as S from "./Editor.style";
 import EditorBox from "../components/pages/editor/EditorBox";
 import Contents from "../components/pages/home/Contents";
-import nextYear from "../../src/assets/img/Next.png"
-import prevYear from "../../src/assets/img/Prev.png"
+import nextYear from "../../src/assets/img/Next.png";
+import prevYear from "../../src/assets/img/Prev.png";
 import nextEditor from "../../src/assets/img/editorNext.png";
 import prevEditor from "../../src/assets/img/editorPrev.png";
 
@@ -98,14 +98,29 @@ function Editor() {
   return (
     <S.CenterBox>
       <S.YearEditors>
-        <a onClick={editorPrevClick}><img src={prevYear} alt="prevYear" /></a>
-        <h4><span>{currentYear}년</span> 올해의 에디터</h4>
-        <a onClick={editorNextClick}> <img src={nextYear} alt="nextYear" /></a>
+        <a onClick={editorPrevClick}>
+          <img src={prevYear} alt="prevYear" />
+        </a>
+        <h4>
+          <span>{currentYear}년</span> 올해의 에디터
+        </h4>
+        <a onClick={editorNextClick}>
+          {" "}
+          <img src={nextYear} alt="nextYear" />
+        </a>
       </S.YearEditors>
       <S.NextEditorContaner>
-        <a onClick={handlePrevClick}><img src={prevEditor} alt="prevEditor" /></a>
-        <EditorBox editorList={editorData} startIndex={startIndex} itemsPerPage={itemsPerPage} />
-        <a onClick={handleNextClick}><img src={nextEditor} alt="nextEditor" /></a>
+        <a onClick={handlePrevClick}>
+          <img src={prevEditor} alt="prevEditor" />
+        </a>
+        <EditorBox
+          editorList={editorData}
+          startIndex={startIndex}
+          itemsPerPage={itemsPerPage}
+        />
+        <a onClick={handleNextClick}>
+          <img src={nextEditor} alt="nextEditor" />
+        </a>
       </S.NextEditorContaner>
       <S.BackgroundBox>
         <Contents foodList={editorData} startIndex={0} itemsPerPage={5} />

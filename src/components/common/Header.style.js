@@ -7,11 +7,12 @@ export const Title = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 40px;
+  font-size: 32px;
   text-align: center;
-  padding: 20px 0 52px;
+  padding: 4px 0 36px;
   font-weight: 800;
   color: #464646;
+  background-color: #fff;
   text-decoration: none;
 
   span {
@@ -22,6 +23,7 @@ export const Title = styled(Link)`
 export const User = styled.div`
   display: flex;
   justify-content: flex-end; /* 오른쪽 정렬 */
+  background-color: #fff;
   padding: 20px 30px 0 0;
   box-sizing: border-box;
 `;
@@ -43,7 +45,4 @@ export const LoginLogout = styled(Link)`
   text-decoration: none;
   color: #464646;
   font-size: 14px;
-`;
-
-export const IconBox = styled.div`
 `;
