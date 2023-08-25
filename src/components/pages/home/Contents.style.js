@@ -10,6 +10,7 @@ export const Section = styled.div`
   text-align: center;
   box-sizing: border-box;
   cursor: pointer;
+  padding-top: 10px;
 
   p {
     width: 100%;

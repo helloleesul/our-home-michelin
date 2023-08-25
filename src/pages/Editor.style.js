@@ -11,8 +11,8 @@ export const YearEditors = styled.div`
     font-size: 32px;
     font-weight: 800;
   }
-  h4 span{
-    color: #F7411F;
+  h4 span {
+    color: #f7411f;
   }
   a {
     cursor: pointer;
@@ -30,9 +30,10 @@ export const NextEditorContaner = styled.div`
   a {
     cursor: pointer;
   }
-  a img{
-    width:20px;
-  }
+`;
+
+export const NextPrev = styled.img`
+  width: 20px;
 `;
 
 export const BackgroundBox = styled.div`
@@ -40,16 +41,12 @@ export const BackgroundBox = styled.div`
   height: 100%;
   margin: 40px 0;
   padding: 30px 0;
-  background-color: #FFE9E4;
+  background-color: #ffe9e4;
   border-radius: 30px;
   display: flex;
   flex-direction: column;
-  justify-content: center; 
-  align-items: center; 
+  justify-content: center;
+  align-items: center;
 `;
 
-export const CenterBox = styled.div`
-  display: flex;
-  flex-direction: column; /* 수평 가운데 정렬 */
-  align-items: center; /* 수직 가운데 정렬 */
-`;
+export const CenterBox = styled.div``;
