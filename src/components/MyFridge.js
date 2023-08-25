@@ -11,6 +11,7 @@ import {
 import fridgeImg from "../assets/img/emptyFridge.svg";
 import INGREDIENT_DATA from "../libs/const/ingredientData";
 import requestApi from "../libs/const/api";
+import { Link } from "react-router-dom";
 
 function MyFridge({ onClose, isAuth }) {
   const [ingrAdderMode, setIngrAdderMode] = useState(false);
@@ -94,7 +95,17 @@ function MyFridge({ onClose, isAuth }) {
       </Header>
       <Content>
         {!isAuth ? (
-          <>비회원</>
+          <EmptyFridge>
+            <h4>우리집 냉슐랭 요리사가 아니네요!</h4>
+            <p>
+              로그인하여 재료를 추가하고
+              <br />
+              바로 만들 수 있는 레시피를 확인 해보세요!
+            </p>
+            <Link to="/login" onClick={onClose}>
+              로그인하기
+            </Link>
+          </EmptyFridge>
         ) : ingrAdderMode ? (
           // 재료 추가하기 컴포넌트
           <IngredientList>

@@ -91,7 +91,8 @@ export const EmptyFridge = styled.div`
     line-height: 1.3;
     margin-bottom: 40px;
   }
-  button {
+  button,
+  a {
     background: ${MAIN_THEME_COLOR[0]};
     border: none;
     font-size: 16px;
@@ -100,5 +101,7 @@ export const EmptyFridge = styled.div`
     padding: 8px 50px;
     cursor: pointer;
     margin-bottom: 10px;
+    display: inline-block;
+    text-decoration: none;
   }
 `;
