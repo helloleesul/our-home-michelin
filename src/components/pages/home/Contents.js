@@ -9,7 +9,7 @@ function Contents({ foodList }) {
   return (
     <S.Section>
       {foodList.map((foods, index) => (
-        <S.RecipeLink key={foods._id + index} to={`/recipe/${foods.id}`}>
+        <S.RecipeLink key={foods._id + index} to={`/recipe/${foods._id}`}>
           <S.FoodImage src={foods.imageUrl} alt={foods.title} />
           <p>{foods.title}</p>
         </S.RecipeLink>
