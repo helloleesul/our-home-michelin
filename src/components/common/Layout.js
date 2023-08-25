@@ -45,7 +45,7 @@ export default function Layout(props) {
   }, [location.pathname]);
   return (
     <Wrap>
-      <Header isAuthHeader={isAuth} />
+      <Header isAuthHeader={{ isAuth }} />
       <Navigation />
       <main>
         <Container>
