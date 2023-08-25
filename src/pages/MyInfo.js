@@ -16,6 +16,7 @@ function MyInfo(props) {
     (async () => {
       try {
         const response = await axios.get("/api/myinfo");
+        console.log(response.data);
         setNickname(response.data.nickName);
         setUserEmail(response.data.email);
       } catch (error) {
@@ -27,6 +28,14 @@ function MyInfo(props) {
     setShowModal(false);
   };
   const handleSaveClick = async () => {
+    if (nickname.length < 2) {
+      alert("닉네임은 2글자 이상이어야 합니다.");
+      return;
+    }
+    if (password.length < 6) {
+      alert("비밀번호는 6글자 이상이어야 합니다.");
+      return;
+    }
     const userData = {
       nickName: nickname,
       email: userEmail,
@@ -55,11 +64,14 @@ function MyInfo(props) {
             text="닉네임"
             type="text"
             showBtn="true"
+            value={nickname}
             onChange={(event) => setNickname(event.target.value)}
+            placeholder="닉네임은 2글자 이상이어야 합니다."
           ></Input>
           <Input
             text="이메일"
             type="text"
+            value={userEmail}
             onChange={(event) => setUserEmail(event.target.value)}
           />
           <Input
@@ -67,6 +79,7 @@ function MyInfo(props) {
             type="password"
             showBtn="true"
             onChange={(event) => setPassword(event.target.value)}
+            placeholder="비밀번호는 6글자 이상이어야 합니다."
           />
           <S.Text></S.Text>
           <S.Btn onClick={handleSaveClick}>저장</S.Btn>

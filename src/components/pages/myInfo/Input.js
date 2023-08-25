@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import * as S from "./Input.style";
 
 function Input(props) {
-  const { text, type, placeholder, showBtn, onChange } = props;
+  const { text, type, placeholder, showBtn, onChange, value } = props;
   const [btnText, setBtnText] = useState("변경하기");
   const [readOnly, setReadOnly] = useState(true);
   const [showInput, setShowInput] = useState(false);
@@ -25,6 +25,7 @@ function Input(props) {
           placeholder={placeholder}
           readOnly={readOnly}
           onChange={onChange}
+          value={value}
         ></S.Input>
         {showBtn && <S.Button onClick={handleButtonClick}>{btnText}</S.Button>}
       </S.InputContainer>

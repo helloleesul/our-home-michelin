@@ -5,9 +5,8 @@ import axios from "axios";
 
 const isVisibleIndex = [1, 2];
 const Input = forwardRef((props, ref) => {
-  const { text, showBtn, index, onInputChange } = props;
-  const [email, setEmail] = useState("");
-  const [code, setCode] = useState("");
+  const { text, showBtn, index, onInputChange, email, code } = props;
+
   const location = useLocation();
 
   let inputType = "";
@@ -26,14 +25,6 @@ const Input = forwardRef((props, ref) => {
   );
 
   const handleInputChange = (e) => {
-    if (location.pathname === "/join" && index === 1) {
-      const newEmail = e.target.value;
-      setEmail(newEmail);
-    }
-    if (location.pathname === "/join" && index === 2) {
-      const newCode = e.target.value;
-      setCode(newCode);
-    }
     const newValue = e.target.value;
     onInputChange(index, newValue);
   };
@@ -64,7 +55,6 @@ const Input = forwardRef((props, ref) => {
       setTimeStart(false);
     }
   }, [timeStart, time]);
-
   const handleMail = async () => {
     if (index === 1) {
       if (timeStart) {
