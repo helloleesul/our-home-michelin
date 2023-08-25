@@ -73,30 +73,47 @@ export const TextContainer = styled.div`
 // 레시피 목록
 export const RecipeBoxContainer = styled.div`
   display: flex;
-  height: 800px;
+  flex-grow: 1;
+  border-radius: 10px;
 `;
 export const RecipeContainer = styled.div`
   width: 100%;
-  border: 1px solid blue;
+  border: 1px solid ${MAIN_THEME_COLOR[0]};
+  border-left: none;
+  border-radius: 10px;
 `;
 
 export const RecipeList = styled.div`
+  padding: 15px;
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  border: 1px solid blue;
-  padding-left: 18px;
+  border: 1px solid ${MAIN_THEME_COLOR[0]};
+  padding-left: 34px;
+  border-radius: 10px;
+  border-left: none;
+  border-right: none;
+`;
+export const RecipeItemBox = styled.div`
+  width: calc(18%);
+  display: flex;
+  flex-direction: column;
 `;
 
 export const RecipeCard = styled.div`
-  width: calc(18%);
   height: 150px;
-  border: 1px solid red;
-  padding: 10px;
+  width: 100%;
+  margin-bottom: 5px;
   border-radius: 10px;
   box-sizing: border-box;
   background-color: #f0f0f0;
+  border: 1px solid ${MAIN_THEME_COLOR[0]};
   cursor: pointer;
+`;
+export const RecipeText = styled.p`
+  text-align: center;
+  font-size: 14px;
+  overflow: auto;
 `;
 
 export const TabsContainer = styled.div`
@@ -105,24 +122,30 @@ export const TabsContainer = styled.div`
   align-items: center;
   flex-direction: column;
   gap: 15px;
-  border: 1px solid black;
+  border: 1px solid ${MAIN_THEME_COLOR[0]};
+  border-radius: 10px;
   width: 200px;
 `;
 
 export const TabButton = styled.button`
   padding: 10px;
   background-color: white;
-  border: 1px solid ${MAIN_THEME_COLOR[0]};
-  border-radius: 5px;
+  border-radius: 10px;
   margin: 0 10px;
   cursor: pointer;
   font-size: 14px;
+  border: none;
+  &:hover {
+    color: ${MAIN_THEME_COLOR[0]};
+  }
 `;
 
 export const countContainer = styled.div`
-  border: 1px solid blue;
+  border: 1px solid ${MAIN_THEME_COLOR[0]};
   margin-bottom: 25px;
+  border-radius: 10px;
   display: flex;
+  border-top: none;
 `;
 export const allCount = styled.div`
   width: 25%;
@@ -131,6 +154,8 @@ export const allCount = styled.div`
   justify-content: center;
   align-items: center;
   border-right: 1px solid ${MAIN_THEME_COLOR[0]};
+
+  border-radius: 10px;
 `;
 
 export const menuCount = styled.div`
@@ -140,13 +165,20 @@ export const menuCount = styled.div`
   justify-content: center;
   align-items: center;
   gap: 50px;
-  border: 1px solid black;
+  border: 1px solid ${MAIN_THEME_COLOR[0]};
+  border-radius: 10px;
+  border-top: none;
+  border-bottom: none;
+  border-right: none;
 `;
 
 export const conterTitleText = styled.p`
   font-size: 18px;
   padding-bottom: 5px;
   cursor: pointer;
+  &:hover {
+    color: ${MAIN_THEME_COLOR[0]};
+  }
 `;
 
 export const menuCountBox = styled.div`
@@ -154,6 +186,7 @@ export const menuCountBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+
   align-items: center;
 `;
 
@@ -161,6 +194,7 @@ export const Pagination = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 20px;
+  gap: 12px;
 `;
 
 export const PaginationButton = styled.button`
@@ -169,7 +203,7 @@ export const PaginationButton = styled.button`
   border: none;
   border-radius: 5px;
   padding: 5px 10px;
-  margin: 0 5px;
+  margin-top: -20px;
   cursor: pointer;
   &:hover {
     background-color: ${MAIN_THEME_COLOR[1]};
