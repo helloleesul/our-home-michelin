@@ -60,13 +60,12 @@ export const UnorderList = styled.ul`
     width: calc(50% - 30px);
     font-weight: 500;
     color: ${MAIN_THEME_COLOR[1]};
-    .weight,
-    .line {
-      opacity: 0.3;
+    .weight {
+      color: #c7c7c7;
     }
     .line {
       height: 1px;
-      background: ${MAIN_THEME_COLOR[1]};
+      background: #c7c7c7;
       flex: 1;
       margin: 0 20px;
     }
