@@ -30,6 +30,7 @@ export const UserInput = styled.input`
 
 export const Button = styled.button`
   height: 25px;
+  width: 60px;
   font-size: 12px;
   border-radius: 15px;
   border: 1px solid white;
