@@ -7,6 +7,7 @@ const isVisibleIndex = [1, 2];
 const Input = forwardRef((props, ref) => {
   const { text, showBtn, index, onInputChange } = props;
   const [email, setEmail] = useState("");
+  const [code, setCode] = useState("");
   const location = useLocation();
 
   let inputType = "";
@@ -28,6 +29,10 @@ const Input = forwardRef((props, ref) => {
     if (location.pathname === "/join" && index === 1) {
       const newEmail = e.target.value;
       setEmail(newEmail);
+    }
+    if (location.pathname === "/join" && index === 2) {
+      const newCode = e.target.value;
+      setCode(newCode);
     }
     const newValue = e.target.value;
     onInputChange(index, newValue);
@@ -80,7 +85,7 @@ const Input = forwardRef((props, ref) => {
       try {
         const response = await axios.post("/api/verify", {
           email: email,
-          code: "",
+          code: code,
         });
         if (response.data) {
           console.log("성공");
