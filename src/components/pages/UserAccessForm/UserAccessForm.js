@@ -123,6 +123,8 @@ function UserAccessForm(props) {
             showBtn={showBtn}
             index={index}
             onInputChange={(index, value) => handleInputChange(index, value)}
+            email={inputValues[1]}
+            code={inputValues[2]}
             ref={
               index === 0
                 ? nicknameRef
