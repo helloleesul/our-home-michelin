@@ -17,6 +17,8 @@ export const Box = styled.section`
     text-align: center;
     padding: 1rem 0;
     font-weight: 700;
+    width: 80%;
+    margin: 0 auto;
   }
   &.shadow {
     background: #fff;
