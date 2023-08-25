@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 
 export const Card = styled.div`
+  cursor: pointer;
   width : 176px;
   height:182px;
   display: flex;
@@ -10,6 +11,15 @@ export const Card = styled.div`
   align-items: flex-start;
   /* background-color: cornsilk; */
   margin : 10px 30px 16px 30px;
+
+  a{
+    text-decoration: none;
+    color : black;
+  }
+
+  a:hover{
+    color: #F7411F; 
+  }
 `;
 
 export const ImgBookmark = styled.div`
