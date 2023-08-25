@@ -4,9 +4,9 @@ import { Container } from "../components/common/Layout";
 import Contents from "../components/pages/home/Contents";
 import EditorBox from "../components/pages/editor/EditorBox";
 import mainRefrigerator from "../assets/img/mainRefrigerator.png";
-import MyFridgeButton from "../components/common/MyFridgeButton";
 import PortalModal from "../components/common/PortalModal";
 import MyFridge from "../components/MyFridge";
+import requestApi from "../libs/const/api";
 
 const foodList = [
   {
@@ -103,17 +103,27 @@ function Home(props) {
   const itemsPerPage = 6; // 한 페이지에 보여줄 에디터 개수
   const [startIndex, setStartIndex] = useState(0); //시작하는 지점
   const [showModal, setShowModal] = useState(false);
-  // const [foods, setFoods] = useState([]); // [[length: 5] [length: 5] [length: 5]]
-  // const [mainDatas, setMainDatas] = useState([]);
+  const [fiveStarRecipes, setFiveStarRecipes] = useState([]);
+  const [allRecipes, setAllRecipes] = useState([]);
 
-  // const fetchMainData = async () => {
-  //   const mainDatas = await Promise.all([
-  //     axios.get("/foods1-api"),
-  //     axios.get("/foods2-api"),
-  //     axios.get("/editor1-api"),
-  //   ]);
-  //   setMainDatas(mainDatas);
-  // };
+  async function fetchData() {
+    try {
+      const responseFiveStarRecipes = await requestApi(
+        "get",
+        "/fivestar-recipes?limit=5"
+      ); // API 요청
+      setFiveStarRecipes(responseFiveStarRecipes.fiveStarRecipes);
+      const responseAllRecipes = await requestApi("get", "/recipes");
+      console.log(responseAllRecipes);
+      setAllRecipes(responseAllRecipes.allRecipes);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchData(); // 컴포넌트가 마운트되면 데이터를 가져옴
+  }, []); // 빈 배열을 넣어 마운트 시 한 번만 호출하도록 설정
 
   return (
     <S.Div>
@@ -148,7 +158,7 @@ function Home(props) {
           <S.SeeMoreLink to="/editor">더보기</S.SeeMoreLink>
         </S.Text>
         <Contents
-          foodList={foodList}
+          foodList={fiveStarRecipes}
           startIndex={startIndex}
           itemsPerPage={5}
         />
@@ -160,8 +170,9 @@ function Home(props) {
           </p>
           <S.SeeMoreLink to="/editor">더보기</S.SeeMoreLink>
         </S.Text>
-        <Contents foodList={foodList} startIndex={0} itemsPerPage={5} />
-        <Contents foodList={foodList} startIndex={5} itemsPerPage={5} />
+        <Contents foodList={allRecipes} startIndex={0} itemsPerPage={5} />
+        <Contents foodList={allRecipes} startIndex={5} itemsPerPage={5} />
+        {/* 전체레시피가 제대로 보이지않습니다. */}
       </Container>
     </S.Div>
   );

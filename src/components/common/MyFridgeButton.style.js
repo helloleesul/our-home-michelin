@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 
 export const MainRefrigerator = styled.img`
-  width: 60px;
+  width: 50px;
 `;
 
 export const RefrigeratorButton = styled.button`
@@ -14,5 +14,5 @@ export const RefrigeratorButton = styled.button`
   box-sizing: border-box;
   border: none;
   cursor: pointer;
-  background-color: #F7411F;
+  background-color: #f7411f;
 `;
