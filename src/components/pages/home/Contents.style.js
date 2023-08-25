@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 export const Section = styled.div`
   width: 1000px;
   display: flex;
-  justify-content: space-between;
+  flex-flow: row wrap;
+  gap: 15px;
   align-items: center;
   text-align: center;
   box-sizing: border-box;
-  margin: 15px 0;
   cursor: pointer;
 
   p {
@@ -21,7 +21,7 @@ export const Section = styled.div`
 
 export const FoodImage = styled.img`
   width: 100%;
-  height: 80%;
+  height: 130px;
   object-fit: cover;
   margin-bottom: 10px;
 `;
@@ -29,6 +29,6 @@ export const FoodImage = styled.img`
 export const RecipeLink = styled(Link)`
   text-decoration: none;
   color: #464646;
-  width: 176px;
+  width: calc(20% - 15px);
   height: 172px;
 `;

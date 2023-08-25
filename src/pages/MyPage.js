@@ -1,16 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as S from "./MyPage.style";
 import BasicProfileImg from "../assets/img/BasicProfileImg.png";
 import PortalModal from "../components/common/PortalModal";
 import ModalBox from "../components/common/ModalBox";
-
+import axios from "axios";
 const text = "회원정보 수정";
 function MyPage(props) {
   const [showModal, setShowModal] = useState(false);
   const closeModal = () => {
     setShowModal(false);
   };
-
+  const [nickname, setNickname] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+  const [rank, setRank] = useState("");
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await axios.get("/api/myinfo");
+        setNickname(response.data.nickName);
+        setUserEmail(response.data.email);
+        setRank(response.role);
+      } catch (error) {
+        console.log(error.response.data.error);
+      }
+    })();
+  }, []);
   return (
     <>
       <PortalModal handleShowModal={showModal} size={"35%"}>
@@ -20,21 +34,20 @@ function MyPage(props) {
         <S.UserContainer>
           <S.ProfileImg src={BasicProfileImg} alt="프로필 이미지" />
           <S.InfoContainer>
-            <S.Text>킹석맨 (닉네임)</S.Text>
-            <S.Text>se0kmin@gmail.com (이메일)</S.Text>
+            <S.Text>{nickname}(닉네임)</S.Text>
+            <S.Text>{userEmail} (이메일)</S.Text>
             <S.Button onClick={() => setShowModal(true)}>{text}</S.Button>
           </S.InfoContainer>
           <S.GradeContainer>
             <S.TextContainer>
-              <S.Text fontSize="35px" color="orange">
-                에디터
+              <S.Text fontSize="35px" color={rank === 1 ? "orange" : "green"}>
+                {rank === 1 ? "에디터" : "일반"}
               </S.Text>
               <S.Text>회원등급</S.Text>
             </S.TextContainer>
           </S.GradeContainer>
         </S.UserContainer>
       </S.Container>
-      {/*dsadsa*/}
       <S.RecipeBoxContainer>
         <S.TabsContainer>
           <S.TabButton>북마크 레시피</S.TabButton>
@@ -87,7 +100,7 @@ function MyPage(props) {
 }
 
 MyPage.defaultProps = {
-  recipes: [], // 디폴트 레시피 데이터 배열
+  recipes: [],
 };
 
 export default MyPage;
