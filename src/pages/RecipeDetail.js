@@ -1,59 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import * as Detail from "./RecipeDetail.style";
 import { FillHeart, StrokeHeart } from "../assets/HeartIcon";
 import { FillBookMark, StrokeBookMark } from "../assets/BookMarkIcon";
 import { MAIN_THEME_COLOR } from "../libs/const/color";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import requestApi from "../libs/const/api";
+import PortalModal from "../components/common/PortalModal";
+import { AlertBox } from "../components/common/PortalModal.style";
 
-RecipeDetail.defaultProps = {
-  recipeData: {
-    title: "라면만큼 쉬운 백종원 라볶이",
-    owner: {
-      nickName: "코린이",
-      profileUrl:
-        "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?cs=srgb&dl=pexels-pixabay-220453.jpg&fm=jpg",
-    },
-    process: [
-      "대파는 송송 썬다.",
-      "팬에 기름을 두르고 닭을 굽듯이 볶는다.",
-      "송송 썬 대파를 넣고 함께 볶는다.",
-    ],
-    recipeServing: 1, // 1인분
-    recipeType: "메인 반찬",
-    ingredient: [
-      {
-        name: "닭고기",
-        weight: "100g",
-      },
-      {
-        name: "떡",
-        weight: "120g",
-      },
-      {
-        name: "연두부",
-        weight: "20g",
-      },
-      {
-        name: "어묵",
-        weight: "50g",
-      },
-      {
-        name: "대파",
-        weight: "65g",
-      },
-      {
-        name: "양파",
-        weight: "20g",
-      },
-    ],
-    imageUrl:
-      "https://i.namu.wiki/i/A5AIHovo1xwuEjs7V8-aKpZCSWY2gN3mZEPR9fymaez_J7ufmI9B7YyDBu6kZy9TC9VWJatXVJZbDjcYLO2S8Q.webp",
-    likeCount: 0,
-    // 북마크, 좋아요는 현재 로그인한 회원이 갖고있어야 하는 데이터
-  },
-};
-// 추후에 axios get으로 요청해서 데이터를 받아오고 useState로 넣어주면 될까?
+function RecipeDetail() {
+  const { detail } = useParams();
+  const navigate = useNavigate();
+  const [recipeData, setRecipeData] = useState({});
+  const [showModal, setShowModal] = useState(false);
 
-function RecipeDetail({ recipeData }) {
+  useEffect(() => {
+    getRecipeData();
+  }, []);
+
+  const getRecipeData = async () => {
+    try {
+      const response = await requestApi("get", `/recipes/${detail}`);
+      setRecipeData(response);
+    } catch (err) {}
+  };
+
+  const handleRecipeDel = async () => {
+    try {
+      await requestApi("delete", `/recipes/${detail}`);
+      setShowModal(false);
+      navigate(-1);
+    } catch (err) {}
+  };
+
   return (
     <Detail.Wrap>
       <Detail.Box>
@@ -65,13 +44,13 @@ function RecipeDetail({ recipeData }) {
           <div className="imgBox">
             <span className="editorUser"></span>
             <img
-              src={recipeData.owner.profileUrl}
-              alt={recipeData.owner.nickName}
+              src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?cs=srgb&dl=pexels-pixabay-220453.jpg&fm=jpg"
+              alt="코린이"
             />
           </div>
           <span className="nickName">
             <span className="editorUser">에디터</span>
-            {recipeData.owner.nickName}
+            코린이
           </span>
         </div>
         <div className="buttons">
@@ -91,12 +70,12 @@ function RecipeDetail({ recipeData }) {
             <span>{recipeData.recipeServing} 인분</span>
           </Detail.BoxTitle>
           <Detail.UnorderList>
-            {recipeData.ingredient.map((item, index) => {
+            {recipeData.ingredients?.map((item) => {
               return (
-                <li key={index}>
+                <li key={item._id}>
                   <span className="name">{item.name}</span>
                   <span className="line"></span>
-                  <span className="weight">{item.weight}</span>
+                  <span className="weight">{item.amount}</span>
                 </li>
               );
             })}
@@ -110,7 +89,7 @@ function RecipeDetail({ recipeData }) {
             <span>{recipeData.recipeType}</span>
           </Detail.BoxTitle>
           <Detail.OrderList>
-            {recipeData.process.map((step, index) => {
+            {recipeData?.process?.map((step, index) => {
               return (
                 <li key={index}>
                   <span className="stepCount">{index + 1}</span>
@@ -121,10 +100,26 @@ function RecipeDetail({ recipeData }) {
           </Detail.OrderList>
         </div>
       </Detail.Box>
+      {/* 유저가 작성한 글일 때에만 보이게하기 */}
       <Detail.Buttons>
-        <button className="editBtn">레시피 수정하기</button>
-        <button className="deleteBtn">삭제</button>
+        <Link to="/recipe/write" className="editBtn">
+          레시피 수정하기
+        </Link>
+        <button className="deleteBtn" onClick={() => setShowModal(true)}>
+          삭제
+        </button>
       </Detail.Buttons>
+      <PortalModal handleShowModal={showModal} size={"30%"}>
+        <AlertBox>
+          <h3>레시피를 삭제하시겠습니까?</h3>
+          <button className="cancelBtn" onClick={handleRecipeDel}>
+            삭제
+          </button>
+          <button className="deleteBtn" onClick={() => setShowModal(false)}>
+            취소
+          </button>
+        </AlertBox>
+      </PortalModal>
     </Detail.Wrap>
   );
 }

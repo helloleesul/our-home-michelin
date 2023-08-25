@@ -75,9 +75,9 @@ export const UnorderList = styled.ul`
 export const OrderList = styled.ol`
   li {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 12px;
-    margin-bottom: 15px;
+    margin-bottom: 25px;
     font-size: 17px;
     color: ${MAIN_THEME_COLOR[1]};
     font-weight: 500;
@@ -91,6 +91,11 @@ export const OrderList = styled.ol`
       text-align: center;
       color: #fff;
       font-weight: 900;
+    }
+    p {
+      flex: 1;
+      line-height: 1.3;
+      margin-top: 4px;
     }
   }
 `;
@@ -148,7 +153,8 @@ export const Buttons = styled.section`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  button {
+  button,
+  a {
     border: none;
     background: none;
     font-size: 20px;
@@ -156,6 +162,7 @@ export const Buttons = styled.section`
     border-radius: 10px;
     padding: 8px 20px;
     cursor: pointer;
+    text-decoration: none;
     &.editBtn {
       background: ${MAIN_THEME_COLOR[0]};
     }
