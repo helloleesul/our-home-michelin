@@ -1,15 +1,12 @@
-const ingredientTypes = ["육류", "야채", "곡물", "유제품", "과일", "해산물"];
-const ingredients = [
-  // 육류
-  [
+const ingredients = {
+  육류: [
     { name: "닭고기", imgUrl: "chicken.jpg" },
     { name: "돼지고기", imgUrl: "pork.jpg" },
     { name: "소고기", imgUrl: "beef.jpg" },
     { name: "양고기", imgUrl: "beef.jpg" },
     { name: "오리고기", imgUrl: "beef.jpg" },
   ],
-  // 야채
-  [
+  야채: [
     { name: "가지", imgUrl: "eggplant.jpg" },
     { name: "고추", imgUrl: "pepper.jpg" },
     { name: "양파", imgUrl: "onion.jpg" },
@@ -36,8 +33,7 @@ const ingredients = [
     { name: "표고버섯", imgUrl: "onion.jpg" },
     { name: "호박", imgUrl: "onion.jpg" },
   ],
-  // 곡물
-  [
+  곡물: [
     { name: "감자", imgUrl: "chicken.jpg" },
     { name: "고구마", imgUrl: "chicken.jpg" },
     { name: "귀리", imgUrl: "chicken.jpg" },
@@ -46,14 +42,12 @@ const ingredients = [
     { name: "밀가루", imgUrl: "chicken.jpg" },
     { name: "옥수수", imgUrl: "chicken.jpg" },
   ],
-  // 유제품
-  [
+  유제품: [
     { name: "계란", imgUrl: "chicken.jpg" },
     { name: "치즈", imgUrl: "chicken.jpg" },
     { name: "요거트", imgUrl: "chicken.jpg" },
   ],
-  // 과일
-  [
+  과일: [
     { name: "감", imgUrl: "chicken.jpg" },
     { name: "건포도", imgUrl: "chicken.jpg" },
     { name: "귤", imgUrl: "chicken.jpg" },
@@ -76,8 +70,7 @@ const ingredients = [
     { name: "파인애플", imgUrl: "chicken.jpg" },
     { name: "포도", imgUrl: "chicken.jpg" },
   ],
-  // 해산물
-  [
+  해산물: [
     { name: "새우", imgUrl: "chicken.jpg" },
     { name: "고등어", imgUrl: "chicken.jpg" },
     { name: "게맛살", imgUrl: "chicken.jpg" },
@@ -98,19 +91,19 @@ const ingredients = [
     { name: "오징어", imgUrl: "chicken.jpg" },
     { name: "조개", imgUrl: "chicken.jpg" },
   ],
-];
+};
 
-const INGREDIENT_DATA = ingredientTypes.map((type, index) => {
+const INGREDIENT_DATA = Object.keys(ingredients).map((type) => {
   return {
-    type: type,
-    ingredient: ingredients[index].map((ingredient) => {
-      return {
-        name: ingredient.name,
-        // selected: false,
-        imgUrl: ingredient.imgUrl,
-      };
-    }),
+    type,
+    ingredient: ingredients[type].map((ingreValue) => ({
+      name: ingreValue.name,
+      imgUrl: ingreValue.imgUrl,
+      selected: false,
+    })),
   };
 });
+
+export const DEFAULT_INGREDIENT_LIST = INGREDIENT_DATA.map((v) => v.ingredient);
 
 export default INGREDIENT_DATA;
