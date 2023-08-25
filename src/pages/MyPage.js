@@ -25,6 +25,10 @@ function MyPage(props) {
       }
     })();
   }, []);
+  const hanldeImg = () => {
+    alert("dlalwlzmfflr");
+    //여기서 이미지를 파일에서 선택해서 넣게하고싶어
+  };
   return (
     <>
       <PortalModal handleShowModal={showModal} size={"35%"}>
@@ -32,7 +36,11 @@ function MyPage(props) {
       </PortalModal>
       <S.Container>
         <S.UserContainer>
-          <S.ProfileImg src={BasicProfileImg} alt="프로필 이미지" />
+          <S.ProfileImg
+            onClick={hanldeImg}
+            src={BasicProfileImg}
+            alt="프로필 이미지"
+          />
           <S.InfoContainer>
             <S.Text>{nickname}(닉네임)</S.Text>
             <S.Text>{userEmail} (이메일)</S.Text>
@@ -72,25 +80,38 @@ function MyPage(props) {
             </S.menuCount>
           </S.countContainer>
           <S.RecipeList>
-            <S.RecipeCard>레시피 1</S.RecipeCard>
-            <S.RecipeCard>레시피 2</S.RecipeCard>
-            <S.RecipeCard>레시피 1</S.RecipeCard>
-            <S.RecipeCard>레시피 2</S.RecipeCard>
-            <S.RecipeCard>레시피 1</S.RecipeCard>
-            <S.RecipeCard>레시피 2</S.RecipeCard>
-            <S.RecipeCard>레시피 1</S.RecipeCard>
-            <S.RecipeCard>레시피 2</S.RecipeCard>
-            <S.RecipeCard>레시피 1</S.RecipeCard>
-            <S.RecipeCard>레시피 1</S.RecipeCard>
-            <S.RecipeCard>레시피 2</S.RecipeCard>
-            <S.RecipeCard>레시피 2</S.RecipeCard>
-            <S.RecipeCard>레시피 1</S.RecipeCard>
-            <S.RecipeCard>레시피 2</S.RecipeCard>
-            <S.RecipeCard>레시피 1</S.RecipeCard>
-            <S.RecipeCard>레시피 1</S.RecipeCard>
+            <S.RecipeItemBox>
+              <S.RecipeCard>레시피 이미지 1</S.RecipeCard>
+              <S.RecipeText>막창</S.RecipeText>
+            </S.RecipeItemBox>
+            <S.RecipeItemBox>
+              <S.RecipeCard>레시피 이미지 1</S.RecipeCard>
+              <S.RecipeText>먹고</S.RecipeText>
+            </S.RecipeItemBox>
+            <S.RecipeItemBox>
+              <S.RecipeCard>레시피 이미지 1</S.RecipeCard>
+              <S.RecipeText>싶다</S.RecipeText>
+            </S.RecipeItemBox>{" "}
+            <S.RecipeItemBox>
+              <S.RecipeCard>레시피 이미지 1</S.RecipeCard>
+              <S.RecipeText>막창</S.RecipeText>
+            </S.RecipeItemBox>{" "}
+            <S.RecipeItemBox>
+              <S.RecipeCard>레시피 이미지 1</S.RecipeCard>
+              <S.RecipeText>막창</S.RecipeText>
+            </S.RecipeItemBox>{" "}
+            <S.RecipeItemBox>
+              <S.RecipeCard>레시피 이미지 1</S.RecipeCard>
+              <S.RecipeText>막창</S.RecipeText>
+            </S.RecipeItemBox>{" "}
+            <S.RecipeItemBox>
+              <S.RecipeCard>레시피 이미지 1</S.RecipeCard>
+              <S.RecipeText>막창</S.RecipeText>
+            </S.RecipeItemBox>
           </S.RecipeList>
-          {/* 페이지네이션을 위한 버튼들 */}
           <S.Pagination>
+            <S.PaginationButton>1</S.PaginationButton>
+            <S.PaginationButton>2</S.PaginationButton>
             <S.PaginationButton>3</S.PaginationButton>
           </S.Pagination>
         </S.RecipeContainer>
