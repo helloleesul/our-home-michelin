@@ -12,47 +12,77 @@ import fridgeImg from "../assets/img/emptyFridge.svg";
 import INGREDIENT_DATA from "../libs/const/ingredientData";
 import requestApi from "../libs/const/api";
 
-const USER_ID = "64e5cbde1c156c99026dda11";
-
-function MyFridge({ onClose }) {
-  const [ingredientAdder, setIngredientAdder] = useState(false);
-  const [ingredientData, setIngredientData] = useState(INGREDIENT_DATA);
+function MyFridge({ onClose, isAuth }) {
+  const [ingrAdderMode, setIngrAdderMode] = useState(false);
+  const [ingrData, setIngrData] = useState(INGREDIENT_DATA);
+  // 유저 냉장고 식재료 유무
+  const [isIngrInFridge, setIsIngrInFridge] = useState();
   // 유저 냉장고 데이터
-  const [userFridgeData, setUserFridgeData] = useState([]);
-  // 나의 식재료
-  const [safeIngredients, setSafeIngredients] = useState([]);
+  const [userIngrData, setUserIngrData] = useState([]);
+  // 사용가능 식재료
+  const [safeIngr, setSafeIngr] = useState([]);
   // 소비기한 마감 식재료
-  const [spoiledIngredients, setSpoiledIngredients] = useState([]);
+  const [spoiledIngr, setSpoiledIngr] = useState([]);
+  const [currentIngr, setCurrentIngr] = useState({});
+  const [showCurrentIngr, setShowCurrentIngr] = useState(false);
 
   useEffect(() => {
-    getUserFridge();
+    if (isAuth) {
+      getUserFridge();
+    }
   }, []);
 
-  async function getUserFridge() {
+  useEffect(() => {
+    const currentDate = new Date();
+
+    const { safe, spoiled } = userIngrData.reduce(
+      (result, item) => {
+        const itemDate = new Date(item.bestBefore);
+        if (itemDate >= currentDate) {
+          result.safe.push(item);
+        } else {
+          result.spoiled.push(item);
+        }
+        return result;
+      },
+      { safe: [], spoiled: [] }
+    );
+
+    setSafeIngr(safe);
+    setSpoiledIngr(spoiled);
+  }, [userIngrData]);
+
+  const getUserFridge = async () => {
     try {
-      const response = await requestApi("get", `/user/${USER_ID}/fridge`);
-      // 응답 데이터 처리
-      console.log("유저 냉장고 식재료", response);
-      setUserFridgeData(response);
+      const response = await requestApi("get", "/myfridge");
+      if (response?.length !== 0) {
+        setIsIngrInFridge(true);
+        setUserIngrData(response);
+      }
     } catch (error) {
-      // 에러 처리
-      console.log(error);
+      if (error.response.status === 404) {
+        setIsIngrInFridge(false);
+      }
     }
-  }
-  async function addIngredient() {
+  };
+
+  const addIngredient = async () => {
+    const currentDate = new Date();
+    const futureDate = new Date(currentDate);
     try {
-      const response = await requestApi("post", `/user/${USER_ID}/fridge`, {
+      await requestApi("post", "/myfridge", {
         ingredientName: "토마토",
-        imageUrl: "/",
-        bestBefore: "20230823",
+        bestBefore: futureDate.setDate(currentDate.getDate() + 7),
       });
-      // 응답 데이터 처리
-      console.log(response);
     } catch (error) {
-      // 에러 처리
       console.log(error);
     }
-  }
+  };
+
+  const handleCurrentIngr = (item) => {
+    setShowCurrentIngr(true);
+    setCurrentIngr(item);
+  };
 
   return (
     <>
@@ -63,11 +93,13 @@ function MyFridge({ onClose }) {
         </button>
       </Header>
       <Content>
-        {ingredientAdder ? (
+        {!isAuth ? (
+          <>비회원</>
+        ) : ingrAdderMode ? (
           // 재료 추가하기 컴포넌트
           <IngredientList>
             <h4>재료 추가하기</h4>
-            {ingredientData.map((group, index) => {
+            {ingrData.map((group, index) => {
               return (
                 <IngredientGroup key={index}>
                   <h5>{group.type}</h5>
@@ -84,11 +116,10 @@ function MyFridge({ onClose }) {
                 </IngredientGroup>
               );
             })}
-            <button onClick={() => setIngredientAdder(false)}>돌아가기</button>
+            <button onClick={() => setIngrAdderMode(false)}>돌아가기</button>
             <button onClick={addIngredient}>추가완료</button>
           </IngredientList>
-        ) : // 내 냉장고 컴포넌트
-        userFridgeData?.length !== 0 ? (
+        ) : isIngrInFridge ? (
           // 재료 있을 때
           <Fridge>
             <IngredientList>
@@ -96,32 +127,43 @@ function MyFridge({ onClose }) {
               <IngredientGroup>
                 <h5>식재료</h5>
                 <ul>
-                  {/* {safeIngredients.map((item, index) => {
-                        return (
-                          <li key={index}>
-                            <button>{item.name}</button>
-                          </li>
-                        );
-                      })} */}
+                  {safeIngr.map((item) => {
+                    return (
+                      <li key={item._id}>
+                        <button onClick={() => handleCurrentIngr(item)}>
+                          {item.ingredientName}
+                        </button>
+                      </li>
+                    );
+                  })}
                 </ul>
               </IngredientGroup>
               <IngredientGroup>
                 <h5>소비기한 마감 식재료</h5>
                 <ul>
-                  {/* {spoiledIngredients.map((item, index) => {
-                        return (
-                          <li key={index}>
-                            <button>{item.name}</button>
-                          </li>
-                        );
-                      })} */}
+                  {spoiledIngr.map((item) => {
+                    return (
+                      <li key={item._id}>
+                        <button onClick={() => handleCurrentIngr(item)}>
+                          {item.ingredientName}
+                        </button>
+                      </li>
+                    );
+                  })}
                 </ul>
               </IngredientGroup>
               <button>레시피 검색하기</button>
-              <button onClick={() => setIngredientAdder(true)}>
+              <button onClick={() => setIngrAdderMode(true)}>
                 재료 추가하기
               </button>
             </IngredientList>
+            {showCurrentIngr && (
+              <div>
+                {currentIngr.ingredientName}
+                {currentIngr.bestBefore}
+                <button onClick={() => setShowCurrentIngr(false)}>닫기</button>
+              </div>
+            )}
           </Fridge>
         ) : (
           // 재료 없을 때
@@ -133,7 +175,7 @@ function MyFridge({ onClose }) {
               <br />
               바로 만들 수 있는 레시피를 확인 해보세요!
             </p>
-            <button onClick={() => setIngredientAdder(true)}>
+            <button onClick={() => setIngrAdderMode(true)}>
               재료 추가하기
             </button>
           </EmptyFridge>

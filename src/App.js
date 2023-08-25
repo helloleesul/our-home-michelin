@@ -1,6 +1,6 @@
 // global style
-import { Global, css } from "@emotion/react";
-import reset from "styled-reset";
+import { Global } from "@emotion/react";
+import { resetStyles } from "./App.style";
 // router
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/common/Layout";
@@ -15,24 +15,6 @@ import RecipeDetail from "./pages/RecipeDetail";
 import Editor from "./pages/Editor";
 import MyPage from "./pages/MyPage";
 import MyInfo from "./pages/MyInfo";
-
-const resetFont = `"Pretendard Variable", Pretendard, -apple-system,
-  BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI",
-  "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic",
-  "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif`;
-
-const resetStyles = css`
-  ${reset}
-  html,body, #root {
-    height: 100%;
-  }
-  body,
-  input,
-  textarea,
-  button {
-    font-family: ${resetFont};
-  }
-`;
 
 function App() {
   return (

@@ -134,7 +134,7 @@ function Home(props) {
           <br />더 채우러 갈까요?
         </p>
       </S.RefrigeratorContainer>
-      <PortalModal handleShowModal={showModal} size="md">
+      <PortalModal handleShowModal={showModal} size={"40%"}>
         <MyFridge onClose={() => setShowModal(false)} />
       </PortalModal>
       <Container>

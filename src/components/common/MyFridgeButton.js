@@ -5,7 +5,7 @@ import fridgeclose from "../../assets/img/fridge-close.svg";
 import fridgeopen from "../../assets/img/fridge-open.svg";
 import * as S from "./MyFridgeButton.style";
 
-function MyFridgeButton(props) {
+function MyFridgeButton({ isAuth }) {
   const [showModal, setShowModal] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
