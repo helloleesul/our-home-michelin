@@ -7,12 +7,17 @@ import {
   Fridge,
   IngredientList,
   IngredientGroup,
+  BtnGroup,
 } from "./MyFridge.style";
 import fridgeImg from "../assets/img/emptyFridge.svg";
-import INGREDIENT_DATA from "../libs/const/ingredientData";
+import INGREDIENT_DATA, {
+  DEFAULT_INGREDIENT_LIST,
+} from "../libs/const/ingredientData";
 import requestApi from "../libs/const/api";
+import { Link } from "react-router-dom";
 
 function MyFridge({ onClose, isAuth }) {
+  console.log(INGREDIENT_DATA, DEFAULT_INGREDIENT_LIST);
   const [ingrAdderMode, setIngrAdderMode] = useState(false);
   const [ingrData, setIngrData] = useState(INGREDIENT_DATA);
   // 유저 냉장고 식재료 유무
@@ -94,11 +99,23 @@ function MyFridge({ onClose, isAuth }) {
       </Header>
       <Content>
         {!isAuth ? (
-          <>비회원</>
+          <EmptyFridge>
+            <h4>우리집 냉슐랭 요리사가 아니네요!</h4>
+            <p>
+              로그인하여 재료를 추가하고
+              <br />
+              바로 만들 수 있는 레시피를 확인 해보세요!
+            </p>
+            <Link to="/login" onClick={onClose}>
+              로그인하기
+            </Link>
+          </EmptyFridge>
         ) : ingrAdderMode ? (
           // 재료 추가하기 컴포넌트
           <IngredientList>
-            <h4>재료 추가하기</h4>
+            <h4>
+              <span>냉장고</span>를 채워보세요!
+            </h4>
             {ingrData.map((group, index) => {
               return (
                 <IngredientGroup key={index}>
@@ -119,16 +136,24 @@ function MyFridge({ onClose, isAuth }) {
                 </IngredientGroup>
               );
             })}
-            <button onClick={() => setIngrAdderMode(false)}>돌아가기</button>
-            <button onClick={addIngredient}>추가완료</button>
+            <BtnGroup>
+              <button
+                className="cancelBtn"
+                onClick={() => setIngrAdderMode(false)}
+              >
+                돌아가기
+              </button>
+              <button className="addBtn" onClick={addIngredient}>
+                추가완료
+              </button>
+            </BtnGroup>
           </IngredientList>
         ) : isIngrInFridge ? (
           // 재료 있을 때
           <Fridge>
             <IngredientList>
-              <h4>나의 식재료</h4>
               <IngredientGroup>
-                <h5>식재료</h5>
+                <h5>나의 식재료</h5>
                 <ul>
                   {safeIngr.map((item) => {
                     return (
