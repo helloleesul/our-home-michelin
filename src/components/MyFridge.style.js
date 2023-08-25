@@ -29,7 +29,10 @@ export const Content = styled.div`
   ${commonStyle}
 `;
 
-export const IngredientList = styled.div``;
+export const IngredientList = styled.div`
+  height: 50vh;
+  overflow: scroll;
+`;
 
 export const IngredientGroup = styled.div`
   margin-bottom: 24px;
@@ -47,6 +50,19 @@ export const IngredientGroup = styled.div`
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     gap: 10px;
+    &.basicIngr {
+      input {
+        display: none;
+        & + label {
+          cursor: pointer;
+          div {
+          }
+        }
+        &:checked + label div {
+          color: red;
+        }
+      }
+    }
     li {
       button {
         width: 100%;

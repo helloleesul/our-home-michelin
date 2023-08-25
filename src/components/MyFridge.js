@@ -103,12 +103,15 @@ function MyFridge({ onClose, isAuth }) {
               return (
                 <IngredientGroup key={index}>
                   <h5>{group.type}</h5>
-                  <ul>
+                  <ul className="basicIngr">
                     {group.ingredient.map((item, index) => {
                       return (
-                        <li key={index}>
-                          <input type="checkbox" />
-                          <label>{item.name}</label>
+                        <li key={`ingr-${index}`}>
+                          <input type="checkbox" id={`ingr-${item.name}`} />
+                          <label htmlFor={`ingr-${item.name}`}>
+                            <div>체크</div>
+                            <span>{item.name}</span>
+                          </label>
                         </li>
                       );
                     })}
