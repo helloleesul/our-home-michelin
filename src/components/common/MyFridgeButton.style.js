@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 
 export const MainRefrigerator = styled.img`
   width: 50px;
+  padding-right: 7px;
 `;
 
 export const RefrigeratorButton = styled.button`
