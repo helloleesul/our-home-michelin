@@ -62,6 +62,9 @@ const Input = forwardRef((props, ref) => {
 
   const handleMail = async () => {
     if (index === 1) {
+      if (timeStart) {
+        return;
+      }
       try {
         const response = await axios.post("/api/request", {
           email: email,
@@ -74,7 +77,17 @@ const Input = forwardRef((props, ref) => {
         console.log(error.response.data.error);
       }
     } else {
-      alert("인증확인");
+      try {
+        const response = await axios.post("/api/verify", {
+          email: email,
+          code: "",
+        });
+        if (response.data) {
+          console.log("성공");
+        }
+      } catch (error) {
+        alert(error.response.data.error);
+      }
     }
   };
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import * as S from "../components/pages/UserAccessForm/UserAccessForm.style";
 import Input from "../components/pages/myInfo/Input";
@@ -8,17 +8,28 @@ import ModalBox from "../components/common/ModalBox";
 
 function MyInfo(props) {
   const [showModal, setShowModal] = useState(false);
-  const [nickname, setNickName] = useState("");
-  const [email, setEmail] = useState("");
+  const [nickname, setNickname] = useState("");
+  const [userEmail, setUserEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await axios.get("/api/myinfo");
+        setNickname(response.data.nickName);
+        setUserEmail(response.data.email);
+      } catch (error) {
+        console.log(error.response.data.error);
+      }
+    })();
+  }, []);
   const closeModal = () => {
     setShowModal(false);
   };
   const handleSaveClick = async () => {
     const userData = {
       nickName: nickname,
-      email: email,
+      email: userEmail,
       password: password,
     };
 
@@ -30,15 +41,7 @@ function MyInfo(props) {
       console.log(error.response.data.message);
     }
   };
-  const handleUserDelete = async () => {
-    try {
-      const response = await axios.delete("/api/myinfo");
-      console.log(response.data);
-    } catch (error) {
-      console.error("에러", error);
-      console.log(error.response.data.message);
-    }
-  };
+
   return (
     <>
       <PortalModal handleShowModal={showModal} size={"35%"}>
@@ -52,12 +55,12 @@ function MyInfo(props) {
             text="닉네임"
             type="text"
             showBtn="true"
-            onChange={(event) => setNickName(event.target.value)}
-          />
+            onChange={(event) => setNickname(event.target.value)}
+          ></Input>
           <Input
             text="이메일"
             type="text"
-            onChange={(event) => setEmail(event.target.value)}
+            onChange={(event) => setUserEmail(event.target.value)}
           />
           <Input
             text="비밀번호"
