@@ -1,20 +1,25 @@
-import React, { useState } from "react";
-import Navigation from "./Navigation";
+import React, { useState, useEffect } from "react";
+import requestApi from "../../libs/const/api";
 import { Container } from "./Layout";
 import * as S from "./Header.style";
 
-function Header(isAuthHeader) {
+function Header({ isAuthHeader }) {
   const [isAuthenticated, setIsAuthenticated] = useState(isAuthHeader);
 
-  function logout() {
-    // const cookie = document.cookie;
-    // // 쿠키 이름과 동일한 이름으로 만료일을 과거로 설정하여 쿠키를 제거합니다.
-    // cookie = `t=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-    // // setIsAuthenticated(false);
-    // console.log(cookie);
-    // 로그아웃 후 리다이렉션 등의 작업을 수행할 수 있습니다.
-    window.location.href = "/"; // 예시: 로그아웃 후 홈 페이지로 이동
-  }
+  useEffect(() => {
+    setIsAuthenticated(isAuthHeader);
+  }, [isAuthHeader]);
+
+  const handleLogout = async () => {
+    try {
+      // 로그아웃 API 호출
+      await requestApi("post", "/logout");
+      // 로그아웃이 성공적으로 처리되면 클라이언트에서도 로그아웃 상태로 업데이트
+      setIsAuthenticated(false);
+    } catch (error) {
+      console.error("로그아웃 실패", error);
+    }
+  };
 
   return (
     <header>
@@ -23,7 +28,9 @@ function Header(isAuthHeader) {
           // 로그인 상태일 때
           <S.User>
             <S.JoinMypage to="/mypage">마이페이지</S.JoinMypage>
-            <S.LoginLogout onClick={logout}>로그아웃</S.LoginLogout>
+            <S.LoginLogout to="/" onClick={handleLogout}>
+              로그아웃
+            </S.LoginLogout>
           </S.User>
         ) : (
           // 로그인되지 않은 상태일 때
