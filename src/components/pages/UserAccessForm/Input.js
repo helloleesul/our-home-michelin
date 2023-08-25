@@ -7,6 +7,7 @@ const isVisibleIndex = [1, 2];
 const Input = forwardRef((props, ref) => {
   const { text, showBtn, index, onInputChange } = props;
   const [email, setEmail] = useState("");
+  const [code, setCode] = useState("");
   const location = useLocation();
 
   let inputType = "";
@@ -28,6 +29,10 @@ const Input = forwardRef((props, ref) => {
     if (location.pathname === "/join" && index === 1) {
       const newEmail = e.target.value;
       setEmail(newEmail);
+    }
+    if (location.pathname === "/join" && index === 2) {
+      const newCode = e.target.value;
+      setCode(newCode);
     }
     const newValue = e.target.value;
     onInputChange(index, newValue);
@@ -62,6 +67,9 @@ const Input = forwardRef((props, ref) => {
 
   const handleMail = async () => {
     if (index === 1) {
+      if (timeStart) {
+        return;
+      }
       try {
         const response = await axios.post("/api/request", {
           email: email,
@@ -74,7 +82,17 @@ const Input = forwardRef((props, ref) => {
         console.log(error.response.data.error);
       }
     } else {
-      alert("인증확인");
+      try {
+        const response = await axios.post("/api/verify", {
+          email: email,
+          code: code,
+        });
+        if (response.data) {
+          console.log("성공");
+        }
+      } catch (error) {
+        alert(error.response.data.error);
+      }
     }
   };
 
