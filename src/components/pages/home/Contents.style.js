@@ -1,37 +1,35 @@
-import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
+import { Link } from "react-router-dom";
 
+export const Section = styled.div`
+  width: 1000px;
+  display: flex;
+  flex-flow: row wrap;
+  gap: 15px;
+  align-items: center;
+  text-align: center;
+  box-sizing: border-box;
+  cursor: pointer;
+  padding-top: 10px;
 
-export const Text = styled.nav`
-  font-weight: 800;
-  font-size: 24px;
-  span {
-    color: #f7411f;
+  p {
+    width: 100%;
+    height: 20%;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 `;
 
-export const Section = styled.dl`
-  width: 80%;
-  margin: 40px auto;
-
-  dt {
-    box-sizing: border-box;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  dd {
-    padding:  20px 0;
-    display: flex;
-    justify-content: space-between;
-    text-align: center;
-    box-sizing: border-box;
-    flex-wrap: wrap;
-  }
+export const FoodImage = styled.img`
+  width: 100%;
+  height: 130px;
+  object-fit: cover;
+  margin-bottom: 10px;
 `;
 
-export const SeeMoreLink = styled(Link)`
+export const RecipeLink = styled(Link)`
   text-decoration: none;
   color: #464646;
-  font-size: 14px;
+  width: calc(20% - 15px);
+  height: 172px;
 `;

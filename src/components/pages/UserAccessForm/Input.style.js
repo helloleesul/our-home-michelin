@@ -24,13 +24,13 @@ export const UserInput = styled.input`
     border-color: orange;
   }
   &:hover {
-    cursor: pointer;
     border-color: orange;
   }
 `;
 
 export const Button = styled.button`
   height: 25px;
+  width: 60px;
   font-size: 12px;
   border-radius: 15px;
   border: 1px solid white;

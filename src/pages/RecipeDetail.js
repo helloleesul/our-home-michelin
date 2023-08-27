@@ -1,72 +1,126 @@
-import React, { useState } from "react";
-import PortalModal from "../components/common/PortalModal";
-import MyFridge from "../components/MyFridge";
+import React, { useEffect, useState } from "react";
 import * as Detail from "./RecipeDetail.style";
+import { FillHeart, StrokeHeart } from "../assets/HeartIcon";
+import { FillBookMark, StrokeBookMark } from "../assets/BookMarkIcon";
+import { MAIN_THEME_COLOR } from "../libs/const/color";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import requestApi from "../libs/const/api";
+import PortalModal from "../components/common/PortalModal";
+import { AlertBox } from "../components/common/PortalModal.style";
 
-function RecipeDetail(props) {
-  // 내 냉장고 컴포넌트(버튼, 모달)은 생성되면 App의 라우터나 Layout에 추가할 예정
-  // 현재 페이지에서는 [내 냉장고 임시 작업용 버튼 및 모달] 사용 중
+function RecipeDetail() {
+  const { detail } = useParams();
+  const navigate = useNavigate();
+  const [recipeData, setRecipeData] = useState({});
   const [showModal, setShowModal] = useState(false);
 
-  return (
-    <>
-      {/* 내 냉장고 임시 작업용 START */}
-      <button onClick={() => setShowModal(true)}>냉장고 버튼 예시</button>
-      <PortalModal handleShowModal={showModal} size="md">
-        <MyFridge onClose={() => setShowModal(false)} />
-      </PortalModal>
-      {/* 내 냉장고 임시 작업용 END */}
+  useEffect(() => {
+    getRecipeData();
+  }, []);
 
-      <Detail.Wrap>
-        <Detail.Box>
-          <img
-            src="https://i.namu.wiki/i/A5AIHovo1xwuEjs7V8-aKpZCSWY2gN3mZEPR9fymaez_J7ufmI9B7YyDBu6kZy9TC9VWJatXVJZbDjcYLO2S8Q.webp"
-            alt=""
-          />
-          <h3>라볶이</h3>
-        </Detail.Box>
-        <Detail.Author>
-          <div>
-            <div>
-              <img />
-            </div>
-            <span>
-              <span>에디터</span>코린이
-            </span>
+  const getRecipeData = async () => {
+    try {
+      const response = await requestApi("get", `/recipes/${detail}`);
+      setRecipeData(response);
+    } catch (err) {}
+  };
+
+  const handleRecipeDel = async () => {
+    try {
+      await requestApi("delete", `/recipes/${detail}`);
+      setShowModal(false);
+      navigate(-1);
+    } catch (err) {}
+  };
+
+  return (
+    <Detail.Wrap>
+      <Detail.Box>
+        <img src={recipeData.imageUrl} alt={recipeData.title} />
+        <h3>{recipeData.title}</h3>
+      </Detail.Box>
+      <Detail.Owner>
+        <div className="profile">
+          <div className="imgBox">
+            <span className="editorUser"></span>
+            <img
+              src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?cs=srgb&dl=pexels-pixabay-220453.jpg&fm=jpg"
+              alt="코린이"
+            />
           </div>
-          <div>
-            <span>28</span>
-            <button>하트</button>
-            <button>북마크</button>
-          </div>
-        </Detail.Author>
-        <Detail.Box className="shadow">
-          <div>
+          <span className="nickName">
+            <span className="editorUser">에디터</span>
+            코린이
+          </span>
+        </div>
+        <div className="buttons">
+          <span>{recipeData.likeCount}</span>
+          <button>
+            <StrokeHeart color={MAIN_THEME_COLOR[0]} />
+          </button>
+          <button>
+            <StrokeBookMark color={MAIN_THEME_COLOR[0]} />
+          </button>
+        </div>
+      </Detail.Owner>
+      <Detail.Box className="shadow">
+        <div>
+          <Detail.BoxTitle>
             <h4>재료</h4>
-            <span>1인분</span>
-            <ul>
-              <li>
-                <span>연두부</span>
-                <span>75g</span>
-              </li>
-            </ul>
-          </div>
-        </Detail.Box>
-        <Detail.Box className="shadow">
-          <div>
+            <span>{recipeData.recipeServing} 인분</span>
+          </Detail.BoxTitle>
+          <Detail.UnorderList>
+            {recipeData.ingredients?.map((item) => {
+              return (
+                <li key={item._id}>
+                  <span className="name">{item.name}</span>
+                  <span className="line"></span>
+                  <span className="weight">{item.amount}</span>
+                </li>
+              );
+            })}
+          </Detail.UnorderList>
+        </div>
+      </Detail.Box>
+      <Detail.Box className="shadow">
+        <div>
+          <Detail.BoxTitle>
             <h4>요리과정</h4>
-            <span>메인 반찬</span>
-            <ol>
-              <li>대파는 송송 썬다.</li>
-            </ol>
-          </div>
-        </Detail.Box>
-        <Detail.Buttons>
-          <button>레시피 수정하기</button>
-          <button>삭제</button>
-        </Detail.Buttons>
-      </Detail.Wrap>
-    </>
+            <span>{recipeData.recipeType}</span>
+          </Detail.BoxTitle>
+          <Detail.OrderList>
+            {recipeData?.process?.map((step, index) => {
+              return (
+                <li key={index}>
+                  <span className="stepCount">{index + 1}</span>
+                  <p>{step}</p>
+                </li>
+              );
+            })}
+          </Detail.OrderList>
+        </div>
+      </Detail.Box>
+      {/* 유저가 작성한 글일 때에만 보이게하기 */}
+      <Detail.Buttons>
+        <Link to="/recipe/write" className="editBtn">
+          레시피 수정하기
+        </Link>
+        <button className="deleteBtn" onClick={() => setShowModal(true)}>
+          삭제
+        </button>
+      </Detail.Buttons>
+      <PortalModal handleShowModal={showModal} size={"30%"}>
+        <AlertBox>
+          <h3>레시피를 삭제하시겠습니까?</h3>
+          <button className="cancelBtn" onClick={handleRecipeDel}>
+            삭제
+          </button>
+          <button className="deleteBtn" onClick={() => setShowModal(false)}>
+            취소
+          </button>
+        </AlertBox>
+      </PortalModal>
+    </Detail.Wrap>
   );
 }
 

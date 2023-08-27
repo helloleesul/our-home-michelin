@@ -5,7 +5,7 @@ export const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
+  margin-top: 30px;
 `;
 
 export const ChefImage = styled.img`
