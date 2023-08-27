@@ -73,7 +73,7 @@ export const TextContainer = styled.div`
 // 레시피 목록
 export const RecipeBoxContainer = styled.div`
   display: flex;
-  flex-grow: 1;
+  flex-grow: 1; // width 값을 고정할지 그냥 목록 크기에 맞게할지
   border-radius: 10px;
 `;
 export const RecipeContainer = styled.div`
@@ -135,6 +135,7 @@ export const TabButton = styled.button`
   cursor: pointer;
   font-size: 14px;
   border: none;
+  color: ${({ isActive }) => (isActive ? MAIN_THEME_COLOR[0] : "black")};
   &:hover {
     color: ${MAIN_THEME_COLOR[0]};
   }
@@ -176,6 +177,7 @@ export const conterTitleText = styled.p`
   font-size: 18px;
   padding-bottom: 5px;
   cursor: pointer;
+  color: ${({ isActive }) => (isActive ? MAIN_THEME_COLOR[0] : "black")};
   &:hover {
     color: ${MAIN_THEME_COLOR[0]};
   }
