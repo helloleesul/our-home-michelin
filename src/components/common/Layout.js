@@ -35,7 +35,7 @@ export default function Layout(props) {
     // auth api
     // 인증 true false 상태관리 확인해서 return문 아래 보여주는 것 컨트롤
     const response = await requestApi("get", "/check-login");
-    console.log(response);
+    console.log('getUserAuth res :',response);
     setIsAuth(response.isAuthenticated);
   };
   // 두번째 방법

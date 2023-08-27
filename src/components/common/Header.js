@@ -13,9 +13,13 @@ function Header({ isAuthHeader }) {
   const handleLogout = async () => {
     try {
       // 로그아웃 API 호출
-      await requestApi("post", "/logout");
+      const res = await requestApi("post", "/logout");
+      console.log("res sssssssss:",res);
       // 로그아웃이 성공적으로 처리되면 클라이언트에서도 로그아웃 상태로 업데이트
-      setIsAuthenticated(false);
+      if(res === "로그아웃 되었습니다.") {
+        alert('로그아웃 되었습니다');
+        setIsAuthenticated(false);
+      }
     } catch (error) {
       console.error("로그아웃 실패", error);
     }
