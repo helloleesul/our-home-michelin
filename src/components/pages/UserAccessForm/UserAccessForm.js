@@ -12,10 +12,7 @@ function UserAccessForm(props) {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const nicknameRef = useRef();
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const confirmPasswordRef = useRef();
+  const inputRefs = [useRef(), useRef(), useRef(), useRef(), useRef()];
 
   const handlePageNavigation = () => {
     const newPath = location.pathname === "/login" ? "/join" : "/login";
@@ -57,25 +54,25 @@ function UserAccessForm(props) {
 
         if (!validateNickname(nickname)) {
           alert("닉네임을 2글자 이상 입력해주세요.");
-          nicknameRef.current.focus();
+          inputRefs[0].current.focus();
           return;
         }
 
         if (!validateEmail(email)) {
           alert("유효한 이메일 주소를 입력해주세요.");
-          emailRef.current.focus();
+          inputRefs[1].current.focus();
           return;
         }
 
         if (!validatePassword(password)) {
           alert("비밀번호를 6글자 이상 입력해주세요.");
-          passwordRef.current.focus();
+          inputRefs[3].current.focus();
           return;
         }
 
         if (!validateConfirmPassword(password, confirmPassword)) {
           alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-          confirmPasswordRef.current.focus();
+          inputRefs[4].current.focus();
           return;
         }
 
@@ -125,17 +122,7 @@ function UserAccessForm(props) {
             onInputChange={(index, value) => handleInputChange(index, value)}
             email={inputValues[1]}
             code={inputValues[2]}
-            ref={
-              index === 0
-                ? nicknameRef
-                : index === 1
-                ? emailRef
-                : index === 3
-                ? passwordRef
-                : index === 4
-                ? confirmPasswordRef
-                : null
-            }
+            ref={inputRefs[index] || null}
           />
         ))}
 

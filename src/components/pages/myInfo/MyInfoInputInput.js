@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import * as S from "./Input.style";
+import * as S from "./MyInfoInput.style";
 
 function Input(props) {
   const {
