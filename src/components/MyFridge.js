@@ -174,6 +174,7 @@ function MyFridge({ onClose, isAuth }) {
       });
 
       setIngrAdderMode(false);
+      setShowCurrentIngr(false);
       getUserFridge();
     } catch (error) {
       console.log(error);
@@ -242,7 +243,7 @@ function MyFridge({ onClose, isAuth }) {
                             onChange={() => handleCheckboxChange(item)}
                           />
                           <label htmlFor={`ingr-${item.name}`}>
-                            <div>체크</div>
+                            <div className="box"></div>
                             <span>{item.name}</span>
                           </label>
                         </li>
@@ -257,6 +258,7 @@ function MyFridge({ onClose, isAuth }) {
                 className="cancelBtn"
                 onClick={() => {
                   setIngrAdderMode(false);
+                  setShowCurrentIngr(false);
                   getUserFridge();
                 }}
               >
