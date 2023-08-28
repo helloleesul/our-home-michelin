@@ -43,15 +43,19 @@ function RecipeDetail() {
       <Detail.Owner>
         <div className="profile">
           <div className="imgBox">
-            <span className="editorUser"></span>
+            {recipeData.writer?.role === 1 && (
+              <span className="editorUser"></span>
+            )}
             <img
               src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?cs=srgb&dl=pexels-pixabay-220453.jpg&fm=jpg"
               alt="코린이"
             />
           </div>
           <span className="nickName">
-            <span className="editorUser">에디터</span>
-            코린이
+            {recipeData.writer?.role === 1 && (
+              <span className="editorUser">에디터</span>
+            )}
+            {recipeData.writer?.nickName}
           </span>
         </div>
         <div className="buttons">
