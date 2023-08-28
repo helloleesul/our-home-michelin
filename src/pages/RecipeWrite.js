@@ -1,18 +1,34 @@
 // (참고)스타일링 하지 않은 상태입니다.
-import React, { useState, useEffect } from "react";
-import axios from "axios"; // 백엔드 api 레시피..
+import React, { useEffect, useState } from "react";
 import CloseIcon from "../assets/CloseIcon.js";
+import requestApi from "../libs/const/api.js";
+import Layout from "../components/common/Layout";
+
+function useLayoutAuth() {
+  const [authResponse, setAuthResponse] = useState(false);
+  const getUserAuth = async () => {
+    const response = await requestApi("get", "/check-login");
+    setAuthResponse(response);
+  };
+
+  useEffect(() => {
+    getUserAuth();
+  }, []);
+
+  return { authResponse };
+}
 
 function RecipeWrite(props) {
-  const [title, setTitle] = useState(""); // 레시피 제목
+  const [title, setTitle] = useState("");
   const [ingredients, setIngredients] = useState([]);
-  // 식재료명+중량
   const [newIngredientName, setNewIngredientName] = useState("");
   const [newIngredientAmount, setNewIngredientAmount] = useState("");
-  const [recipeSteps, setRecipeSteps] = useState([]); // 요리 과정
+  const [recipeSteps, setRecipeSteps] = useState([]);
   const [isHovered, setIsHovered] = useState(false);
   const [recipeImg, setRecipeImg] = useState("");
   const [stateFile, setStateFile] = useState(null);
+
+  const { authResponse } = useLayoutAuth();
 
   const defaultRecipeImgUrl = require("../assets/img/recipeDefaultImg.png");
   const plzUploadImgUrl = require("../assets/img/plzUploadImg.png");
@@ -22,21 +38,25 @@ function RecipeWrite(props) {
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        setStateFile(reader.result);
-        // setRecipeImg(stateFile);  // 화면에 업로드한 이미지 미리보기 X
-        setRecipeImg(reader.result);
+        // setStateFile(reader.result);
+        // setRecipeImg(stateFile); // 화면에 업로드한 이미지 미리보기 X
+        // setRecipeImg(reader.result);
+        setRecipeImg((current) => {
+          current = reader.result;
+        });
+        setStateFile((current) => {
+          current = reader.result;
+        });
       };
       reader.readAsDataURL(file);
     }
+    console.log(stateFile);
+    console.log(recipeImg);
   };
 
   const handleImgDelete = () => {
     // setRecipeImg(stateFile);
     setRecipeImg("");
-  };
-
-  const handleDeleteImage = () => {
-    handleImgDelete();
   };
 
   const handleDeleteIngredient = (idx) => {
@@ -77,18 +97,16 @@ function RecipeWrite(props) {
   };
 
   const handleAddStep = () => {
-    const newStep = { idx: recipeSteps.length, step: "" };
-    setRecipeSteps([...recipeSteps, newStep]);
+    setRecipeSteps([...recipeSteps, ""]);
   };
 
   const handleStepChange = (event, idx) => {
-    // 요리 과정 입력값 변경 시
     const updatedSteps = [...recipeSteps];
-    updatedSteps[idx].recipeStep = event.target.value;
+    updatedSteps[idx] = event.target.value;
     setRecipeSteps(updatedSteps);
   };
 
-  const handleRecipeSubmit = () => {
+  const handleRecipeSubmit = async () => {
     // 빈값인 input, textarea가 있다면 레시피 등록 막기
     if (!title || ingredients.length === 0 || recipeSteps.length === 0) {
       alert("레시피 양식에 내용을 빠짐없이 기입해주세요!");
@@ -99,43 +117,67 @@ function RecipeWrite(props) {
       document.getElementById("recipe-servings-select").value
     );
 
-    let newRecipe;
     // 작성자가 이미지 파일 미업로드로 레시피 등록하는 경우, 'defaultRecipeImgUrl'로 레시피 대표 이미지 처리
-    if (stateFile === null) {
-      newRecipe = {
-        title,
-        recipeType: selectedType,
-        recipeServing: selectedServing,
-        ingredients,
-        process: recipeSteps,
-        imageUrl: defaultRecipeImgUrl,
-      };
+    let imageUrl = defaultRecipeImgUrl;
+
+    // if(stateFile !== "") { 이 내가 원하는 구현 흐름인데, 일단 이렇게 하면 400에러 떠서 ===로 바꿔둠
+    if (stateFile === "") {
+      try {
+        imageUrl = await fetchData();
+      } catch (err) {
+        console.error("Error uploading recipe main image: ", err);
+        return;
+      }
     } else {
-      newRecipe = {
-        title,
-        recipeType: selectedType,
-        recipeServing: selectedServing,
-        ingredients,
-        process: recipeSteps,
-      };
+      imageUrl = defaultRecipeImgUrl;
     }
 
-    axios
-      .post("/api/recipes", newRecipe)
-      .then((response) => {
-        console.log("Recipe created: ", response.data);
-      })
-      .catch((error) => {
-        console.error("Error creating recipe: ", error);
-      });
+    const newRecipe = {
+      title,
+      recipeType: selectedType,
+      recipeServing: selectedServing,
+      ingredients,
+      process: recipeSteps,
+      imageUrl,
+      writer: authResponse.user._id,
+    };
+
+    try {
+      const response = await requestApi("post", "/recipes", newRecipe);
+      console.log("Recipe created: ", response);
+      alert("레시피가 성공적으로 등록되었습니다!");
+    } catch (err) {
+      console.error("Error creating recipe: ", err);
+    }
   };
+
+  async function fetchData() {
+    try {
+      const formData = new FormData();
+      formData.append("image", stateFile);
+      const response = await requestApi(
+        "post",
+        "/recipes/upload-image",
+        formData
+      );
+      return response.data;
+    } catch (err) {
+      console.error("Error uploading recipe image: ", err);
+    }
+  }
 
   return (
     <div>
       <h2>레시피 등록</h2>
       <div id="recipe-form">
-        <div id="recipe-form-top" style={{ display: "flex" }}>
-          <div id="recipe-form-top-left" style={{ width: "70%" }}>
+        <div
+          id="recipe-form-top"
+          style={{ display: "flex" }}
+        >
+          <div
+            id="recipe-form-top-left"
+            style={{ width: "70%" }}
+          >
             <div>
               <label htmlFor="recipe-title">
                 레시피 제목
@@ -150,6 +192,7 @@ function RecipeWrite(props) {
             <div>
               <label htmlFor="recipe-type-select">
                 {/* 요리 종류 _ 저장 방식에 대한 고민 발생 (월요일 백오피스아워 시간에 질문 예정) 요리 종류 */}
+                // 코드리뷰 반영하기!
                 <select
                   name="recipe-types"
                   id="recipe-type-select"
@@ -243,7 +286,11 @@ function RecipeWrite(props) {
                   <CloseIcon color={"#fff"} />
                 </div>
               )}
-              <form action="/form/submit" method="get">
+              <form
+                action="/recipes"
+                method="post"
+                encType="multipart/form-data"
+              >
                 <div
                   id="recipe-img-container"
                   style={{
@@ -290,11 +337,12 @@ function RecipeWrite(props) {
                 가능합니다.
               </p>
               <ul id="recipe-step-list">
-                {recipeSteps.map((stepsObj, idx) => (
+                {recipeSteps.map((step, idx) => (
                   <li key={idx}>
                     {`Step ${idx + 1}`}
                     <textarea
-                      value={stepsObj.recipeStep}
+                      // value={stepsObj.recipeStep}
+                      value={step}
                       onChange={(e) => handleStepChange(e, idx)}
                       placeholder="요리 과정을 단계별로 작성해주세요!"
                     />
@@ -307,7 +355,10 @@ function RecipeWrite(props) {
                   </li>
                 ))}
               </ul>
-              <button id="add-step-btn" onClick={handleAddStep}>
+              <button
+                id="add-step-btn"
+                onClick={handleAddStep}
+              >
                 요리 과정 추가
               </button>
             </div>
