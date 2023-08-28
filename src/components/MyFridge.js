@@ -10,33 +10,51 @@ import {
   BtnGroup,
 } from "./MyFridge.style";
 import fridgeImg from "../assets/img/emptyFridge.svg";
-import INGREDIENT_DATA, {
-  DEFAULT_INGREDIENT_LIST,
-} from "../libs/const/ingredientData";
+import INGREDIENT_DATA from "../libs/const/ingredientData";
 import requestApi from "../libs/const/api";
 import { Link } from "react-router-dom";
+import Calendar from "./common/Calendar";
+
+function formatDate(dateString) {
+  const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+  const formattedDate = new Date(dateString).toLocaleDateString(
+    "ko-KR",
+    options
+  );
+
+  const [year, month, day] = formattedDate.split(".");
+
+  return `${year}년 ${month}월 ${day}일`;
+}
 
 function MyFridge({ onClose, isAuth }) {
-  console.log(INGREDIENT_DATA, DEFAULT_INGREDIENT_LIST);
+  // 회원 인증 확인
   const [isUser, setIsUser] = useState(isAuth);
+
+  // 기본 식재료 추가 모드
   const [ingrAdderMode, setIngrAdderMode] = useState(false);
+  // 현재 기본 식재료
   const [ingrData, setIngrData] = useState(INGREDIENT_DATA);
-  // 유저 냉장고 식재료 유무
-  const [isIngrInFridge, setIsIngrInFridge] = useState();
+
   // 유저 냉장고 데이터
   const [userIngrData, setUserIngrData] = useState([]);
   // 사용가능 식재료
   const [safeIngr, setSafeIngr] = useState([]);
   // 소비기한 마감 식재료
   const [spoiledIngr, setSpoiledIngr] = useState([]);
+
+  // 선택한 식재료
   const [currentIngr, setCurrentIngr] = useState({});
+  // 선택한 식재료 상세보기
   const [showCurrentIngr, setShowCurrentIngr] = useState(false);
+  // 달력
+  const [showCalendar, setShowCalendar] = useState(false);
+  // 변경 소비기한 마감일
+  const [newBestBefore, setNewBestBefore] = useState();
 
   useEffect(() => {
-    if (isUser) {
-      getUserFridge();
-    }
-  }, [isUser]);
+    getUserFridge();
+  }, []);
 
   useEffect(() => {
     const currentDate = new Date();
@@ -58,28 +76,106 @@ function MyFridge({ onClose, isAuth }) {
     setSpoiledIngr(spoiled);
   }, [userIngrData]);
 
+  useEffect(() => {
+    setShowCalendar(false);
+  }, [currentIngr]);
+
   const getUserFridge = async () => {
-    try {
-      const response = await requestApi("get", "/myfridge");
-      if (response?.length !== 0) {
-        setIsIngrInFridge(true);
+    if (isUser) {
+      try {
+        const response = await requestApi("get", "/myfridge");
         setUserIngrData(response);
-      }
+
+        // userIngrData를 순회하면서 selected 속성 업데이트
+        const updatedIngrData = ingrData.map((group) => {
+          const updatedIngredients = group.ingredient.map((item) => {
+            // 재료 이름이 userIngrData에 있는지 확인
+            const matchingUserIngr = response.find(
+              (userIngr) => userIngr.ingredientName === item.name
+            );
+
+            if (matchingUserIngr) {
+              return { ...item, selected: true };
+            } else {
+              return { ...item, selected: false };
+            }
+          });
+          return { ...group, ingredient: updatedIngredients };
+        });
+
+        setIngrData(updatedIngrData);
+      } catch (error) {}
+    }
+  };
+
+  const deleteIngredient = async (id) => {
+    try {
+      await requestApi("delete", `/myfridge/${id}`);
+
+      setShowCurrentIngr(false);
+      setShowCalendar(false);
+      setNewBestBefore();
+      getUserFridge();
     } catch (error) {
-      if (error.response.status === 404) {
-        setIsIngrInFridge(false);
-      }
+      console.log(error);
+    }
+  };
+
+  const updateIngredient = async (id, date) => {
+    try {
+      await requestApi("put", `/myfridge/${id}`, {
+        newBestBefore: date,
+      });
+
+      setShowCurrentIngr(false);
+      setShowCalendar(false);
+      setNewBestBefore();
+      getUserFridge();
+    } catch (error) {
+      console.log(error);
     }
   };
 
   const addIngredient = async () => {
     const currentDate = new Date();
     const futureDate = new Date(currentDate);
+    const bestBefore = futureDate.setDate(currentDate.getDate() + 7);
+
+    const selectedIngredients = [];
+    const userIngredients = userIngrData.map(
+      (userIngr) => userIngr.ingredientName
+    );
+
+    ingrData.forEach((group) => {
+      group.ingredient.forEach((item) => {
+        if (item.selected) {
+          if (userIngredients.includes(item.name)) {
+            return;
+          }
+          selectedIngredients.push({
+            ingredientName: item.name,
+            bestBefore,
+          });
+        } else {
+          if (!userIngredients.includes(item.name)) {
+            return;
+          }
+          const selectedItem = userIngrData.find(
+            (userIngr) => userIngr.ingredientName === item.name
+          );
+          deleteIngredient(selectedItem._id);
+        }
+      });
+    });
+
     try {
       await requestApi("post", "/myfridge", {
-        ingredientName: "토마토",
-        bestBefore: futureDate.setDate(currentDate.getDate() + 7),
+        ingredients: selectedIngredients,
       });
+
+      setIngrAdderMode(false);
+      setShowCurrentIngr(false);
+      getUserFridge();
     } catch (error) {
       console.log(error);
     }
@@ -88,6 +184,21 @@ function MyFridge({ onClose, isAuth }) {
   const handleCurrentIngr = (item) => {
     setShowCurrentIngr(true);
     setCurrentIngr(item);
+  };
+
+  const handleCheckboxChange = (itemToUpdate) => {
+    setIngrData((prevData) => {
+      const updatedData = prevData.map((group) => {
+        const updatedItems = group.ingredient.map((item) => {
+          if (item === itemToUpdate) {
+            return { ...item, selected: !item.selected };
+          }
+          return item;
+        });
+        return { ...group, ingredient: updatedItems };
+      });
+      return updatedData;
+    });
   };
 
   return (
@@ -125,9 +236,14 @@ function MyFridge({ onClose, isAuth }) {
                     {group.ingredient.map((item, index) => {
                       return (
                         <li key={`ingr-${index}`}>
-                          <input type="checkbox" id={`ingr-${item.name}`} />
+                          <input
+                            type="checkbox"
+                            id={`ingr-${item.name}`}
+                            checked={item.selected}
+                            onChange={() => handleCheckboxChange(item)}
+                          />
                           <label htmlFor={`ingr-${item.name}`}>
-                            <div>체크</div>
+                            <div className="box"></div>
                             <span>{item.name}</span>
                           </label>
                         </li>
@@ -140,7 +256,11 @@ function MyFridge({ onClose, isAuth }) {
             <BtnGroup>
               <button
                 className="cancelBtn"
-                onClick={() => setIngrAdderMode(false)}
+                onClick={() => {
+                  setIngrAdderMode(false);
+                  setShowCurrentIngr(false);
+                  getUserFridge();
+                }}
               >
                 돌아가기
               </button>
@@ -149,65 +269,125 @@ function MyFridge({ onClose, isAuth }) {
               </button>
             </BtnGroup>
           </IngredientList>
-        ) : isIngrInFridge ? (
-          // 재료 있을 때
-          <Fridge>
-            <IngredientList>
-              <IngredientGroup>
-                <h5>나의 식재료</h5>
-                <ul>
-                  {safeIngr.map((item) => {
-                    return (
-                      <li key={item._id}>
-                        <button onClick={() => handleCurrentIngr(item)}>
-                          {item.ingredientName}
-                        </button>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </IngredientGroup>
-              <IngredientGroup>
-                <h5>소비기한 마감 식재료</h5>
-                <ul>
-                  {spoiledIngr.map((item) => {
-                    return (
-                      <li key={item._id}>
-                        <button onClick={() => handleCurrentIngr(item)}>
-                          {item.ingredientName}
-                        </button>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </IngredientGroup>
-              <button>레시피 검색하기</button>
-              <button onClick={() => setIngrAdderMode(true)}>
-                재료 추가하기
-              </button>
-            </IngredientList>
-            {showCurrentIngr && (
-              <div>
-                {currentIngr.ingredientName}
-                {currentIngr.bestBefore}
-                <button onClick={() => setShowCurrentIngr(false)}>닫기</button>
-              </div>
-            )}
-          </Fridge>
         ) : (
-          // 재료 없을 때
-          <EmptyFridge>
-            <img src={fridgeImg} alt="빈 식재료" height={230} />
-            <h4>냉장고가 비었어요!</h4>
-            <p>
-              재료를 추가하고
-              <br />
-              바로 만들 수 있는 레시피를 확인 해보세요!
-            </p>
-            <button onClick={() => setIngrAdderMode(true)}>
-              재료 추가하기
-            </button>
-          </EmptyFridge>
+          <>
+            {userIngrData.length > 0 ? (
+              // 재료 있을 때
+              <Fridge>
+                <IngredientList>
+                  <IngredientGroup>
+                    <h5>나의 식재료</h5>
+                    <ul>
+                      {safeIngr.map((item) => {
+                        return (
+                          <li key={item._id}>
+                            <button onClick={() => handleCurrentIngr(item)}>
+                              {item.ingredientName}
+                            </button>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </IngredientGroup>
+                  {spoiledIngr.length !== 0 && (
+                    <IngredientGroup>
+                      <h5>소비기한 마감 식재료</h5>
+                      <ul>
+                        {spoiledIngr.map((item) => {
+                          return (
+                            <li key={item._id}>
+                              <button onClick={() => handleCurrentIngr(item)}>
+                                {item.ingredientName}
+                              </button>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </IngredientGroup>
+                  )}
+                  <button onClick={() => {}}>레시피 검색하기</button>
+                  <button
+                    onClick={() => {
+                      setIngrAdderMode(true);
+                      getUserFridge();
+                    }}
+                  >
+                    재료 추가하기
+                  </button>
+                </IngredientList>
+                {showCurrentIngr && (
+                  <div>
+                    <p>
+                      식재료:
+                      {currentIngr.ingredientName}
+                    </p>
+                    <p>
+                      식재료 추가일:
+                      {formatDate(currentIngr.inputDate)}
+                    </p>
+                    <p>
+                      소비기한 마감일:
+                      <button
+                        onClick={() => setShowCalendar((prev) => !prev)}
+                        disabled={new Date(currentIngr.bestBefore) < new Date()}
+                      >
+                        {newBestBefore
+                          ? formatDate(newBestBefore)
+                          : formatDate(currentIngr.bestBefore)}
+                      </button>
+                    </p>
+                    {showCalendar && (
+                      <Calendar
+                        thisDate={new Date(currentIngr.bestBefore)}
+                        onThisDate={(date) => setNewBestBefore(date)}
+                      />
+                    )}
+
+                    {new Date(currentIngr.bestBefore) > new Date() && (
+                      <button
+                        onClick={() => {
+                          updateIngredient(currentIngr._id, newBestBefore);
+                        }}
+                      >
+                        저장하기
+                      </button>
+                    )}
+                    <button
+                      onClick={() => {
+                        deleteIngredient(currentIngr._id);
+                      }}
+                    >
+                      삭제하기
+                    </button>
+                    <button
+                      onClick={() => {
+                        setShowCurrentIngr(false);
+                        setShowCalendar(false);
+                        setNewBestBefore();
+                        getUserFridge();
+                      }}
+                    >
+                      닫기
+                    </button>
+                  </div>
+                )}
+              </Fridge>
+            ) : (
+              // 재료 없을 때
+              <EmptyFridge>
+                <img src={fridgeImg} alt="빈 식재료" height={230} />
+                <h4>냉장고가 비었어요!</h4>
+                <p>
+                  재료를 추가하고
+                  <br />
+                  바로 만들 수 있는 레시피를 확인 해보세요!
+                </p>
+                <button onClick={() => setIngrAdderMode(true)}>
+                  재료 추가하기
+                </button>
+              </EmptyFridge>
+            )}
+          </>
         )}
       </Content>
     </>
