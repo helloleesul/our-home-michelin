@@ -287,20 +287,22 @@ function MyFridge({ onClose, isAuth }) {
                       })}
                     </ul>
                   </IngredientGroup>
-                  <IngredientGroup>
-                    <h5>소비기한 마감 식재료</h5>
-                    <ul>
-                      {spoiledIngr.map((item) => {
-                        return (
-                          <li key={item._id}>
-                            <button onClick={() => handleCurrentIngr(item)}>
-                              {item.ingredientName}
-                            </button>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </IngredientGroup>
+                  {spoiledIngr.length !== 0 && (
+                    <IngredientGroup>
+                      <h5>소비기한 마감 식재료</h5>
+                      <ul>
+                        {spoiledIngr.map((item) => {
+                          return (
+                            <li key={item._id}>
+                              <button onClick={() => handleCurrentIngr(item)}>
+                                {item.ingredientName}
+                              </button>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </IngredientGroup>
+                  )}
                   <button onClick={() => {}}>레시피 검색하기</button>
                   <button
                     onClick={() => {
@@ -323,7 +325,10 @@ function MyFridge({ onClose, isAuth }) {
                     </p>
                     <p>
                       소비기한 마감일:
-                      <button onClick={() => setShowCalendar((prev) => !prev)}>
+                      <button
+                        onClick={() => setShowCalendar((prev) => !prev)}
+                        disabled={new Date(currentIngr.bestBefore) < new Date()}
+                      >
                         {newBestBefore
                           ? formatDate(newBestBefore)
                           : formatDate(currentIngr.bestBefore)}
@@ -335,13 +340,16 @@ function MyFridge({ onClose, isAuth }) {
                         onThisDate={(date) => setNewBestBefore(date)}
                       />
                     )}
-                    <button
-                      onClick={() => {
-                        updateIngredient(currentIngr._id, newBestBefore);
-                      }}
-                    >
-                      저장하기
-                    </button>
+
+                    {new Date(currentIngr.bestBefore) > new Date() && (
+                      <button
+                        onClick={() => {
+                          updateIngredient(currentIngr._id, newBestBefore);
+                        }}
+                      >
+                        저장하기
+                      </button>
+                    )}
                     <button
                       onClick={() => {
                         deleteIngredient(currentIngr._id);
