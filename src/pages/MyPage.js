@@ -12,10 +12,15 @@ function MyPage(props) {
   const [userEmail, setUserEmail] = useState("");
   const [rank, setRank] = useState("");
   const [recipes, setRecipes] = useState([]);
-  const recipeTypesCount = {};
   const inputRef = useRef(null);
   const [selectedImage, setSelectedImage] = useState(null);
+  const recipeTypesCount = [];
+  const [selectedType, setSelectedType] = useState("");
+  const filteredRecipes = selectedType
+    ? recipes.filter((recipe) => recipe.recipeType === selectedType)
+    : recipes;
 
+  console.log("필터된 레시피", filteredRecipes);
   recipes.forEach((recipe) => {
     if (recipeTypesCount[recipe.recipeType]) {
       recipeTypesCount[recipe.recipeType]++;
@@ -24,8 +29,6 @@ function MyPage(props) {
     }
   });
 
-  console.log(recipeTypesCount);
-
   useEffect(() => {
     (async () => {
       try {
@@ -33,10 +36,10 @@ function MyPage(props) {
         setNickname(response.data.nickName);
         setUserEmail(response.data.email);
         setRank(response.role);
-
+        console.log("유저정보 조회데이터", response);
         const responseRecipe = await axios.get("/api/myrecipes");
         setRecipes(responseRecipe.data);
-        console.log(responseRecipe.data);
+        console.log("레시피 조회데이터", responseRecipe.data);
       } catch (error) {
         console.log(error.response.data.error);
       }
@@ -62,7 +65,7 @@ function MyPage(props) {
     settabColor(check);
   };
   const handleTitleText = (check) => {
-    // 텍스트에 맞게 필터링 하ㄱ기
+    setSelectedType(check);
     setTitleClor(check);
     alert("xkdlxmfxrtmxm");
   };
@@ -152,44 +155,43 @@ function MyPage(props) {
               {recipes.length}
             </S.allCount>
             <S.menuCount>
-              {recipes.map((recipe, index) => (
+              {Object.keys(recipeTypesCount).map((recipeType, index) => (
                 <S.menuCountBox key={index}>
                   <S.conterTitleText
-                    onClick={() => handleTitleText(recipe.recipeType)}
-                    isActive={titleColor === recipe.recipeType}
+                    onClick={() => handleTitleText(recipeType)}
+                    isActive={titleColor === recipeType}
                   >
-                    {recipe.recipeType}
+                    {recipeType}
                   </S.conterTitleText>{" "}
-                  <span>{recipeTypesCount[recipe.recipeType]}</span>
+                  <span>{recipeTypesCount[recipeType]}</span>
                 </S.menuCountBox>
               ))}
             </S.menuCount>
           </S.countContainer>
           <S.RecipeList>
-            {recipes.map((recipe, index) => (
-              <S.RecipeItemBox key={index}>
-                <S.RecipeImg
-                  onClick={() => handleRecipeCard(recipe)}
-                  src={recipe.imageUrl}
-                  alt={`레시피 이미지 ${index + 1}`}
-                />
-                <S.RecipeText>{recipe.title}</S.RecipeText>
-              </S.RecipeItemBox>
-            ))}
+            {filteredRecipes.length === 0
+              ? recipes.map((recipe, index) => (
+                  <S.RecipeItemBox key={index}>
+                    <S.RecipeImg
+                      onClick={() => handleRecipeCard(recipe)}
+                      src={recipe.imageUrl}
+                      alt={`레시피 이미지 ${index + 1}`}
+                    />
+                    <S.RecipeText>{recipe.title}</S.RecipeText>
+                  </S.RecipeItemBox>
+                ))
+              : filteredRecipes.map((recipe, index) => (
+                  <S.RecipeItemBox key={index}>
+                    <S.RecipeImg
+                      onClick={() => handleRecipeCard(recipe)}
+                      src={recipe.imageUrl}
+                      alt={`레시피 이미지 ${index + 1}`}
+                    />
+                    <S.RecipeText>{recipe.title}</S.RecipeText>
+                  </S.RecipeItemBox>
+                ))}
           </S.RecipeList>
-          <S.Pagination>
-            {/* {Array.from({ length: Math.ceil(dummyRecipes.length / 20) }).map(
-              (_, index) => (
-                <S.PaginationButton
-                  key={index}
-                  onClick={() => handlePaginationButton(index + 1)}
-                >
-                  {index + 1}
-                </S.PaginationButton>
-              )
-            )} */}
-            {pageButtons}
-          </S.Pagination>
+          <S.Pagination>{pageButtons}</S.Pagination>
         </S.RecipeContainer>
       </S.RecipeBoxContainer>
     </>
