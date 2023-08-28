@@ -21,6 +21,7 @@ function RecipeDetail() {
   const getRecipeData = async () => {
     try {
       const response = await requestApi("get", `/recipes/${detail}`);
+      console.log(response);
       setRecipeData(response);
     } catch (err) {}
   };
