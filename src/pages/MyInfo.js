@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import * as S from "../components/pages/UserAccessForm/UserAccessForm.style";
-import Input from "../components/pages/myInfo/Input";
+import Input from "../components/pages/myInfo/MyInfoInputInput";
 import chef1 from "../assets/img/chef1.png";
 import PortalModal from "../components/common/PortalModal";
 import ModalBox from "../components/common/ModalBox";
