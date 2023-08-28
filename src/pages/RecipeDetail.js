@@ -7,6 +7,8 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import requestApi from "../libs/const/api";
 import PortalModal from "../components/common/PortalModal";
 import { AlertBox } from "../components/common/PortalModal.style";
+import CheckIcon from "../assets/CheckIcon";
+import userDefaultImg from "../assets/img/userDefaultImg.svg";
 
 function RecipeDetail() {
   const { detail } = useParams();
@@ -42,14 +44,14 @@ function RecipeDetail() {
       </Detail.Box>
       <Detail.Owner>
         <div className="profile">
+          {recipeData.writer?.role === 1 && (
+            <span className="editorMark">
+              <CheckIcon color={MAIN_THEME_COLOR[0]} />
+            </span>
+          )}
           <div className="imgBox">
-            {recipeData.writer?.role === 1 && (
-              <span className="editorUser"></span>
-            )}
-            <img
-              src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?cs=srgb&dl=pexels-pixabay-220453.jpg&fm=jpg"
-              alt="코린이"
-            />
+            {/* 유저 프로필 이미지 추후 작업예정 */}
+            <img src={userDefaultImg} alt={recipeData.writer?.nickName} />
           </div>
           <span className="nickName">
             {recipeData.writer?.role === 1 && (
