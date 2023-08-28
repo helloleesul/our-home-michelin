@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import * as S from "./MyPage.style";
 import BasicProfileImg from "../assets/img/BasicProfileImg.png";
 import PortalModal from "../components/common/PortalModal";
@@ -13,6 +13,9 @@ function MyPage(props) {
   const [rank, setRank] = useState("");
   const [recipes, setRecipes] = useState([]);
   const recipeTypesCount = {};
+  const inputRef = useRef(null);
+  const [selectedImage, setSelectedImage] = useState(null);
+
   recipes.forEach((recipe) => {
     if (recipeTypesCount[recipe.recipeType]) {
       recipeTypesCount[recipe.recipeType]++;
@@ -44,9 +47,15 @@ function MyPage(props) {
     setShowModal(false);
   };
 
-  const handleImg = () => {
-    alert("dlalwlzmfflr");
-    //여기서 이미지를 파일에서 선택해서 넣게하고싶어 그리고 api 이미지 넘기기
+  const handleImg = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setSelectedImage(imageUrl);
+
+      // const formData = new FormData();
+      // formData.append("profileImage", file);
+    }
   };
   const handleTapButton = (check) => {
     //북마크 레시피 클릭시 북마크 레시피 리스트 보여주고 나의 레시피 클릭시 나의레시피 리스트보여주기
@@ -84,12 +93,17 @@ function MyPage(props) {
       <S.Container>
         <S.UserContainer>
           <S.ProfileImg
-            onClick={handleImg}
-            src={BasicProfileImg}
-            alt="프로필 이미지"
+            onClick={() => inputRef.current.click()}
+            src={selectedImage || BasicProfileImg}
+          />
+          <input
+            type="file"
+            style={{ display: "none" }}
+            onChange={handleImg}
+            ref={inputRef}
           />
           <S.InfoContainer>
-            <S.Text>{nickname}(닉네임)</S.Text>
+            <S.Text>{nickname} (닉네임)</S.Text>
             <S.Text>{userEmail} (이메일)</S.Text>
             <S.Button onClick={() => setShowModal(true)}>
               회원정보 수정
