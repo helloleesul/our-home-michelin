@@ -11,6 +11,33 @@ function MyPage(props) {
   const [nickname, setNickname] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [rank, setRank] = useState("");
+  const dummyRecipes = [
+    { img: "recipe1.jpg", description: "맛있는 레시피 1" },
+    { img: "recipe2.jpg", description: "맛있는 레시피 2" },
+    { img: "recipe3.jpg", description: "맛있는 레시피 3" },
+    { img: "recipe1.jpg", description: "맛있는 레시피 1" },
+    { img: "recipe2.jpg", description: "맛있는 레시피 2" },
+    { img: "recipe3.jpg", description: "맛있는 레시피 3" },
+    { img: "recipe1.jpg", description: "맛있는 레시피 1" },
+    { img: "recipe2.jpg", description: "맛있는 레시피 2" },
+    { img: "recipe3.jpg", description: "맛있는 레시피 3" },
+    { img: "recipe1.jpg", description: "맛있는 레시피 1" },
+    { img: "recipe2.jpg", description: "맛있는 레시피 2" },
+    { img: "recipe3.jpg", description: "맛있는 레시피 3" },
+    { img: "recipe1.jpg", description: "맛있는 레시피 1" },
+    { img: "recipe2.jpg", description: "맛있는 레시피 2" },
+    { img: "recipe3.jpg", description: "맛있는 레시피 3" },
+    { img: "recipe1.jpg", description: "맛있는 레시피 1" },
+    { img: "recipe2.jpg", description: "맛있는 레시피 2" },
+    { img: "recipe3.jpg", description: "맛있는 레시피 3" },
+    { img: "recipe1.jpg", description: "맛있는 레시피 1" },
+    { img: "recipe2.jpg", description: "맛있는 레시피 2" },
+    { img: "recipe1.jpg", description: "맛있는 레시피 1" },
+    { img: "recipe2.jpg", description: "맛있는 레시피 2" },
+    { img: "recipe3.jpg", description: "맛있는 레시피 3" },
+    { img: "recipe1.jpg", description: "맛있는 레시피 1" },
+    { img: "recipe2.jpg", description: "맛있는 레시피 2" },
+  ];
 
   useEffect(() => {
     (async () => {
@@ -19,6 +46,7 @@ function MyPage(props) {
         setNickname(response.data.nickName);
         setUserEmail(response.data.email);
         setRank(response.role);
+        console.log(dummyRecipes.length);
       } catch (error) {
         console.log(error.response.data.error);
       }
@@ -47,10 +75,21 @@ function MyPage(props) {
     // 클릭한 레시피 수정페이지 이동
     alert("레시피");
   };
-  const handlePaginationButton = () => {
+  const handlePaginationButton = (i) => {
     // 레시피 카운트가 100개면 1~20 , 20~40
-    alert("page");
+    alert(i, "클릭");
   };
+
+  const totalPages = Math.ceil(dummyRecipes.length / 20);
+  const pageButtons = [];
+
+  for (let i = 1; i <= totalPages; i++) {
+    pageButtons.push(
+      <S.PaginationButton key={i} onClick={() => handlePaginationButton(i)}>
+        {i}
+      </S.PaginationButton>
+    );
+  }
   return (
     <>
       <PortalModal handleShowModal={showModal} size={"35%"}>
@@ -104,7 +143,6 @@ function MyPage(props) {
         <S.RecipeContainer>
           <S.countContainer>
             <S.allCount>
-              {/* 여기 카운터 타이틀 텍스트도 클릭을한색만 바꾸고 싶어 다른건 검정색으로하고 */}
               <S.conterTitleText
                 onClick={() => handleTitleText("전체")}
                 isActive={titleColor === "전체"}
@@ -144,53 +182,32 @@ function MyPage(props) {
             </S.menuCount>
           </S.countContainer>
           <S.RecipeList>
-            <S.RecipeItemBox>
-              <S.RecipeCard onClick={handleRecipeCard}>
-                레시피 이미지 1
-              </S.RecipeCard>
-              <S.RecipeText>막창</S.RecipeText>
-            </S.RecipeItemBox>
-            <S.RecipeItemBox>
-              <S.RecipeCard>레시피 이미지 1</S.RecipeCard>
-              <S.RecipeText>먹고</S.RecipeText>
-            </S.RecipeItemBox>
-            <S.RecipeItemBox>
-              <S.RecipeCard>레시피 이미지 1</S.RecipeCard>
-              <S.RecipeText>싶다</S.RecipeText>
-            </S.RecipeItemBox>{" "}
-            <S.RecipeItemBox>
-              <S.RecipeCard>레시피 이미지 1</S.RecipeCard>
-              <S.RecipeText>막창</S.RecipeText>
-            </S.RecipeItemBox>{" "}
-            <S.RecipeItemBox>
-              <S.RecipeCard>레시피 이미지 1</S.RecipeCard>
-              <S.RecipeText>막창</S.RecipeText>
-            </S.RecipeItemBox>{" "}
-            <S.RecipeItemBox>
-              <S.RecipeCard>레시피 이미지 1</S.RecipeCard>
-              <S.RecipeText>막창</S.RecipeText>
-            </S.RecipeItemBox>{" "}
-            <S.RecipeItemBox>
-              <S.RecipeCard>레시피 이미지 1</S.RecipeCard>
-              <S.RecipeText>막창</S.RecipeText>
-            </S.RecipeItemBox>
+            {dummyRecipes.map((recipe, index) => (
+              <S.RecipeItemBox key={index}>
+                <S.RecipeCard onClick={() => handleRecipeCard(recipe)}>
+                  <img src={recipe.img} alt={`레시피 이미지 ${index + 1}`} />
+                </S.RecipeCard>
+                <S.RecipeText>{recipe.description}</S.RecipeText>
+              </S.RecipeItemBox>
+            ))}
           </S.RecipeList>
           <S.Pagination>
-            {/* 불러온 레시피 목록개수 / 20  = 페이지버튼 개수 */}
-            <S.PaginationButton onClick={handlePaginationButton}>
-              1
-            </S.PaginationButton>
-            <S.PaginationButton>2</S.PaginationButton>
-            <S.PaginationButton>3</S.PaginationButton>
+            {/* {Array.from({ length: Math.ceil(dummyRecipes.length / 20) }).map(
+              (_, index) => (
+                <S.PaginationButton
+                  key={index}
+                  onClick={() => handlePaginationButton(index + 1)}
+                >
+                  {index + 1}
+                </S.PaginationButton>
+              )
+            )} */}
+            {pageButtons}
           </S.Pagination>
         </S.RecipeContainer>
       </S.RecipeBoxContainer>
     </>
   );
 }
-
-MyPage.defaultProps = {
-  recipes: [],
-};
 
 export default MyPage;
