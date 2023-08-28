@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 export const Div = styled.div`
   display: flex;
   flex-direction: column;
-  Width: 100%;
+  width: 100%;
 `;
 
 export const MainRefrigerator = styled.img`
@@ -25,7 +25,7 @@ export const RefrigeratorContainer = styled.div`
 
   p span {
     font-weight: 800;
-    font-size: 1rem;
+    font-size: 20px;
     color: #f7411f;
   }
 `;
@@ -44,7 +44,7 @@ export const Text = styled.nav`
   display: flex;
   justify-content: space-between;
   padding: 36px 0 8px;
-  
+
   span {
     color: #f7411f;
   }

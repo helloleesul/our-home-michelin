@@ -17,9 +17,14 @@ export const EditorImage = styled.img`
   object-fit: cover;
   border-radius: 50%;
   margin-bottom: 10px;
+  pointer-events: none;
 `;
 
-export const EditorLink = styled(Link)`
+export const EditorLink = styled.div`
   text-decoration: none;
   color: #464646;
+  transition: 0.5s;
+  &:hover {
+    opacity: 0.8;
+  }
 `;

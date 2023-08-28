@@ -14,7 +14,6 @@ function Header({ isAuthHeader }) {
     try {
       // 로그아웃 API 호출
       const res = await requestApi("post", "/logout");
-      console.log("res sssssssss:",res);
       // 로그아웃이 성공적으로 처리되면 클라이언트에서도 로그아웃 상태로 업데이트
       if(res === "로그아웃 되었습니다.") {
         alert('로그아웃 되었습니다');
