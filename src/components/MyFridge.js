@@ -13,6 +13,19 @@ import fridgeImg from "../assets/img/emptyFridge.svg";
 import INGREDIENT_DATA from "../libs/const/ingredientData";
 import requestApi from "../libs/const/api";
 import { Link } from "react-router-dom";
+import Calendar from "./common/Calendar";
+
+function formatDate(dateString) {
+  const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+  const formattedDate = new Date(dateString).toLocaleDateString(
+    "ko-KR",
+    options
+  );
+
+  const [year, month, day] = formattedDate.split(".");
+
+  return `${year}년 ${month}월 ${day}일`;
+}
 
 function MyFridge({ onClose, isAuth }) {
   // 회원 인증 확인
@@ -34,6 +47,10 @@ function MyFridge({ onClose, isAuth }) {
   const [currentIngr, setCurrentIngr] = useState({});
   // 선택한 식재료 상세보기
   const [showCurrentIngr, setShowCurrentIngr] = useState(false);
+  // 달력
+  const [showCalendar, setShowCalendar] = useState(false);
+  // 변경 소비기한 마감일
+  const [newBestBefore, setNewBestBefore] = useState();
 
   useEffect(() => {
     getUserFridge();
@@ -58,6 +75,10 @@ function MyFridge({ onClose, isAuth }) {
     setSafeIngr(safe);
     setSpoiledIngr(spoiled);
   }, [userIngrData]);
+
+  useEffect(() => {
+    setShowCalendar(false);
+  }, [currentIngr]);
 
   const getUserFridge = async () => {
     if (isUser) {
@@ -90,6 +111,26 @@ function MyFridge({ onClose, isAuth }) {
   const deleteIngredient = async (id) => {
     try {
       await requestApi("delete", `/myfridge/${id}`);
+
+      setShowCurrentIngr(false);
+      setShowCalendar(false);
+      setNewBestBefore();
+      getUserFridge();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const updateIngredient = async (id, date) => {
+    try {
+      await requestApi("put", `/myfridge/${id}`, {
+        newBestBefore: date,
+      });
+
+      setShowCurrentIngr(false);
+      setShowCalendar(false);
+      setNewBestBefore();
+      getUserFridge();
     } catch (error) {
       console.log(error);
     }
@@ -272,10 +313,50 @@ function MyFridge({ onClose, isAuth }) {
                 </IngredientList>
                 {showCurrentIngr && (
                   <div>
-                    {currentIngr.ingredientName}
-                    {currentIngr.bestBefore}
-                    {currentIngr.inputDate}
-                    <button onClick={() => setShowCurrentIngr(false)}>
+                    <p>
+                      식재료:
+                      {currentIngr.ingredientName}
+                    </p>
+                    <p>
+                      식재료 추가일:
+                      {formatDate(currentIngr.inputDate)}
+                    </p>
+                    <p>
+                      소비기한 마감일:
+                      <button onClick={() => setShowCalendar((prev) => !prev)}>
+                        {newBestBefore
+                          ? formatDate(newBestBefore)
+                          : formatDate(currentIngr.bestBefore)}
+                      </button>
+                    </p>
+                    {showCalendar && (
+                      <Calendar
+                        thisDate={new Date(currentIngr.bestBefore)}
+                        onThisDate={(date) => setNewBestBefore(date)}
+                      />
+                    )}
+                    <button
+                      onClick={() => {
+                        updateIngredient(currentIngr._id, newBestBefore);
+                      }}
+                    >
+                      저장하기
+                    </button>
+                    <button
+                      onClick={() => {
+                        deleteIngredient(currentIngr._id);
+                      }}
+                    >
+                      삭제하기
+                    </button>
+                    <button
+                      onClick={() => {
+                        setShowCurrentIngr(false);
+                        setShowCalendar(false);
+                        setNewBestBefore();
+                        getUserFridge();
+                      }}
+                    >
                       닫기
                     </button>
                   </div>
