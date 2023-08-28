@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import * as S from "./MyPage.style";
 import BasicProfileImg from "../assets/img/BasicProfileImg.png";
 import PortalModal from "../components/common/PortalModal";
@@ -11,6 +12,36 @@ function MyPage(props) {
   const [nickname, setNickname] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [rank, setRank] = useState("");
+  const [recipes, setRecipes] = useState([]);
+  const inputRef = useRef(null);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const recipeTypesCount = [];
+  const [selectedType, setSelectedType] = useState("전체");
+
+  const navigate = useNavigate();
+  const filteredRecipes =
+    selectedType === "전체"
+      ? recipes
+      : recipes.filter((recipe) => recipe.recipeType === selectedType);
+
+  console.log("필터된 레시피", filteredRecipes);
+  recipes.forEach((recipe) => {
+    if (recipeTypesCount[recipe.recipeType]) {
+      recipeTypesCount[recipe.recipeType]++;
+    } else {
+      recipeTypesCount[recipe.recipeType] = 1;
+    }
+  });
+  const totalPages = Math.ceil(filteredRecipes.length / 20);
+  const pageButtons = [];
+
+  for (let i = 1; i <= totalPages; i++) {
+    pageButtons.push(
+      <S.PaginationButton key={i} onClick={() => handlePaginationButton(i)}>
+        {i}
+      </S.PaginationButton>
+    );
+  }
 
   useEffect(() => {
     (async () => {
@@ -19,6 +50,11 @@ function MyPage(props) {
         setNickname(response.data.nickName);
         setUserEmail(response.data.email);
         setRank(response.role);
+        setSelectedImage(response.profileImageURL);
+        console.log("유저정보 조회데이터", response);
+        const responseRecipe = await axios.get("/api/myrecipes");
+        setRecipes(responseRecipe.data);
+        console.log("레시피 조회데이터", responseRecipe.data);
       } catch (error) {
         console.log(error.response.data.error);
       }
@@ -29,28 +65,35 @@ function MyPage(props) {
     setShowModal(false);
   };
 
-  const handleImg = () => {
-    alert("dlalwlzmfflr");
-    //여기서 이미지를 파일에서 선택해서 넣게하고싶어 그리고 api 이미지 넘기기
+  const handleImg = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setSelectedImage(imageUrl);
+      // api 이미지 넘기는 api 연결
+      // const formData = new FormData();
+      // formData.append("profileImage", file);
+    }
   };
   const handleTapButton = (check) => {
     //북마크 레시피 클릭시 북마크 레시피 리스트 보여주고 나의 레시피 클릭시 나의레시피 리스트보여주기
     settabColor(check);
   };
   const handleTitleText = (check) => {
-    // 텍스트에 맞게 필터링 하ㄱ기
+    setSelectedType(check);
+    console.log(totalPages);
     setTitleClor(check);
-    alert("xkdlxmfxrtmxm");
   };
 
-  const handleRecipeCard = (tab) => {
-    // 클릭한 레시피 수정페이지 이동
-    alert("레시피");
+  const handleRecipeImg = (id) => {
+    navigate(`/recipe/${id}`);
+    console.log("레시피 아이디", id);
   };
-  const handlePaginationButton = () => {
+  const handlePaginationButton = (i) => {
     // 레시피 카운트가 100개면 1~20 , 20~40
-    alert("page");
+    alert(i, "클릭");
   };
+
   return (
     <>
       <PortalModal handleShowModal={showModal} size={"35%"}>
@@ -59,12 +102,17 @@ function MyPage(props) {
       <S.Container>
         <S.UserContainer>
           <S.ProfileImg
-            onClick={handleImg}
-            src={BasicProfileImg}
-            alt="프로필 이미지"
+            onClick={() => inputRef.current.click()}
+            src={selectedImage || BasicProfileImg}
+          />
+          <input
+            type="file"
+            style={{ display: "none" }}
+            onChange={handleImg}
+            ref={inputRef}
           />
           <S.InfoContainer>
-            <S.Text>{nickname}(닉네임)</S.Text>
+            <S.Text>{nickname} (닉네임)</S.Text>
             <S.Text>{userEmail} (이메일)</S.Text>
             <S.Button onClick={() => setShowModal(true)}>
               회원정보 수정
@@ -104,93 +152,57 @@ function MyPage(props) {
         <S.RecipeContainer>
           <S.countContainer>
             <S.allCount>
-              {/* 여기 카운터 타이틀 텍스트도 클릭을한색만 바꾸고 싶어 다른건 검정색으로하고 */}
               <S.conterTitleText
                 onClick={() => handleTitleText("전체")}
                 isActive={titleColor === "전체"}
               >
                 전체
               </S.conterTitleText>
-              <p>10</p>
+              {recipes.length}
             </S.allCount>
             <S.menuCount>
-              <S.menuCountBox>
-                <S.conterTitleText
-                  onClick={() => handleTitleText("치킨")}
-                  isActive={titleColor === "치킨"}
-                >
-                  치킨
-                </S.conterTitleText>{" "}
-                <p>3</p>
-              </S.menuCountBox>
-              <S.menuCountBox>
-                <S.conterTitleText
-                  onClick={() => handleTitleText("먹고")}
-                  isActive={titleColor === "먹고"}
-                >
-                  먹고
-                </S.conterTitleText>{" "}
-                <p>3</p>
-              </S.menuCountBox>
-              <S.menuCountBox>
-                <S.conterTitleText
-                  onClick={() => handleTitleText("싶다")}
-                  isActive={titleColor === "싶다"}
-                >
-                  싶다
-                </S.conterTitleText>{" "}
-                <p>3</p>
-              </S.menuCountBox>
+              {Object.keys(recipeTypesCount).map((recipeType, index) => (
+                <S.menuCountBox key={index}>
+                  <S.conterTitleText
+                    onClick={() => handleTitleText(recipeType)}
+                    isActive={titleColor === recipeType}
+                  >
+                    {recipeType}
+                  </S.conterTitleText>{" "}
+                  <span>{recipeTypesCount[recipeType]}</span>
+                </S.menuCountBox>
+              ))}
             </S.menuCount>
           </S.countContainer>
           <S.RecipeList>
-            <S.RecipeItemBox>
-              <S.RecipeCard onClick={handleRecipeCard}>
-                레시피 이미지 1
-              </S.RecipeCard>
-              <S.RecipeText>막창</S.RecipeText>
-            </S.RecipeItemBox>
-            <S.RecipeItemBox>
-              <S.RecipeCard>레시피 이미지 1</S.RecipeCard>
-              <S.RecipeText>먹고</S.RecipeText>
-            </S.RecipeItemBox>
-            <S.RecipeItemBox>
-              <S.RecipeCard>레시피 이미지 1</S.RecipeCard>
-              <S.RecipeText>싶다</S.RecipeText>
-            </S.RecipeItemBox>{" "}
-            <S.RecipeItemBox>
-              <S.RecipeCard>레시피 이미지 1</S.RecipeCard>
-              <S.RecipeText>막창</S.RecipeText>
-            </S.RecipeItemBox>{" "}
-            <S.RecipeItemBox>
-              <S.RecipeCard>레시피 이미지 1</S.RecipeCard>
-              <S.RecipeText>막창</S.RecipeText>
-            </S.RecipeItemBox>{" "}
-            <S.RecipeItemBox>
-              <S.RecipeCard>레시피 이미지 1</S.RecipeCard>
-              <S.RecipeText>막창</S.RecipeText>
-            </S.RecipeItemBox>{" "}
-            <S.RecipeItemBox>
-              <S.RecipeCard>레시피 이미지 1</S.RecipeCard>
-              <S.RecipeText>막창</S.RecipeText>
-            </S.RecipeItemBox>
+            {filteredRecipes.length === 0
+              ? recipes.map((recipe, index) => (
+                  <S.RecipeItemBox key={index}>
+                    <S.RecipeImg
+                      onClick={() => handleRecipeImg(recipe._id)}
+                      src={recipe.imageUrl}
+                      alt={`레시피 이미지 ${index + 1}`}
+                    />
+                    <S.RecipeText>{recipe.title}</S.RecipeText>
+                  </S.RecipeItemBox>
+                ))
+              : filteredRecipes.map((recipe, index) => (
+                  <S.RecipeItemBox key={index}>
+                    <S.RecipeImg
+                      onClick={() => handleRecipeImg(recipe._id)}
+                      src={recipe.imageUrl}
+                      alt={`레시피 이미지 ${index + 1}`}
+                    />
+                    <S.RecipeText>{recipe.title}</S.RecipeText>
+                  </S.RecipeItemBox>
+                ))}
           </S.RecipeList>
-          <S.Pagination>
-            {/* 불러온 레시피 목록개수 / 20  = 페이지버튼 개수 */}
-            <S.PaginationButton onClick={handlePaginationButton}>
-              1
-            </S.PaginationButton>
-            <S.PaginationButton>2</S.PaginationButton>
-            <S.PaginationButton>3</S.PaginationButton>
-          </S.Pagination>
+          {/* 지금 여기 버튼을   Math.ceil(filteredRecipes/20) */}
+          <S.Pagination>{pageButtons}</S.Pagination>
         </S.RecipeContainer>
       </S.RecipeBoxContainer>
     </>
   );
 }
-
-MyPage.defaultProps = {
-  recipes: [],
-};
 
 export default MyPage;

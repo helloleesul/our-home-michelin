@@ -100,7 +100,7 @@ export const RecipeItemBox = styled.div`
   flex-direction: column;
 `;
 
-export const RecipeCard = styled.div`
+export const RecipeImg = styled.img`
   height: 150px;
   width: 100%;
   margin-bottom: 5px;
