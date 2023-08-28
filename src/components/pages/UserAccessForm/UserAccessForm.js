@@ -112,7 +112,6 @@ function UserAccessForm(props) {
       <S.ChefImage src={chef1} alt="요리사캐릭터" />
       <S.InputContainer>
         <S.Text style={{ cursor: "auto" }}>{text}</S.Text>
-
         {inputs.map((input, index) => (
           <Input
             key={index}
@@ -125,7 +124,6 @@ function UserAccessForm(props) {
             ref={inputRefs[index] || null}
           />
         ))}
-
         <S.Btn onClick={() => handleClick()}>{text}</S.Btn>
         <S.Text fontSize="13px" onClick={handlePageNavigation}>
           {subText}

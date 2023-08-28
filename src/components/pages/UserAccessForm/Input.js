@@ -4,13 +4,16 @@ import { InputContainer, Label, UserInput, Button } from "./Input.style";
 import axios from "axios";
 
 const isVisibleIndex = [1, 2];
+let inputType = "";
+let placeholderText = "";
+
 const Input = forwardRef((props, ref) => {
   const { text, showBtn, index, onInputChange, email, code } = props;
-
+  const [time, setTime] = useState(80);
+  const [timeStart, setTimeStart] = useState(false);
   const location = useLocation();
+  const btnText = index === 1 ? "인증번호" : "인증확인";
 
-  let inputType = "";
-  let placeholderText = "";
   if (location.pathname === "/login") {
     inputType = index === 1 ? "password" : "text";
   } else {
@@ -28,9 +31,6 @@ const Input = forwardRef((props, ref) => {
     const newValue = e.target.value;
     onInputChange(index, newValue);
   };
-  const btnText = index === 1 ? "인증번호" : "인증확인";
-  const [time, setTime] = useState(180);
-  const [timeStart, setTimeStart] = useState(false);
 
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
@@ -40,9 +40,9 @@ const Input = forwardRef((props, ref) => {
     ).padStart(2, "0")}`;
   };
   useEffect(() => {
-    if (timeStart && time > 0) {
+    if (timeStart) {
       const timeInterval = setInterval(() => {
-        setTime((prevTime) => prevTime - 1);
+        setTime(time - 1);
       }, 1000);
 
       return () => {
@@ -51,7 +51,7 @@ const Input = forwardRef((props, ref) => {
     }
     if (time === 0) {
       alert("인증 시간이 초과되었습니다.");
-      setTime(180);
+      setTime(80);
       setTimeStart(false);
     }
   }, [timeStart, time]);
@@ -66,10 +66,14 @@ const Input = forwardRef((props, ref) => {
         });
         if (response.data) {
           setTimeStart(true);
+          alert(response.data);
         }
-        console.log(response.data);
       } catch (error) {
-        console.log(error.response.data.error);
+        if (!email.length) {
+          alert("이메일 입력해주세요.");
+        } else {
+          alert("이메일 형식으로 입력해 주세요.");
+        }
       }
     } else {
       try {
@@ -78,7 +82,11 @@ const Input = forwardRef((props, ref) => {
           code: code,
         });
         if (response.data) {
-          console.log("성공");
+          // 토큰 인증 성공 후 실행 로직
+          alert("인증성공");
+          console.log("인증성공");
+          setTimeStart(false);
+          setTime(80);
         }
       } catch (error) {
         alert(error.response.data.error);
@@ -98,7 +106,7 @@ const Input = forwardRef((props, ref) => {
       ></UserInput>
       {buttonVisible && (
         <Button onClick={handleMail}>
-          {timeStart && time > 0 ? formatTime(time) : btnText}
+          {timeStart ? formatTime(time) : btnText}
         </Button>
       )}
     </InputContainer>
