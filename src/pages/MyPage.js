@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import * as S from "./MyPage.style";
 import BasicProfileImg from "../assets/img/BasicProfileImg.png";
 import PortalModal from "../components/common/PortalModal";
@@ -15,10 +16,13 @@ function MyPage(props) {
   const inputRef = useRef(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const recipeTypesCount = [];
-  const [selectedType, setSelectedType] = useState("");
-  const filteredRecipes = selectedType
-    ? recipes.filter((recipe) => recipe.recipeType === selectedType)
-    : recipes;
+  const [selectedType, setSelectedType] = useState("전체");
+
+  const navigate = useNavigate();
+  const filteredRecipes =
+    selectedType === "전체"
+      ? recipes
+      : recipes.filter((recipe) => recipe.recipeType === selectedType);
 
   console.log("필터된 레시피", filteredRecipes);
   recipes.forEach((recipe) => {
@@ -28,6 +32,16 @@ function MyPage(props) {
       recipeTypesCount[recipe.recipeType] = 1;
     }
   });
+  const totalPages = Math.ceil(filteredRecipes.length / 20);
+  const pageButtons = [];
+
+  for (let i = 1; i <= totalPages; i++) {
+    pageButtons.push(
+      <S.PaginationButton key={i} onClick={() => handlePaginationButton(i)}>
+        {i}
+      </S.PaginationButton>
+    );
+  }
 
   useEffect(() => {
     (async () => {
@@ -36,6 +50,7 @@ function MyPage(props) {
         setNickname(response.data.nickName);
         setUserEmail(response.data.email);
         setRank(response.role);
+        setSelectedImage(response.profileImageURL);
         console.log("유저정보 조회데이터", response);
         const responseRecipe = await axios.get("/api/myrecipes");
         setRecipes(responseRecipe.data);
@@ -55,7 +70,7 @@ function MyPage(props) {
     if (file) {
       const imageUrl = URL.createObjectURL(file);
       setSelectedImage(imageUrl);
-
+      // api 이미지 넘기는 api 연결
       // const formData = new FormData();
       // formData.append("profileImage", file);
     }
@@ -66,28 +81,19 @@ function MyPage(props) {
   };
   const handleTitleText = (check) => {
     setSelectedType(check);
+    console.log(totalPages);
     setTitleClor(check);
-    alert("xkdlxmfxrtmxm");
   };
 
-  const handleRecipeCard = (tab) => {
-    // 클릭한 레시피 수정페이지 이동
-    alert("레시피");
+  const handleRecipeImg = (id) => {
+    navigate(`/recipe/${id}`);
+    console.log("레시피 아이디", id);
   };
   const handlePaginationButton = (i) => {
     // 레시피 카운트가 100개면 1~20 , 20~40
     alert(i, "클릭");
   };
-  const totalPages = Math.ceil(recipes.length / 20);
-  const pageButtons = [];
 
-  for (let i = 1; i <= totalPages; i++) {
-    pageButtons.push(
-      <S.PaginationButton key={i} onClick={() => handlePaginationButton(i)}>
-        {i}
-      </S.PaginationButton>
-    );
-  }
   return (
     <>
       <PortalModal handleShowModal={showModal} size={"35%"}>
@@ -173,7 +179,7 @@ function MyPage(props) {
               ? recipes.map((recipe, index) => (
                   <S.RecipeItemBox key={index}>
                     <S.RecipeImg
-                      onClick={() => handleRecipeCard(recipe)}
+                      onClick={() => handleRecipeImg(recipe._id)}
                       src={recipe.imageUrl}
                       alt={`레시피 이미지 ${index + 1}`}
                     />
@@ -183,7 +189,7 @@ function MyPage(props) {
               : filteredRecipes.map((recipe, index) => (
                   <S.RecipeItemBox key={index}>
                     <S.RecipeImg
-                      onClick={() => handleRecipeCard(recipe)}
+                      onClick={() => handleRecipeImg(recipe._id)}
                       src={recipe.imageUrl}
                       alt={`레시피 이미지 ${index + 1}`}
                     />
@@ -191,6 +197,7 @@ function MyPage(props) {
                   </S.RecipeItemBox>
                 ))}
           </S.RecipeList>
+          {/* 지금 여기 버튼을   Math.ceil(filteredRecipes/20) */}
           <S.Pagination>{pageButtons}</S.Pagination>
         </S.RecipeContainer>
       </S.RecipeBoxContainer>
