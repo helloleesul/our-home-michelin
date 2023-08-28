@@ -27,7 +27,7 @@ axiosInstance.interceptors.response.use(
   (response) => {
     // 응답 상태가 성공인 경우
     // 응답 전에 수행할 로직, 예를 들어 에러라면 응답을 확인하고 에러코드에 따라 알림문구 설정하는 거! (서버에러인지 인증에러인지)
-    return response.data;
+    return response;
   },
   (error) => {
     // 응답이 에러인 경우
