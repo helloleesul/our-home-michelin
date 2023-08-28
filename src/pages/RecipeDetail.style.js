@@ -111,6 +111,16 @@ export const Owner = styled.section`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
+    .editorMark {
+      position: absolute;
+      left: -3px;
+      top: -3px;
+      svg {
+        width: 22px;
+        height: 22px;
+      }
+    }
     .nickName {
       .editorUser {
         color: ${MAIN_THEME_COLOR[0]};

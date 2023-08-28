@@ -18,6 +18,7 @@ import { Link } from "react-router-dom";
 
 function MyFridge({ onClose, isAuth }) {
   console.log(INGREDIENT_DATA, DEFAULT_INGREDIENT_LIST);
+  const [isUser, setIsUser] = useState(isAuth);
   const [ingrAdderMode, setIngrAdderMode] = useState(false);
   const [ingrData, setIngrData] = useState(INGREDIENT_DATA);
   // 유저 냉장고 식재료 유무
@@ -32,10 +33,10 @@ function MyFridge({ onClose, isAuth }) {
   const [showCurrentIngr, setShowCurrentIngr] = useState(false);
 
   useEffect(() => {
-    if (isAuth) {
+    if (isUser) {
       getUserFridge();
     }
-  }, []);
+  }, [isUser]);
 
   useEffect(() => {
     const currentDate = new Date();
@@ -98,7 +99,7 @@ function MyFridge({ onClose, isAuth }) {
         </button>
       </Header>
       <Content>
-        {!isAuth ? (
+        {!isUser ? (
           <EmptyFridge>
             <h4>우리집 냉슐랭 요리사가 아니네요!</h4>
             <p>
@@ -196,7 +197,7 @@ function MyFridge({ onClose, isAuth }) {
         ) : (
           // 재료 없을 때
           <EmptyFridge>
-            <img src={fridgeImg} alt="빈 식재료" />
+            <img src={fridgeImg} alt="빈 식재료" height={230} />
             <h4>냉장고가 비었어요!</h4>
             <p>
               재료를 추가하고
