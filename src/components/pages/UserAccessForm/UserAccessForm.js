@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import * as S from "./UserAccessForm.style";
@@ -7,34 +7,41 @@ import Input from "./Input";
 
 function UserAccessForm(props) {
   const { inputs, text, subText, showBtn } = props;
-
-  const [inputValues, setInputValues] = useState(["", "", "", "", ""]);
   const location = useLocation();
   const navigate = useNavigate();
 
   const inputRefs = [useRef(), useRef(), useRef(), useRef(), useRef()];
+
+  const [inputValues, setInputValues] = useState(["", "", "", "", ""]);
+  const [time, setTime] = useState(15);
+  const [timeStart, setTimeStart] = useState(false);
+
+  useEffect(() => {
+    if (timeStart && time > 0) {
+      const timeInterval = setInterval(() => {
+        setTime((prevTime) => (prevTime === 1 ? 0 : prevTime - 1));
+      }, 1000);
+      return () => {
+        clearInterval(timeInterval);
+      };
+    }
+    if (time === 0) {
+      alert("인증 시간이 초과되었습니다.");
+      setTime(15);
+      setTimeStart(false);
+    }
+  }, [timeStart, time]);
 
   const handlePageNavigation = () => {
     const newPath = location.pathname === "/login" ? "/join" : "/login";
     navigate(newPath);
   };
 
-  const validateNickname = (nickname) => {
-    return nickname.length >= 2;
-  };
-
-  const validateEmail = (email) => {
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailPattern.test(email);
-  };
-
-  const validatePassword = (password) => {
-    return password.length >= 6;
-  };
-
-  const validateConfirmPassword = (password, confirmPassword) => {
-    return password === confirmPassword;
-  };
+  const validateNickname = (nickname) => nickname.length >= 2;
+  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const validatePassword = (password) => password.length >= 6;
+  const validateConfirmPassword = (password, confirmPassword) =>
+    password === confirmPassword;
 
   const handleClick = async () => {
     try {
@@ -122,6 +129,10 @@ function UserAccessForm(props) {
             email={inputValues[1]}
             code={inputValues[2]}
             ref={inputRefs[index] || null}
+            time={time}
+            setTime={setTime}
+            timeStart={timeStart}
+            setTimeStart={setTimeStart}
           />
         ))}
         <S.Btn onClick={() => handleClick()}>{text}</S.Btn>
