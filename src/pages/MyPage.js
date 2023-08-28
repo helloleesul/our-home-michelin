@@ -11,33 +11,17 @@ function MyPage(props) {
   const [nickname, setNickname] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [rank, setRank] = useState("");
-  const dummyRecipes = [
-    { img: "recipe1.jpg", description: "맛있는 레시피 1" },
-    { img: "recipe2.jpg", description: "맛있는 레시피 2" },
-    { img: "recipe3.jpg", description: "맛있는 레시피 3" },
-    { img: "recipe1.jpg", description: "맛있는 레시피 1" },
-    { img: "recipe2.jpg", description: "맛있는 레시피 2" },
-    { img: "recipe3.jpg", description: "맛있는 레시피 3" },
-    { img: "recipe1.jpg", description: "맛있는 레시피 1" },
-    { img: "recipe2.jpg", description: "맛있는 레시피 2" },
-    { img: "recipe3.jpg", description: "맛있는 레시피 3" },
-    { img: "recipe1.jpg", description: "맛있는 레시피 1" },
-    { img: "recipe2.jpg", description: "맛있는 레시피 2" },
-    { img: "recipe3.jpg", description: "맛있는 레시피 3" },
-    { img: "recipe1.jpg", description: "맛있는 레시피 1" },
-    { img: "recipe2.jpg", description: "맛있는 레시피 2" },
-    { img: "recipe3.jpg", description: "맛있는 레시피 3" },
-    { img: "recipe1.jpg", description: "맛있는 레시피 1" },
-    { img: "recipe2.jpg", description: "맛있는 레시피 2" },
-    { img: "recipe3.jpg", description: "맛있는 레시피 3" },
-    { img: "recipe1.jpg", description: "맛있는 레시피 1" },
-    { img: "recipe2.jpg", description: "맛있는 레시피 2" },
-    { img: "recipe1.jpg", description: "맛있는 레시피 1" },
-    { img: "recipe2.jpg", description: "맛있는 레시피 2" },
-    { img: "recipe3.jpg", description: "맛있는 레시피 3" },
-    { img: "recipe1.jpg", description: "맛있는 레시피 1" },
-    { img: "recipe2.jpg", description: "맛있는 레시피 2" },
-  ];
+  const [recipes, setRecipes] = useState([]);
+  const recipeTypesCount = {};
+  recipes.forEach((recipe) => {
+    if (recipeTypesCount[recipe.recipeType]) {
+      recipeTypesCount[recipe.recipeType]++;
+    } else {
+      recipeTypesCount[recipe.recipeType] = 1;
+    }
+  });
+
+  console.log(recipeTypesCount);
 
   useEffect(() => {
     (async () => {
@@ -46,7 +30,10 @@ function MyPage(props) {
         setNickname(response.data.nickName);
         setUserEmail(response.data.email);
         setRank(response.role);
-        console.log(dummyRecipes.length);
+
+        const responseRecipe = await axios.get("/api/myrecipes");
+        setRecipes(responseRecipe.data);
+        console.log(responseRecipe.data);
       } catch (error) {
         console.log(error.response.data.error);
       }
@@ -79,8 +66,7 @@ function MyPage(props) {
     // 레시피 카운트가 100개면 1~20 , 20~40
     alert(i, "클릭");
   };
-
-  const totalPages = Math.ceil(dummyRecipes.length / 20);
+  const totalPages = Math.ceil(recipes.length / 20);
   const pageButtons = [];
 
   for (let i = 1; i <= totalPages; i++) {
@@ -149,45 +135,31 @@ function MyPage(props) {
               >
                 전체
               </S.conterTitleText>
-              <p>10</p>
+              {recipes.length}
             </S.allCount>
             <S.menuCount>
-              <S.menuCountBox>
-                <S.conterTitleText
-                  onClick={() => handleTitleText("치킨")}
-                  isActive={titleColor === "치킨"}
-                >
-                  치킨
-                </S.conterTitleText>{" "}
-                <p>3</p>
-              </S.menuCountBox>
-              <S.menuCountBox>
-                <S.conterTitleText
-                  onClick={() => handleTitleText("먹고")}
-                  isActive={titleColor === "먹고"}
-                >
-                  먹고
-                </S.conterTitleText>{" "}
-                <p>3</p>
-              </S.menuCountBox>
-              <S.menuCountBox>
-                <S.conterTitleText
-                  onClick={() => handleTitleText("싶다")}
-                  isActive={titleColor === "싶다"}
-                >
-                  싶다
-                </S.conterTitleText>{" "}
-                <p>3</p>
-              </S.menuCountBox>
+              {recipes.map((recipe, index) => (
+                <S.menuCountBox key={index}>
+                  <S.conterTitleText
+                    onClick={() => handleTitleText(recipe.recipeType)}
+                    isActive={titleColor === recipe.recipeType}
+                  >
+                    {recipe.recipeType}
+                  </S.conterTitleText>{" "}
+                  <span>{recipeTypesCount[recipe.recipeType]}</span>
+                </S.menuCountBox>
+              ))}
             </S.menuCount>
           </S.countContainer>
           <S.RecipeList>
-            {dummyRecipes.map((recipe, index) => (
+            {recipes.map((recipe, index) => (
               <S.RecipeItemBox key={index}>
-                <S.RecipeCard onClick={() => handleRecipeCard(recipe)}>
-                  <img src={recipe.img} alt={`레시피 이미지 ${index + 1}`} />
-                </S.RecipeCard>
-                <S.RecipeText>{recipe.description}</S.RecipeText>
+                <S.RecipeImg
+                  onClick={() => handleRecipeCard(recipe)}
+                  src={recipe.imageUrl}
+                  alt={`레시피 이미지 ${index + 1}`}
+                />
+                <S.RecipeText>{recipe.title}</S.RecipeText>
               </S.RecipeItemBox>
             ))}
           </S.RecipeList>
