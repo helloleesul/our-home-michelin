@@ -8,8 +8,10 @@ export const Title = styled.h3`
 `;
 
 export const Lists = styled.div`
-    display: flex;
-    justify-content: space-around;
-    flex-direction: row;
-    align-items: center;
+    display: grid;
+    grid-template-rows: 5fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    /* justify-content: space-around;
+    flex-direction: row; */
+    /* align-items: center; */
 `; 

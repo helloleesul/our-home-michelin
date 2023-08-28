@@ -2,26 +2,24 @@ import React from "react";
 import * as S from "./List.style.js"; // Contents 스타일을 모두 가져옴
 
 function List({ foodList }) {
-    // const visibleFoods = foodList.slice(startIndex, startIndex + itemsPerPage);
+
 
     return (
         <>
             <S.Card>
-                <a href='#'>
-                    <S.ImgBookmark><div>
-                        {/* <S.Img> */}
+                <a href={'#'}>
+                    <S.ImgBookmark>
                         <div className="recipeImg">
-                            <img src={'https://t1.daumcdn.net/cfile/tistory/9994024D5BC318BA34'} alt="타이틀" />
+                            <img src={'https://cdn.imweb.me/upload/S20221027856cf802b7932/e790a103cdc42.jpg'} alt={"해당 레시피의 제목"} />
                         </div>
-                        {/* </S.Img> */}
                         <div className="bookmarks">
-                            <button onClick={() => { alert("북마크에 담는 함수"); }}>
+                            <button onClick={() => { alert("북마크에 담음용") }}>
                                 북마크
                             </button>
                         </div>
-                    </div></S.ImgBookmark>
+                    </S.ImgBookmark>
                     <S.RecipeTitle>
-                        <p>레시피의 이름이 길어도 말줄임이 들어가도록 만들어봐요</p>
+                        레시피의 이름이 길어도 말줄임이 들어가도록 만들어봅시다 웹킷을 사용
                     </S.RecipeTitle>
                 </a>
             </S.Card >

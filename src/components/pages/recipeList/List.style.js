@@ -32,14 +32,14 @@ export const ImgBookmark = styled.div`
     }
   button{
     position: absolute;
-    z-index: 1;
+    z-index: 0;
     top: 5px;
     right : 5px;
   }
 `;
 
 export const RecipeTitle = styled.p`
-  p{
+
     text-align: center;
     margin-top: 12px;
     line-height: 17px;
@@ -57,6 +57,5 @@ export const RecipeTitle = styled.p`
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
    
-  }
 
 `;
