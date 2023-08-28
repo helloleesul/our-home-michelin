@@ -192,6 +192,7 @@ function RecipeWrite(props) {
             <div>
               <label htmlFor="recipe-type-select">
                 {/* 요리 종류 _ 저장 방식에 대한 고민 발생 (월요일 백오피스아워 시간에 질문 예정) 요리 종류 */}
+                // 코드리뷰 반영하기!
                 <select
                   name="recipe-types"
                   id="recipe-type-select"
