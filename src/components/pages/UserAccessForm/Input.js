@@ -1,16 +1,29 @@
-import React, { useMemo, forwardRef, useState, useEffect } from "react";
+import React, { useMemo, forwardRef } from "react";
 import { useLocation } from "react-router-dom";
 import { InputContainer, Label, UserInput, Button } from "./Input.style";
 import axios from "axios";
 
 const isVisibleIndex = [1, 2];
+
 const Input = forwardRef((props, ref) => {
-  const { text, showBtn, index, onInputChange, email, code } = props;
+  const {
+    text,
+    showBtn,
+    index,
+    onInputChange,
+    email,
+    code,
+    time,
+    setTime,
+    timeStart,
+    setTimeStart,
+  } = props;
 
   const location = useLocation();
 
   let inputType = "";
   let placeholderText = "";
+
   if (location.pathname === "/login") {
     inputType = index === 1 ? "password" : "text";
   } else {
@@ -28,9 +41,8 @@ const Input = forwardRef((props, ref) => {
     const newValue = e.target.value;
     onInputChange(index, newValue);
   };
+
   const btnText = index === 1 ? "인증번호" : "인증확인";
-  const [time, setTime] = useState(180);
-  const [timeStart, setTimeStart] = useState(false);
 
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
@@ -39,46 +51,28 @@ const Input = forwardRef((props, ref) => {
       secondsRemaining
     ).padStart(2, "0")}`;
   };
-  useEffect(() => {
-    if (timeStart && time > 0) {
-      const timeInterval = setInterval(() => {
-        setTime((prevTime) => prevTime - 1);
-      }, 1000);
 
-      return () => {
-        clearInterval(timeInterval);
-      };
-    }
-    if (time === 0) {
-      alert("인증 시간이 초과되었습니다.");
-      setTime(180);
-      setTimeStart(false);
-    }
-  }, [timeStart, time]);
   const handleMail = async () => {
     if (index === 1) {
       if (timeStart) {
         return;
       }
       try {
-        const response = await axios.post("/api/request", {
-          email: email,
-        });
+        const response = await axios.post("/api/request", { email });
         if (response.data) {
           setTimeStart(true);
+          alert(response.data);
         }
-        console.log(response.data);
       } catch (error) {
         console.log(error.response.data.error);
       }
     } else {
       try {
-        const response = await axios.post("/api/verify", {
-          email: email,
-          code: code,
-        });
-        if (response.data) {
-          console.log("성공");
+        const response = await axios.post("/api/verify", { email, code });
+        if (response.status === 200) {
+          alert("인증성공");
+          setTime(15);
+          setTimeStart(false);
         }
       } catch (error) {
         alert(error.response.data.error);
@@ -95,10 +89,10 @@ const Input = forwardRef((props, ref) => {
         placeholder={placeholderText}
         onChange={handleInputChange}
         ref={ref}
-      ></UserInput>
+      />
       {buttonVisible && (
         <Button onClick={handleMail}>
-          {timeStart && time > 0 ? formatTime(time) : btnText}
+          {index === 1 && timeStart ? formatTime(time) : btnText}
         </Button>
       )}
     </InputContainer>
