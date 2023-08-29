@@ -25,33 +25,62 @@ function RecipeWrite(props) {
   const [newIngredientAmount, setNewIngredientAmount] = useState("");
   const [recipeSteps, setRecipeSteps] = useState([]);
   const [isHovered, setIsHovered] = useState(false);
+  const [selectedType, setSelectedType] = useState("간단한 요리");
+  const [selectedServing, setSelectedServing] = useState(1);
   const [recipeImg, setRecipeImg] = useState("");
   const [stateFile, setStateFile] = useState(null);
+
+  useEffect(() => {
+    console.log("stateFile:", stateFile);
+    console.log("recipeImg:", recipeImg);
+  }, [stateFile, recipeImg]);
 
   const { authResponse } = useLayoutAuth();
 
   const defaultRecipeImgUrl = require("../assets/img/recipeDefaultImg.png");
   const plzUploadImgUrl = require("../assets/img/plzUploadImg.png");
 
+  /*
   const handleImgUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        // setStateFile(reader.result);
+        setStateFile(reader.result);
         // setRecipeImg(stateFile); // 화면에 업로드한 이미지 미리보기 X
-        // setRecipeImg(reader.result);
-        setRecipeImg((current) => {
-          current = reader.result;
-        });
-        setStateFile((current) => {
-          current = reader.result;
-        });
+        setRecipeImg(reader.result);
+        // setRecipeImg((current) => {
+        //   current = reader.result;
+        // });
+        // setStateFile((current) => {
+        //   current = reader.result;
+        // });
       };
       reader.readAsDataURL(file);
     }
-    console.log(stateFile);
-    console.log(recipeImg);
+  };
+*/
+
+  const handleImgUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setStateFile(file);
+      const reader = new FileReader();
+      reader.onload = () => {
+        setRecipeImg(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleImgChange = (e) => {
+    const file = e.target.files[0];
+    setStateFile(file);
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      setRecipeImg(event.target.result);
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleImgDelete = () => {
@@ -112,18 +141,16 @@ function RecipeWrite(props) {
       alert("레시피 양식에 내용을 빠짐없이 기입해주세요!");
       return;
     }
-    const selectedType = document.getElementById("recipe-type-select").value;
-    const selectedServing = parseInt(
-      document.getElementById("recipe-servings-select").value
-    );
 
     // 작성자가 이미지 파일 미업로드로 레시피 등록하는 경우, 'defaultRecipeImgUrl'로 레시피 대표 이미지 처리
     let imageUrl = defaultRecipeImgUrl;
 
     // if(stateFile !== "") { 이 내가 원하는 구현 흐름인데, 일단 이렇게 하면 400에러 떠서 ===로 바꿔둠
-    if (stateFile === "") {
+    if (stateFile !== null) {
       try {
-        imageUrl = await fetchData();
+        imageUrl = await fetchData(stateFile);
+        console.log(">> try - imageUrl");
+        console.log(imageUrl);
       } catch (err) {
         console.error("Error uploading recipe main image: ", err);
         return;
@@ -151,16 +178,20 @@ function RecipeWrite(props) {
     }
   };
 
-  async function fetchData() {
+  async function fetchData(file) {
     try {
       const formData = new FormData();
-      formData.append("image", stateFile);
+      formData.append("image", file);
+      const config = { headers: { "Content-Type": "multipart/form-data" } };
       const response = await requestApi(
         "post",
         "/recipes/upload-image",
-        formData
+        formData,
+        config
       );
-      return response.data;
+      console.log(">> fetchData response.data");
+      console.log(response.data);
+      return response.data.imageUrl;
     } catch (err) {
       console.error("Error uploading recipe image: ", err);
     }
@@ -191,12 +222,11 @@ function RecipeWrite(props) {
             </div>
             <div>
               <label htmlFor="recipe-type-select">
-                {/* 요리 종류 _ 저장 방식에 대한 고민 발생 (월요일 백오피스아워 시간에 질문 예정) 요리 종류 */}
-                // 코드리뷰 반영하기!
                 <select
                   name="recipe-types"
                   id="recipe-type-select"
-                  defaultValue="간단한 요리"
+                  value={selectedType}
+                  onChange={(e) => setSelectedType(e.target.value)}
                 >
                   <option value="메인요리">메인요리</option>
                   <option value="국&찌개">국&찌개</option>
@@ -212,7 +242,8 @@ function RecipeWrite(props) {
                 <select
                   name="recipe-serving"
                   id="recipe-servings-select"
-                  defaultValue="1"
+                  value={selectedServing}
+                  onChange={(e) => setSelectedServing(parseInt(e.target.value))}
                 >
                   <option value="1">1인분</option>
                   <option value="2">2인분</option>
@@ -290,6 +321,7 @@ function RecipeWrite(props) {
                 action="/recipes"
                 method="post"
                 encType="multipart/form-data"
+                onSubmit={handleRecipeSubmit}
               >
                 <div
                   id="recipe-img-container"
@@ -316,7 +348,8 @@ function RecipeWrite(props) {
                       id="fileInput"
                       type="file"
                       accept="image/*"
-                      onChange={handleImgUpload}
+                      // onChange={handleImgUpload}
+                      onChange={handleImgChange}
                     />
                   </label>
                 </div>
