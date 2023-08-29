@@ -9,13 +9,14 @@ import PortalModal from "../components/common/PortalModal";
 import { AlertBox } from "../components/common/PortalModal.style";
 import CheckIcon from "../assets/CheckIcon";
 import userDefaultImg from "../assets/img/userDefaultImg.svg";
+import useAuthStatus from "../libs/hooks/useAuthStatus";
 
 function RecipeDetail() {
   const { detail } = useParams();
+  const { isAuthUser } = useAuthStatus();
   const navigate = useNavigate();
   const [recipeData, setRecipeData] = useState({});
   const [showModal, setShowModal] = useState(false);
-
   useEffect(() => {
     getRecipeData();
   }, []);
@@ -65,9 +66,9 @@ function RecipeDetail() {
           <button>
             <StrokeHeart color={MAIN_THEME_COLOR[0]} />
           </button>
-          <button>
+          {/* <button>
             <StrokeBookMark color={MAIN_THEME_COLOR[0]} />
-          </button>
+          </button> */}
         </div>
       </Detail.Owner>
       <Detail.Box className="shadow">
@@ -108,25 +109,29 @@ function RecipeDetail() {
         </div>
       </Detail.Box>
       {/* 유저가 작성한 글일 때에만 보이게하기 */}
-      <Detail.Buttons>
-        <Link to="/recipe/write" className="editBtn">
-          레시피 수정하기
-        </Link>
-        <button className="deleteBtn" onClick={() => setShowModal(true)}>
-          삭제
-        </button>
-      </Detail.Buttons>
-      <PortalModal handleShowModal={showModal} size={"30%"}>
-        <AlertBox>
-          <h3>레시피를 삭제하시겠습니까?</h3>
-          <button className="cancelBtn" onClick={handleRecipeDel}>
-            삭제
-          </button>
-          <button className="deleteBtn" onClick={() => setShowModal(false)}>
-            취소
-          </button>
-        </AlertBox>
-      </PortalModal>
+      {recipeData.writer?._id === isAuthUser._id && (
+        <>
+          <Detail.Buttons>
+            <Link to="/recipe/write" className="editBtn">
+              레시피 수정하기
+            </Link>
+            <button className="deleteBtn" onClick={() => setShowModal(true)}>
+              삭제
+            </button>
+          </Detail.Buttons>
+          <PortalModal handleShowModal={showModal} size={"30%"}>
+            <AlertBox>
+              <h3>레시피를 삭제하시겠습니까?</h3>
+              <button className="cancelBtn" onClick={handleRecipeDel}>
+                삭제
+              </button>
+              <button className="deleteBtn" onClick={() => setShowModal(false)}>
+                취소
+              </button>
+            </AlertBox>
+          </PortalModal>
+        </>
+      )}
     </Detail.Wrap>
   );
 }
