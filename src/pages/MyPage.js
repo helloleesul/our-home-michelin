@@ -17,24 +17,27 @@ function MyPage(props) {
   const [selectedImage, setSelectedImage] = useState(null);
   const recipeTypesCount = [];
   const [selectedType, setSelectedType] = useState("전체");
+  const [paginationResponse, setPaginationResponse] = useState([]);
+  const [recipeCount, setRecipeCount] = useState();
 
   const navigate = useNavigate();
   const filteredRecipes =
     selectedType === "전체"
-      ? recipes
-      : recipes.filter((recipe) => recipe.recipeType === selectedType);
+      ? paginationResponse
+      : paginationResponse.filter(
+          (recipe) => recipe.recipeType === selectedType
+        );
 
-  console.log("필터된 레시피", filteredRecipes);
-  recipes.forEach((recipe) => {
+  paginationResponse.forEach((recipe) => {
     if (recipeTypesCount[recipe.recipeType]) {
       recipeTypesCount[recipe.recipeType]++;
     } else {
       recipeTypesCount[recipe.recipeType] = 1;
     }
   });
-  const totalPages = Math.ceil(filteredRecipes.length / 20);
+  const totalPages = Math.ceil(recipeCount / 20);
   const pageButtons = [];
-
+  console.log(filteredRecipes.length);
   for (let i = 1; i <= totalPages; i++) {
     pageButtons.push(
       <S.PaginationButton key={i} onClick={() => handlePaginationButton(i)}>
@@ -46,15 +49,28 @@ function MyPage(props) {
   useEffect(() => {
     (async () => {
       try {
+        //유저정보 조회
         const response = await axios.get("/api/myinfo");
         setNickname(response.data.nickName);
         setUserEmail(response.data.email);
         setRank(response.role);
         setSelectedImage(response.profileImageURL);
         console.log("유저정보 조회데이터", response);
+        //레시피 조회
         const responseRecipe = await axios.get("/api/myrecipes");
+
         setRecipes(responseRecipe.data);
         console.log("레시피 조회데이터", responseRecipe.data);
+
+        const currentPage = 1;
+        const perPage = 20;
+
+        const paginationApiUrl = `/api/myrecipes/pagination?page=${currentPage}&perPage=${perPage}`;
+        const paginationResponse = await axios.get(paginationApiUrl);
+        setPaginationResponse(paginationResponse.data.myRecipes);
+        setRecipeCount(responseRecipe.data.length);
+        // setRecipes(paginationResponse.data.myRecipes);
+        console.log("페이지네이션 : ", paginationResponse);
       } catch (error) {
         console.log(error.response.data.error);
       }
@@ -89,9 +105,13 @@ function MyPage(props) {
     navigate(`/recipe/${id}`);
     console.log("레시피 아이디", id);
   };
-  const handlePaginationButton = (i) => {
-    // 레시피 카운트가 100개면 1~20 , 20~40
-    alert(i, "클릭");
+  const handlePaginationButton = async (i) => {
+    const currentPage = i;
+    const perPage = 20;
+
+    const paginationApiUrl = `/api/myrecipes/pagination?page=${currentPage}&perPage=${perPage}`;
+    const paginationResponse = await axios.get(paginationApiUrl);
+    setPaginationResponse(paginationResponse.data.myRecipes);
   };
 
   return (
@@ -158,7 +178,7 @@ function MyPage(props) {
               >
                 전체
               </S.conterTitleText>
-              {recipes.length}
+              {paginationResponse.length}
             </S.allCount>
             <S.menuCount>
               {Object.keys(recipeTypesCount).map((recipeType, index) => (
@@ -175,29 +195,18 @@ function MyPage(props) {
             </S.menuCount>
           </S.countContainer>
           <S.RecipeList>
-            {filteredRecipes.length === 0
-              ? recipes.map((recipe, index) => (
-                  <S.RecipeItemBox key={index}>
-                    <S.RecipeImg
-                      onClick={() => handleRecipeImg(recipe._id)}
-                      src={recipe.imageUrl}
-                      alt={`레시피 이미지 ${index + 1}`}
-                    />
-                    <S.RecipeText>{recipe.title}</S.RecipeText>
-                  </S.RecipeItemBox>
-                ))
-              : filteredRecipes.map((recipe, index) => (
-                  <S.RecipeItemBox key={index}>
-                    <S.RecipeImg
-                      onClick={() => handleRecipeImg(recipe._id)}
-                      src={recipe.imageUrl}
-                      alt={`레시피 이미지 ${index + 1}`}
-                    />
-                    <S.RecipeText>{recipe.title}</S.RecipeText>
-                  </S.RecipeItemBox>
-                ))}
+            {/* filteredRecipes  paginationResponse*/}
+            {filteredRecipes.map((recipe, index) => (
+              <S.RecipeItemBox key={index}>
+                <S.RecipeImg
+                  onClick={() => handleRecipeImg(recipe._id)}
+                  src={recipe.imageUrl}
+                  alt={`레시피 이미지 ${index + 1}`}
+                />
+                <S.RecipeText>{recipe.title}</S.RecipeText>
+              </S.RecipeItemBox>
+            ))}
           </S.RecipeList>
-          {/* 지금 여기 버튼을   Math.ceil(filteredRecipes/20) */}
           <S.Pagination>{pageButtons}</S.Pagination>
         </S.RecipeContainer>
       </S.RecipeBoxContainer>
