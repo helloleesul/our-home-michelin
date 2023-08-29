@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { MAIN_THEME_COLOR } from "../../libs/const/color";
 export const ModalContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -7,14 +8,15 @@ export const ModalContainer = styled.div`
   gap: 10px;
   margin-bottom: 5px;
   padding-top: 30px;
+  position: relative;
 `;
 export const ModalBtn = styled.button`
   width: 360px;
   height: 40px;
   margin-top: 20px;
   border-radius: 15px;
-  border: 1px solid #f7411f;
-  background-color: #f7411f;
+  border: 1px solid ${MAIN_THEME_COLOR[0]};
+  background-color: ${MAIN_THEME_COLOR[0]};
   color: white;
   font-size: 16px;
   margin-bottom: 25px;
@@ -46,10 +48,11 @@ export const Label = styled.label`
 `;
 
 export const CloseBtn = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 10px;
   background: transparent;
   border: none;
-  margin-left: 450px;
-  padding-top: 20px;
 `;
 
 export const Text = styled.h2`

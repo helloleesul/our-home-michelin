@@ -1,42 +1,50 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import requestApi from "../libs/const/api";
+// import useAuthStatus from "../libs/hooks/useAuthStatus";
 import * as S from "../components/pages/UserAccessForm/UserAccessForm.style";
-import Input from "../components/pages/myInfo/MyInfoInputInput";
+import Input from "../components/pages/myInfo/MyInfoInput";
 import chef1 from "../assets/img/chef1.png";
 import PortalModal from "../components/common/PortalModal";
 import ModalBox from "../components/common/ModalBox";
 
 function MyInfo(props) {
+  // const { isAuth } = useAuthStatus();
+
   const [showModal, setShowModal] = useState(false);
   const [nickname, setNickname] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [showConfirmPassword, setShowConfirmPassword] = useState("");
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const navigate = useNavigate();
+
   useEffect(() => {
     (async () => {
       try {
-        const response = await axios.get("/api/myinfo");
-        console.log(response.data);
-        setNickname(response.data.nickName);
-        setUserEmail(response.data.email);
+        const response = await requestApi("get", "/myinfo");
+        setNickname(response.nickName);
+        setUserEmail(response.email);
       } catch (error) {
         console.log(error.response.data.error);
       }
     })();
   }, []);
+
   const closeModal = () => {
     setShowModal(false);
   };
+
   const handleSaveClick = async () => {
     if (nickname.length < 2) {
       alert("닉네임은 2글자 이상이어야 합니다.");
       return;
     }
-    if (password.length < 6) {
-      alert("비밀번호는 6글자 이상이어야 합니다.");
+    if (!/^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/.test(password)) {
+      alert(
+        "비밀번호는 영문, 숫자, 특수문자를 포함한 8글자 이상이어야 합니다."
+      );
       return;
     }
     if (password !== confirmPassword) {
@@ -54,8 +62,8 @@ function MyInfo(props) {
     };
 
     try {
-      const response = await axios.put("/api/myinfo", userData);
-      if (response.data) {
+      const response = await requestApi("put", "/myinfo", userData);
+      if (response) {
         alert("회원정보 수정 완료");
         navigate("/mypage");
       }
@@ -64,13 +72,14 @@ function MyInfo(props) {
       console.log(error.response.data.message);
     }
   };
+
   const handlePasswordClick = () => {
     setShowConfirmPassword(true);
   };
 
   return (
     <>
-      <PortalModal handleShowModal={showModal} size={"35%"}>
+      <PortalModal handleShowModal={showModal} size={"25%"}>
         <ModalBox closeModal={closeModal} text="회원탈퇴"></ModalBox>
       </PortalModal>
       <S.Container>
@@ -83,9 +92,9 @@ function MyInfo(props) {
             showBtn
             value={nickname}
             onChange={(event) => setNickname(event.target.value)}
-            placeholder="닉네임은 2글자 이상이어야 합니다."
+            placeholder="닉네임 입력해주세요."
             readOnly={true}
-          ></Input>
+          />
           <Input
             text="이메일"
             type="text"
@@ -98,7 +107,7 @@ function MyInfo(props) {
             type="password"
             showBtn
             onChange={(event) => setPassword(event.target.value)}
-            placeholder="비밀번호는 6글자 이상 입력해주세요."
+            placeholder="비밀번호 입력해주세요."
             onBtnClick={handlePasswordClick}
             readOnly={true}
           />
@@ -107,7 +116,7 @@ function MyInfo(props) {
               text="비밀번호 확인"
               type="password"
               onChange={(event) => setConfirmPassword(event.target.value)}
-              placeholder="비밀번호는 6글자 이상 입력해주세요."
+              placeholder="비밀번호 확인 입력해주세요."
               readOnly={false}
             />
           )}

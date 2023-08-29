@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
+import requestApi from "../../../libs/const/api";
 import * as S from "./UserAccessForm.style";
 import chef1 from "../../../assets/img/chef1.png";
 import Input from "./Input";
@@ -13,7 +13,7 @@ function UserAccessForm(props) {
   const inputRefs = [useRef(), useRef(), useRef(), useRef(), useRef()];
 
   const [inputValues, setInputValues] = useState(["", "", "", "", ""]);
-  const [time, setTime] = useState(15);
+  const [time, setTime] = useState(180);
   const [timeStart, setTimeStart] = useState(false);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ function UserAccessForm(props) {
     }
     if (time === 0) {
       alert("인증 시간이 초과되었습니다.");
-      setTime(15);
+      setTime(180);
       setTimeStart(false);
     }
   }, [timeStart, time]);
@@ -39,18 +39,20 @@ function UserAccessForm(props) {
 
   const validateNickname = (nickname) => nickname.length >= 2;
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  const validatePassword = (password) => password.length >= 6;
+  const validatePassword = (password) =>
+    /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/.test(password);
   const validateConfirmPassword = (password, confirmPassword) =>
     password === confirmPassword;
 
   const handleClick = async () => {
     try {
       if (location.pathname === "/login") {
-        const response = await axios.post("/api/login/", {
+        const response = await requestApi("post", "/login", {
           email: inputValues[0],
           password: inputValues[1],
         });
-        if (response.data) {
+
+        if (response) {
           navigate("/");
         }
       } else {
@@ -72,7 +74,9 @@ function UserAccessForm(props) {
         }
 
         if (!validatePassword(password)) {
-          alert("비밀번호를 6글자 이상 입력해주세요.");
+          alert(
+            "비밀번호는 최소 8글자 이상이며, 영문, 숫자, 특수문자를 모두 포함해야 합니다."
+          );
           inputRefs[3].current.focus();
           return;
         }
@@ -83,13 +87,12 @@ function UserAccessForm(props) {
           return;
         }
 
-        const response = await axios.post("api/join/", {
+        const response = await requestApi("post", "/join", {
           nickName: inputValues[0],
           email: inputValues[1],
           password: inputValues[3],
         });
-
-        if (response.data) {
+        if (response) {
           alert("회원가입 성공");
           navigate("/login");
         }

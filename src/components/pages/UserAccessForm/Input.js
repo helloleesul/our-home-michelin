@@ -1,11 +1,16 @@
 import React, { useMemo, forwardRef } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { InputContainer, Label, UserInput, Button } from "./Input.style";
-import axios from "axios";
-
+import useAuthStatus from "../../../libs/hooks/useAuthStatus";
+import requestApi from "../../../libs/const/api";
 const isVisibleIndex = [1, 2];
 
 const Input = forwardRef((props, ref) => {
+  const { isAuth } = useAuthStatus();
+  const navigate = useNavigate();
+  if (isAuth) {
+    navigate("/");
+  }
   const {
     text,
     showBtn,
@@ -26,6 +31,7 @@ const Input = forwardRef((props, ref) => {
 
   if (location.pathname === "/login") {
     inputType = index === 1 ? "password" : "text";
+    placeholderText = `${text} 입력해주세요.`;
   } else {
     inputType = index === 3 || index === 4 ? "password" : "text";
     placeholderText =
@@ -58,18 +64,19 @@ const Input = forwardRef((props, ref) => {
         return;
       }
       try {
-        const response = await axios.post("/api/request", { email });
-        if (response.data) {
+        const response = await requestApi("post", "/request", { email });
+        if (response) {
           setTimeStart(true);
-          alert(response.data);
+          alert(response);
         }
       } catch (error) {
         console.log(error.response.data.error);
       }
     } else {
       try {
-        const response = await axios.post("/api/verify", { email, code });
-        if (response.status === 200) {
+        const response = await requestApi("post", "/verify", { email, code });
+        console.log(response);
+        if (response) {
           alert("인증성공");
           setTime(15);
           setTimeStart(false);
