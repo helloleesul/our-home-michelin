@@ -40,10 +40,6 @@ function Home() {
         "get",
         "/fivestar-recipes?limit=5"
       ); // API 요청
-      const responseFiveStarRecipes = await requestApi(
-        "get",
-        "/fivestar-recipes?limit=5"
-      ); // API 요청
       setFiveStarRecipes(responseFiveStarRecipes.fiveStarRecipes);
 
       //전체 레시피 가져오기
