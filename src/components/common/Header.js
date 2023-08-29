@@ -15,8 +15,8 @@ function Header({ isAuthHeader }) {
       // 로그아웃 API 호출
       const res = await requestApi("post", "/logout");
       // 로그아웃이 성공적으로 처리되면 클라이언트에서도 로그아웃 상태로 업데이트
-      if(res === "로그아웃 되었습니다.") {
-        alert('로그아웃 되었습니다');
+      if (res === "로그아웃 되었습니다.") {
+        alert("로그아웃 되었습니다");
         setIsAuthenticated(false);
       }
     } catch (error) {
@@ -43,7 +43,9 @@ function Header({ isAuthHeader }) {
           </S.User>
         )}
         <S.Title to="/">
-          우리집 <span>냉슐랭</span>
+          <h1>
+            우리집<span> 냉슐랭</span>
+          </h1>
         </S.Title>
       </Container>
     </header>

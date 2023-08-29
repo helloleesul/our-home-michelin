@@ -14,6 +14,7 @@ export const Section = styled.div`
 export const EditorImage = styled.img`
   width: 124px;
   height: 124px;
+  background-color: red;
   object-fit: cover;
   border-radius: 50%;
   margin-bottom: 10px;

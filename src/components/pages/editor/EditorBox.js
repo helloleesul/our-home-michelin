@@ -2,12 +2,8 @@ import React from "react";
 import * as S from "./EditorBox.style";
 import { useNavigate } from "react-router-dom";
 
-function EditorBox({ editorList, startIndex, itemsPerPage }) {
+function EditorBox({ editorList }) {
   const navigate = useNavigate();
-  const visibleEditors = editorList.slice(
-    startIndex,
-    startIndex + itemsPerPage
-  );
 
   const handleEditorClick = (id) => {
     console.log("editor id :", id);
@@ -16,7 +12,7 @@ function EditorBox({ editorList, startIndex, itemsPerPage }) {
   };
   return (
     <S.Section>
-      {visibleEditors.map((editor, index) => (
+      {editorList.map((editor, index) => (
         <S.EditorLink
           key={editor._id + index}
           onClick={() => {
@@ -25,10 +21,10 @@ function EditorBox({ editorList, startIndex, itemsPerPage }) {
         >
           <S.EditorImage
             style={{ pointerEvents: "none" }}
-            src={editor.profileImage}
-            alt={editor.name}
+            src={editor.profileImageURL}
+            alt={editor.nickName}
           />
-          <p style={{ pointerEvents: "none" }}>{editor.name}</p>
+          <p style={{ pointerEvents: "none" }}>{editor.nickName}</p>
         </S.EditorLink>
       ))}
     </S.Section>
