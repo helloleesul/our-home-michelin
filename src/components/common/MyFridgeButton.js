@@ -5,7 +5,7 @@ import fridgeclose from "../../assets/img/fridge-close.svg";
 import fridgeopen from "../../assets/img/fridge-open.svg";
 import * as S from "./MyFridgeButton.style";
 
-function MyFridgeButton({ isAuth }) {
+function MyFridgeButton() {
   const [showModal, setShowModal] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -26,7 +26,7 @@ function MyFridgeButton({ isAuth }) {
         />
       </S.RefrigeratorButton>
       <PortalModal handleShowModal={showModal} size={"40%"}>
-        <MyFridge onClose={() => setShowModal(false)} isAuth={isAuth} />
+        <MyFridge onClose={() => setShowModal(false)} />
       </PortalModal>
     </>
   );

@@ -90,7 +90,23 @@ export const IngredientGroup = styled.div`
   }
 `;
 
-export const Fridge = styled.div``;
+export const Fridge = styled.div`
+li {
+  button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: ${MAIN_THEME_COLOR[0]};
+    .box {
+      background-color: ${MAIN_THEME_COLOR[0]};
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      width: 80px;
+      height: 80px;
+      border-radius: 999px;
+      margin: 0 auto 10px;
+  }
+}
+`;
 
 export const EmptyFridge = styled.div`
   color: ${MAIN_THEME_COLOR[1]};

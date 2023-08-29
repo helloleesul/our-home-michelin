@@ -2,13 +2,15 @@ import React, { useState, useEffect } from "react";
 import requestApi from "../../libs/const/api";
 import { Container } from "./Layout";
 import * as S from "./Header.style";
+import useAuthStatus from "../../libs/hooks/useAuthStatus";
 
-function Header({ isAuthHeader }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(isAuthHeader);
+function Header() {
+  const { isAuth } = useAuthStatus();
+  const [isAuthenticated, setIsAuthenticated] = useState(isAuth);
 
   useEffect(() => {
-    setIsAuthenticated(isAuthHeader);
-  }, [isAuthHeader]);
+    setIsAuthenticated(isAuth);
+  }, [isAuth]);
 
   const handleLogout = async () => {
     try {
