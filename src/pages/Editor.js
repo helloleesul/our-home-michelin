@@ -1,109 +1,158 @@
 import React, { useEffect, useState } from "react";
-import * as S from "./Editor.style";
-import EditorBox from "../components/pages/editor/EditorBox";
 import Contents from "../components/pages/home/Contents";
 import nextEditor from "../../src/assets/img/editorNext.png";
 import prevEditor from "../../src/assets/img/editorPrev.png";
 import requestApi from "../libs/const/api";
-import { css } from "@emotion/react";
+import * as S from "./Editor.style";
+import Loading from "../../src/assets/img/loading.svg";
 
 function Editor() {
   const limitValue = 6;
-  const [pageValue, setPageValue] = useState(1);
-  const [hasMoreData, setHasMoreData] = useState(true);
   const [selectList, setSelectList] = useState([]); //필터링된 레시피목록
-
-  const handlePrevClick = () => {
-    if (hasMoreData && pageValue > 1) {
-      setPageValue(pageValue - 1);
-    }
-  };
-
-  const handleNextClick = () => {
-    if (hasMoreData) {
-      setPageValue(pageValue + 1);
-    }
-  };
-  /*
-유저 목록을 가져온다
-
-유저 목록에서 
-
-겟요청으로 레시피 목록을 가져온다
-
-레시피 목록에서 해당 레시피만 필터링한다 > 상태관리로 저장해야되는데 할줄모른다 > 세션에 저장한다
-
-필터링된 레시피를 화면에 맵핑한다 > 컨텐츠박스 > 세션에서 가져와서 그려준다
-
-*/
   const [editorList, setEditorList] = useState([]);
+  const [totalPage, setTotalPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectEditor, setSelectEditor] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const getEditorList = async () => {
-      try {
-        const res = await requestApi(
-          "get",
-          `/editors?page=${pageValue}&limit=${limitValue}`
-        );
-        if (res.editors.length === 0) {
-          setHasMoreData(false); // 데이터가 없으면 상태 변경
-        } else {
-          setEditorList(res.editors);
-        }
-      } catch (error) {
-        console.log(error);
+  //에디터 페이지네이션 가져오기
+  const getEditorPagenation = async (pageNum, limit) => {
+    setLoading(true);
+    try {
+      const res = await requestApi(
+        "get",
+        `/editors?page=${pageNum}&limit=${limit}`
+      );
+
+      if (res.editors.length !== 0) {
+        setEditorList(res.editors);
+        setTotalPage(res.totalPages);
+        setLoading(false);
       }
-    };
-
-    getEditorList();
-  }, [pageValue]); // 빈 배열을 두 번째 매개변수로 전달하여 초기 렌더링 시에만 실행됩니다.
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
 
   //에디터가 작성한 레시피 가져오기
   const getEditorsRecipes = async (editorId) => {
+    setLoading(true);
+
     try {
       const res = await requestApi("get", "/editorRecipes/" + editorId);
       setSelectList(res); // 데이터 설정
       console.log("getTargetRecepies  :", res);
+      setLoading(false);
     } catch (error) {
       console.log(error);
+      setLoading(false);
       // 에러 처리 로직 추가
     }
   };
 
+  //이전버튼 클릭 : 페이지 증가시키고 해당하는 에디터 목록 가져온다
+  const handlePrevClick = () => {
+    if (1 < currentPage) {
+      setCurrentPage(currentPage - 1);
+      getEditorPagenation(currentPage, limitValue);
+    }
+  };
+
+  //다음버튼 클릭 : 페이지 감소시키고 해당하는 에디터 목록 가져온다
+  const handleNextClick = () => {
+    if (totalPage > currentPage && totalPage !== currentPage) {
+      setCurrentPage(currentPage + 1);
+      getEditorPagenation(currentPage, limitValue);
+    }
+  };
+
+  //에디터 목록에서 클릭
+  const handleEditorClick = (id) => {
+    console.log("editor id :", id);
+    sessionStorage.setItem("selectEditor", id);
+    setSelectEditor(id);
+  };
+
+  //READY useEffect
   useEffect(() => {
-    const selectEditor = sessionStorage.getItem("selectEditor"); //세션에 저장된 선택한 에디터 가져오기
+    //에디터 목록 페이지네이션
+    getEditorPagenation(1, limitValue);
+
+    //세션에 저장된 선택한 에디터 가져오기
+    const target = sessionStorage.getItem("selectEditor");
+
     //세션에 저장된 5스타 레시피 가져오기
-    const editorRecipesList = getEditorsRecipes(selectEditor);
-    console.log(editorRecipesList);
-    // const tmp_list = editorRecipesList.filter((v) => {
-    //   return v.userId === selectEditor;
-    // }); //레시피 유저 아이디 = 선택한 에디터 필터링
-    setSelectList(editorRecipesList); //state 세팅
+    getEditorsRecipes(target);
   }, []);
 
+  //에디터 클릭해서 state 변경시 동작
+  useEffect(() => {
+    getEditorsRecipes(selectEditor);
+  }, [selectEditor]);
+
   return (
-    <S.CenterBox>
-      <S.YearEditors>
-        <h4>
-          <span>냉슐랭</span> 에디터
-        </h4>
-      </S.YearEditors>
-      <S.NextEditorContaner>
-        <a onClick={handlePrevClick}>
-          <S.NextPrev src={prevEditor} alt="prevEditor" />
-        </a>
-        <EditorBox editorList={editorList} />
-        <a onClick={handleNextClick}>
-          <S.NextPrev src={nextEditor} alt="nextEditor" />
-        </a>
-      </S.NextEditorContaner>
-      <S.BackgroundBox>
-        <div>
-          <span>{editorList.nickName}</span>의 레시피
+    <>
+      {loading && (
+        <div
+          className="loading"
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            background: "rgba(0,0,0,0.8)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <img src={Loading} alt="" />
         </div>
-        <Contents foodList={selectList.recipes} />
-      </S.BackgroundBox>
-    </S.CenterBox>
+      )}
+
+      <S.CenterBox>
+        <S.YearEditors>
+          <h4>
+            <span>냉슐랭</span> 에디터
+          </h4>
+        </S.YearEditors>
+        <S.NextEditorContaner>
+          <a onClick={handlePrevClick}>
+            <S.NextPrev src={prevEditor} alt="prevEditor" />
+          </a>
+          <S.Section>
+            {editorList.map((editor, index) => (
+              <S.EditorLink
+                key={editor._id + index}
+                onClick={() => {
+                  handleEditorClick(editor._id);
+                }}
+              >
+                <S.EditorImage
+                  style={{ pointerEvents: "none" }}
+                  src={editor.profileImageURL}
+                  alt={editor.nickName}
+                />
+                <p style={{ pointerEvents: "none" }}>{editor.nickName}</p>
+              </S.EditorLink>
+            ))}
+          </S.Section>
+          <a onClick={handleNextClick}>
+            <S.NextPrev src={nextEditor} alt="nextEditor" />
+          </a>
+        </S.NextEditorContaner>
+        <S.BackgroundBox>
+          <div>
+            {selectList.length !== 0 && (
+              <span>{selectList.recipes[0].writer.nickName}</span>
+            )}
+          </div>
+          <Contents foodList={selectList.recipes} />
+        </S.BackgroundBox>
+      </S.CenterBox>
+    </>
   );
 }
 

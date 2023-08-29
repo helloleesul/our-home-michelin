@@ -19,17 +19,17 @@ function Home() {
   const [allRecipes, setAllRecipes] = useState([]);
   const [editorList, setEditorList] = useState([]);
 
-  useEffect(() => {
-    const getEditorList = async () => {
-      try {
-        const res = await requestApi("get", "/editors");
-        setEditorList(res.editors);
-        console.log(res.editors);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  const getEditorList = async () => {
+    try {
+      const res = await requestApi("get", "/editors");
+      setEditorList(res.editors);
+      console.log("getEditorList :", res.editors);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
+  useEffect(() => {
     getEditorList(); // 함수 호출은 여기서 한 번만 실행됩니다.
   }, []);
 
