@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { CalendarWrap, CalendarHeader, CalendarDays } from "./Calendar.style";
 
-function Calendar({ thisDate, onThisDate }) {
+function Calendar({ thisDate, onThisDate, onThisClose }) {
   const [selectedDate, setSelectedDate] = useState(thisDate);
 
   const today = new Date();
@@ -11,13 +11,11 @@ function Calendar({ thisDate, onThisDate }) {
   const days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
   const firstDayOfMonth = new Date(year, month, 1).getDay();
 
-  useEffect(() => {
-    onThisDate(selectedDate);
-  }, [onThisDate, selectedDate]);
-
   const handleDateClick = (day) => {
     const selectedDay = new Date(year, month, day);
     setSelectedDate(selectedDay);
+    onThisDate(selectedDay);
+    onThisClose();
   };
 
   const goToNextMonth = () => {
