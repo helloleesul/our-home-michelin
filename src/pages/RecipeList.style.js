@@ -8,8 +8,9 @@ export const Title = styled.h3`
 `;
 
 export const Lists = styled.div`
-    display: flex;
-    justify-content: space-around;
-    flex-direction: row;
-    align-items: center;
-`; 
+  display: flex;
+  justify-content: space-around;
+  // flex-direction: row;
+  // align-items: center;
+  flex-wrap: wrap;
+`;

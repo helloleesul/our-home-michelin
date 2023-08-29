@@ -5,10 +5,39 @@ import { MAIN_THEME_COLOR } from "../libs/const/color";
 // import axios from "axios";
 import List from "../components/pages/recipeList/List";
 import * as S from "./RecipeList.style";
+import axios from "axios";
 
 function RecipeList(props) {
   // const [like, setLike] = useState(false);
   const [recipes, setRecipes] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("/api/recipes")
+      .then((response) => {
+        console.log(response.data);
+        let sortedRecipes;
+
+        switch (props.title) {
+          case "전체 레시피":
+            sortedRecipes = response.data.sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate));
+            break;
+
+          case "인기 레시피":
+            sortedRecipes = response.data.sort((a, b) => b.likeCount - a.likeCount);
+            break;
+
+          default:
+            sortedRecipes = response.data;
+            break;
+        }
+
+        setRecipes(sortedRecipes);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [props.title]);
 
   return (
     <>
@@ -18,7 +47,9 @@ function RecipeList(props) {
       </S.Title>
 
       <S.Lists>
-        <List /> <List /> <List /> <List /> <List />
+        {recipes.map((recipe) => (
+          <List key={recipe.id} recipe={recipe} />
+        ))}
       </S.Lists>
     </>
   );
