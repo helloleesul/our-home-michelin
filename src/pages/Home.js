@@ -30,8 +30,7 @@ const foodList = [
   {
     _id: 4,
     name: "고양이",
-    profileImage:
-      "https://blog.kakaocdn.net/dn/dKCK2U/btqUekxdPc8/obYkOupRiOMIBY7CUDShk0/img.jpg",
+    profileImage: "https://blog.kakaocdn.net/dn/dKCK2U/btqUekxdPc8/obYkOupRiOMIBY7CUDShk0/img.jpg",
   },
   {
     _id: 5,
@@ -48,8 +47,7 @@ const foodList = [
   {
     _id: 7,
     name: "고양이",
-    profileImage:
-      "https://blog.kakaocdn.net/dn/dKCK2U/btqUekxdPc8/obYkOupRiOMIBY7CUDShk0/img.jpg",
+    profileImage: "https://blog.kakaocdn.net/dn/dKCK2U/btqUekxdPc8/obYkOupRiOMIBY7CUDShk0/img.jpg",
   },
 ];
 
@@ -66,10 +64,7 @@ function Home(props) {
 
   async function fetchData() {
     try {
-      const responseFiveStarRecipes = await requestApi(
-        "get",
-        "/fivestar-recipes?limit=5"
-      ); // API 요청
+      const responseFiveStarRecipes = await requestApi("get", "/fivestar-recipes?limit=5"); // API 요청
       setFiveStarRecipes(responseFiveStarRecipes.fiveStarRecipes);
       const responseAllRecipes = await requestApi("get", "/recipes?limit=10");
       setAllRecipes(responseAllRecipes);
@@ -105,18 +100,14 @@ function Home(props) {
           </p>
           <S.SeeMoreLink to="/editor">더보기</S.SeeMoreLink>
         </S.Text>
-        <EditorBox
-          editorList={foodList}
-          startIndex={startIndex}
-          itemsPerPage={6}
-        />
+        <EditorBox editorList={foodList} startIndex={startIndex} itemsPerPage={6} />
       </Container>
       <Container>
         <S.Text>
           <p>
             <span>5스타 </span>레시피
           </p>
-          <S.SeeMoreLink to="/editor">더보기</S.SeeMoreLink>
+          <S.SeeMoreLink to="/recipe/popular">더보기</S.SeeMoreLink>
         </S.Text>
         <Contents foodList={fiveStarRecipes} />
       </Container>
@@ -125,7 +116,7 @@ function Home(props) {
           <p>
             <span>전체 </span>레시피
           </p>
-          <S.SeeMoreLink to="/editor">더보기</S.SeeMoreLink>
+          <S.SeeMoreLink to="/recipe/all">더보기</S.SeeMoreLink>
         </S.Text>
         <Contents foodList={allRecipes} />
       </Container>
