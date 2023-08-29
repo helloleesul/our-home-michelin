@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import * as S from "./List.style.js"; // Contents 스타일을 모두 가져옴
 
@@ -6,35 +6,28 @@ import * as S from "./List.style.js"; // Contents 스타일을 모두 가져옴
 //     // const visibleFoods = foodList.slice(startIndex, startIndex + itemsPerPage);
 
 function List({ recipe }) {
+  const [isBookmarked, setBookmarked] = useState(false);
+
+  const toggleBookmark = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setBookmarked(!isBookmarked);
+  };
   console.log(recipe.imageURL);
   return (
-    <Link to={`/recipe/${recipe._id}`}>
-      <S.Card>
-        <a href="#">
-          <S.ImgBookmark>
-            <div>
-              {/* <S.Img> */}
-              <div className="recipeImg">
-                <img src={recipe.imageUrl} alt={recipe.title} />
-              </div>
-              {/* </S.Img> */}
-              <div className="bookmarks">
-                <button
-                  onClick={() => {
-                    alert("북마크에 담는 함수");
-                  }}
-                >
-                  북마크
-                </button>
-              </div>
-            </div>
-          </S.ImgBookmark>
-          <S.RecipeTitle>
-            <p>{recipe.title}</p>
-          </S.RecipeTitle>
-        </a>
-      </S.Card>
-    </Link>
+    <S.Card>
+      <Link to={`/recipe/${recipe._id}`}>
+        <S.ImgBookmark>
+          <img src={recipe.imageUrl} alt={recipe.title} />
+          <S.BookmarkButton onClick={toggleBookmark} isBookmarked={isBookmarked}>
+            {isBookmarked ? "❤️" : "🤍"}
+          </S.BookmarkButton>
+        </S.ImgBookmark>
+        <S.RecipeTitle>
+          <p>{recipe.title}</p>
+        </S.RecipeTitle>
+      </Link>
+    </S.Card>
   );
 }
 
