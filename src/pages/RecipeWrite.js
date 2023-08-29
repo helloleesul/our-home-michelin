@@ -2,7 +2,9 @@
 import React, { useEffect, useState } from "react";
 import CloseIcon from "../assets/CloseIcon.js";
 import requestApi from "../libs/const/api.js";
+import * as S from "./RecipeWrite.style";
 import Layout from "../components/common/Layout";
+import axios from "axios";
 
 function useLayoutAuth() {
   const [authResponse, setAuthResponse] = useState(false);
@@ -29,37 +31,24 @@ function RecipeWrite(props) {
   const [selectedServing, setSelectedServing] = useState(1);
   const [recipeImg, setRecipeImg] = useState("");
   const [stateFile, setStateFile] = useState(null);
+  //
+  const [isIngr, setIsIngr] = useState(false);
+  const [isRecipeSteps, setIsRecipeSteps] = useState(false);
 
   useEffect(() => {
     console.log("stateFile:", stateFile);
     console.log("recipeImg:", recipeImg);
   }, [stateFile, recipeImg]);
 
+  console.log(">> ingredients.length");
+  console.log(ingredients.length);
+  console.log(">> recipeSteps.length");
+  console.log(recipeSteps.length);
+
   const { authResponse } = useLayoutAuth();
 
   const defaultRecipeImgUrl = require("../assets/img/recipeDefaultImg.png");
   const plzUploadImgUrl = require("../assets/img/plzUploadImg.png");
-
-  /*
-  const handleImgUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setStateFile(reader.result);
-        // setRecipeImg(stateFile); // 화면에 업로드한 이미지 미리보기 X
-        setRecipeImg(reader.result);
-        // setRecipeImg((current) => {
-        //   current = reader.result;
-        // });
-        // setStateFile((current) => {
-        //   current = reader.result;
-        // });
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-*/
 
   const handleImgUpload = (e) => {
     const file = e.target.files[0];
@@ -135,6 +124,13 @@ function RecipeWrite(props) {
     setRecipeSteps(updatedSteps);
   };
 
+  useEffect(() => {
+    ingredients.length !== 0 ? setIsIngr(true) : setIsIngr(false);
+  }, [isIngr]);
+  useEffect(() => {
+    recipeSteps.length !== 0 ? setIsRecipeSteps(true) : setIsRecipeSteps(false);
+  }, [isRecipeSteps]);
+
   const handleRecipeSubmit = async () => {
     // 빈값인 input, textarea가 있다면 레시피 등록 막기
     if (!title || ingredients.length === 0 || recipeSteps.length === 0) {
@@ -183,14 +179,11 @@ function RecipeWrite(props) {
       const formData = new FormData();
       formData.append("image", file);
       const config = { headers: { "Content-Type": "multipart/form-data" } };
-      const response = await requestApi(
-        "post",
-        "/recipes/upload-image",
+      const response = await axios.post(
+        "/api/recipes/upload-image",
         formData,
         config
       );
-      console.log(">> fetchData response.data");
-      console.log(response.data);
       return response.data.imageUrl;
     } catch (err) {
       console.error("Error uploading recipe image: ", err);
@@ -198,30 +191,30 @@ function RecipeWrite(props) {
   }
 
   return (
-    <div>
-      <h2>레시피 등록</h2>
-      <div id="recipe-form">
-        <div
-          id="recipe-form-top"
-          style={{ display: "flex" }}
-        >
-          <div
-            id="recipe-form-top-left"
-            style={{ width: "70%" }}
-          >
-            <div>
-              <label htmlFor="recipe-title">
-                레시피 제목
+    <S.Wrap>
+      <S.Title>레시피 등록</S.Title>
+      {/*<S.RecipeFormContainer>*/}{" "}
+      {/*<S.RecipeForm> == <div id="recipe-form">*/}
+      <S.RecipeForm>
+        <S.RecipeFormTop>
+          {/* <S.RecipeFormTop> == <div id="recipe-form-top" style={{ display: "flex" }} > */}
+          <S.RecipeFormTopLeft>
+            {/* <S.RecipeFormAttribute> == <label htmlFor="recipe-title"> */}
+            <S.RecipeFormAttribute>
+              <S.RecipeFormAttributeLabel>
+                <div>레시피 제목</div>
                 <input
                   type="text"
                   id="recipe-title"
                   placeholder="예) 한끼든든 소고기 미역국 레시피"
                   onChange={handleRecipeTitle}
                 />
-              </label>
-            </div>
-            <div>
-              <label htmlFor="recipe-type-select">
+              </S.RecipeFormAttributeLabel>
+            </S.RecipeFormAttribute>
+            <S.RecipeFormAttribute>
+              {/* <S.RecipeFormAttributeLabel> == <label htmlFor="recipe-type-select"> */}
+              <S.RecipeFormAttributeLabel>
+                <div>요리 종류</div>
                 <select
                   name="recipe-types"
                   id="recipe-type-select"
@@ -234,11 +227,12 @@ function RecipeWrite(props) {
                   <option value="간단한 요리">간단한 요리</option>
                   <option value="디저트">디저트</option>
                 </select>
-              </label>
-            </div>
-            <div>
-              <label htmlFor="recipe-servings-select">
-                인분수량
+              </S.RecipeFormAttributeLabel>
+            </S.RecipeFormAttribute>
+            <S.RecipeFormAttribute>
+              {/* <S.RecipeFormAttributeLabel> == <label htmlFor="recipe-servings-select"> */}
+              <S.RecipeFormAttributeLabel>
+                <div>인분수량</div>
                 <select
                   name="recipe-serving"
                   id="recipe-servings-select"
@@ -249,11 +243,12 @@ function RecipeWrite(props) {
                   <option value="2">2인분</option>
                   <option value="3">3인분 이상</option>
                 </select>
-              </label>
-            </div>
-            <div>
-              <label htmlFor="recipe-ingredient">
-                재료
+              </S.RecipeFormAttributeLabel>
+            </S.RecipeFormAttribute>
+            <S.RecipeFormAttribute>
+              {/* <S.RecipeFormAttributeLabel> == <label htmlFor="recipe-ingredient"> */}
+              <S.RecipeFormAttributeLabel>
+                <span>재료</span>
                 <br />
                 <input
                   id="recipe-ingredient"
@@ -266,35 +261,34 @@ function RecipeWrite(props) {
                   onChange={handleIngredientAmountChange}
                   placeholder="중량"
                 />
-                <button onClick={handleAddIngredient}>추가</button>
-              </label>
+                <S.Button onClick={handleAddIngredient}>추가</S.Button>
+              </S.RecipeFormAttributeLabel>
               <div>
                 {/* 추가한 재료들이 나타나는 곳*/}
-                {ingredients.map((ingredient, idx) => (
-                  <div key={idx}>
-                    {ingredient.name} - {ingredient.amount}
-                    <button
-                      id="delete-ingredient-btn"
-                      onClick={() => handleDeleteIngredient(idx)}
-                    >
-                      X
-                    </button>
-                  </div>
-                ))}
+                {ingredients.length > 0 && (
+                  <S.RecipeAddBox>
+                    {ingredients.map((ingredient, idx) => (
+                      <div key={idx}>
+                        {ingredient.name} - {ingredient.amount} &nbsp;
+                        <S.DeleteButton
+                          onClick={() => handleDeleteIngredient(idx)}
+                        >
+                          X
+                        </S.DeleteButton>
+                      </div>
+                    ))}
+                  </S.RecipeAddBox>
+                )}
               </div>
-            </div>
-          </div>
-          <div
-            id="recipe-form-top-right"
-            style={{
-              right: "0",
-              width: "30%",
-            }}
-          >
+            </S.RecipeFormAttribute>
+          </S.RecipeFormTopLeft>
+          {/* <S.RecipeFormTopRight> == <div id="recipe-form-top-right" style={{ right: "0", width: "30%", }} > */}
+          <S.RecipeFormTopRight>
             <div
               id="upload-img-container"
               style={{
-                position: "relative",
+                position: "sticky",
+                top: "-9000px",
                 width: "200px",
                 height: "200px",
                 backgroundImage: `url(${plzUploadImgUrl})`,
@@ -302,24 +296,26 @@ function RecipeWrite(props) {
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
             >
-              {recipeImg !== "" && isHovered && (
-                <div
-                  onClick={handleImgDelete}
-                  style={{
-                    position: "absolute",
-                    right: "0",
-                    padding: "3px",
-                    borderRadius: "2px",
-                    cursor: "pointer",
-                    backgroundColor: "rgba(0,0,0,0.7)",
-                  }}
-                >
-                  <CloseIcon color={"#fff"} />
-                </div>
-              )}
+              <div style={{ position: "relative" }}>
+                {recipeImg !== "" && isHovered && (
+                  <div
+                    onClick={handleImgDelete}
+                    style={{
+                      position: "absolute",
+                      right: "0",
+                      padding: "3px",
+                      borderRadius: "2px",
+                      cursor: "pointer",
+                      backgroundColor: "rgba(0,0,0,0.7)",
+                    }}
+                  >
+                    <CloseIcon color={"#fff"} />
+                  </div>
+                )}
+              </div>
               <form
                 action="/recipes"
-                method="post"
+                method="POST"
                 encType="multipart/form-data"
                 onSubmit={handleRecipeSubmit}
               >
@@ -347,6 +343,7 @@ function RecipeWrite(props) {
                       style={{ position: "absolute", top: "-1000px" }}
                       id="fileInput"
                       type="file"
+                      name="uploadRecipeImg"
                       accept="image/*"
                       // onChange={handleImgUpload}
                       onChange={handleImgChange}
@@ -355,54 +352,50 @@ function RecipeWrite(props) {
                 </div>
               </form>
             </div>
-          </div>
-        </div>
-        <div>
-          <div id="recipe-form-bottom">
-            <div>
-              <p>요리 과정</p>
-              <p>
-                요리의 맛이 좌우될 수 있는 중요한 내용은 빠짐없이 적어주세요!
-                <br />
-                예) 10분간 익혀주세요. &rarr; 10분간 약한 불로 익혀주세요.
-                <br />
-                꿀을 조금 넣어주세요. &rarr; 꿀이 없는 경우 설탕 1스푼으로 대체
-                가능합니다.
-              </p>
-              <ul id="recipe-step-list">
+          </S.RecipeFormTopRight>
+        </S.RecipeFormTop>
+        <S.RecipeFormBottom>
+          <p>요리 과정</p>
+          <text>
+            <p>요리의 맛이 좌우될 수 있는 중요한 내용은 빠짐없이 적어주세요!</p>
+            <p>예) 10분간 익혀주세요. &rarr; 10분간 약한 불로 익혀주세요.</p>
+            <p>
+              꿀을 조금 넣어주세요. &rarr; 꿀이 없는 경우 설탕 1스푼으로 대체
+              가능합니다.
+            </p>
+          </text>
+          {recipeSteps.length > 0 && (
+            <S.RecipeAddBox>
+              <ul>
                 {recipeSteps.map((step, idx) => (
                   <li key={idx}>
                     {`Step ${idx + 1}`}
                     <textarea
-                      // value={stepsObj.recipeStep}
                       value={step}
-                      onChange={(e) => handleStepChange(e, idx)}
+                      onChange={(e) => {
+                        handleStepChange(e, idx);
+                      }}
                       placeholder="요리 과정을 단계별로 작성해주세요!"
                     />
-                    <button
-                      id="delete-step-btn"
-                      onClick={() => handleDeleteStep(idx)}
+                    <S.DeleteButton
+                      onClick={() => {
+                        handleDeleteStep(idx);
+                      }}
                     >
                       X
-                    </button>
+                    </S.DeleteButton>
                   </li>
                 ))}
               </ul>
-              <button
-                id="add-step-btn"
-                onClick={handleAddStep}
-              >
-                요리 과정 추가
-              </button>
-            </div>
-          </div>
-        </div>
-        <div>
-          <button>취소</button>
-          <button onClick={handleRecipeSubmit}>등록</button>
-        </div>
-      </div>
-    </div>
+            </S.RecipeAddBox>
+          )}
+          {/* <button id="add-step-btn" onClick={handleAddStep} > */}
+          <S.Button onClick={handleAddStep}>요리 과정 추가</S.Button>
+        </S.RecipeFormBottom>
+        <S.SubmitButton onClick={handleRecipeSubmit}>등록</S.SubmitButton>
+      </S.RecipeForm>
+      {/*</S.RecipeFormContainer>*/}
+    </S.Wrap>
   );
 }
 
