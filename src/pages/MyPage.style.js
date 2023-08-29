@@ -200,7 +200,8 @@ export const Pagination = styled.div`
 `;
 
 export const PaginationButton = styled.button`
-  background-color: ${MAIN_THEME_COLOR[0]};
+  background-color: ${({ isActive }) =>
+    isActive ? MAIN_THEME_COLOR[1] : MAIN_THEME_COLOR[0]};
   color: white;
   border: none;
   border-radius: 5px;
@@ -208,6 +209,9 @@ export const PaginationButton = styled.button`
   margin-top: -20px;
   cursor: pointer;
   &:hover {
+    background-color: ${MAIN_THEME_COLOR[1]};
+  }
+  &:active {
     background-color: ${MAIN_THEME_COLOR[1]};
   }
 `;

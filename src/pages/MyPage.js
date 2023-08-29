@@ -1,81 +1,97 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import * as S from "./MyPage.style";
 import BasicProfileImg from "../assets/img/BasicProfileImg.png";
 import PortalModal from "../components/common/PortalModal";
 import ModalBox from "../components/common/ModalBox";
-import axios from "axios";
+import requestApi from "../libs/const/api";
+// import useAuthStatus from "../libs/hooks/useAuthStatus";
+
 function MyPage(props) {
   const [showModal, setShowModal] = useState(false);
-  const [tabColor, settabColor] = useState("myRecipes");
-  const [titleColor, setTitleClor] = useState("전체");
+  const [tabColor, setTabColor] = useState("myRecipes");
+  const [titleColor, setTitleColor] = useState("전체");
   const [nickname, setNickname] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [rank, setRank] = useState("");
   const [recipes, setRecipes] = useState([]);
   const inputRef = useRef(null);
   const [selectedImage, setSelectedImage] = useState(null);
-  const recipeTypesCount = [];
   const [selectedType, setSelectedType] = useState("전체");
   const [paginationResponse, setPaginationResponse] = useState([]);
-  const [recipeCount, setRecipeCount] = useState();
-
+  const [totalPages, setTotalPages] = useState(1);
+  const [pageColor, setPageColor] = useState(1);
+  const [pageButtons, setPageButtons] = useState([]);
+  // const { isAuth } = useAuthStatus();
   const navigate = useNavigate();
+
   const filteredRecipes =
     selectedType === "전체"
       ? paginationResponse
-      : paginationResponse.filter(
-          (recipe) => recipe.recipeType === selectedType
-        );
+      : recipes.filter((recipe) => recipe.recipeType === selectedType);
 
-  paginationResponse.forEach((recipe) => {
-    if (recipeTypesCount[recipe.recipeType]) {
-      recipeTypesCount[recipe.recipeType]++;
-    } else {
-      recipeTypesCount[recipe.recipeType] = 1;
-    }
-  });
-  const totalPages = Math.ceil(recipeCount / 20);
-  const pageButtons = [];
-  console.log(filteredRecipes.length);
-  for (let i = 1; i <= totalPages; i++) {
-    pageButtons.push(
-      <S.PaginationButton key={i} onClick={() => handlePaginationButton(i)}>
-        {i}
-      </S.PaginationButton>
-    );
-  }
+  const recipeTypesCount = useMemo(() => {
+    const counts = {};
+    recipes.forEach((recipe) => {
+      if (counts[recipe.recipeType]) {
+        counts[recipe.recipeType]++;
+      } else {
+        counts[recipe.recipeType] = 1;
+      }
+    });
+    return counts;
+  }, [recipes]);
 
   useEffect(() => {
     (async () => {
       try {
-        //유저정보 조회
-        const response = await axios.get("/api/myinfo");
-        setNickname(response.data.nickName);
-        setUserEmail(response.data.email);
+        // 유저 정보 조회
+        const response = await requestApi("get", "/myinfo");
+        setNickname(response.nickName);
+        setUserEmail(response.email);
         setRank(response.role);
         setSelectedImage(response.profileImageURL);
-        console.log("유저정보 조회데이터", response);
-        //레시피 조회
-        const responseRecipe = await axios.get("/api/myrecipes");
 
-        setRecipes(responseRecipe.data);
-        console.log("레시피 조회데이터", responseRecipe.data);
+        // 레시피 조회
+        const responseRecipe = await requestApi("get", "/myrecipes");
+        setRecipes(responseRecipe);
 
+        // 페이징 정보 설정
         const currentPage = 1;
         const perPage = 20;
-
-        const paginationApiUrl = `/api/myrecipes/pagination?page=${currentPage}&perPage=${perPage}`;
-        const paginationResponse = await axios.get(paginationApiUrl);
-        setPaginationResponse(paginationResponse.data.myRecipes);
-        setRecipeCount(responseRecipe.data.length);
-        // setRecipes(paginationResponse.data.myRecipes);
-        console.log("페이지네이션 : ", paginationResponse);
+        const paginationApiUrl = `/myrecipes/pagination?page=${currentPage}&perPage=${perPage}`;
+        const paginationResponse = await requestApi("get", paginationApiUrl);
+        setPaginationResponse(paginationResponse.myRecipes);
+        setTotalPages(paginationResponse.totalPages);
       } catch (error) {
         console.log(error.response.data.error);
       }
     })();
   }, []);
+
+  useEffect(() => {
+    if (selectedType !== "전체") {
+      setTotalPages(Math.ceil(recipeTypesCount[selectedType] / 20));
+    } else {
+      setTotalPages(Math.ceil(recipes.length / 20));
+    }
+  }, [selectedType, recipeTypesCount, recipes.length]);
+
+  useEffect(() => {
+    const buttons = [];
+    for (let i = 1; i <= totalPages; i++) {
+      buttons.push(
+        <S.PaginationButton
+          key={i}
+          isActive={i === pageColor}
+          onClick={() => handlePaginationButton(i)}
+        >
+          {i}
+        </S.PaginationButton>
+      );
+    }
+    setPageButtons(buttons);
+  }, [totalPages, pageColor]);
 
   const closeModal = () => {
     setShowModal(false);
@@ -92,13 +108,11 @@ function MyPage(props) {
     }
   };
   const handleTapButton = (check) => {
-    //북마크 레시피 클릭시 북마크 레시피 리스트 보여주고 나의 레시피 클릭시 나의레시피 리스트보여주기
-    settabColor(check);
+    setTabColor(check);
   };
   const handleTitleText = (check) => {
     setSelectedType(check);
-    console.log(totalPages);
-    setTitleClor(check);
+    setTitleColor(check);
   };
 
   const handleRecipeImg = (id) => {
@@ -106,17 +120,17 @@ function MyPage(props) {
     console.log("레시피 아이디", id);
   };
   const handlePaginationButton = async (i) => {
+    setPageColor(i);
     const currentPage = i;
     const perPage = 20;
-
-    const paginationApiUrl = `/api/myrecipes/pagination?page=${currentPage}&perPage=${perPage}`;
-    const paginationResponse = await axios.get(paginationApiUrl);
-    setPaginationResponse(paginationResponse.data.myRecipes);
+    const paginationApiUrl = `/myrecipes/pagination?page=${currentPage}&perPage=${perPage}`;
+    const paginationResponse = await requestApi("get", paginationApiUrl);
+    setPaginationResponse(paginationResponse.myRecipes);
   };
 
   return (
     <>
-      <PortalModal handleShowModal={showModal} size={"35%"}>
+      <PortalModal handleShowModal={showModal} size={"25%"}>
         <ModalBox closeModal={closeModal} text="회원정보 수정"></ModalBox>
       </PortalModal>
       <S.Container>
@@ -178,7 +192,7 @@ function MyPage(props) {
               >
                 전체
               </S.conterTitleText>
-              {paginationResponse.length}
+              {recipes.length}
             </S.allCount>
             <S.menuCount>
               {Object.keys(recipeTypesCount).map((recipeType, index) => (
@@ -195,7 +209,6 @@ function MyPage(props) {
             </S.menuCount>
           </S.countContainer>
           <S.RecipeList>
-            {/* filteredRecipes  paginationResponse*/}
             {filteredRecipes.map((recipe, index) => (
               <S.RecipeItemBox key={index}>
                 <S.RecipeImg
