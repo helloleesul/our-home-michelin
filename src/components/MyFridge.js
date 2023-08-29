@@ -14,6 +14,7 @@ import INGREDIENT_DATA from "../libs/const/ingredientData";
 import requestApi from "../libs/const/api";
 import { Link } from "react-router-dom";
 import Calendar from "./common/Calendar";
+import PortalModal from "./common/PortalModal";
 
 function formatDate(dateString) {
   const options = { year: "numeric", month: "2-digit", day: "2-digit" };
@@ -78,6 +79,7 @@ function MyFridge({ onClose, isAuth }) {
 
   useEffect(() => {
     setShowCalendar(false);
+    setNewBestBefore(currentIngr.bestBefore);
   }, [currentIngr]);
 
   const getUserFridge = async () => {
@@ -282,6 +284,7 @@ function MyFridge({ onClose, isAuth }) {
                         return (
                           <li key={item._id}>
                             <button onClick={() => handleCurrentIngr(item)}>
+                              <div className="box"></div>
                               {item.ingredientName}
                             </button>
                           </li>
@@ -336,12 +339,18 @@ function MyFridge({ onClose, isAuth }) {
                           : formatDate(currentIngr.bestBefore)}
                       </button>
                     </p>
-                    {showCalendar && (
+
+                    <PortalModal handleShowModal={showCalendar} size={"300px"}>
                       <Calendar
                         thisDate={new Date(currentIngr.bestBefore)}
-                        onThisDate={(date) => setNewBestBefore(date)}
+                        onThisDate={(date) => {
+                          setNewBestBefore(date);
+                        }}
+                        onThisClose={() => setShowCalendar(false)}
                       />
-                    )}
+                    </PortalModal>
+                    {/* {showCalendar && (
+                    )} */}
 
                     {new Date(currentIngr.bestBefore) > new Date() && (
                       <button
