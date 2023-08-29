@@ -104,6 +104,6 @@ const INGREDIENT_DATA = Object.keys(ingredients).map((type) => {
   };
 });
 
-export const DEFAULT_INGREDIENT_LIST = INGREDIENT_DATA.map((v) => v.ingredient);
+// export const DEFAULT_INGREDIENT_LIST = INGREDIENT_DATA.map((v) => v.ingredient);
 
 export default INGREDIENT_DATA;
