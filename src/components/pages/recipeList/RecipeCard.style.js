@@ -24,10 +24,10 @@ export const Card = styled.div`
 export const ImgBookmark = styled.div`
   display: flex;
   position: relative;
+  z-index: -1;
   img {
     width: 176px;
     height: 132px;
-    z-index: 0;
   }
   button {
     position: absolute;
@@ -55,30 +55,5 @@ export const RecipeTitle = styled.p`
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
-  }
-`;
-
-export const BookmarkButton = styled.button`
-  position: absolute;
-  z-index: 1;
-  top: 5px;
-  right: 5px;
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  color: ${(props) => (props.isBookmarked ? "red" : "white")};
-  animation: ${(props) => (props.isBookmarked ? "heartAnimation 0.3s ease" : "none")};
-
-  @keyframes heartAnimation {
-    0% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.3);
-    }
-    100% {
-      transform: scale(1);
-    }
   }
 `;

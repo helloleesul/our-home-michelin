@@ -57,21 +57,32 @@ export const IngredientGroup = styled.div`
     border-radius: 14px;
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    gap: 10px;
+    gap: 20px;
     &.basicIngr {
       input {
         display: none;
         & + label {
           cursor: pointer;
-          div {
+          color: #b0b0b0;
+          .box {
+            background-color: #b0b0b0;
+            width: 80px;
+            height: 80px;
+            border-radius: 999px;
+            margin: 0 auto 10px;
           }
         }
-        &:checked + label div {
-          color: red;
+        &:checked + label {
+          color: ${MAIN_THEME_COLOR[0]};
+          .box {
+            background-color: ${MAIN_THEME_COLOR[0]};
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+          }
         }
       }
     }
     li {
+      text-align: center;
       button {
         width: 100%;
       }

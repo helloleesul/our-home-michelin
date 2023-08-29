@@ -1,33 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import * as S from "./List.style.js"; // Contents 스타일을 모두 가져옴
 
-function List({ foodList }) {
-    // const visibleFoods = foodList.slice(startIndex, startIndex + itemsPerPage);
+// function List({ foodList }) {
+//     // const visibleFoods = foodList.slice(startIndex, startIndex + itemsPerPage);
 
-    return (
-        <>
-            <S.Card>
-                <a href='#'>
-                    <S.ImgBookmark><div>
-                        {/* <S.Img> */}
-                        <div className="recipeImg">
-                            <img src={'https://t1.daumcdn.net/cfile/tistory/9994024D5BC318BA34'} alt="타이틀" />
-                        </div>
-                        {/* </S.Img> */}
-                        <div className="bookmarks">
-                            <button onClick={() => { alert("북마크에 담는 함수"); }}>
-                                북마크
-                            </button>
-                        </div>
-                    </div></S.ImgBookmark>
-                    <S.RecipeTitle>
-                        <p>레시피의 이름이 길어도 말줄임이 들어가도록 만들어봐요</p>
-                    </S.RecipeTitle>
-                </a>
-            </S.Card >
-        </>
-    );
+function List({ recipe }) {
+  const [isBookmarked, setBookmarked] = useState(false);
+
+  const toggleBookmark = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setBookmarked(!isBookmarked);
+  };
+  console.log(recipe.imageURL);
+  return (
+    <S.Card>
+      <Link to={`/recipe/${recipe._id}`}>
+        <S.ImgBookmark>
+          <img src={recipe.imageUrl} alt={recipe.title} />
+          <S.BookmarkButton onClick={toggleBookmark} isBookmarked={isBookmarked}>
+            {isBookmarked ? "❤️" : "🤍"}
+          </S.BookmarkButton>
+        </S.ImgBookmark>
+        <S.RecipeTitle>
+          <p>{recipe.title}</p>
+        </S.RecipeTitle>
+      </Link>
+    </S.Card>
+  );
 }
 
 export default List;
-

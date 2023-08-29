@@ -40,6 +40,10 @@ function Home() {
         "get",
         "/fivestar-recipes?limit=5"
       ); // API 요청
+      const responseFiveStarRecipes = await requestApi(
+        "get",
+        "/fivestar-recipes?limit=5"
+      ); // API 요청
       setFiveStarRecipes(responseFiveStarRecipes.fiveStarRecipes);
 
       //전체 레시피 가져오기
@@ -79,12 +83,18 @@ function Home() {
           startIndex={startIndex}
           itemsPerPage={6}
         />
+        <EditorBox
+          editorList={foodList}
+          startIndex={startIndex}
+          itemsPerPage={6}
+        />
       </Container>
       <Container>
         <S.Text>
           <p>
             <span>5스타 </span>레시피
           </p>
+          <S.SeeMoreLink to="/recipe/popular">더보기</S.SeeMoreLink>
           <S.SeeMoreLink to="/recipe/popular">더보기</S.SeeMoreLink>
         </S.Text>
         <Contents foodList={fiveStarRecipes} />
@@ -94,6 +104,7 @@ function Home() {
           <p>
             <span>전체 </span>레시피
           </p>
+          <S.SeeMoreLink to="/recipe/all">더보기</S.SeeMoreLink>
           <S.SeeMoreLink to="/recipe/all">더보기</S.SeeMoreLink>
         </S.Text>
         <Contents foodList={allRecipes} />

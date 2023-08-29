@@ -27,8 +27,8 @@ function App() {
             <Route path="/login" element={<Login />}></Route>
             <Route path="/join" element={<Join />}></Route>
             <Route path="/editor" element={<Editor />}></Route>
-            <Route path="/recipe/popular" element={<RecipeList />}></Route>
-            <Route path="/recipe/all" element={<RecipeList />}></Route>
+            <Route path="/recipe/popular" element={<RecipeList title="인기 레시피" />}></Route>
+            <Route path="/recipe/all" element={<RecipeList title="전체 레시피" />}></Route>
             <Route path="/recipe/:detail" element={<RecipeDetail />}></Route>
             <Route path="/recipe/write" element={<RecipeWrite />}></Route>
             <Route path="/mypage" element={<MyPage />}></Route>
