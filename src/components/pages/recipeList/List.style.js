@@ -10,7 +10,7 @@ export const Card = styled.div`
   justify-content: center;
   align-items: flex-start;
   /* background-color: cornsilk; */
-  margin : 10px 30px 16px 30px;
+  margin : 20px 30px 16px 30px;
 
   a{
     text-decoration: none;
