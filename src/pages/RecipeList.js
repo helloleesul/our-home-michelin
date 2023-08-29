@@ -1,14 +1,25 @@
-import React, { useState } from "react";
-import { MAIN_THEME_COLOR } from "../libs/const/color";
-import List from "../components/pages/recipeList/List";
+import React, { useEffect, useState } from "react";
+// import { MAIN_THEME_COLOR } from "../libs/const/color";
+import RecipeCard from "../components/pages/recipeList/RecipeCard"
 import * as S from "./RecipeList.style";
-
-function RecipeList({ foodList }) {
-
-  // const [data, setData] = useState([]);
+import axios from "axios";
 
 
-  const dataArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
+function RecipeList(props) {
+  const [recipes, setRecipes] = useState([]);
+
+  useEffect(() => {
+    axios.get('/api/recipes')
+      .then(response => {
+        console.log(response);
+        setRecipes(response.data);
+      });
+  }, []);
+
+  useEffect(() => {
+    console.log(recipes)
+  }, [recipes])
+
   return (
 
     <S.Back>
@@ -17,16 +28,7 @@ function RecipeList({ foodList }) {
 
 
       <S.Lists>
-        {dataArray.map((item, key) => (
-          <List key={key}>{item} </List>
-        ))}
-
-        {/* {foodList.map((foods, index) => (
-          <List key={foods._id + index} to={`/recipe/${foods._id}`}>
-            <List src={foods.imageUrl} alt={foods.title} />
-            <p>{foods.title}</p>
-          </List>
-        ))} */}
+        <RecipeCard recipes={recipes}></RecipeCard>
       </S.Lists>
     </S.Back>
 
