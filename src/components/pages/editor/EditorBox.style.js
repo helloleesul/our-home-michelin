@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 export const Section = styled.div`
   width: 1000px;
   display: flex;
-  justify-content: space-between;
+  flex-flow: row wrap;
+  gap: 25px;
   align-items: center;
   text-align: center;
   padding: 20px 0;
@@ -14,12 +15,18 @@ export const Section = styled.div`
 export const EditorImage = styled.img`
   width: 124px;
   height: 124px;
+  background-color: red;
   object-fit: cover;
   border-radius: 50%;
   margin-bottom: 10px;
+  pointer-events: none;
 `;
 
-export const EditorLink = styled(Link)`
+export const EditorLink = styled.div`
   text-decoration: none;
   color: #464646;
+  transition: 0.5s;
+  &:hover {
+    opacity: 0.8;
+  }
 `;

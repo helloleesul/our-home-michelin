@@ -1,112 +1,158 @@
-import React, { useState } from "react";
-import * as S from "./Editor.style";
-import EditorBox from "../components/pages/editor/EditorBox";
+import React, { useEffect, useState } from "react";
 import Contents from "../components/pages/home/Contents";
-import nextYear from "../../src/assets/img/Next.png";
-import prevYear from "../../src/assets/img/Prev.png";
 import nextEditor from "../../src/assets/img/editorNext.png";
 import prevEditor from "../../src/assets/img/editorPrev.png";
-
-const editorData = [
-  {
-    _id: 1,
-    name: "커비",
-    profileImage:
-      "https://i.namu.wiki/i/ijg40CIiHx5-Ihr3ksIJUm4cQQDEnek8xMEmJaQqGR5U13DKOZnCkzwPx1L5rcEX2-xxFYAyQO7XTcyqQ2BGEw.webp",
-  },
-  {
-    _id: 2,
-    name: "꼬부기",
-    profileImage:
-      "https://images.velog.io/images/hyunicecream/post/252155a9-e156-4acd-bc6a-2cce0feb9c88/%E1%84%81%E1%85%A9%E1%84%87%E1%85%AE%E1%84%80%E1%85%B5.jpeg",
-  },
-  {
-    _id: 3,
-    name: "젤리",
-    profileImage:
-      "https://t2.daumcdn.net/thumb/R720x0/?fname=http://t1.daumcdn.net/brunch/service/user/2fG8/image/0zK7e-97apnyANk-UBEszLQuLF0.jpg",
-  },
-  {
-    _id: 4,
-    name: "고양이",
-    profileImage:
-      "https://blog.kakaocdn.net/dn/dKCK2U/btqUekxdPc8/obYkOupRiOMIBY7CUDShk0/img.jpg",
-  },
-  {
-    _id: 5,
-    name: "강아지",
-    profileImage:
-      "https://png.pngtree.com/thumb_back/fw800/background/20230518/pngtree-small-brown-puppy-is-seen-looking-at-the-camera-image_2580991.png",
-  },
-  {
-    _id: 6,
-    name: "꼬북이",
-    profileImage:
-      "https://images.velog.io/images/hyunicecream/post/252155a9-e156-4acd-bc6a-2cce0feb9c88/%E1%84%81%E1%85%A9%E1%84%87%E1%85%AE%E1%84%80%E1%85%B5.jpeg",
-  },
-  {
-    _id: 7,
-    name: "고양이",
-    profileImage:
-      "https://blog.kakaocdn.net/dn/dKCK2U/btqUekxdPc8/obYkOupRiOMIBY7CUDShk0/img.jpg",
-  },
-];
+import requestApi from "../libs/const/api";
+import * as S from "./Editor.style";
+import Loading from "../../src/assets/img/loading.svg";
 
 function Editor() {
-  const itemsPerPage = 6; // 한 페이지에 보여줄 에디터 개수
-  const [startIndex, setStartIndex] = useState(0);
-  const [currentYear, setCurrentYear] = useState(2023); // 초기 년도 설정
+  const limitValue = 6;
+  const [selectList, setSelectList] = useState([]); //필터링된 레시피목록
+  const [editorList, setEditorList] = useState([]);
+  const [totalPage, setTotalPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectEditor, setSelectEditor] = useState("");
+  const [loading, setLoading] = useState(false);
 
+  //에디터 페이지네이션 가져오기
+  const getEditorPagenation = async (pageNum, limit) => {
+    setLoading(true);
+    try {
+      const res = await requestApi(
+        "get",
+        `/editors?page=${pageNum}&limit=${limit}`
+      );
+
+      if (res.editors.length !== 0) {
+        setEditorList(res.editors);
+        setTotalPage(res.totalPages);
+        setLoading(false);
+      }
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  //에디터가 작성한 레시피 가져오기
+  const getEditorsRecipes = async (editorId) => {
+    setLoading(true);
+
+    try {
+      const res = await requestApi("get", "/editorRecipes/" + editorId);
+      setSelectList(res); // 데이터 설정
+      console.log("getTargetRecepies  :", res);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+      // 에러 처리 로직 추가
+    }
+  };
+
+  //이전버튼 클릭 : 페이지 증가시키고 해당하는 에디터 목록 가져온다
   const handlePrevClick = () => {
-    if (startIndex > 0) {
-      setStartIndex(startIndex - 1);
+    if (1 < currentPage) {
+      setCurrentPage(currentPage - 1);
+      getEditorPagenation(currentPage, limitValue);
     }
   };
 
+  //다음버튼 클릭 : 페이지 감소시키고 해당하는 에디터 목록 가져온다
   const handleNextClick = () => {
-    if (startIndex + itemsPerPage < editorData.length) {
-      setStartIndex(startIndex + 1);
+    if (totalPage > currentPage && totalPage !== currentPage) {
+      setCurrentPage(currentPage + 1);
+      getEditorPagenation(currentPage, limitValue);
     }
   };
 
-  const editorPrevClick = () => {
-    setCurrentYear(currentYear - 1);
+  //에디터 목록에서 클릭
+  const handleEditorClick = (id) => {
+    console.log("editor id :", id);
+    sessionStorage.setItem("selectEditor", id);
+    setSelectEditor(id);
   };
 
-  const editorNextClick = () => {
-    setCurrentYear(currentYear + 1);
-  };
+  //READY useEffect
+  useEffect(() => {
+    //에디터 목록 페이지네이션
+    getEditorPagenation(1, limitValue);
+
+    //세션에 저장된 선택한 에디터 가져오기
+    const target = sessionStorage.getItem("selectEditor");
+
+    //세션에 저장된 5스타 레시피 가져오기
+    getEditorsRecipes(target);
+  }, []);
+
+  //에디터 클릭해서 state 변경시 동작
+  useEffect(() => {
+    getEditorsRecipes(selectEditor);
+  }, [selectEditor]);
 
   return (
-    <S.CenterBox>
-      <S.YearEditors>
-        <a onClick={editorPrevClick}>
-          <img src={prevYear} alt="prevYear" />
-        </a>
-        <h4>
-          <span>{currentYear}년</span> 올해의 에디터
-        </h4>
-        <a onClick={editorNextClick}>
-          <img src={nextYear} alt="nextYear" />
-        </a>
-      </S.YearEditors>
-      <S.NextEditorContaner>
-        <a onClick={handlePrevClick}>
-          <S.NextPrev src={prevEditor} alt="prevEditor" />
-        </a>
-        <EditorBox
-          editorList={editorData}
-          startIndex={startIndex}
-          itemsPerPage={itemsPerPage}
-        />
-        <a onClick={handleNextClick}>
-          <S.NextPrev src={nextEditor} alt="nextEditor" />
-        </a>
-      </S.NextEditorContaner>
-      <S.BackgroundBox>
-        <Contents foodList={editorData} />
-      </S.BackgroundBox>
-    </S.CenterBox>
+    <>
+      {loading && (
+        <div
+          className="loading"
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            background: "rgba(0,0,0,0.8)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <img src={Loading} alt="" />
+        </div>
+      )}
+
+      <S.CenterBox>
+        <S.YearEditors>
+          <h4>
+            <span>냉슐랭</span> 에디터
+          </h4>
+        </S.YearEditors>
+        <S.NextEditorContaner>
+          <a onClick={handlePrevClick}>
+            <S.NextPrev src={prevEditor} alt="prevEditor" />
+          </a>
+          <S.Section>
+            {editorList.map((editor, index) => (
+              <S.EditorLink
+                key={editor._id + index}
+                onClick={() => {
+                  handleEditorClick(editor._id);
+                }}
+              >
+                <S.EditorImage
+                  style={{ pointerEvents: "none" }}
+                  src={editor.profileImageURL}
+                  alt={editor.nickName}
+                />
+                <p style={{ pointerEvents: "none" }}>{editor.nickName}</p>
+              </S.EditorLink>
+            ))}
+          </S.Section>
+          <a onClick={handleNextClick}>
+            <S.NextPrev src={nextEditor} alt="nextEditor" />
+          </a>
+        </S.NextEditorContaner>
+        <S.BackgroundBox>
+          <div>
+            {selectList.length !== 0 && (
+              <span>{selectList.recipes[0].writer.nickName}</span>
+            )}
+          </div>
+          <Contents foodList={selectList.recipes} />
+        </S.BackgroundBox>
+      </S.CenterBox>
+    </>
   );
 }
 

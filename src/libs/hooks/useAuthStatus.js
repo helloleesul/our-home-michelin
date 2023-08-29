@@ -9,7 +9,6 @@ function useAuthStatus() {
 
   const setAuthStatus = async () => {
     const result = await requestApi("get", "/check-login");
-    console.log(result);
     setIsAuth(result.isAuthenticated);
     setIsAuthUser(result.user);
   };

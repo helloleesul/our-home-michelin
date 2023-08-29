@@ -2,8 +2,8 @@ import React from "react";
 import * as S from "./Contents.style"; // Contents 스타일을 모두 가져옴
 
 function Contents({ foodList }) {
-  if (!foodList) {
-    return <div>Loading...</div>; // 혹은 원하는 UI를 여기에 표시
+  if (!foodList || (Array.isArray(foodList) && !foodList.length)) {
+    return <div>Loding</div>;
   }
 
   return (

@@ -15,7 +15,6 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (request) => {
     // 요청 전에 수행할 로직, 예를 들어 웹스토리지에 토큰이 있다면 모든 API 요청 시에 헤더에 토큰을 추가하여 인증을 처리할 수 있음!
-    console.log(request);
     if (request.data instanceof FormData) {
       request.headers["Content-Type"] = "multipart/form-data";
     }
