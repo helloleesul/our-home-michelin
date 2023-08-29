@@ -83,31 +83,30 @@ function MyFridge({ onClose }) {
   }, [currentIngr]);
 
   const getUserFridge = async () => {
-    if (isAuth) {
-      try {
-        const response = await requestApi("get", "/myfridge");
-        setUserIngrData(response);
+    try {
+      const response = await requestApi("get", "/myfridge");
 
-        // userIngrData를 순회하면서 selected 속성 업데이트
-        const updatedIngrData = ingrData.map((group) => {
-          const updatedIngredients = group.ingredient.map((item) => {
-            // 재료 이름이 userIngrData에 있는지 확인
-            const matchingUserIngr = response.find(
-              (userIngr) => userIngr.ingredientName === item.name
-            );
+      setUserIngrData(response);
 
-            if (matchingUserIngr) {
-              return { ...item, selected: true };
-            } else {
-              return { ...item, selected: false };
-            }
-          });
-          return { ...group, ingredient: updatedIngredients };
+      // userIngrData를 순회하면서 selected 속성 업데이트
+      const updatedIngrData = ingrData.map((group) => {
+        const updatedIngredients = group.ingredient.map((item) => {
+          // 재료 이름이 userIngrData에 있는지 확인
+          const matchingUserIngr = response.find(
+            (userIngr) => userIngr.ingredientName === item.name
+          );
+
+          if (matchingUserIngr) {
+            return { ...item, selected: true };
+          } else {
+            return { ...item, selected: false };
+          }
         });
+        return { ...group, ingredient: updatedIngredients };
+      });
 
-        setIngrData(updatedIngrData);
-      } catch (error) {}
-    }
+      setIngrData(updatedIngrData);
+    } catch (error) {}
   };
 
   const deleteIngredient = async (id) => {
