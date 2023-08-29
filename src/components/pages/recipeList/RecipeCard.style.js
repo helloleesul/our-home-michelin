@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 
 export const Card = styled.div`
@@ -10,7 +10,7 @@ export const Card = styled.div`
   justify-content: center;
   align-items: flex-start;
   /* background-color: cornsilk; */
-  margin : 10px 30px 16px 30px;
+  margin : 20px 30px 16px 30px;
 
   a{
     text-decoration: none;
@@ -29,17 +29,19 @@ export const ImgBookmark = styled.div`
   img{
       width : 176px;
       height:132px;
+      object-fit: cover;
     }
-  button{
-    position: absolute;
-    z-index: 1;
-    top: 5px;
-    right : 5px;
-  }
 `;
 
+export const Bookmark = styled.button`
+  position: absolute;
+  z-index: 0;
+  top: 5px;
+  right : 5px;
+`
+
 export const RecipeTitle = styled.p`
-  p{
+
     text-align: center;
     margin-top: 12px;
     line-height: 17px;
@@ -57,6 +59,7 @@ export const RecipeTitle = styled.p`
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
    
+    :hover{
+    color: #F7411F; 
   }
-
 `;
