@@ -3,10 +3,14 @@ import requestApi from "../../libs/const/api";
 import { Container } from "./Layout";
 import * as S from "./Header.style";
 import useAuthStatus from "../../libs/hooks/useAuthStatus";
+import { useDispatch } from "react-redux";
+import { setUserIngrData } from "../../libs/utils/fridgeIngrSlice";
 
 function Header() {
   const { isAuth } = useAuthStatus();
   const [isAuthenticated, setIsAuthenticated] = useState(isAuth);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     setIsAuthenticated(isAuth);
   }, [isAuth]);
@@ -18,6 +22,7 @@ function Header() {
       // 로그아웃이 성공적으로 처리되면 클라이언트에서도 로그아웃 상태로 업데이트
       if (res === "로그아웃 되었습니다.") {
         setIsAuthenticated(false);
+        dispatch(setUserIngrData([]));
         window.location.reload();
       }
     } catch (error) {

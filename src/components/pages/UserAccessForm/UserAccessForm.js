@@ -5,6 +5,9 @@ import * as S from "./UserAccessForm.style";
 import chef1 from "../../../assets/img/chef1.png";
 import Input from "./Input";
 
+import { useDispatch } from "react-redux";
+import { setUserIngrData } from "../../../libs/utils/fridgeIngrSlice";
+
 function UserAccessForm(props) {
   const { inputs, text, subText, showBtn } = props;
   const location = useLocation();
@@ -15,6 +18,17 @@ function UserAccessForm(props) {
   const [inputValues, setInputValues] = useState(["", "", "", "", ""]);
   const [time, setTime] = useState(180);
   const [timeStart, setTimeStart] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const getUserFridge = async () => {
+    try {
+      const response = await requestApi("get", "/myfridge");
+      dispatch(setUserIngrData(response));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     if (timeStart && time > 0) {
@@ -53,6 +67,7 @@ function UserAccessForm(props) {
         });
 
         if (response) {
+          getUserFridge();
           navigate("/");
         }
       } else {

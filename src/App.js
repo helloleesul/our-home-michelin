@@ -17,11 +17,14 @@ import MyPage from "./pages/MyPage";
 import MyInfo from "./pages/MyInfo";
 
 import useAuthStatus from "./libs/hooks/useAuthStatus";
+import { Provider } from "react-redux";
+import store from "./libs/utils/store";
 
 function App() {
   const { isAuth } = useAuthStatus();
+
   return (
-    <>
+    <Provider store={store}>
       <Global styles={resetStyles} />
       <Routes>
         <Route element={<Layout />}>
@@ -59,7 +62,7 @@ function App() {
           <Route path="*" element={<NotFound />}></Route>
         </Route>
       </Routes>
-    </>
+    </Provider>
   );
 }
 
