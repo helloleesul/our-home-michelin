@@ -27,11 +27,11 @@ export const ImgBookmark = styled.div`
   img {
     width: 176px;
     height: 132px;
-    z-index: 0;
+    z-index: -1;
   }
   button {
     position: absolute;
-    z-index: 1;
+    z-index: -1;
     top: 5px;
     right: 5px;
   }
