@@ -16,4 +16,5 @@ export const RefrigeratorButton = styled.button`
   border: none;
   cursor: pointer;
   background-color: #f7411f;
+  transform: scale(0.95);
 `;

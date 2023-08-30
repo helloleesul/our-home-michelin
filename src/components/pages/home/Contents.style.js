@@ -11,12 +11,25 @@ export const Section = styled.div`
   box-sizing: border-box;
   cursor: pointer;
   padding-top: 10px;
+  a:hover {
+    p {
+      opacity: 0.7;
+    }
+  }
 
   p {
     width: 100%;
-    height: 20%;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-top: 10px;
+    background: #f7411f;
+    color: #fff;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    transition: 0.3s;
+    font-size: 14px;
   }
 `;
 
@@ -24,9 +37,24 @@ export const FoodImage = styled.img`
   width: 100%;
   height: 130px;
   object-fit: cover;
-  margin-bottom: 10px;
+  box-sizing: border-box;
+  transition: 0.3s;
+  &:hover {
+    transform: scale(1.1);
+  }
 `;
 
+export const ImageWrapper = styled.div`
+  height:130px;
+  aspect-ratio:185 : 130;
+  overflow:hidden;
+  border-radius: 8px;
+  box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.15);
+  transition:.3s;
+  &:hover {
+    transform:rotate(3deg);
+  }
+`;
 export const RecipeLink = styled(Link)`
   text-decoration: none;
   color: #464646;

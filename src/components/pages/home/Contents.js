@@ -10,8 +10,10 @@ function Contents({ foodList }) {
     <S.Section>
       {foodList.map((foods, index) => (
         <S.RecipeLink key={foods._id + index} to={`/recipe/${foods._id}`}>
-          <S.FoodImage src={foods.imageUrl} alt={foods.title} />
-          <p>{foods.title}</p>
+          <S.ImageWrapper>
+            <S.FoodImage src={foods.imageUrl} alt={foods.title} />
+          </S.ImageWrapper>
+          <p title={foods.title}>{foods.title}</p>
         </S.RecipeLink>
       ))}
     </S.Section>

@@ -4,7 +4,7 @@ import nextEditor from "../../src/assets/img/editorNext.png";
 import prevEditor from "../../src/assets/img/editorPrev.png";
 import requestApi from "../libs/const/api";
 import * as S from "./Editor.style";
-import Loading from "../../src/assets/img/loading.svg";
+import CustomLoading from "../components/CustomLoading";
 
 function Editor() {
   const limitValue = 6;
@@ -45,14 +45,14 @@ function Editor() {
       console.log("getTargetRecepies  :", res);
       setLoading(false);
     } catch (error) {
-      console.log(error);
+      error.response.data.message && alert(error.response.data.message);
       setLoading(false);
       // 에러 처리 로직 추가
     }
   };
 
   //이전버튼 클릭 : 페이지 증가시키고 해당하는 에디터 목록 가져온다
-  const handlePrevClick = () => {
+  const handleNextClick = () => {
     if (1 < currentPage) {
       setCurrentPage(currentPage - 1);
       getEditorPagenation(currentPage, limitValue);
@@ -60,7 +60,7 @@ function Editor() {
   };
 
   //다음버튼 클릭 : 페이지 감소시키고 해당하는 에디터 목록 가져온다
-  const handleNextClick = () => {
+  const handlePrevClick = () => {
     if (totalPage > currentPage && totalPage !== currentPage) {
       setCurrentPage(currentPage + 1);
       getEditorPagenation(currentPage, limitValue);
@@ -93,31 +93,14 @@ function Editor() {
 
   return (
     <>
-      {loading && (
-        <div
-          className="loading"
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100vw",
-            height: "100vh",
-            background: "rgba(0,0,0,0.8)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <img src={Loading} alt="" />
-        </div>
-      )}
+      <CustomLoading loading={loading} />
 
       <S.CenterBox>
-        <S.YearEditors>
+        {/* <S.YearEditors>
           <h4>
             <span>냉슐랭</span> 에디터
           </h4>
-        </S.YearEditors>
+        </S.YearEditors> */}
         <S.NextEditorContaner>
           <a onClick={handlePrevClick}>
             <S.NextPrev src={prevEditor} alt="prevEditor" />
@@ -130,11 +113,13 @@ function Editor() {
                   handleEditorClick(editor._id);
                 }}
               >
-                <S.EditorImage
-                  style={{ pointerEvents: "none" }}
-                  src={editor.profileImageURL}
-                  alt={editor.nickName}
-                />
+                <S.ImageWrapper>
+                  <S.EditorImage
+                    style={{ pointerEvents: "none" }}
+                    src={editor.profileImageURL}
+                    alt={editor.nickName}
+                  />
+                </S.ImageWrapper>
                 <p style={{ pointerEvents: "none" }}>{editor.nickName}</p>
               </S.EditorLink>
             ))}
@@ -143,12 +128,13 @@ function Editor() {
             <S.NextPrev src={nextEditor} alt="nextEditor" />
           </a>
         </S.NextEditorContaner>
+        {selectList.length !== 0 && (
+          <S.EditorRecipes>
+            <span>{selectList.recipes[0].writer.nickName}</span>
+            님의 레시피
+          </S.EditorRecipes>
+        )}
         <S.BackgroundBox>
-          <div>
-            {selectList.length !== 0 && (
-              <span>{selectList.recipes[0].writer.nickName}</span>
-            )}
-          </div>
           <Contents foodList={selectList.recipes} />
         </S.BackgroundBox>
       </S.CenterBox>

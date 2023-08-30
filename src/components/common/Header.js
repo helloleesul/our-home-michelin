@@ -7,7 +7,6 @@ import useAuthStatus from "../../libs/hooks/useAuthStatus";
 function Header() {
   const { isAuth } = useAuthStatus();
   const [isAuthenticated, setIsAuthenticated] = useState(isAuth);
-
   useEffect(() => {
     setIsAuthenticated(isAuth);
   }, [isAuth]);
@@ -18,8 +17,8 @@ function Header() {
       const res = await requestApi("post", "/logout");
       // 로그아웃이 성공적으로 처리되면 클라이언트에서도 로그아웃 상태로 업데이트
       if (res === "로그아웃 되었습니다.") {
-        alert("로그아웃 되었습니다");
         setIsAuthenticated(false);
+        window.location.reload();
       }
     } catch (error) {
       console.error("로그아웃 실패", error);
