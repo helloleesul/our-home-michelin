@@ -2,7 +2,7 @@
 import { Global } from "@emotion/react";
 import { resetStyles } from "./App.style";
 // router
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./components/common/Layout";
 // pages
 import Home from "./pages/Home";
@@ -16,29 +16,39 @@ import Editor from "./pages/Editor";
 import MyPage from "./pages/MyPage";
 import MyInfo from "./pages/MyInfo";
 
+import useAuthStatus from "./libs/hooks/useAuthStatus";
+
 function App() {
+  const { isAuth } = useAuthStatus();
   return (
     <>
       <Global styles={resetStyles} />
-      <BrowserRouter>
-        <Routes>
-          <Route element={<Layout />}>
-            <Route path="/" element={<Home />}></Route>
-            <Route path="/login" element={<Login />}></Route>
-            <Route path="/join" element={<Join />}></Route>
-            <Route path="/editor" element={<Editor />}></Route>
-            <Route path="/recipe/popular" element={<RecipeList title="인기 레시피" />}></Route>
-            <Route path="/recipe/all" element={<RecipeList title="전체 레시피" />}></Route>
-            <Route path="/recipe/:detail" element={<RecipeDetail />}></Route>
-            <Route path="/recipe/write" element={<RecipeWrite />}></Route>
-            <Route path="/mypage" element={<MyPage />}></Route>
-            <Route path="/mypage/info" element={<MyInfo />}></Route>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />}></Route>
+          <Route path="/login" element={<Login />}></Route>
+          <Route path="/join" element={<Join />}></Route>
+          <Route path="/editor" element={<Editor />}></Route>
+          <Route
+            path="/recipe/popular"
+            element={<RecipeList title="인기 레시피" />}
+          ></Route>
+          <Route
+            path="/recipe/all"
+            element={<RecipeList title="전체 레시피" />}
+          ></Route>
+          <Route path="/recipe/:detail" element={<RecipeDetail />}></Route>
+          <Route path="/recipe/write" element={<RecipeWrite />}></Route>
+          <Route
+            path="/mypage"
+            element={isAuth ? <MyPage /> : <Navigate replace to={"/"} />}
+          ></Route>
+          <Route path="/mypage/info" element={<MyInfo />}></Route>
 
-            {/* 상단에 위치하는 라우트들의 규칙을 모두 확인, 일치하는 라우트가 없는경우 처리 */}
-            <Route path="*" element={<NotFound />}></Route>
-          </Route>
-        </Routes>
-      </BrowserRouter>
+          {/* 상단에 위치하는 라우트들의 규칙을 모두 확인, 일치하는 라우트가 없는경우 처리 */}
+          <Route path="*" element={<NotFound />}></Route>
+        </Route>
+      </Routes>
     </>
   );
 }
