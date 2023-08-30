@@ -18,6 +18,8 @@ function RecipeDetail() {
   const navigate = useNavigate();
   const [recipeData, setRecipeData] = useState({});
   const [showModal, setShowModal] = useState(false);
+  const [isLike, setIsLike] = useState();
+
   useEffect(() => {
     getRecipeData();
   }, []);
@@ -25,8 +27,22 @@ function RecipeDetail() {
   const getRecipeData = async () => {
     try {
       const response = await requestApi("get", `/recipes/${detail}`);
-      console.log(response);
+      // console.log(response);
       setRecipeData(response);
+      getMyLikeRecipe(response._id);
+    } catch (err) {}
+  };
+
+  const getMyLikeRecipe = async (id) => {
+    try {
+      const response = await requestApi("get", "/myinfo");
+      const result = response.likeRecipes.find((recipe) => recipe === id);
+      // console.log(response.likeRecipes, result, !result);
+      if (!result) {
+        setIsLike(false);
+      } else {
+        setIsLike(true);
+      }
     } catch (err) {}
   };
 
@@ -35,6 +51,15 @@ function RecipeDetail() {
       await requestApi("delete", `/recipes/${detail}`);
       setShowModal(false);
       navigate(-1);
+    } catch (err) {}
+  };
+
+  const handleIsLike = async (id) => {
+    try {
+      await requestApi("post", "/toggleLikeRecipes", {
+        recipeId: id,
+      });
+      getRecipeData();
     } catch (err) {}
   };
 
@@ -49,7 +74,9 @@ function RecipeDetail() {
             e.target.src = recipeDefaultImg;
           }}
         />
-        <h3>{recipeData.title}</h3>
+        <h3>
+          <span>{recipeData.title}</span>
+        </h3>
       </Detail.Box>
       <Detail.Owner>
         <div className="profile">
@@ -71,8 +98,12 @@ function RecipeDetail() {
         </div>
         <div className="buttons">
           <span>{recipeData.likeCount}</span>
-          <button>
-            <StrokeHeart color={MAIN_THEME_COLOR[0]} />
+          <button onClick={() => handleIsLike(recipeData._id)}>
+            {isLike ? (
+              <FillHeart color={MAIN_THEME_COLOR[0]} />
+            ) : (
+              <StrokeHeart color={MAIN_THEME_COLOR[0]} />
+            )}
           </button>
           {/* <button>
             <StrokeBookMark color={MAIN_THEME_COLOR[0]} />

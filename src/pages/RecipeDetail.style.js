@@ -9,16 +9,21 @@ export const Wrap = styled.article`
 export const Box = styled.section`
   border-radius: 10px;
   margin-bottom: 30px;
-  background: ${MAIN_THEME_COLOR[1]};
+  background: #fddcd5;
   overflow: hidden;
   h3 {
+    background: ${MAIN_THEME_COLOR[1]};
     color: #fff;
     font-size: 30px;
     text-align: center;
     padding: 1rem 0;
     font-weight: 700;
-    width: 80%;
     margin: 0 auto;
+    span {
+      width: 80%;
+      display: block;
+      margin: 0 auto;
+    }
   }
   &.shadow {
     background: #fff;
@@ -27,6 +32,10 @@ export const Box = styled.section`
   }
   img {
     width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    object-fit: scale-down;
   }
 `;
 
@@ -97,6 +106,7 @@ export const OrderList = styled.ol`
       flex: 1;
       line-height: 1.3;
       margin-top: 4px;
+      white-space: pre;
     }
   }
 `;
