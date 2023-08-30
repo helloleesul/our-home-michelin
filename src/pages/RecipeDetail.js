@@ -52,6 +52,7 @@ function RecipeDetail() {
           )}
           <div className="imgBox">
             {/* 유저 프로필 이미지 추후 작업예정 */}
+            {/* 에러났을 때 onError 기본 이미지로 설정 */}
             <img src={userDefaultImg} alt={recipeData.writer?.nickName} />
           </div>
           <span className="nickName">
@@ -109,7 +110,7 @@ function RecipeDetail() {
         </div>
       </Detail.Box>
       {/* 유저가 작성한 글일 때에만 보이게하기 */}
-      {recipeData.writer?._id === isAuthUser._id && (
+      {recipeData.writer?._id === isAuthUser?._id && (
         <>
           <Detail.Buttons>
             <Link to="/recipe/write" className="editBtn">
