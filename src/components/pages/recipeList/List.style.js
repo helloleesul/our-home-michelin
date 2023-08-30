@@ -31,7 +31,6 @@ export const ImgBookmark = styled.div`
   }
   button {
     position: absolute;
-    z-index: -1;
     top: 5px;
     right: 5px;
   }
@@ -60,7 +59,6 @@ export const RecipeTitle = styled.p`
 
 export const BookmarkButton = styled.button`
   position: absolute;
-  z-index: 1;
   top: 5px;
   right: 5px;
   background: none;
@@ -68,7 +66,8 @@ export const BookmarkButton = styled.button`
   font-size: 24px;
   cursor: pointer;
   color: ${(props) => (props.isBookmarked ? "red" : "white")};
-  animation: ${(props) => (props.isBookmarked ? "heartAnimation 0.3s ease" : "none")};
+  animation: ${(props) =>
+    props.isBookmarked ? "heartAnimation 0.3s ease" : "none"};
 
   @keyframes heartAnimation {
     0% {
