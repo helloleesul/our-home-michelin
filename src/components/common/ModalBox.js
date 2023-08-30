@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
+import requestApi from "../../libs/const/api";
 import CloseIcon from "../../assets/CloseIcon";
 import * as S from "./ModalBox.style.js";
 function ModalBox(props) {
@@ -10,10 +10,10 @@ function ModalBox(props) {
   const handleClick = async () => {
     if (location.pathname === "/mypage") {
       try {
-        const response = await axios.post("/api/confirm-password", {
+        const response = await requestApi("post", "/confirm-password", {
           password: password,
         });
-        if (response.data) {
+        if (response) {
           navigate("/mypage/info");
         }
       } catch (error) {
@@ -21,10 +21,10 @@ function ModalBox(props) {
       }
     } else {
       try {
-        const response = await axios.delete("/api/myinfo/", {
+        const response = await requestApi("delete", "/api/myinfo/", {
           data: { password: password.toString() },
         });
-        if (response.data) {
+        if (response) {
           alert("회원탈퇴 처리가 완료되었습니다.");
           navigate("/login");
         }
