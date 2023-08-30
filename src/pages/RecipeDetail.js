@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import * as Detail from "./RecipeDetail.style";
 import { FillHeart, StrokeHeart } from "../assets/HeartIcon";
-import { FillBookMark, StrokeBookMark } from "../assets/BookMarkIcon";
+// import { FillBookMark, StrokeBookMark } from "../assets/BookMarkIcon";
 import { MAIN_THEME_COLOR } from "../libs/const/color";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import requestApi from "../libs/const/api";
@@ -9,6 +9,7 @@ import PortalModal from "../components/common/PortalModal";
 import { AlertBox } from "../components/common/PortalModal.style";
 import CheckIcon from "../assets/CheckIcon";
 import userDefaultImg from "../assets/img/userDefaultImg.svg";
+import recipeDefaultImg from "../assets/img/recipeDefaultImg.png";
 import useAuthStatus from "../libs/hooks/useAuthStatus";
 
 function RecipeDetail() {
@@ -40,7 +41,14 @@ function RecipeDetail() {
   return (
     <Detail.Wrap>
       <Detail.Box>
-        <img src={recipeData.imageUrl} alt={recipeData.title} />
+        {/* 에러났을 때 onError 기본 이미지로 설정 */}
+        <img
+          src={recipeData.imageUrl}
+          alt={recipeData.title}
+          onError={(e) => {
+            e.target.src = recipeDefaultImg;
+          }}
+        />
         <h3>{recipeData.title}</h3>
       </Detail.Box>
       <Detail.Owner>
@@ -52,7 +60,6 @@ function RecipeDetail() {
           )}
           <div className="imgBox">
             {/* 유저 프로필 이미지 추후 작업예정 */}
-            {/* 에러났을 때 onError 기본 이미지로 설정 */}
             <img src={userDefaultImg} alt={recipeData.writer?.nickName} />
           </div>
           <span className="nickName">
