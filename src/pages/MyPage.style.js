@@ -78,8 +78,6 @@ export const RecipeBoxContainer = styled.div`
 `;
 export const RecipeContainer = styled.div`
   width: 100%;
-  border: 1px solid ${MAIN_THEME_COLOR[0]};
-  border-left: none;
   border-radius: 10px;
 `;
 
@@ -91,8 +89,6 @@ export const RecipeList = styled.div`
   border: 1px solid ${MAIN_THEME_COLOR[0]};
   padding-left: 34px;
   border-radius: 10px;
-  border-left: none;
-  border-right: none;
 `;
 export const RecipeItemBox = styled.div`
   width: calc(18%);
@@ -118,6 +114,7 @@ export const RecipeText = styled.p`
 
 export const TabsContainer = styled.div`
   padding: 10px;
+  margin-right: 20px;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -142,20 +139,17 @@ export const TabButton = styled.button`
 `;
 
 export const countContainer = styled.div`
-  border: 1px solid ${MAIN_THEME_COLOR[0]};
-  margin-bottom: 25px;
+  margin-bottom: 15px;
   border-radius: 10px;
   display: flex;
-  border-top: none;
 `;
 export const allCount = styled.div`
-  width: 25%;
+  width: 20%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-right: 1px solid ${MAIN_THEME_COLOR[0]};
-
+  border: 1px solid ${MAIN_THEME_COLOR[0]};
   border-radius: 10px;
 `;
 
@@ -165,12 +159,8 @@ export const menuCount = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 50px;
   border: 1px solid ${MAIN_THEME_COLOR[0]};
   border-radius: 10px;
-  border-top: none;
-  border-bottom: none;
-  border-right: none;
 `;
 
 export const conterTitleText = styled.p`
@@ -197,6 +187,7 @@ export const Pagination = styled.div`
   justify-content: center;
   margin-top: 20px;
   gap: 12px;
+  border-radius: 5px;
 `;
 
 export const PaginationButton = styled.button`
@@ -206,7 +197,7 @@ export const PaginationButton = styled.button`
   border: none;
   border-radius: 5px;
   padding: 5px 10px;
-  margin-top: -20px;
+  margin-top: -17px;
   cursor: pointer;
   &:hover {
     background-color: ${MAIN_THEME_COLOR[1]};

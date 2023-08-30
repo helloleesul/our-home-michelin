@@ -14,6 +14,7 @@ function MyInfo(props) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [passwordChange, setPasswordChange] = useState(false);
 
   const navigate = useNavigate();
 
@@ -38,7 +39,10 @@ function MyInfo(props) {
       alert("닉네임은 2글자 이상이어야 합니다.");
       return;
     }
-    if (!/^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/.test(password)) {
+    if (
+      password.length >= 1 &&
+      !/^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/.test(password)
+    ) {
       alert(
         "비밀번호는 영문, 숫자, 특수문자를 포함한 8글자 이상이어야 합니다."
       );
@@ -71,7 +75,7 @@ function MyInfo(props) {
   };
 
   const handlePasswordClick = () => {
-    setShowConfirmPassword(true);
+    setShowConfirmPassword(!showConfirmPassword);
   };
 
   return (
@@ -104,7 +108,7 @@ function MyInfo(props) {
             type="password"
             showBtn
             onChange={(event) => setPassword(event.target.value)}
-            placeholder="비밀번호 입력해주세요."
+            placeholder="변경하시려면 변경하기 버튼을 눌러주세요."
             onBtnClick={handlePasswordClick}
             readOnly={true}
           />

@@ -8,6 +8,7 @@ export const Background = styled.div`
   top: 0;
   background: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(5px);
+  z-index: 1;
 `;
 
 export const Wrap = styled.div`

@@ -14,10 +14,16 @@ function Input(props) {
   } = props;
   const [btnText, setBtnText] = useState("변경하기");
   const [read, setRead] = useState(readOnly);
+  const [inputPlaceHolder, setInputPlaceHolder] = useState(placeholder);
   const handleButtonClick = () => {
     setBtnText((btnText) => (btnText === "변경하기" ? "임시저장" : "변경하기"));
     setRead(!read);
     if (text === "비밀번호") {
+      setInputPlaceHolder((inputPlaceHolder) =>
+        inputPlaceHolder === "변경하시려면 변경하기 버튼을 눌러주세요."
+          ? "비밀번호 입력해주세요"
+          : "변경하시려면 변경하기 버튼을 눌러주세요."
+      );
       onBtnClick();
       setRead(!read);
     }
@@ -29,7 +35,7 @@ function Input(props) {
         <S.Label>{text}</S.Label>
         <S.Input
           type={type}
-          placeholder={placeholder}
+          placeholder={inputPlaceHolder}
           readOnly={read}
           onChange={onChange}
           value={value}

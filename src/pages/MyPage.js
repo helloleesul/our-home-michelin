@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import * as S from "./MyPage.style";
-import BasicProfileImg from "../assets/img/BasicProfileImg.png";
+import BasicProfileImg from "../assets/img/userDefaultImg.svg";
 import PortalModal from "../components/common/PortalModal";
 import ModalBox from "../components/common/ModalBox";
 import requestApi from "../libs/const/api";
-// import useAuthStatus from "../libs/hooks/useAuthStatus";
 
 function MyPage(props) {
   const [showModal, setShowModal] = useState(false);
@@ -22,7 +21,6 @@ function MyPage(props) {
   const [totalPages, setTotalPages] = useState(1);
   const [pageColor, setPageColor] = useState(1);
   const [pageButtons, setPageButtons] = useState([]);
-  // const { isAuth } = useAuthStatus();
   const navigate = useNavigate();
 
   const filteredRecipes =
