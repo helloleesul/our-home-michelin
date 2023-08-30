@@ -16,6 +16,7 @@ import { Link } from "react-router-dom";
 import Calendar from "./common/Calendar";
 import PortalModal from "./common/PortalModal";
 import useAuthStatus from "../libs/hooks/useAuthStatus";
+import { useNavigate } from "react-router-dom";
 
 function formatDate(dateString) {
   const options = { year: "numeric", month: "2-digit", day: "2-digit" };
@@ -31,6 +32,7 @@ function formatDate(dateString) {
 
 function MyFridge({ onClose }) {
   const { isAuth } = useAuthStatus();
+  const navigate = useNavigate();
 
   // 기본 식재료 추가 모드
   const [ingrAdderMode, setIngrAdderMode] = useState(false);
@@ -182,6 +184,30 @@ function MyFridge({ onClose }) {
     }
   };
 
+  const searchIngrRecipe = async () => {
+    const userIngredients = userIngrData.map(
+      (userIngr) => userIngr.ingredientName
+    );
+
+    try {
+      const recipeResult = await requestApi(
+        "post",
+        "/search-ingredients-recipes",
+        {
+          ingredients: userIngredients,
+        }
+      );
+      navigate("/recipe/all", {
+        state: {
+          searchRecipes: recipeResult,
+        },
+      });
+      onClose();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleCurrentIngr = (item) => {
     setShowCurrentIngr(true);
     setCurrentIngr(item);
@@ -299,7 +325,9 @@ function MyFridge({ onClose }) {
                           </ul>
                         </IngredientGroup>
                       )}
-                      <button onClick={() => {}}>레시피 검색하기</button>
+                      <button onClick={searchIngrRecipe}>
+                        레시피 검색하기
+                      </button>
                       <button
                         onClick={() => {
                           setIngrAdderMode(true);
