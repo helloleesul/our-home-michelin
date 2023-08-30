@@ -19,11 +19,13 @@ function EditorBox({ editorList }) {
             handleEditorClick(editor._id);
           }}
         >
-          <S.EditorImage
-            style={{ pointerEvents: "none" }}
-            src={editor.profileImageURL}
-            alt={editor.nickName}
-          />
+          <S.ImageWrapper>
+            <S.EditorImage
+              style={{ pointerEvents: "none" }}
+              src={editor.profileImageURL}
+              alt={editor.nickName}
+            />
+          </S.ImageWrapper>
           <p style={{ pointerEvents: "none" }}>{editor.nickName}</p>
         </S.EditorLink>
       ))}

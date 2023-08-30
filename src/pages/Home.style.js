@@ -18,9 +18,26 @@ export const RefrigeratorContainer = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  position: relative;
+  transform: scale(0.9);
+  .go-fill {
+    opacity: 0;
+    bottom: -50px;
+    position: absolute;
+    right: 30%;
+    font-weight: 700;
+    color: #f7411f;
+    transition: 0.3s;
+    font-size: 10px;
+  }
+  &:hover .go-fill {
+    opacity: 1;
+    bottom: 0;
+    font-size: 16px;
+  }
 
   p {
-    margin: 0 20px 0;
+    padding: 10px;
   }
 
   p span {
