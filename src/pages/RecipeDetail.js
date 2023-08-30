@@ -38,10 +38,12 @@ function RecipeDetail() {
       const response = await requestApi("get", "/myinfo");
       const result = response.likeRecipes.find((recipe) => recipe === id);
       // console.log(response.likeRecipes, result, !result);
-      if (!result) {
-        setIsLike(false);
-      } else {
-        setIsLike(true);
+      if (isAuthUser !== undefined) {
+        if (!result) {
+          setIsLike(false);
+        } else {
+          setIsLike(true);
+        }
       }
     } catch (err) {}
   };
@@ -98,11 +100,21 @@ function RecipeDetail() {
         </div>
         <div className="buttons">
           <span>{recipeData.likeCount}</span>
-          <button onClick={() => handleIsLike(recipeData._id)}>
-            {isLike ? (
-              <FillHeart color={MAIN_THEME_COLOR[0]} />
+          <button
+            onClick={() =>
+              isAuthUser !== undefined
+                ? handleIsLike(recipeData._id)
+                : alert("회원만 가능합니다.")
+            }
+          >
+            {isAuthUser !== undefined ? (
+              isLike ? (
+                <FillHeart color={MAIN_THEME_COLOR[0]} />
+              ) : (
+                <StrokeHeart color={MAIN_THEME_COLOR[0]} />
+              )
             ) : (
-              <StrokeHeart color={MAIN_THEME_COLOR[0]} />
+              <FillHeart color={MAIN_THEME_COLOR[0]} />
             )}
           </button>
           {/* <button>
