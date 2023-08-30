@@ -23,9 +23,7 @@ function List({ recipe }) {
             {isBookmarked ? "❤️" : "🤍"}
           </S.BookmarkButton>
         </S.ImgBookmark>
-        <S.RecipeTitle>
-          <p>{recipe.title}</p>
-        </S.RecipeTitle>
+        <S.RecipeTitle>{recipe.title}</S.RecipeTitle>
       </Link>
     </S.Card>
   );
