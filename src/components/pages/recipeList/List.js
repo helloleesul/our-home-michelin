@@ -13,13 +13,16 @@ function List({ recipe }) {
     event.stopPropagation();
     setBookmarked(!isBookmarked);
   };
-  console.log(recipe.imageURL);
+  // console.log(recipe.imageURL);
   return (
     <S.Card>
       <Link to={`/recipe/${recipe._id}`}>
         <S.ImgBookmark>
           <img src={recipe.imageUrl} alt={recipe.title} />
-          <S.BookmarkButton onClick={toggleBookmark} isBookmarked={isBookmarked}>
+          <S.BookmarkButton
+            onClick={toggleBookmark}
+            isBookmarked={isBookmarked}
+          >
             {isBookmarked ? "❤️" : "🤍"}
           </S.BookmarkButton>
         </S.ImgBookmark>
