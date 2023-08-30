@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import requestApi from "../libs/const/api";
-// import useAuthStatus from "../libs/hooks/useAuthStatus";
 import * as S from "../components/pages/UserAccessForm/UserAccessForm.style";
 import Input from "../components/pages/myInfo/MyInfoInput";
 import chef1 from "../assets/img/chef1.png";
@@ -9,8 +8,6 @@ import PortalModal from "../components/common/PortalModal";
 import ModalBox from "../components/common/ModalBox";
 
 function MyInfo(props) {
-  // const { isAuth } = useAuthStatus();
-
   const [showModal, setShowModal] = useState(false);
   const [nickname, setNickname] = useState("");
   const [userEmail, setUserEmail] = useState("");

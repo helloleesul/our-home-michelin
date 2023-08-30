@@ -26,8 +26,14 @@ function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Home />}></Route>
-          <Route path="/login" element={<Login />}></Route>
-          <Route path="/join" element={<Join />}></Route>
+          <Route
+            path="/login"
+            element={!isAuth ? <Login /> : <Navigate replace to={"/"} />}
+          ></Route>
+          <Route
+            path="/join"
+            element={!isAuth ? <Join /> : <Navigate replace to={"/"} />}
+          ></Route>
           <Route path="/editor" element={<Editor />}></Route>
           <Route
             path="/recipe/popular"
@@ -39,11 +45,15 @@ function App() {
           ></Route>
           <Route path="/recipe/:detail" element={<RecipeDetail />}></Route>
           <Route path="/recipe/write" element={<RecipeWrite />}></Route>
+
           <Route
             path="/mypage"
             element={isAuth ? <MyPage /> : <Navigate replace to={"/"} />}
           ></Route>
-          <Route path="/mypage/info" element={<MyInfo />}></Route>
+          <Route
+            path="/mypage/info"
+            element={isAuth ? <MyInfo /> : <Navigate replace to={"/"} />}
+          ></Route>
 
           {/* 상단에 위치하는 라우트들의 규칙을 모두 확인, 일치하는 라우트가 없는경우 처리 */}
           <Route path="*" element={<NotFound />}></Route>

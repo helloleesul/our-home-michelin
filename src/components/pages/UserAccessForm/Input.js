@@ -1,16 +1,10 @@
 import React, { useMemo, forwardRef } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { InputContainer, Label, UserInput, Button } from "./Input.style";
-import useAuthStatus from "../../../libs/hooks/useAuthStatus";
 import requestApi from "../../../libs/const/api";
 const isVisibleIndex = [1, 2];
 
 const Input = forwardRef((props, ref) => {
-  const { isAuth } = useAuthStatus();
-  const navigate = useNavigate();
-  if (isAuth) {
-    navigate("/");
-  }
   const {
     text,
     showBtn,
