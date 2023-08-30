@@ -54,7 +54,7 @@ const requestApi = async (method, url, data = {}) => {
 
     return response.data;
   } catch (error) {
-    console.error("API 요청 에러:", error.response.data.message);
+    console.error("API 요청 에러:", error.response.data);
     // alert("에러가 발생했습니다 : " + error.response.data.message);
     throw error;
   }
