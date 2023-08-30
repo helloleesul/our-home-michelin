@@ -97,6 +97,7 @@ export const OrderList = styled.ol`
       flex: 1;
       line-height: 1.3;
       margin-top: 4px;
+      white-space: pre;
     }
   }
 `;
