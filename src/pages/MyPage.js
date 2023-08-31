@@ -144,8 +144,8 @@ function MyPage(props) {
             ref={inputRef}
           />
           <S.InfoContainer>
-            <S.Text>{nickname} (닉네임)</S.Text>
-            <S.Text>{userEmail} (이메일)</S.Text>
+            <S.Text fontSize="18x">{nickname} (닉네임)</S.Text>
+            <S.Text fontSize="18x">{userEmail} (이메일)</S.Text>
             <S.Button onClick={() => setShowModal(true)}>
               회원정보 수정
             </S.Button>
@@ -192,6 +192,7 @@ function MyPage(props) {
               </S.conterTitleText>
               {recipes.length}
             </S.allCount>
+            <S.line></S.line>
             <S.menuCount>
               {Object.keys(recipeTypesCount).map((recipeType, index) => (
                 <S.menuCountBox key={index}>
