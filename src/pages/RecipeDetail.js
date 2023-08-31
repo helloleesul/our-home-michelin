@@ -11,11 +11,14 @@ import CheckIcon from "../assets/CheckIcon";
 import userDefaultImg from "../assets/img/userDefaultImg.svg";
 import recipeDefaultImg from "../assets/img/recipeDefaultImg.png";
 import useAuthStatus from "../libs/hooks/useAuthStatus";
+import { useDispatch } from "react-redux";
+import { setLoading } from "../libs/utils/layoutSlice";
 
 function RecipeDetail() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { detail } = useParams();
   const { isAuthUser } = useAuthStatus();
-  const navigate = useNavigate();
   const [recipeData, setRecipeData] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [isLike, setIsLike] = useState();
@@ -23,6 +26,7 @@ function RecipeDetail() {
 
   useEffect(() => {
     getRecipeData();
+    dispatch(setLoading(true));
   }, []);
 
   const getRecipeData = async () => {
@@ -32,6 +36,7 @@ function RecipeDetail() {
       setRecipeData(response);
       getMyLikeRecipe(response._id);
       getStars(response.likeCount);
+      dispatch(setLoading(false));
     } catch (err) {}
   };
 
