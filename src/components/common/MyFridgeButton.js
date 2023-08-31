@@ -4,13 +4,10 @@ import MyFridge from "../MyFridge";
 import fridgeclose from "../../assets/img/fridge-close.svg";
 import fridgeopen from "../../assets/img/fridge-open.svg";
 import * as S from "./MyFridgeButton.style";
-import useAuthStatus from "../../libs/hooks/useAuthStatus";
-import MyFridgeEmpty from "../MyFridgeEmpty";
 
 function MyFridgeButton() {
   const [showModal, setShowModal] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-  const { isAuth } = useAuthStatus();
 
   const handleImageHover = () => {
     setIsHovered(!isHovered); // 호버 상태 토글
@@ -29,11 +26,7 @@ function MyFridgeButton() {
         />
       </S.RefrigeratorButton>
       <PortalModal handleShowModal={showModal} size={"40%"}>
-        {isAuth ? (
-          <MyFridge onClose={() => setShowModal(false)} />
-        ) : (
-          <MyFridgeEmpty onClose={() => setShowModal(false)} />
-        )}
+        <MyFridge onClose={() => setShowModal(false)} />
       </PortalModal>
     </>
   );

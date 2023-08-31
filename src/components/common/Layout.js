@@ -32,20 +32,20 @@ export default function Layout(props) {
   const location = useLocation();
   const isHiddenFridge = hiddenPathList.includes(location.pathname);
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  useEffect(() => {
-    getUserFridge();
-  }, []);
+  // useEffect(() => {
+  //   getUserFridge();
+  // }, []);
 
-  const getUserFridge = async () => {
-    try {
-      const response = await requestApi("get", "/myfridge");
-      dispatch(setUserIngrData(response));
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const getUserFridge = async () => {
+  //   try {
+  //     const response = await requestApi("get", "/myfridge");
+  //     dispatch(setUserIngrData(response));
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   return (
     <Wrap>
