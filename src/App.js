@@ -17,15 +17,18 @@ import MyPage from "./pages/MyPage";
 import MyInfo from "./pages/MyInfo";
 
 import useAuthStatus from "./libs/hooks/useAuthStatus";
-import { Provider } from "react-redux";
-import store from "./libs/utils/store";
+import { createPortal } from "react-dom";
+import { useSelector } from "react-redux";
+import Loading from "./components/common/GlobalLoading";
 
 function App() {
   // 여기서 전역으로 로딩 컴포넌트를 사용하면 됨
   // useSelector로 상태를 가져와야 함
   const { isAuth } = useAuthStatus();
+  const isLoading = useSelector((state) => state.layout.isLoading);
+
   return (
-    <Provider store={store}>
+    <>
       <Global styles={resetStyles} />
       <Routes>
         <Route element={<Layout />}>
@@ -68,7 +71,8 @@ function App() {
         </Route>
       </Routes>
       {/* 로딩 상태 isLoading && <로딩컴포넌트 /> -> 추후에 createPortal로 변경가능 */}
-    </Provider>
+      {isLoading && createPortal(<Loading />, document.body)}
+    </>
   );
 }
 
