@@ -21,46 +21,24 @@ import { Provider } from "react-redux";
 import store from "./libs/utils/store";
 
 function App() {
+  // 여기서 전역으로 로딩 컴포넌트를 사용하면 됨
+  // useSelector로 상태를 가져와야 함
   const { isAuth } = useAuthStatus();
   return (
     <Provider store={store}>
       <Global styles={resetStyles} />
       <Routes>
         <Route element={<Layout />}>
-          <Route
-            path="/"
-            element={<Home />}
-          ></Route>
+          <Route path="/" element={<Home />}></Route>
           <Route
             path="/login"
-            element={
-              !isAuth ? (
-                <Login />
-              ) : (
-                <Navigate
-                  replace
-                  to={"/"}
-                />
-              )
-            }
+            element={!isAuth ? <Login /> : <Navigate replace to={"/"} />}
           ></Route>
           <Route
             path="/join"
-            element={
-              !isAuth ? (
-                <Join />
-              ) : (
-                <Navigate
-                  replace
-                  to={"/"}
-                />
-              )
-            }
+            element={!isAuth ? <Join /> : <Navigate replace to={"/"} />}
           ></Route>
-          <Route
-            path="/editor"
-            element={<Editor />}
-          ></Route>
+          <Route path="/editor" element={<Editor />}></Route>
           <Route
             path="/recipe/popular"
             element={<RecipeList title="인기 레시피" />}
@@ -69,14 +47,8 @@ function App() {
             path="/recipe/all"
             element={<RecipeList title="전체 레시피" />}
           ></Route>
-          <Route
-            path="/recipe/:detail"
-            element={<RecipeDetail />}
-          ></Route>
-          <Route
-            path="/recipe/write"
-            element={<RecipeWrite />}
-          ></Route>
+          <Route path="/recipe/:detail" element={<RecipeDetail />}></Route>
+          <Route path="/recipe/write" element={<RecipeWrite />}></Route>
           <Route
             path="/recipe/update/:recipeId"
             element={<RecipeWrite />}
@@ -84,38 +56,18 @@ function App() {
 
           <Route
             path="/mypage"
-            element={
-              isAuth ? (
-                <MyPage />
-              ) : (
-                <Navigate
-                  replace
-                  to={"/"}
-                />
-              )
-            }
+            element={isAuth ? <MyPage /> : <Navigate replace to={"/"} />}
           ></Route>
           <Route
             path="/mypage/info"
-            element={
-              isAuth ? (
-                <MyInfo />
-              ) : (
-                <Navigate
-                  replace
-                  to={"/"}
-                />
-              )
-            }
+            element={isAuth ? <MyInfo /> : <Navigate replace to={"/"} />}
           ></Route>
 
           {/* 상단에 위치하는 라우트들의 규칙을 모두 확인, 일치하는 라우트가 없는경우 처리 */}
-          <Route
-            path="*"
-            element={<NotFound />}
-          ></Route>
+          <Route path="*" element={<NotFound />}></Route>
         </Route>
       </Routes>
+      {/* 로딩 상태 isLoading && <로딩컴포넌트 /> -> 추후에 createPortal로 변경가능 */}
     </Provider>
   );
 }
