@@ -8,11 +8,52 @@ import * as S from "./RecipeList.style";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 
+function chunkArray(myArray, chunk_size) {
+  let index = 0;
+  let arrayLength = myArray.length;
+  let tempArray = [];
+
+  for (index = 0; index < arrayLength; index += chunk_size) {
+    const chunk = myArray.slice(index, index + chunk_size);
+    tempArray.push(chunk);
+  }
+
+  return tempArray;
+}
+
 function RecipeList(props) {
   // const [like, setLike] = useState(false);
   const [recipes, setRecipes] = useState([]);
   const location = useLocation();
   const searchRecipes = location.state?.searchRecipes;
+  const [likeRecipes, setLikeRecipes] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const checkLoginStatus = async () => {
+    try {
+      const response = await axios.get("/api/check-login");
+      setIsLoggedIn(response.data.isAuthenticated);
+    } catch (error) {
+      console.error("로그인 상태를 확인하는데 실패하였습니다.", error);
+    }
+  };
+
+  useEffect(() => {
+    checkLoginStatus();
+  }, []);
+
+  const fetchMyInfo = async () => {
+    try {
+      const response = await axios.get("/api/myinfo");
+      setLikeRecipes(response.data.likeRecipes);
+    } catch (error) {
+      console.log("Failed to fetch user info", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchMyInfo();
+  }, []);
 
   useEffect(() => {
     console.log(searchRecipes);
@@ -59,8 +100,17 @@ function RecipeList(props) {
       <S.Title>{props.title || "전체 레시피"}</S.Title>
 
       <S.Lists>
-        {recipes.map((recipe) => (
-          <List key={recipe._id} recipe={recipe} />
+        {chunkArray(recipes, 5).map((recipeRow, index) => (
+          <S.Row key={index}>
+            {recipeRow.map((recipe) => (
+              <List
+                key={recipe._id}
+                recipe={recipe}
+                isBookmarked={likeRecipes.includes(recipe._id)}
+                isLoggedIn={isLoggedIn}
+              />
+            ))}
+          </S.Row>
         ))}
       </S.Lists>
     </>
