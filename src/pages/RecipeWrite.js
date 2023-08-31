@@ -5,7 +5,10 @@ import requestApi from "../libs/const/api.js";
 import axios from "axios";
 import useAuthStatus from "../libs/hooks/useAuthStatus.js";
 import * as S from "./RecipeWrite.style";
+import Login from "./Login.js";
 import Layout from "../components/common/Layout";
+
+const text = "레시피 등록을 위해서는 로그인 또는 회원가입이 필요합니다!";
 
 function useLayoutAuth() {
   const [authResponse, setAuthResponse] = useState(false);
@@ -373,13 +376,7 @@ function RecipeWrite(props) {
         </>
       )}
       {/* 미로그인 상태에서 레시피 작성 페이지 접근하는 경우 */}
-      {!authResponse.isAuthenticated && (
-        <>
-          <h2>로그인 또는 회원가입이 필요합니다!</h2>
-          <Link to="/login">로그인하기</Link>
-          <Link to="/join">회원가입하기</Link>
-        </>
-      )}
+      {!authResponse.isAuthenticated && navigate("/login")}
     </S.Wrap>
   );
 }
