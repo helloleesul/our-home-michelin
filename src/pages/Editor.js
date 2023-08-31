@@ -5,6 +5,7 @@ import prevEditor from "../../src/assets/img/editorPrev.png";
 import requestApi from "../libs/const/api";
 import * as S from "./Editor.style";
 import CustomLoading from "../components/CustomLoading";
+import editorDefaultImg from "../assets/img/chef1.png";
 
 function Editor() {
   const limitValue = 6;
@@ -118,6 +119,9 @@ function Editor() {
                     style={{ pointerEvents: "none" }}
                     src={editor.profileImageURL}
                     alt={editor.nickName}
+                    onError={(e) => {
+                      e.target.src = editorDefaultImg;
+                    }}
                   />
                 </S.ImageWrapper>
                 <p style={{ pointerEvents: "none" }}>{editor.nickName}</p>

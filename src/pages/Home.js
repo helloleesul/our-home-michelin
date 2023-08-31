@@ -95,18 +95,21 @@ function Home() {
           <div>
             {isAuth ? (
               <>
+                <p>나만의 냉장고에</p>
                 <p>
-                  나만의 냉장고에
+                  <span>식재료들을</span>더 채우러 갈까요?
                 </p>
-                <p><span>식재료들을</span>더 채우러 갈까요?</p>
               </>
             ) : (
               <>
                 <p>로그인해서</p>
-                <p> <span>나만의 냉장고</span>를 채워보세요!</p>
+                <p>
+                  {" "}
+                  <span>나만의 냉장고</span>를 채워보세요!
+                </p>
               </>
             )}
-            <GoFill>채우러가기 ╰(*°▽°*)╯</GoFill>
+            <S.GoFill>채우러가기 ╰(*°▽°*)╯</S.GoFill>
           </div>
         </S.RefrigeratorContainer>
         <PortalModal handleShowModal={showModal} size={"40%"}>
