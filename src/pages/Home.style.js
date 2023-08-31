@@ -20,7 +20,19 @@ export const RefrigeratorContainer = styled.div`
   cursor: pointer;
   position: relative;
   transform: scale(0.9);
-  .go-fill {
+  
+  p {
+    padding: 10px;
+  }
+  
+  p span {
+    font-weight: 800;
+    font-size: 20px;
+    color: #f7411f;
+  }
+  `;
+  
+  export const GoFill = styled.p`
     opacity: 0;
     bottom: -50px;
     position: absolute;
@@ -29,23 +41,13 @@ export const RefrigeratorContainer = styled.div`
     color: #f7411f;
     transition: 0.3s;
     font-size: 10px;
-  }
+
   &:hover .go-fill {
     opacity: 1;
     bottom: 0;
     font-size: 16px;
   }
-
-  p {
-    padding: 10px;
-  }
-
-  p span {
-    font-weight: 800;
-    font-size: 20px;
-    color: #f7411f;
-  }
-`;
+  `;
 
 export const SeeMoreLink = styled(Link)`
   text-decoration: none;

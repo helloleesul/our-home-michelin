@@ -1,13 +1,13 @@
 // Navigation.style.js
-
 import styled from "@emotion/styled";
 import { NavLink } from "react-router-dom";
+import { MAIN_THEME_COLOR } from "../../libs/const/color";
 
 export const Nav = styled.nav`
   position: sticky;
   top: 0;
   width: 100%;
-  background-color: #f7411f;
+  background-color: ${MAIN_THEME_COLOR[0]};
   z-index: 1;
   box-shadow: 0 2px 3px 2px rgba(0, 0, 0, 0.15);
 `;
@@ -26,10 +26,7 @@ export const CustomNavLink = styled(NavLink)`
   text-decoration: none;
   padding: 12px 0;
   width: 25%;
-<<<<<<< HEAD
   transition: 0.3s;
-=======
->>>>>>> f8205ce1919391d08964beb19dbb456869022f57
   &.active {
     background-color: #ff755b;
   }
