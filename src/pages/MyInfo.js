@@ -14,7 +14,6 @@ function MyInfo(props) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [passwordChange, setPasswordChange] = useState(false);
 
   const navigate = useNavigate();
 
@@ -63,7 +62,7 @@ function MyInfo(props) {
     };
 
     try {
-      const response = await requestApi("put", "/myinfo", userData);
+      const response = await requestApi("patch", "/myinfo", userData);
       if (response) {
         alert("회원정보 수정 완료");
         navigate("/mypage");
