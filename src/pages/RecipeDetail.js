@@ -19,6 +19,7 @@ function RecipeDetail() {
   const [recipeData, setRecipeData] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [isLike, setIsLike] = useState();
+  const [stars, setStars] = useState();
 
   useEffect(() => {
     getRecipeData();
@@ -30,6 +31,7 @@ function RecipeDetail() {
       // console.log(response);
       setRecipeData(response);
       getMyLikeRecipe(response._id);
+      getStars(response.likeCount);
     } catch (err) {}
   };
 
@@ -46,6 +48,20 @@ function RecipeDetail() {
         }
       }
     } catch (err) {}
+  };
+
+  const getStars = (likeCount) => {
+    if (likeCount >= 100) {
+      setStars("⭐️⭐️⭐️⭐️⭐️");
+    } else if (likeCount >= 80) {
+      setStars("⭐️⭐️⭐️⭐️");
+    } else if (likeCount >= 60) {
+      setStars("⭐️⭐️⭐️");
+    } else if (likeCount >= 40) {
+      setStars("⭐️⭐️");
+    } else if (likeCount >= 20) {
+      setStars("⭐️");
+    }
   };
 
   const handleRecipeDel = async () => {
@@ -77,6 +93,7 @@ function RecipeDetail() {
           }}
         />
         <h3>
+          <span className="stars">{stars}</span>
           <span>{recipeData.title}</span>
         </h3>
       </Detail.Box>
