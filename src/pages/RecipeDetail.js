@@ -163,9 +163,18 @@ function RecipeDetail() {
       {recipeData.writer?._id === isAuthUser?._id && (
         <>
           <Detail.Buttons>
-            <Link to="/recipe/write" className="editBtn">
+            <button
+              onClick={() => {
+                navigate("/recipe/write", {
+                  state: {
+                    updateRecipe: recipeData,
+                  },
+                });
+              }}
+              className="editBtn"
+            >
               레시피 수정하기
-            </Link>
+            </button>
             <button className="deleteBtn" onClick={() => setShowModal(true)}>
               삭제
             </button>
