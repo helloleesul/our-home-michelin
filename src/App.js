@@ -22,8 +22,6 @@ import { useSelector } from "react-redux";
 import Loading from "./components/common/GlobalLoading";
 
 function App() {
-  // 여기서 전역으로 로딩 컴포넌트를 사용하면 됨
-  // useSelector로 상태를 가져와야 함
   const { isAuth } = useAuthStatus();
   const isLoading = useSelector((state) => state.layout.isLoading);
 
@@ -70,7 +68,6 @@ function App() {
           <Route path="*" element={<NotFound />}></Route>
         </Route>
       </Routes>
-      {/* 로딩 상태 isLoading && <로딩컴포넌트 /> -> 추후에 createPortal로 변경가능 */}
       {isLoading && createPortal(<Loading />, document.body)}
     </>
   );

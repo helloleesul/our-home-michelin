@@ -1,30 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import requestApi from "../../libs/const/api";
 import { Container } from "./Layout";
 import * as S from "./Header.style";
-import useAuthStatus from "../../libs/hooks/useAuthStatus";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUserIngrData } from "../../libs/utils/fridgeIngrSlice";
+import { setAuth } from "../../libs/utils/layoutSlice";
+import { useNavigate } from "react-router-dom";
 
 function Header() {
-  const { isAuth } = useAuthStatus();
-  const [isAuthenticated, setIsAuthenticated] = useState(isAuth);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    setIsAuthenticated(isAuth);
-  }, [isAuth]);
+  const storeAuth = useSelector((state) => state.layout.isAuth);
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
       // 로그아웃 API 호출
-      const res = await requestApi("post", "/logout");
-      // 로그아웃이 성공적으로 처리되면 클라이언트에서도 로그아웃 상태로 업데이트
-      if (res === "로그아웃 되었습니다.") {
-        setIsAuthenticated(false);
-        dispatch(setUserIngrData([]));
-        window.location.reload();
-      }
+      await requestApi("post", "/logout");
+      // 아래 업데이트가 실행된 뒤
+      dispatch(setUserIngrData([]));
+      dispatch(setAuth(false));
+      // 그다음에 경로를 이동시켜주어야 합니다.
+      // Link태그의 경우 handleLogout함수를 실행하기 전에 바로 이동하기 때문에
+      // dispatch 업데이트적용이 되지않습니다. 그래서 button태그로 변경 후 useNavigate로 새로고침없이 경로 이동을 시켜줍니다!
+      navigate("/");
     } catch (error) {
       console.error("로그아웃 실패", error);
     }
@@ -33,13 +31,12 @@ function Header() {
   return (
     <header>
       <Container>
-        {isAuthenticated ? (
+        {storeAuth ? (
           // 로그인 상태일 때
           <S.User>
             <S.JoinMypage to="/mypage">마이페이지</S.JoinMypage>
-            <S.LoginLogout to="/" onClick={handleLogout}>
-              로그아웃
-            </S.LoginLogout>
+            {/* 로그아웃은 Link태그가 아니라 button태그이어야 합니다. 설명은 위에 적어두었어요. 스타일컴포넌트 태그를 button으로 변경해주세요 */}
+            <button onClick={handleLogout}> 로그아웃</button>
           </S.User>
         ) : (
           // 로그인되지 않은 상태일 때
