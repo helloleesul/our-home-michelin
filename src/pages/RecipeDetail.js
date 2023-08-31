@@ -22,6 +22,7 @@ function RecipeDetail() {
   const [recipeData, setRecipeData] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [isLike, setIsLike] = useState();
+  const [stars, setStars] = useState();
 
   useEffect(() => {
     getRecipeData();
@@ -34,6 +35,7 @@ function RecipeDetail() {
       // console.log(response);
       setRecipeData(response);
       getMyLikeRecipe(response._id);
+      getStars(response.likeCount);
       dispatch(setLoading(false));
     } catch (err) {}
   };
@@ -43,12 +45,28 @@ function RecipeDetail() {
       const response = await requestApi("get", "/myinfo");
       const result = response.likeRecipes.find((recipe) => recipe === id);
       // console.log(response.likeRecipes, result, !result);
-      if (!result) {
-        setIsLike(false);
-      } else {
-        setIsLike(true);
+      if (isAuthUser !== undefined) {
+        if (!result) {
+          setIsLike(false);
+        } else {
+          setIsLike(true);
+        }
       }
     } catch (err) {}
+  };
+
+  const getStars = (likeCount) => {
+    if (likeCount >= 100) {
+      setStars("⭐️⭐️⭐️⭐️⭐️");
+    } else if (likeCount >= 80) {
+      setStars("⭐️⭐️⭐️⭐️");
+    } else if (likeCount >= 60) {
+      setStars("⭐️⭐️⭐️");
+    } else if (likeCount >= 40) {
+      setStars("⭐️⭐️");
+    } else if (likeCount >= 20) {
+      setStars("⭐️");
+    }
   };
 
   const handleRecipeDel = async () => {
@@ -80,6 +98,7 @@ function RecipeDetail() {
           }}
         />
         <h3>
+          <span className="stars">{stars}</span>
           <span>{recipeData.title}</span>
         </h3>
       </Detail.Box>
@@ -103,11 +122,21 @@ function RecipeDetail() {
         </div>
         <div className="buttons">
           <span>{recipeData.likeCount}</span>
-          <button onClick={() => handleIsLike(recipeData._id)}>
-            {isLike ? (
-              <FillHeart color={MAIN_THEME_COLOR[0]} />
+          <button
+            onClick={() =>
+              isAuthUser !== undefined
+                ? handleIsLike(recipeData._id)
+                : alert("회원만 가능합니다.")
+            }
+          >
+            {isAuthUser !== undefined ? (
+              isLike ? (
+                <FillHeart color={MAIN_THEME_COLOR[0]} />
+              ) : (
+                <StrokeHeart color={MAIN_THEME_COLOR[0]} />
+              )
             ) : (
-              <StrokeHeart color={MAIN_THEME_COLOR[0]} />
+              <FillHeart color={MAIN_THEME_COLOR[0]} />
             )}
           </button>
           {/* <button>
@@ -156,9 +185,18 @@ function RecipeDetail() {
       {recipeData.writer?._id === isAuthUser?._id && (
         <>
           <Detail.Buttons>
-            <Link to="/recipe/write" className="editBtn">
+            <button
+              onClick={() => {
+                navigate("/recipe/write", {
+                  state: {
+                    updateRecipe: recipeData,
+                  },
+                });
+              }}
+              className="editBtn"
+            >
               레시피 수정하기
-            </Link>
+            </button>
             <button className="deleteBtn" onClick={() => setShowModal(true)}>
               삭제
             </button>

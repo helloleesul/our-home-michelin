@@ -19,6 +19,11 @@ export const Box = styled.section`
     padding: 1rem 0;
     font-weight: 700;
     margin: 0 auto;
+    .stars {
+      font-size: 30px;
+      margin-bottom: 12px;
+      letter-spacing: 0.4rem;
+    }
     span {
       width: 80%;
       display: block;
@@ -106,7 +111,8 @@ export const OrderList = styled.ol`
       flex: 1;
       line-height: 1.3;
       margin-top: 4px;
-      white-space: pre;
+      white-space: pre-line;
+      display: inline;
     }
   }
 `;
