@@ -36,13 +36,13 @@ function Header() {
           <S.User>
             <S.JoinMypage to="/mypage">마이페이지</S.JoinMypage>
             {/* 로그아웃은 Link태그가 아니라 button태그이어야 합니다. 설명은 위에 적어두었어요. 스타일컴포넌트 태그를 button으로 변경해주세요 */}
-            <button onClick={handleLogout}> 로그아웃</button>
+            <S.Logout onClick={handleLogout}> 로그아웃</S.Logout>
           </S.User>
         ) : (
           // 로그인되지 않은 상태일 때
           <S.User>
             <S.JoinMypage to="/join">회원가입</S.JoinMypage>
-            <S.LoginLogout to="/login">로그인</S.LoginLogout>
+            <S.Login to="/login">로그인</S.Login>
           </S.User>
         )}
         <S.Title to="/">
