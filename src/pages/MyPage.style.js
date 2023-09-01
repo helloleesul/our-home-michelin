@@ -112,7 +112,7 @@ export const RecipeImg = styled.img`
   border-radius: 10px;
   box-sizing: border-box;
   background-color: #f0f0f0;
-  border: 2px solid ${MAIN_THEME_COLOR[2]};
+  // border: 2px solid ${MAIN_THEME_COLOR[2]};
   cursor: pointer;
 `;
 

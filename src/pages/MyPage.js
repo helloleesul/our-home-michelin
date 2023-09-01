@@ -7,6 +7,7 @@ import ModalBox from "../components/common/ModalBox";
 import requestApi from "../libs/const/api";
 import { useDispatch } from "react-redux";
 import { setLoading } from "../libs/utils/layoutSlice";
+import recipeDefaultImg from "../assets/img/recipeDefaultImg.png";
 
 function MyPage() {
   const [showModal, setShowModal] = useState(false);
@@ -138,6 +139,7 @@ function MyPage() {
           <S.ProfileImg
             onClick={() => inputRef.current.click()}
             src={selectedImage || BasicProfileImg}
+            onError={(e) => (e.target.src = BasicProfileImg)}
           />
           <input
             type="file"
@@ -198,6 +200,7 @@ function MyPage() {
                   onClick={() => handleRecipeImg(recipe._id)}
                   src={recipe.imageUrl}
                   alt={`레시피 이미지 ${index + 1}`}
+                  onError={(e) => (e.target.src = recipeDefaultImg)}
                 />
                 <S.RecipeText>{recipe.title}</S.RecipeText>
               </S.RecipeItemBox>
