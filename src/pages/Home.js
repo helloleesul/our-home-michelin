@@ -25,7 +25,13 @@ function Home() {
     setLoading(true);
     try {
       const res = await requestApi("get", "/editors");
-      setEditorList(res.editors);
+      const list = res.editors.map((editor) => ({
+        _id: editor._id,
+        nickName: editor.nickName,
+        profileImageURL: editor.profileImageURL,
+      }));
+      console.log(list);
+      setEditorList(list);
     } catch (error) {
       console.log(error);
     }
@@ -42,52 +48,52 @@ function Home() {
   };
 
   //전체 레시피 가져오기
-  const getAllRecipes = async () => {
-    try {
-      const recipeArray = await requestApi("get", "/recipes");
-      setAllRecipes(recipeArray);
-      setLimitRecipes(recipeArray.slice(0, 10));
-      sessionStorage.setItem("AllRecipes", JSON.stringify(recipeArray));
+  // const getAllRecipes = async () => {
+  //   try {
+  //     const recipeArray = await requestApi("get", "/recipes");
+  //     setAllRecipes(recipeArray);
+  //     setLimitRecipes(recipeArray.slice(0, 10));
+  //     sessionStorage.setItem("AllRecipes", JSON.stringify(recipeArray));
 
-      // 에디터 목록 배열을 맵으로 순회하며 likeCount를 더해줌
-      const updatedEditorList = editorList.map((editor) => {
-        editor.likeCount = 0;
-        const editorCopy = { ...editor };
-        const matchingRecipe = recipeArray.find(
-          (recipe) => recipe.writer === editor._id
-        );
-        if (matchingRecipe) {
-          editorCopy.likeCount = editorCopy.likeCount
-            ? editorCopy.likeCount + matchingRecipe.likeCount
-            : matchingRecipe.likeCount;
-        }
-        return editorCopy;
-      });
+  //     // 에디터 목록 배열을 맵으로 순회하며 likeCount를 더해줌
+  //     const updatedEditorList = editorList.map((editor) => {
+  //       editor.likeCount = 0;
+  //       const editorCopy = { ...editor };
+  //       const matchingRecipe = recipeArray.find(
+  //         (recipe) => recipe.writer === editor._id
+  //       );
+  //       if (matchingRecipe) {
+  //         editorCopy.likeCount = editorCopy.likeCount
+  //           ? editorCopy.likeCount + matchingRecipe.likeCount
+  //           : matchingRecipe.likeCount;
+  //       }
+  //       return editorCopy;
+  //     });
 
-      // likeCount를 기준으로 에디터 목록을 정렬하는 함수
-      const sortedEditorList = updatedEditorList.sort(
-        (a, b) => b.likeCount - a.likeCount
-      );
+  //     // likeCount를 기준으로 에디터 목록을 정렬하는 함수
+  //     const sortedEditorList = updatedEditorList.sort(
+  //       (a, b) => b.likeCount - a.likeCount
+  //     );
 
-      setSortList(sortedEditorList);
-      if (sortedEditorList.length > 0) setLoading(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //     setSortList(sortedEditorList);
+  //     if (sortedEditorList.length > 0) setLoading(false);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   useEffect(() => {
     getEditorList();
     getFivestarRecipe();
   }, []);
 
-  useEffect(() => {
-    getAllRecipes();
-  }, [editorList]);
+  // useEffect(() => {
+  //   getAllRecipes();
+  // }, [editorList]);
 
   return (
     <>
-      <CustomLoading loading={loading} />
+      {/* <CustomLoading loading={loading} /> */}
 
       <S.Div>
         <S.RefrigeratorContainer onClick={() => setShowModal(true)}>
@@ -122,7 +128,7 @@ function Home() {
             </p>
             <S.SeeMoreLink to="/editor">더보기</S.SeeMoreLink>
           </S.Text>
-          <EditorBox editorList={sortList} />
+          <EditorBox editorList={editorList} />
         </Container>
         <Container>
           <S.Text>

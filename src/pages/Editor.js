@@ -6,6 +6,7 @@ import requestApi from "../libs/const/api";
 import * as S from "./Editor.style";
 import CustomLoading from "../components/CustomLoading";
 import editorDefaultImg from "../assets/img/chef1.png";
+import { useLocation } from "react-router-dom";
 
 function Editor() {
   const limitValue = 6;
@@ -15,6 +16,13 @@ function Editor() {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectEditor, setSelectEditor] = useState("");
   const [loading, setLoading] = useState(false);
+  const location = useLocation();
+  const editorId = location.state?.editorId;
+  console.log("editorId", editorId);
+
+  useEffect(() => {
+    setSelectEditor(editorId);
+  }, []);
 
   //에디터 페이지네이션 가져오기
   const getEditorPagenation = async (pageNum, limit) => {
@@ -71,7 +79,7 @@ function Editor() {
   //에디터 목록에서 클릭
   const handleEditorClick = (id) => {
     console.log("editor id :", id);
-    sessionStorage.setItem("selectEditor", id);
+    // sessionStorage.setItem("selectEditor", id);
     setSelectEditor(id);
   };
 

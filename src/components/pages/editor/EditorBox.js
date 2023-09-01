@@ -8,8 +8,12 @@ function EditorBox({ editorList }) {
 
   const handleEditorClick = (id) => {
     console.log("editor id :", id);
-    sessionStorage.setItem("selectEditor", id);
-    navigate("/editor");
+    // sessionStorage.setItem("selectEditor", id);
+    navigate("/editor", {
+      state: {
+        editorId: id,
+      },
+    });
   };
   return (
     <S.Section>

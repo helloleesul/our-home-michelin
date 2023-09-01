@@ -8,3 +8,5 @@ module.exports = (app) => {
     })
   );
 };
+// - ip : 34.64.93.95
+// - domain : kdt-sw-5-2-team05.elicecoding.com
