@@ -1,28 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, Link, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import CloseIcon from "../assets/CloseIcon.js";
 import requestApi from "../libs/const/api.js";
 import axios from "axios";
 import useAuthStatus from "../libs/hooks/useAuthStatus.js";
 import * as S from "./RecipeWrite.style";
-// import Login from "./Login.js";
-// import Layout from "../components/common/Layout";
-
-// const text = "레시피 등록을 위해서는 로그인 또는 회원가입이 필요합니다!";
-
-// function useLayoutAuth() {
-//   const [authResponse, setAuthResponse] = useState(false);
-//   const getUserAuth = async () => {
-//     const response = await requestApi("get", "/check-login");
-//     setAuthResponse(response);
-//   };
-
-//   useEffect(() => {
-//     getUserAuth();
-//   }, []);
-
-//   return { authResponse };
-// }
 
 function RecipeWrite(props) {
   const [title, setTitle] = useState("");
@@ -38,7 +20,6 @@ function RecipeWrite(props) {
 
   const location = useLocation();
   const updateRecipeData = location.state?.recipe;
-  // const isEditMode = updateRecipeData !== undefined;
   const [isEditMode, setIsEditMode] = useState();
   const { isAuth, isAuthUser } = useAuthStatus();
 
@@ -51,6 +32,10 @@ function RecipeWrite(props) {
       setProcess(updateRecipeData.process);
       setRecipeImg(updateRecipeData.imageUrl);
       setIsEditMode(true);
+      if (updateRecipeData.imageUrl) {
+        const recipeImgUrl = updateRecipeData.imageUrl;
+        setRecipeImg(recipeImgUrl);
+      }
     } else {
       setIsEditMode(false);
     }
@@ -61,10 +46,6 @@ function RecipeWrite(props) {
     console.log("recipeImg:", recipeImg);
   }, [stateFile, recipeImg]);
 
-  // const { authResponse } = useLayoutAuth();
-  // console.log("[ authResponse ]");
-  // console.log(authResponse.isAuthenticated);
-  // console.log(authResponse);
   const navigate = useNavigate();
 
   const defaultRecipeImgUrl = require("../assets/img/recipeDefaultImg.png");
@@ -135,6 +116,13 @@ function RecipeWrite(props) {
   const handleRecipeSubmit = async () => {
     try {
       const formData = new FormData();
+      formData.append("title", title);
+      formData.append("recipeType", selectedType);
+      formData.append("recipeServing", selectedServing);
+      formData.append("ingredients", JSON.stringify([...ingredients]));
+      formData.append("process", JSON.stringify(process));
+      formData.append("writer", isAuthUser._id);
+
       if (stateFile !== null) {
         formData.append("uploadRecipeImg", stateFile);
       } else {
@@ -148,12 +136,18 @@ function RecipeWrite(props) {
         }
       }
 
-      formData.append("title", title);
-      formData.append("recipeType", selectedType);
-      formData.append("recipeServing", selectedServing);
-      formData.append("ingredients", JSON.stringify([...ingredients]));
-      formData.append("process", JSON.stringify(process));
-      formData.append("writer", isAuthUser._id);
+      if (title.trim() === "") {
+        alert("레시피 제목을 입력해주세요!");
+        return;
+      }
+      if (ingredients.length === 0) {
+        alert("적어도 하나 이상의 요리 재료를 입력해주세요!");
+        return;
+      }
+      if (process.length === 0) {
+        alert("적어도 하나 이상의 요리 과정을 입력해주세요!");
+        return;
+      }
 
       if (isEditMode) {
         const response = await axios.patch(
@@ -262,6 +256,7 @@ function RecipeWrite(props) {
                 </S.RecipeFormAttribute>
               </S.RecipeFormTopLeft>
               <S.RecipeFormTopRight>
+                {/* div id: "upload-img-container의 background-image = `url(${plzUploadImgUrl})` 적용하고 있었음!*/}
                 <div
                   id="upload-img-container"
                   style={{
@@ -269,7 +264,6 @@ function RecipeWrite(props) {
                     top: "-1000px",
                     width: "200px",
                     height: "200px",
-                    backgroundImage: `url(${plzUploadImgUrl})`,
                   }}
                   onMouseEnter={() => setIsHovered(true)}
                   onMouseLeave={() => setIsHovered(false)}
@@ -302,7 +296,9 @@ function RecipeWrite(props) {
                       style={{
                         width: "200px",
                         height: "200px",
-                        backgroundImage: `url(${recipeImg})`,
+                        backgroundImage: recipeImg
+                          ? `url(${recipeImg})`
+                          : `url(${plzUploadImgUrl})`,
                         backgroundSize: "cover",
                         backgroundPosition: "center",
                       }}
@@ -380,8 +376,6 @@ function RecipeWrite(props) {
           </S.RecipeForm>
         </>
       )}
-      {/* 미로그인 상태에서 레시피 작성 페이지 접근하는 경우 */}
-      {/* {!authResponse.isAuthenticated && navigate("/login")} */}
     </S.Wrap>
   );
 }
