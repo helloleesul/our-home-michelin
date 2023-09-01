@@ -27,7 +27,7 @@ function EditorBox({ editorList }) {
           <S.ImageWrapper>
             <S.EditorImage
               style={{ pointerEvents: "none" }}
-              src={`/${editor.profileImageURL}`}
+              src={editor.profileImageURL}
               alt={editor.nickName}
               onError={(e) => {
                 e.target.src = editorDefaultImg;
