@@ -22,8 +22,20 @@ function Editor() {
 
   useEffect(() => {
     dispatch(setLoading(true));
-    setSelectEditor(editorId);
+    getEditorsRecipes();
+    getEditorPagenation(1, limitValue);
+    if (editorId) {
+      setSelectEditor(editorId);
+    }
   }, []);
+
+  useEffect(() => {
+    if (editorId) {
+      setSelectEditor(editorId);
+    } else {
+      setSelectEditor(editorList[0]?._id);
+    }
+  }, [editorList]);
 
   //에디터 페이지네이션 가져오기
   const getEditorPagenation = async (pageNum, limit) => {
@@ -45,7 +57,6 @@ function Editor() {
 
   //에디터가 작성한 레시피 가져오기
   const getEditorsRecipes = async (editorId) => {
-    dispatch(setLoading(true));
     try {
       const res = await requestApi("get", "/editorRecipes/" + editorId);
       setSelectList(res); // 데이터 설정
@@ -53,7 +64,6 @@ function Editor() {
       dispatch(setLoading(false));
     } catch (error) {
       error.response.data.message && alert(error.response.data.message);
-      dispatch(setLoading(false));
       // 에러 처리 로직 추가
     }
   };
@@ -82,16 +92,16 @@ function Editor() {
   };
 
   //READY useEffect
-  useEffect(() => {
-    //에디터 목록 페이지네이션
-    getEditorPagenation(1, limitValue);
+  // useEffect(() => {
+  //   //에디터 목록 페이지네이션
+  //   getEditorPagenation(1, limitValue);
 
-    //세션에 저장된 선택한 에디터 가져오기
-    const target = sessionStorage.getItem("selectEditor");
+  //   //세션에 저장된 선택한 에디터 가져오기
+  //   // const target = sessionStorage.getItem("selectEditor");
 
-    //세션에 저장된 5스타 레시피 가져오기
-    getEditorsRecipes(target);
-  }, []);
+  //   //세션에 저장된 5스타 레시피 가져오기
+  //   // getEditorsRecipes(selectEditor);
+  // }, []);
 
   //에디터 클릭해서 state 변경시 동작
   useEffect(() => {

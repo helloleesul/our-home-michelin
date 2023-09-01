@@ -7,12 +7,13 @@ import mainRefrigerator from "../assets/img/mainRefrigerator.png";
 import PortalModal from "../components/common/PortalModal";
 import MyFridge from "../components/MyFridge";
 import requestApi from "../libs/const/api";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "../libs/utils/layoutSlice";
 import useAuthStatus from "../libs/hooks/useAuthStatus";
 
 function Home() {
   const { isAuth } = useAuthStatus();
+  const storeAuth = useSelector((state) => state.layout.isAuth);
   const [showModal, setShowModal] = useState(false);
   const [fiveStarRecipes, setFiveStarRecipes] = useState([]);
   const [allRecipes, setAllRecipes] = useState([]);
@@ -111,7 +112,7 @@ function Home() {
         <S.RefrigeratorContainer onClick={() => setShowModal(true)}>
           <S.MainRefrigerator src={mainRefrigerator} alt="mainRefrigerator" />
           <div>
-            {isAuth ? (
+            {storeAuth ? (
               <>
                 <p>나만의 냉장고에</p>
                 <p>
