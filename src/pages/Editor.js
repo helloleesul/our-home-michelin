@@ -8,26 +8,33 @@ import editorDefaultImg from "../assets/img/chef1.png";
 import { useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setLoading } from "../libs/utils/layoutSlice";
+import axios from "axios";
 
 function Editor() {
+  const location = useLocation();
+  const dispatch = useDispatch();
   const limitValue = 6;
   const [selectList, setSelectList] = useState([]); //필터링된 레시피목록
   const [editorList, setEditorList] = useState([]);
+  const [likeRecipes, setLikeRecipes] = useState([]);
   const [totalPage, setTotalPage] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectEditor, setSelectEditor] = useState("");
-  const location = useLocation();
   const editorId = location.state?.editorId;
-  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(setLoading(true));
     getEditorsRecipes();
     getEditorPagenation(1, limitValue);
+    fetchMyInfo();
     if (editorId) {
       setSelectEditor(editorId);
     }
   }, []);
+
+  useEffect(() => {
+    getEditorPagenation(currentPage, limitValue);
+  }, [currentPage]);
 
   useEffect(() => {
     if (editorId) {
@@ -36,6 +43,12 @@ function Editor() {
       setSelectEditor(editorList[0]?._id);
     }
   }, [editorList]);
+
+  //에디터 클릭해서 state 변경시 동작
+  useEffect(() => {
+    getEditorsRecipes(selectEditor);
+    dispatch(setLoading(true));
+  }, [selectEditor]);
 
   //에디터 페이지네이션 가져오기
   const getEditorPagenation = async (pageNum, limit) => {
@@ -46,6 +59,7 @@ function Editor() {
         `/editors?page=${pageNum}&limit=${limit}`
       );
 
+      console.log("getEditorPagenation :", res);
       if (res.editors.length !== 0) {
         setEditorList(res.editors);
         setTotalPage(res.totalPages);
@@ -65,22 +79,21 @@ function Editor() {
     } catch (error) {
       error.response.data.message && alert(error.response.data.message);
       // 에러 처리 로직 추가
+      dispatch(setLoading(false));
     }
   };
 
   //이전버튼 클릭 : 페이지 증가시키고 해당하는 에디터 목록 가져온다
-  const handleNextClick = () => {
+  const handlePrevClick = () => {
     if (1 < currentPage) {
       setCurrentPage(currentPage - 1);
-      getEditorPagenation(currentPage, limitValue);
     }
   };
 
   //다음버튼 클릭 : 페이지 감소시키고 해당하는 에디터 목록 가져온다
-  const handlePrevClick = () => {
+  const handleNextClick = () => {
     if (totalPage > currentPage && totalPage !== currentPage) {
-      setCurrentPage(currentPage + 1);
-      getEditorPagenation(currentPage, limitValue);
+      setCurrentPage((currentPage) => currentPage + 1);
     }
   };
 
@@ -91,23 +104,15 @@ function Editor() {
     setSelectEditor(id);
   };
 
-  //READY useEffect
-  // useEffect(() => {
-  //   //에디터 목록 페이지네이션
-  //   getEditorPagenation(1, limitValue);
-
-  //   //세션에 저장된 선택한 에디터 가져오기
-  //   // const target = sessionStorage.getItem("selectEditor");
-
-  //   //세션에 저장된 5스타 레시피 가져오기
-  //   // getEditorsRecipes(selectEditor);
-  // }, []);
-
-  //에디터 클릭해서 state 변경시 동작
-  useEffect(() => {
-    getEditorsRecipes(selectEditor);
-    dispatch(setLoading(true));
-  }, [selectEditor]);
+  //내 정보 가져오기
+  const fetchMyInfo = async () => {
+    try {
+      const response = await axios.get("/api/myinfo");
+      setLikeRecipes(response.data.likeRecipes);
+    } catch (error) {
+      console.log("Failed to fetch user info", error);
+    }
+  };
 
   return (
     <>
@@ -154,7 +159,7 @@ function Editor() {
           </S.EditorRecipes>
         )}
         <S.BackgroundBox>
-          <Contents foodList={selectList.recipes} />
+          <Contents foodList={selectList.recipes} likeRecipes={likeRecipes} />
         </S.BackgroundBox>
       </S.CenterBox>
     </>

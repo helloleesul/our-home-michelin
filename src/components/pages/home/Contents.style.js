@@ -45,6 +45,7 @@ export const FoodImage = styled.img`
 `;
 
 export const ImageWrapper = styled.div`
+  position: relative;
   height:130px;
   aspect-ratio:185 : 130;
   overflow:hidden;
@@ -60,4 +61,31 @@ export const RecipeLink = styled(Link)`
   color: #464646;
   width: calc(20% - 15px);
   height: 172px;
+`;
+
+export const BookmarkButton = styled.button`
+  position: absolute;
+  & * {
+    pointer-events: none;
+  }
+  top: 5px;
+  right: 5px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  animation: ${(props) =>
+    props.isBookmarked ? "heartAnimation 0.3s ease" : "none"};
+
+  @keyframes heartAnimation {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.3);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
 `;

@@ -123,12 +123,11 @@ function Home() {
               <>
                 <p>로그인해서</p>
                 <p>
-                  {" "}
                   <span>나만의 냉장고</span>를 채워보세요!
                 </p>
               </>
             )}
-            <S.GoFill>채우러가기 ╰(*°▽°*)╯</S.GoFill>
+            <h3 className="go-fill">채우러가기 ╰(*°▽°*)╯</h3>
           </div>
         </S.RefrigeratorContainer>
         <PortalModal handleShowModal={showModal} size={"40%"}>
