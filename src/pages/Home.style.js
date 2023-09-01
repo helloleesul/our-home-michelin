@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
+import { MAIN_THEME_COLOR } from "../libs/const/color";
 
 export const Div = styled.div`
   display: flex;
@@ -20,38 +21,38 @@ export const RefrigeratorContainer = styled.div`
   cursor: pointer;
   position: relative;
   transform: scale(0.9);
-  
+
   p {
     padding: 10px;
   }
-  
+
   p span {
     font-weight: 800;
     font-size: 20px;
-    color: #f7411f;
+    color: ${MAIN_THEME_COLOR[0]};
   }
-  `;
-  
-  export const GoFill = styled.p`
-    opacity: 0;
-    bottom: -50px;
-    position: absolute;
-    right: 30%;
-    font-weight: 700;
-    color: #f7411f;
-    transition: 0.3s;
-    font-size: 10px;
+`;
+
+export const GoFill = styled.p`
+  opacity: 0;
+  bottom: -50px;
+  position: absolute;
+  right: 30%;
+  font-weight: 700;
+  color: ${MAIN_THEME_COLOR[0]};
+  transition: 0.3s;
+  font-size: 10px;
 
   &:hover .go-fill {
     opacity: 1;
     bottom: 0;
     font-size: 16px;
   }
-  `;
+`;
 
 export const SeeMoreLink = styled(Link)`
   text-decoration: none;
-  color: #464646;
+  color: ${MAIN_THEME_COLOR[1]};
   font-size: 14px;
 `;
 
@@ -65,6 +66,6 @@ export const Text = styled.nav`
   padding: 36px 0 8px;
 
   span {
-    color: #f7411f;
+    color: ${MAIN_THEME_COLOR[0]};
   }
 `;

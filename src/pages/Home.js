@@ -7,7 +7,8 @@ import mainRefrigerator from "../assets/img/mainRefrigerator.png";
 import PortalModal from "../components/common/PortalModal";
 import MyFridge from "../components/MyFridge";
 import requestApi from "../libs/const/api";
-import CustomLoading from "../components/CustomLoading";
+import { useDispatch } from "react-redux";
+import { setLoading } from "../libs/utils/layoutSlice";
 import useAuthStatus from "../libs/hooks/useAuthStatus";
 
 function Home() {
@@ -16,13 +17,12 @@ function Home() {
   const [fiveStarRecipes, setFiveStarRecipes] = useState([]);
   const [allRecipes, setAllRecipes] = useState([]);
   const [editorList, setEditorList] = useState([]);
-  const [sortList, setSortList] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [limitRecipes, setLimitRecipes] = useState([]);
+
+  const dispatch = useDispatch();
 
   //에디터 목록 가져오기
   const getEditorList = async () => {
-    setLoading(true);
+    dispatch(setLoading(true));
     try {
       const res = await requestApi("get", "/editors");
       const list = res.editors.map((editor) => ({
@@ -42,6 +42,17 @@ function Home() {
     try {
       const res = await requestApi("get", "/fivestar-recipes?limit=5");
       setFiveStarRecipes(res.fiveStarRecipes);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //전체 레시피 가져오기
+  const getAllRecipes = async () => {
+    try {
+      const res = await requestApi("get", "/recipes?limit=10");
+      setAllRecipes(res);
+      dispatch(setLoading(false));
     } catch (error) {
       console.log(error);
     }
@@ -85,6 +96,7 @@ function Home() {
   useEffect(() => {
     getEditorList();
     getFivestarRecipe();
+    getAllRecipes();
   }, []);
 
   // useEffect(() => {
@@ -146,7 +158,7 @@ function Home() {
             </p>
             <S.SeeMoreLink to="/recipe/all">더보기</S.SeeMoreLink>
           </S.Text>
-          <Contents foodList={limitRecipes} />
+          <Contents foodList={allRecipes} />
         </Container>
       </S.Div>
     </>

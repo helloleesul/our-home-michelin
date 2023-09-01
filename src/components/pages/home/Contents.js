@@ -13,7 +13,7 @@ function Contents({ foodList }) {
         <S.RecipeLink key={foods._id + index} to={`/recipe/${foods._id}`}>
           <S.ImageWrapper>
             <S.FoodImage
-              src={foods.imageUrl}
+              src={`/${foods.imageUrl}`}
               alt={foods.title}
               onError={(e) => {
                 e.target.src = recipeDefaultImg;
