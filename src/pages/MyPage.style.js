@@ -80,10 +80,11 @@ export const RecipeBoxContainer = styled.div`
   display: flex;
   flex-grow: 1;
   border-radius: 10px;
+  justify-content: center;
 `;
 
 export const RecipeContainer = styled.div`
-  width: 100%;
+  width: 80%;
   border-radius: 10px;
 `;
 
@@ -121,30 +122,12 @@ export const RecipeText = styled.p`
   overflow: auto;
 `;
 
-export const TabsContainer = styled.div`
-  padding: 10px;
-  margin-right: 20px;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  gap: 15px;
+export const myRecipeText = styled.h2`
+  font-size: 25px;
+  font-weight: 600;
 `;
-
-export const TabButton = styled.button`
-  width: 150px;
-  padding: 10px;
-  border: none;
-  background-color: white;
-  margin: 0 10px;
-  cursor: pointer;
-  font-size: 14px;
-  color: ${({ isActive }) => (isActive ? MAIN_THEME_COLOR[0] : "black")};
-  &:hover {
-    color: ${MAIN_THEME_COLOR[0]};
-  }
-`;
-
 export const countContainer = styled.div`
+  margin-top: 20px;
   margin-bottom: 15px;
   display: flex;
   border: 2px solid ${MAIN_THEME_COLOR[2]};
