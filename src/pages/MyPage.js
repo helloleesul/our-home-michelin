@@ -5,8 +5,10 @@ import BasicProfileImg from "../assets/img/userDefaultImg.svg";
 import PortalModal from "../components/common/PortalModal";
 import ModalBox from "../components/common/ModalBox";
 import requestApi from "../libs/const/api";
+import { useDispatch } from "react-redux";
+import { setLoading } from "../libs/utils/layoutSlice";
 
-function MyPage(props) {
+function MyPage() {
   const [showModal, setShowModal] = useState(false);
   const [tabColor, setTabColor] = useState("myRecipes");
   const [titleColor, setTitleColor] = useState("전체");
@@ -22,6 +24,7 @@ function MyPage(props) {
   const [pageColor, setPageColor] = useState(1);
   const [pageButtons, setPageButtons] = useState([]);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const filteredRecipes =
     selectedType === "전체"
@@ -41,31 +44,30 @@ function MyPage(props) {
   }, [recipes]);
 
   useEffect(() => {
+    dispatch(setLoading(true));
     (async () => {
       try {
-        // 유저 정보 조회
         const response = await requestApi("get", "/myinfo");
         setNickname(response.nickName);
         setUserEmail(response.email);
         setRank(response.role);
         setSelectedImage(response.profileImageURL);
 
-        // 레시피 조회
         const responseRecipe = await requestApi("get", "/myrecipes");
         setRecipes(responseRecipe);
 
-        // 페이징 정보 설정
         const currentPage = 1;
         const perPage = 20;
         const paginationApiUrl = `/myrecipes/pagination?page=${currentPage}&perPage=${perPage}`;
         const paginationResponse = await requestApi("get", paginationApiUrl);
         setPaginationResponse(paginationResponse.myRecipes);
         setTotalPages(paginationResponse.totalPages);
+        dispatch(setLoading(false));
       } catch (error) {
-        console.log(error.response.data.error);
+        console.error(error);
       }
     })();
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (selectedType !== "전체") {
@@ -100,14 +102,13 @@ function MyPage(props) {
     if (file) {
       const imageUrl = URL.createObjectURL(file);
       setSelectedImage(imageUrl);
-      // api 이미지 넘기는 api 연결
-      // const formData = new FormData();
-      // formData.append("profileImage", file);
     }
   };
+
   const handleTapButton = (check) => {
     setTabColor(check);
   };
+
   const handleTitleText = (check) => {
     setSelectedType(check);
     setTitleColor(check);
@@ -115,8 +116,8 @@ function MyPage(props) {
 
   const handleRecipeImg = (id) => {
     navigate(`/recipe/${id}`);
-    console.log("레시피 아이디", id);
   };
+
   const handlePaginationButton = async (i) => {
     setPageColor(i);
     const currentPage = i;
