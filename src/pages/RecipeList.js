@@ -75,16 +75,15 @@ function RecipeList({ title }) {
   const fetchFilteredRecipes = async () => {
     try {
       const currentDate = new Date();
-
       const safeIngr = [];
-      const filteredIngr = userIngrData?.map((item) => {
+
+      userIngrData?.forEach((item) => {
         const itemDate = new Date(item.bestBefore);
         if (itemDate >= currentDate) {
           safeIngr.push(item);
         }
-        return safeIngr;
       });
-      const myIngredients = filteredIngr?.map(
+      const myIngredients = safeIngr.map(
         (ingredient) => ingredient.ingredientName
       );
       const recipesResponse = await axios.post(
