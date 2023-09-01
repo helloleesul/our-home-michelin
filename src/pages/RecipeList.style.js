@@ -51,3 +51,24 @@ export const Row = styled.div`
   padding-bottom: 16px;
   margin-bottom: 16px;
 `;
+
+export const ToggleButton = styled.button`
+  background-color: #fff;
+  color: grey;
+  border: 2px solid grey;
+  font-weight: 1000;
+  padding: 10px;
+  border-radius: 12px; // 둥근 모서리
+  cursor: pointer;
+  outline: none;
+  position: absolute;
+  right: ;
+  top: 175px;
+  transition: all 0.3s ease; // 애니메이션 효과 추가
+
+  &:hover {
+    opacity: 0.9;
+    border-color: ${(props) => props.themeColor}; // hover 시 테두리 색상
+    color: ${(props) => props.themeColor}; // hover 시 글자 색상
+  }
+`;

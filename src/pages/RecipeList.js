@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { MAIN_THEME_COLOR } from "../libs/const/color";
-// import { FillHeart, StrokeHeart } from "./assets/HeartIcon.js";
-// import LikeBtn from "../components/common/LikeBtn";
-// import axios from "axios";
 import List from "../components/pages/recipeList/List";
 import * as S from "./RecipeList.style";
 import axios from "axios";
@@ -23,24 +20,36 @@ function chunkArray(myArray, chunk_size) {
 
 function RecipeList(props) {
   // const [like, setLike] = useState(false);
+  const [fridgeIngredients, setFridgeIngredients] = useState(null);
   const [recipes, setRecipes] = useState([]);
-  const location = useLocation();
-  const searchRecipes = location.state?.searchRecipes;
   const [likeRecipes, setLikeRecipes] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showOnlyMyIngredients, setShowOnlyMyIngredients] = useState(false);
 
-  const checkLoginStatus = async () => {
-    try {
-      const response = await axios.get("/api/check-login");
-      setIsLoggedIn(response.data.isAuthenticated);
-    } catch (error) {
-      console.error("로그인 상태를 확인하는데 실패하였습니다.", error);
+  const location = useLocation();
+  const searchRecipes = location.state?.searchRecipes;
+
+  const sortRecipes = (recipes) => {
+    let sortedRecipes;
+    switch (props.title) {
+      case "전체 레시피":
+        sortedRecipes = recipes.sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate));
+        break;
+
+      case "인기 레시피":
+        sortedRecipes = recipes.sort((a, b) => b.likeCount - a.likeCount);
+        break;
+
+      default:
+        sortedRecipes = recipes;
+        break;
     }
+    return sortedRecipes;
   };
 
-  useEffect(() => {
-    checkLoginStatus();
-  }, []);
+  const toggleShowOnlyMyIngredients = () => {
+    setShowOnlyMyIngredients(!showOnlyMyIngredients);
+  };
 
   const fetchMyInfo = async () => {
     try {
@@ -51,35 +60,83 @@ function RecipeList(props) {
     }
   };
 
+  const fetchMyFridge = async () => {
+    try {
+      const response = await axios.get("/api/myfridge");
+      setFridgeIngredients(response.data);
+    } catch (error) {
+      console.log("Failed to fetch fridge info", error);
+    }
+  };
+
+  const checkLoginStatus = async () => {
+    try {
+      const response = await axios.get("/api/check-login");
+      setIsLoggedIn(response.data.isAuthenticated);
+    } catch (error) {
+      console.error("로그인 상태를 확인하는데 실패하였습니다.", error);
+    }
+  };
+
+  const fetchRecipes = async () => {
+    try {
+      const response = await axios.get("/api/recipes");
+      const sorted = sortRecipes(response.data);
+      setRecipes(sorted);
+    } catch (error) {
+      console.log("Failed to fetch recipes", error);
+    }
+  };
+
+  const fetchFilteredRecipes = async () => {
+    try {
+      const myIngredients = fridgeIngredients?.map((ingredient) => ingredient.ingredientName);
+      const recipesResponse = await axios.post("/api/search-ingredients-recipes", { ingredients: myIngredients });
+      const sorted = sortRecipes(recipesResponse.data);
+      setRecipes(sorted);
+    } catch (error) {
+      console.log("Failed to fetch filtered recipes", error);
+    }
+  };
+
   useEffect(() => {
     fetchMyInfo();
+    fetchMyFridge();
+    checkLoginStatus();
   }, []);
+
+  useEffect(() => {
+    if (showOnlyMyIngredients) {
+      fetchFilteredRecipes();
+    } else {
+      fetchRecipes();
+    }
+  }, [showOnlyMyIngredients, props.title, fridgeIngredients]);
+
+  useEffect(() => {
+    setShowOnlyMyIngredients(false);
+  }, [props.title]);
 
   useEffect(() => {
     console.log(searchRecipes);
     if (searchRecipes) {
       setRecipes(searchRecipes);
     }
-  }, [recipes]);
+  }, [searchRecipes]);
 
   useEffect(() => {
     axios
       .get("/api/recipes")
       .then((response) => {
-        // console.log(response.data);
         let sortedRecipes;
 
         switch (props.title) {
           case "전체 레시피":
-            sortedRecipes = response.data.sort(
-              (a, b) => new Date(b.createdDate) - new Date(a.createdDate)
-            );
+            sortedRecipes = response.data.sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate));
             break;
 
           case "인기 레시피":
-            sortedRecipes = response.data.sort(
-              (a, b) => b.likeCount - a.likeCount
-            );
+            sortedRecipes = response.data.sort((a, b) => b.likeCount - a.likeCount);
             break;
 
           default:
@@ -96,7 +153,13 @@ function RecipeList(props) {
 
   return (
     <>
-      {/* 모든 레시피  :: 레시피DB ID의 갯수를 변수로 만들면 되나? */}
+      <S.ToggleButton
+        active={showOnlyMyIngredients}
+        themeColor={MAIN_THEME_COLOR}
+        onClick={toggleShowOnlyMyIngredients}
+      >
+        {showOnlyMyIngredients ? "모든 레시피 보기" : "내가 가진 재료 레시피만 보기"}
+      </S.ToggleButton>
       <S.Title>{props.title || "전체 레시피"}</S.Title>
 
       <S.Lists>
