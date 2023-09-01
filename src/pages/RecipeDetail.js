@@ -93,7 +93,7 @@ function RecipeDetail() {
         <img
           // src={`/${recipeData.imageUrl}`}
           src={
-            recipeData.imageUrl.startsWith("/")
+            recipeData.imageUrl?.startsWith("/")
               ? recipeData.imageUrl
               : "/" + recipeData.imageUrl
           }
