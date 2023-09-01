@@ -23,12 +23,12 @@ function ModalBox(props) {
       }
     } else {
       try {
-        const response = await requestApi("delete", "/myinfo/", {
-          data: { password: password.toString() },
+        const response = await requestApi("delete", "/myinfo", {
+          data: { password: password },
         });
         if (response) {
           alert("회원탈퇴 처리가 완료되었습니다.");
-          navigate("/login");
+          navigate("/");
         }
       } catch (error) {
         alert(error.response.data.message);
