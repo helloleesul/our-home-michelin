@@ -30,11 +30,11 @@ function RecipeWrite(props) {
       setSelectedServing(updateRecipeData.recipeServing);
       setIngredients(updateRecipeData.ingredients);
       setProcess(updateRecipeData.process);
-      setRecipeImg(updateRecipeData.imageUrl);
+      setRecipeImg("/" + updateRecipeData.imageUrl);
       setIsEditMode(true);
       if (updateRecipeData.imageUrl) {
         const recipeImgUrl = updateRecipeData.imageUrl;
-        setRecipeImg(recipeImgUrl);
+        setRecipeImg("/" + recipeImgUrl);
       }
     } else {
       setIsEditMode(false);
@@ -56,7 +56,7 @@ function RecipeWrite(props) {
     setStateFile(file);
     const reader = new FileReader();
     reader.onload = (event) => {
-      setRecipeImg(event.target.result);
+      setRecipeImg("/" + event.target.result);
     };
     reader.readAsDataURL(file);
   };
