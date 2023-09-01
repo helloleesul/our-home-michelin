@@ -91,7 +91,12 @@ function RecipeDetail() {
       <Detail.Box>
         {/* 에러났을 때 onError 기본 이미지로 설정 */}
         <img
-          src={`/${recipeData.imageUrl}`}
+          // src={`/${recipeData.imageUrl}`}
+          src={
+            recipeData.imageUrl.startsWith("/")
+              ? recipeData.imageUrl
+              : "/" + recipeData.imageUrl
+          }
           alt={recipeData.title}
           onError={(e) => {
             e.target.src = recipeDefaultImg;

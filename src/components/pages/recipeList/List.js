@@ -34,7 +34,12 @@ function List({ recipe, isBookmarked: initialIsBookmarked, isLoggedIn }) {
       <Link to={`/recipe/${recipe._id}`}>
         <S.ImgBookmark>
           <img
-            src={`/${recipe.imageUrl}`}
+            // src={`/${recipe.imageUrl}`}
+            src={
+              recipe.imageUrl.startsWith("/")
+                ? recipe.imageUrl
+                : "/" + recipe.imageUrl
+            }
             alt={recipe.title}
             onError={(e) => {
               e.target.src = recipeDefaultImg;
