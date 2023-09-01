@@ -5,24 +5,24 @@ import requestApi from "../libs/const/api.js";
 import axios from "axios";
 import useAuthStatus from "../libs/hooks/useAuthStatus.js";
 import * as S from "./RecipeWrite.style";
-import Login from "./Login.js";
-import Layout from "../components/common/Layout";
+// import Login from "./Login.js";
+// import Layout from "../components/common/Layout";
 
-const text = "레시피 등록을 위해서는 로그인 또는 회원가입이 필요합니다!";
+// const text = "레시피 등록을 위해서는 로그인 또는 회원가입이 필요합니다!";
 
-function useLayoutAuth() {
-  const [authResponse, setAuthResponse] = useState(false);
-  const getUserAuth = async () => {
-    const response = await requestApi("get", "/check-login");
-    setAuthResponse(response);
-  };
+// function useLayoutAuth() {
+//   const [authResponse, setAuthResponse] = useState(false);
+//   const getUserAuth = async () => {
+//     const response = await requestApi("get", "/check-login");
+//     setAuthResponse(response);
+//   };
 
-  useEffect(() => {
-    getUserAuth();
-  }, []);
+//   useEffect(() => {
+//     getUserAuth();
+//   }, []);
 
-  return { authResponse };
-}
+//   return { authResponse };
+// }
 
 function RecipeWrite(props) {
   const [title, setTitle] = useState("");
@@ -38,7 +38,9 @@ function RecipeWrite(props) {
 
   const location = useLocation();
   const updateRecipeData = location.state?.recipe;
-  const isEditMode = updateRecipeData !== undefined;
+  // const isEditMode = updateRecipeData !== undefined;
+  const [isEditMode, setIsEditMode] = useState();
+  const { isAuth, isAuthUser } = useAuthStatus();
 
   useEffect(() => {
     if (updateRecipeData) {
@@ -48,6 +50,9 @@ function RecipeWrite(props) {
       setIngredients(updateRecipeData.ingredients);
       setProcess(updateRecipeData.process);
       setRecipeImg(updateRecipeData.imageUrl);
+      setIsEditMode(true);
+    } else {
+      setIsEditMode(false);
     }
   }, []);
 
@@ -56,10 +61,10 @@ function RecipeWrite(props) {
     console.log("recipeImg:", recipeImg);
   }, [stateFile, recipeImg]);
 
-  const { authResponse } = useLayoutAuth();
-  console.log("[ authResponse ]");
-  console.log(authResponse.isAuthenticated);
-  console.log(authResponse);
+  // const { authResponse } = useLayoutAuth();
+  // console.log("[ authResponse ]");
+  // console.log(authResponse.isAuthenticated);
+  // console.log(authResponse);
   const navigate = useNavigate();
 
   const defaultRecipeImgUrl = require("../assets/img/recipeDefaultImg.png");
@@ -148,7 +153,7 @@ function RecipeWrite(props) {
       formData.append("recipeServing", selectedServing);
       formData.append("ingredients", JSON.stringify([...ingredients]));
       formData.append("process", JSON.stringify(process));
-      formData.append("writer", authResponse.user._id);
+      formData.append("writer", isAuthUser._id);
 
       if (isEditMode) {
         const response = await axios.patch(
@@ -168,7 +173,7 @@ function RecipeWrite(props) {
 
   return (
     <S.Wrap>
-      {authResponse.isAuthenticated && (
+      {isAuth && (
         <>
           <S.Title>{isEditMode ? "레시피 수정" : "레시피 등록"}</S.Title>
           <S.RecipeForm>
@@ -376,7 +381,7 @@ function RecipeWrite(props) {
         </>
       )}
       {/* 미로그인 상태에서 레시피 작성 페이지 접근하는 경우 */}
-      {!authResponse.isAuthenticated && navigate("/login")}
+      {/* {!authResponse.isAuthenticated && navigate("/login")} */}
     </S.Wrap>
   );
 }

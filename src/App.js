@@ -49,7 +49,12 @@ function App() {
             element={<RecipeList title="전체 레시피" />}
           ></Route>
           <Route path="/recipe/:detail" element={<RecipeDetail />}></Route>
-          <Route path="/recipe/write" element={<RecipeWrite />}></Route>
+          <Route
+            path="/recipe/write"
+            element={
+              !isAuth ? <Navigate replace to={"/login"} /> : <RecipeWrite />
+            }
+          ></Route>
           <Route
             path="/recipe/update/:recipeId"
             element={<RecipeWrite />}

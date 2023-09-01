@@ -189,7 +189,7 @@ function RecipeDetail() {
               onClick={() => {
                 navigate("/recipe/write", {
                   state: {
-                    updateRecipe: recipeData,
+                    recipe: recipeData,
                   },
                 });
               }}
