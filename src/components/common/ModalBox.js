@@ -3,10 +3,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 import requestApi from "../../libs/const/api";
 import CloseIcon from "../../assets/CloseIcon";
 import * as S from "./ModalBox.style.js";
+import { useDispatch } from "react-redux";
+import { setAuth } from "../../libs/utils/layoutSlice";
 
 function ModalBox(props) {
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [password, setPassword] = useState("");
 
   const handleClick = async () => {
@@ -23,14 +26,15 @@ function ModalBox(props) {
       }
     } else {
       try {
-        const response = await requestApi("delete", "/myinfo");
+        const response = await requestApi("delete", "/myinfo", {
+          password: password,
+        });
         if (response) {
           alert("회원탈퇴 처리가 완료되었습니다.");
-          navigate("/");
+          dispatch(setAuth(false));
         }
       } catch (error) {
-        // alert(error.response.data.message);
-        console.log(error.response);
+        alert(error.response.data.message);
       }
     }
   };
