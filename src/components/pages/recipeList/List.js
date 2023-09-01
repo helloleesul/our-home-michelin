@@ -28,13 +28,12 @@ function List({ recipe, isBookmarked: initialIsBookmarked, isLoggedIn }) {
     event.stopPropagation();
     await toggleLike(recipe._id);
   };
-  // console.log(recipe.imageURL);
   return (
     <S.Card>
       <Link to={`/recipe/${recipe._id}`}>
         <S.ImgBookmark>
           <img
-            src={recipe.imageUrl}
+            src={`/${recipe.imageUrl}`}
             alt={recipe.title}
             onError={(e) => {
               e.target.src = recipeDefaultImg;
