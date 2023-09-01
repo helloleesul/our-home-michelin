@@ -26,6 +26,7 @@ function RecipeList(props) {
   const [likeRecipes, setLikeRecipes] = useState([]);
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const storeAuth = useSelector((state) => state.layout.isAuth);
+  const userIngrData = useSelector((state) => state.fridge.userIngrData);
   const [showOnlyMyIngredients, setShowOnlyMyIngredients] = useState(false);
 
   const location = useLocation();
@@ -94,7 +95,7 @@ function RecipeList(props) {
 
   const fetchFilteredRecipes = async () => {
     try {
-      const myIngredients = fridgeIngredients?.map(
+      const myIngredients = userIngrData?.map(
         (ingredient) => ingredient.ingredientName
       );
       const recipesResponse = await axios.post(
