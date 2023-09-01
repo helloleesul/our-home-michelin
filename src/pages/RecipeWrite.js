@@ -23,6 +23,7 @@ function RecipeWrite(props) {
   const [isEditMode, setIsEditMode] = useState();
   const { isAuth, isAuthUser } = useAuthStatus();
   const inputRef = useRef();
+  const [prevImg, setPrevImg] = useState();
 
   useEffect(() => {
     if (updateRecipeData) {
@@ -38,6 +39,7 @@ function RecipeWrite(props) {
           : "/" + updateRecipeData.imageUrl
       );
       setIsEditMode(true);
+      setPrevImg(true);
       if (updateRecipeData.imageUrl) {
         const recipeImgUrl = updateRecipeData.imageUrl;
         setRecipeImg(recipeImgUrl);
@@ -311,17 +313,28 @@ function RecipeWrite(props) {
                       }}
                     >
                       {isEditMode ? (
-                        <img
-                          onClick={() => inputRef.current.click()}
-                          src={
-                            recipeImg
-                              ? recipeImg.startsWith("/")
-                                ? recipeImg
-                                : `/${recipeImg}`
-                              : plzUploadImgUrl
-                          }
-                          alt="recipeImg"
-                        />
+                        <>
+                          <img
+                            onClick={() => {
+                              inputRef.current.click();
+                              setPrevImg(false);
+                            }}
+                            src={recipeImg ? recipeImg : plzUploadImgUrl}
+                            alt="recipeImg"
+                          />
+                          {prevImg && (
+                            <img
+                              src={
+                                recipeImg
+                                  ? recipeImg.startsWith("/")
+                                    ? recipeImg
+                                    : `/${recipeImg}`
+                                  : plzUploadImgUrl
+                              }
+                              alt="recipeImg"
+                            />
+                          )}
+                        </>
                       ) : (
                         <img
                           onClick={() => inputRef.current.click()}
