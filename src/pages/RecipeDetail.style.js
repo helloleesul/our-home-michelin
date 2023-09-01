@@ -40,7 +40,7 @@ export const Box = styled.section`
     height: auto;
     display: block;
     margin: 0 auto;
-    object-fit: scale-down;
+    // object-fit: scale-down;
   }
 `;
 

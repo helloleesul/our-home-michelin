@@ -30,7 +30,7 @@ export const Content = styled.div`
 `;
 
 export const IngredientList = styled.div`
-  height: 50vh;
+  max-height: 50vh;
   overflow: scroll;
   h4 {
     text-align: center;
@@ -64,6 +64,11 @@ export const IngredientGroup = styled.div`
         & + label {
           cursor: pointer;
           color: #b0b0b0;
+          width: 100%;
+          display: block;
+          padding: 8px 0;
+          border-radius: 999px;
+          box-shadow: 0px 3px 9px -3px;
           .box {
             background-color: #b0b0b0;
             width: 80px;
@@ -73,7 +78,8 @@ export const IngredientGroup = styled.div`
           }
         }
         &:checked + label {
-          color: ${MAIN_THEME_COLOR[0]};
+          color: #fff;
+          background: ${MAIN_THEME_COLOR[0]};
           .box {
             background-color: ${MAIN_THEME_COLOR[0]};
             box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -91,12 +97,23 @@ export const IngredientGroup = styled.div`
 `;
 
 export const Fridge = styled.div`
+.spoiledIngr {
+    li {
+      button {
+        background: #b0b0b0;
+      }
+    }
+}
 li {
   button {
+    font-size: inherit;
     border: none;
     background: none;
     cursor: pointer;
-    color: ${MAIN_THEME_COLOR[0]};
+    color: #fff;
+    padding: 6.5px 0;
+    border-radius: 999px;
+    background: ${MAIN_THEME_COLOR[0]};
     .box {
       background-color: ${MAIN_THEME_COLOR[0]};
       box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -165,5 +182,13 @@ export const BtnGroup = styled.div`
     &.cancelBtn {
       background: ${MAIN_THEME_COLOR[1]};
     }
+  }
+`;
+
+export const CurrentIngrBox = styled.div`
+  ${commonStyle}
+  section.title {
+    display: flex;
+    justify-content: space-between;
   }
 `;
