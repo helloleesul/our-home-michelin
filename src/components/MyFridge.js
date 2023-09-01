@@ -197,18 +197,10 @@ function MyFridge({ onClose }) {
     );
 
     try {
-      const recipeResult = await requestApi(
-        "post",
-        "/search-ingredients-recipes",
-        {
-          ingredients: userIngredients,
-        }
-      );
-      navigate("/recipe/all", {
-        state: {
-          searchRecipes: recipeResult,
-        },
+      await requestApi("post", "/search-ingredients-recipes", {
+        ingredients: userIngredients,
       });
+      navigate("/recipe/all");
       onClose();
     } catch (error) {
       console.log(error);
@@ -330,9 +322,9 @@ function MyFridge({ onClose }) {
                       </IngredientGroup>
                     )}
                     <BtnGroup>
-                      <button className="cancelBtn" onClick={searchIngrRecipe}>
+                      {/* <button className="cancelBtn" onClick={searchIngrRecipe}>
                         레시피 검색하기
-                      </button>
+                      </button> */}
                       <button
                         className="addBtn"
                         onClick={() => {

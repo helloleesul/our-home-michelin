@@ -20,14 +20,14 @@ function useAuthStatus() {
         setIsAuthUser(checkLoginResult.user);
       } catch (err) {}
     };
-    const setUserIngrData = async () => {
+    const getUserIngrData = async () => {
       try {
         const userIngrData = await requestApi("get", "/myfridge");
         dispatch(setUserIngrData(userIngrData));
       } catch (err) {}
     };
     setAuthStatus();
-    setUserIngrData();
+    getUserIngrData();
   }, [dispatch, pathname]);
 
   return {
