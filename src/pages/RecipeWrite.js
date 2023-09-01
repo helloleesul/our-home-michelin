@@ -321,6 +321,13 @@ function RecipeWrite(props) {
                             }}
                             src={recipeImg ? recipeImg : plzUploadImgUrl}
                             alt="recipeImg"
+                            onError={(e) => {
+                              e.target.src = recipeImg
+                                ? recipeImg.startsWith("/")
+                                  ? recipeImg
+                                  : `/${recipeImg}`
+                                : plzUploadImgUrl;
+                            }}
                           />
                           {prevImg && (
                             <img
