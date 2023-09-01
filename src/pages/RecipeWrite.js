@@ -310,18 +310,25 @@ function RecipeWrite(props) {
                         // backgroundPosition: "center",
                       }}
                     >
-                      <img
-                        onClick={() => inputRef.current.click()}
-                        src={
-                          recipeImg ? recipeImg : plzUploadImgUrl
-                          // recipeImg
-                          //   ? recipeImg.startsWith("/")
-                          //     ? recipeImg
-                          //     : `/${recipeImg}`
-                          //   : plzUploadImgUrl
-                        }
-                        alt="recipeImg"
-                      />
+                      {isEditMode ? (
+                        <img
+                          onClick={() => inputRef.current.click()}
+                          src={
+                            recipeImg
+                              ? recipeImg.startsWith("/")
+                                ? recipeImg
+                                : `/${recipeImg}`
+                              : plzUploadImgUrl
+                          }
+                          alt="recipeImg"
+                        />
+                      ) : (
+                        <img
+                          onClick={() => inputRef.current.click()}
+                          src={recipeImg ? recipeImg : plzUploadImgUrl}
+                          alt="recipeImg"
+                        />
+                      )}
                       <label
                         htmlFor="fileInput"
                         className="label"
