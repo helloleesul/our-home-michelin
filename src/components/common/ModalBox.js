@@ -23,7 +23,7 @@ function ModalBox(props) {
       }
     } else {
       try {
-        const response = await requestApi("delete", "/api/myinfo/", {
+        const response = await requestApi("delete", "/myinfo/", {
           data: { password: password.toString() },
         });
         if (response) {
