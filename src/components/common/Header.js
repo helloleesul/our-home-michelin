@@ -17,8 +17,8 @@ function Header() {
       // 로그아웃 API 호출
       await requestApi("post", "/logout");
       // 아래 업데이트가 실행된 뒤
-      dispatch(setUserIngrData([]));
       dispatch(setAuth(false));
+      dispatch(setUserIngrData([]));
       // 그다음에 경로를 이동시켜주어야 합니다.
       // Link태그의 경우 handleLogout함수를 실행하기 전에 바로 이동하기 때문에
       // dispatch 업데이트적용이 되지않습니다. 그래서 button태그로 변경 후 useNavigate로 새로고침없이 경로 이동을 시켜줍니다!
