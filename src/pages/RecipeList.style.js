@@ -70,3 +70,16 @@ export const ToggleButton = styled.button`
     color: ${(props) => props.themeColor}; // hover 시 글자 색상
   }
 `;
+
+export const PaginationButton = styled.button`
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #ccc;
+  }
+`;

@@ -30,7 +30,7 @@ function RecipeList(props) {
   const [showOnlyMyIngredients, setShowOnlyMyIngredients] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 50;
+  const itemsPerPage = 20;
 
   const totalPages = Math.ceil(recipes.length / itemsPerPage);
 
@@ -223,9 +223,12 @@ function RecipeList(props) {
 
       <div>
         {Array.from({ length: totalPages }, (_, index) => (
-          <button key={index} onClick={() => handlePageChange(index + 1)}>
+          <S.PaginationButton
+            key={index}
+            onClick={() => handlePageChange(index + 1)}
+          >
             {index + 1}
-          </button>
+          </S.PaginationButton>
         ))}
       </div>
     </>
