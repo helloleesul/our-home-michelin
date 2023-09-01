@@ -3,7 +3,6 @@ import { MAIN_THEME_COLOR } from "../libs/const/color";
 import List from "../components/pages/recipeList/List";
 import * as S from "./RecipeList.style";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 function chunkArray(myArray, chunk_size) {
@@ -19,27 +18,21 @@ function chunkArray(myArray, chunk_size) {
   return tempArray;
 }
 
-function RecipeList(props) {
-  // const [like, setLike] = useState(false);
-  const [fridgeIngredients, setFridgeIngredients] = useState(null);
+function RecipeList({ title }) {
   const [recipes, setRecipes] = useState([]);
   const [likeRecipes, setLikeRecipes] = useState([]);
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const storeAuth = useSelector((state) => state.layout.isAuth);
   const userIngrData = useSelector((state) => state.fridge.userIngrData);
   const [showOnlyMyIngredients, setShowOnlyMyIngredients] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 50;
+  const itemsPerPage = 20;
 
   const totalPages = Math.ceil(recipes.length / itemsPerPage);
 
-  const location = useLocation();
-  const searchRecipes = location.state?.searchRecipes;
-
   const sortRecipes = (recipes) => {
     let sortedRecipes;
-    switch (props.title) {
+    switch (title) {
       case "전체 레시피":
         sortedRecipes = recipes.sort(
           (a, b) => new Date(b.createdDate) - new Date(a.createdDate)
@@ -57,10 +50,6 @@ function RecipeList(props) {
     return sortedRecipes;
   };
 
-  const toggleShowOnlyMyIngredients = () => {
-    setShowOnlyMyIngredients((prev) => !prev);
-  };
-
   const fetchMyInfo = async () => {
     try {
       const response = await axios.get("/api/myinfo");
@@ -70,39 +59,10 @@ function RecipeList(props) {
     }
   };
 
-  const fetchMyFridge = async () => {
-    try {
-      const response = await axios.get("/api/myfridge");
-      setFridgeIngredients(response.data);
-    } catch (error) {
-      console.log("Failed to fetch fridge info", error);
-    }
-  };
-
-  const getDisplayedRecipes = () => {
-    const indexOfLastRecipe = currentPage * itemsPerPage;
-    const indexOfFirstRecipe = indexOfLastRecipe - itemsPerPage;
-    return recipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
-  };
-
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-  // const checkLoginStatus = async () => {
-  //   try {
-  //     const response = await axios.get("/api/check-login");
-  //     setIsLoggedIn(response.data.isAuthenticated);
-  //   } catch (error) {
-  //     console.error("로그인 상태를 확인하는데 실패하였습니다.", error);
-  //   }
-  // };
-
   const fetchRecipes = async () => {
     try {
       const response = await axios.get("/api/recipes");
-      const sorted = sortRecipes(response.data);
-      setRecipes(sorted);
+      setRecipes(sortRecipes(response.data));
     } catch (error) {
       console.log("Failed to fetch recipes", error);
     }
@@ -117,17 +77,24 @@ function RecipeList(props) {
         "/api/search-ingredients-recipes",
         { ingredients: myIngredients }
       );
-      const sorted = sortRecipes(recipesResponse.data);
-      setRecipes(sorted);
+      setRecipes(sortRecipes(recipesResponse.data));
     } catch (error) {
       console.log("Failed to fetch filtered recipes", error);
     }
   };
 
+  const getDisplayedRecipes = () => {
+    const indexOfLastRecipe = currentPage * itemsPerPage;
+    const indexOfFirstRecipe = indexOfLastRecipe - itemsPerPage;
+    return recipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
+  };
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   useEffect(() => {
     fetchMyInfo();
-    fetchMyFridge();
-    // checkLoginStatus();
   }, []);
 
   useEffect(() => {
@@ -136,19 +103,7 @@ function RecipeList(props) {
     } else {
       fetchRecipes();
     }
-  }, [showOnlyMyIngredients, props.title, fridgeIngredients]);
-
-  useEffect(() => {
-    setShowOnlyMyIngredients(false);
-  }, [props.title]);
-
-  useEffect(() => {
-    console.log(searchRecipes);
-    if (searchRecipes) {
-      setRecipes(searchRecipes);
-      // setShowOnlyMyIngredients(false);
-    }
-  }, [searchRecipes]);
+  }, [showOnlyMyIngredients]);
 
   useEffect(() => {
     axios
@@ -156,7 +111,7 @@ function RecipeList(props) {
       .then((response) => {
         let sortedRecipes;
 
-        switch (props.title) {
+        switch (title) {
           case "전체 레시피":
             sortedRecipes = response.data.sort(
               (a, b) => new Date(b.createdDate) - new Date(a.createdDate)
@@ -179,7 +134,7 @@ function RecipeList(props) {
       .catch((error) => {
         console.log(error);
       });
-  }, [props.title]);
+  }, [title]);
 
   return (
     <>
@@ -192,12 +147,14 @@ function RecipeList(props) {
           height: "40px",
         }}
       >
-        <S.Title>{props.title || "전체 레시피"}</S.Title>
-        {props.title === "전체 레시피" && storeAuth && (
+        <S.Title>{title || "전체 레시피"}</S.Title>
+        {title === "전체 레시피" && storeAuth && (
           <S.ToggleButton
             active={showOnlyMyIngredients}
             themeColor={MAIN_THEME_COLOR}
-            onClick={toggleShowOnlyMyIngredients}
+            onClick={() => {
+              setShowOnlyMyIngredients((prev) => !prev);
+            }}
           >
             {showOnlyMyIngredients
               ? "모든 레시피 보기"

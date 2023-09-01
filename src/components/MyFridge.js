@@ -8,6 +8,7 @@ import {
   IngredientList,
   IngredientGroup,
   BtnGroup,
+  CurrentIngrBox,
 } from "./MyFridge.style";
 import fridgeImg from "../assets/img/emptyFridge.svg";
 import INGREDIENT_DATA from "../libs/const/ingredientData";
@@ -196,18 +197,10 @@ function MyFridge({ onClose }) {
     );
 
     try {
-      const recipeResult = await requestApi(
-        "post",
-        "/search-ingredients-recipes",
-        {
-          ingredients: userIngredients,
-        }
-      );
-      navigate("/recipe/all", {
-        state: {
-          searchRecipes: recipeResult,
-        },
+      await requestApi("post", "/search-ingredients-recipes", {
+        ingredients: userIngredients,
       });
+      navigate("/recipe/all");
       onClose();
     } catch (error) {
       console.log(error);
@@ -265,7 +258,7 @@ function MyFridge({ onClose }) {
                               onChange={() => handleCheckboxChange(item)}
                             />
                             <label htmlFor={`ingr-${item.name}`}>
-                              <div className="box"></div>
+                              {/* <div className="box"></div> */}
                               <span>{item.name}</span>
                             </label>
                           </li>
@@ -304,7 +297,7 @@ function MyFridge({ onClose }) {
                           return (
                             <li key={item._id}>
                               <button onClick={() => handleCurrentIngr(item)}>
-                                <div className="box"></div>
+                                {/* <div className="box"></div> */}
                                 {item.ingredientName}
                               </button>
                             </li>
@@ -313,7 +306,7 @@ function MyFridge({ onClose }) {
                       </ul>
                     </IngredientGroup>
                     {spoiledIngr.length !== 0 && (
-                      <IngredientGroup>
+                      <IngredientGroup className="spoiledIngr">
                         <h5>소비기한 마감 식재료</h5>
                         <ul>
                           {spoiledIngr.map((item) => {
@@ -328,17 +321,22 @@ function MyFridge({ onClose }) {
                         </ul>
                       </IngredientGroup>
                     )}
-                    <button onClick={searchIngrRecipe}>레시피 검색하기</button>
-                    <button
-                      onClick={() => {
-                        setIngrAdderMode(true);
-                        getUserFridge();
-                      }}
-                    >
-                      재료 추가하기
-                    </button>
+                    <BtnGroup>
+                      {/* <button className="cancelBtn" onClick={searchIngrRecipe}>
+                        레시피 검색하기
+                      </button> */}
+                      <button
+                        className="addBtn"
+                        onClick={() => {
+                          setIngrAdderMode(true);
+                          getUserFridge();
+                        }}
+                      >
+                        재료 추가하기
+                      </button>
+                    </BtnGroup>
                   </IngredientList>
-                  {showCurrentIngr && (
+                  {/* {showCurrentIngr && (
                     <div>
                       <p>
                         식재료:
@@ -361,21 +359,6 @@ function MyFridge({ onClose }) {
                             : formatDate(currentIngr.bestBefore)}
                         </button>
                       </p>
-
-                      <PortalModal
-                        handleShowModal={showCalendar}
-                        size={"300px"}
-                      >
-                        <Calendar
-                          thisDate={new Date(currentIngr.bestBefore)}
-                          onThisDate={(date) => {
-                            setNewBestBefore(date);
-                          }}
-                          onThisClose={() => setShowCalendar(false)}
-                        />
-                      </PortalModal>
-                      {/* {showCalendar && (
-                    )} */}
 
                       {new Date(currentIngr.bestBefore) > new Date() && (
                         <button
@@ -404,7 +387,7 @@ function MyFridge({ onClose }) {
                         닫기
                       </button>
                     </div>
-                  )}
+                  )} */}
                 </Fridge>
               ) : (
                 // 재료 없을 때
@@ -437,6 +420,74 @@ function MyFridge({ onClose }) {
           </EmptyFridge>
         )}
       </Content>
+      {/* <PortalModal handleShowModal={showCalendar} size={"300px"}>
+        <Calendar
+          thisDate={new Date(currentIngr.bestBefore)}
+          onThisDate={(date) => {
+            setNewBestBefore(date);
+          }}
+          onThisClose={() => setShowCalendar(false)}
+        />
+      </PortalModal> */}
+
+      <PortalModal handleShowModal={showCurrentIngr} size={""}>
+        <CurrentIngrBox>
+          <section className="title">
+            <span>{currentIngr.ingredientName}</span>
+            <button
+              onClick={() => {
+                setShowCurrentIngr(false);
+                setShowCalendar(false);
+                setNewBestBefore();
+                getUserFridge();
+              }}
+            >
+              닫기
+            </button>
+          </section>
+          <p>
+            식재료 추가일:
+            {formatDate(currentIngr.inputDate)}
+          </p>
+          <p>
+            소비기한 마감일:
+            <button
+              onClick={() => setShowCalendar((prev) => !prev)}
+              disabled={new Date(currentIngr.bestBefore) < new Date()}
+            >
+              {newBestBefore
+                ? formatDate(newBestBefore)
+                : formatDate(currentIngr.bestBefore)}
+            </button>
+          </p>
+          {showCalendar && (
+            <Calendar
+              thisDate={new Date(currentIngr.bestBefore)}
+              onThisDate={(date) => {
+                setNewBestBefore(date);
+              }}
+              onThisClose={() => setShowCalendar(false)}
+            />
+          )}
+
+          {new Date(currentIngr.bestBefore) > new Date() && (
+            <button
+              onClick={() => {
+                updateIngredient(currentIngr._id, newBestBefore);
+              }}
+            >
+              저장하기
+            </button>
+          )}
+          <button
+            onClick={() => {
+              deleteIngredient(currentIngr._id);
+            }}
+          >
+            삭제하기
+          </button>
+        </CurrentIngrBox>
+      </PortalModal>
     </>
   );
 }
