@@ -298,17 +298,22 @@ function RecipeWrite(props) {
                     onSubmit={handleRecipeSubmit}
                   >
                     <div
-                      id="recipe-img-container"
+                      // id="recipe-img-container"
                       style={{
                         width: "200px",
                         height: "200px",
-                        backgroundImage: recipeImg
-                          ? "url(" + recipeImg + ")"
-                          : "url(" + plzUploadImgUrl + ")",
-                        backgroundSize: "cover",
-                        backgroundPosition: "center",
+                        // backgroundImage: recipeImg
+                        //   ? "url(" + recipeImg + ")"
+                        //   : "url(" + plzUploadImgUrl + ")",
+                        // backgroundSize: "cover",
+                        // backgroundPosition: "center",
                       }}
                     >
+                      <img
+                        src={recipeImg ? recipeImg : plzUploadImgUrl}
+                        id="recipe-img-container"
+                        alt="recipeImg"
+                      />
                       <label
                         htmlFor="fileInput"
                         className="label"
