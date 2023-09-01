@@ -298,7 +298,7 @@ function RecipeWrite(props) {
                     onSubmit={handleRecipeSubmit}
                   >
                     <div
-                      // id="recipe-img-container"
+                      id="recipe-img-container"
                       style={{
                         width: "200px",
                         height: "200px",
@@ -310,30 +310,36 @@ function RecipeWrite(props) {
                       }}
                     >
                       <img
-                        src={recipeImg ? recipeImg : plzUploadImgUrl}
-                        id="recipe-img-container"
+                        src={
+                          recipeImg
+                            ? recipeImg.startsWith("/")
+                              ? recipeImg
+                              : `/${recipeImg}`
+                            : plzUploadImgUrl
+                        }
                         alt="recipeImg"
-                      />
-                      <label
-                        htmlFor="fileInput"
-                        className="label"
-                        style={{
-                          width: "inherit",
-                          height: "inherit",
-                          cursor: "pointer",
-                          display: "inline-block",
-                        }}
                       >
-                        <input
-                          style={{ position: "absolute", top: "-1000px" }}
-                          id="fileInput"
-                          type="file"
-                          name="uploadRecipeImg"
-                          accept="image/*"
-                          // onChange={handleImgUpload}
-                          onChange={handleImgChange}
-                        />
-                      </label>
+                        <label
+                          htmlFor="fileInput"
+                          className="label"
+                          style={{
+                            width: "inherit",
+                            height: "inherit",
+                            cursor: "pointer",
+                            display: "inline-block",
+                          }}
+                        >
+                          <input
+                            style={{ position: "absolute", top: "-1000px" }}
+                            id="fileInput"
+                            type="file"
+                            name="uploadRecipeImg"
+                            accept="image/*"
+                            // onChange={handleImgUpload}
+                            onChange={handleImgChange}
+                          />
+                        </label>
+                      </img>
                     </div>
                   </form>
                 </div>
