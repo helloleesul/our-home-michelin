@@ -108,7 +108,7 @@ function Editor() {
   const fetchMyInfo = async () => {
     try {
       const response = await requestApi("get", "/myinfo");
-      setLikeRecipes(response.data.likeRecipes);
+      setLikeRecipes(response.likeRecipes);
     } catch (error) {
       console.log("Failed to fetch user info", error);
     }

@@ -58,7 +58,7 @@ function RecipeList({ title }) {
   const fetchMyInfo = async () => {
     try {
       const response = await requestApi("get", "/myinfo");
-      setLikeRecipes(response.data.likeRecipes);
+      setLikeRecipes(response.likeRecipes);
     } catch (error) {
       console.log("Failed to fetch user info", error);
     }
@@ -67,7 +67,7 @@ function RecipeList({ title }) {
   const fetchRecipes = async () => {
     try {
       const response = await requestApi("get", "/recipes");
-      setRecipes(sortRecipes(response.data));
+      setRecipes(sortRecipes(response));
     } catch (error) {
       console.log("Failed to fetch recipes", error);
     }
@@ -92,7 +92,7 @@ function RecipeList({ title }) {
         "/search-ingredients-recipes",
         { ingredients: myIngredients }
       );
-      setRecipes(sortRecipes(recipesResponse.data));
+      setRecipes(sortRecipes(recipesResponse));
     } catch (error) {
       console.log("Failed to fetch filtered recipes", error);
     }
