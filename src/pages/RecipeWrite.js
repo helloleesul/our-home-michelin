@@ -314,7 +314,7 @@ function RecipeWrite(props) {
                     >
                       {isEditMode ? (
                         <>
-                          <img
+                          <S.RecipeImg
                             onClick={() => {
                               inputRef.current.click();
                               setPrevImg(false);
@@ -330,7 +330,8 @@ function RecipeWrite(props) {
                             }}
                           />
                           {prevImg && (
-                            <img
+                            <S.RecipeImg
+                              className="prevImg"
                               src={
                                 recipeImg
                                   ? recipeImg.startsWith("/")
@@ -338,12 +339,12 @@ function RecipeWrite(props) {
                                     : `/${recipeImg}`
                                   : plzUploadImgUrl
                               }
-                              alt="recipeImg"
+                              alt="prevImg"
                             />
                           )}
                         </>
                       ) : (
-                        <img
+                        <S.RecipeImg
                           onClick={() => inputRef.current.click()}
                           src={recipeImg ? recipeImg : plzUploadImgUrl}
                           alt="recipeImg"

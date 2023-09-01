@@ -146,3 +146,14 @@ export const DeleteButton = styled(Button)`
   color: #fff;
   background-color: #878787;
 `;
+
+export const RecipeImg = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  &.prevImg {
+    position: absolute;
+    left: 0;
+    z-index: -1;
+  }
+`;
