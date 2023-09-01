@@ -9,9 +9,10 @@ export const Back = styled.div`
   /* flex-flow: row wrap; */
 `;
 export const Title = styled.h3`
-  font-size: 15px;
+  font-size: 24px;
   font-weight: 900;
-  margin: 50px 0px 10px 30px;
+  color: #464646;
+  // margin: 50px 0px 10px 30px;
   /* background-color: azure; */
 `;
 
@@ -61,9 +62,6 @@ export const ToggleButton = styled.button`
   border-radius: 12px; // 둥근 모서리
   cursor: pointer;
   outline: none;
-  position: absolute;
-  right: ;
-  top: 175px;
   transition: all 0.3s ease; // 애니메이션 효과 추가
 
   &:hover {
