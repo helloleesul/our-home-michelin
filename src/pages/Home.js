@@ -9,7 +9,6 @@ import MyFridge from "../components/MyFridge";
 import requestApi from "../libs/const/api";
 import CustomLoading from "../components/CustomLoading";
 import useAuthStatus from "../libs/hooks/useAuthStatus";
-import { useFetcher } from "react-router-dom";
 
 function Home() {
   const { isAuth } = useAuthStatus();
@@ -96,15 +95,21 @@ function Home() {
           <div>
             {isAuth ? (
               <>
+                <p>나만의 냉장고에</p>
                 <p>
-                  냉장고에 <span>김치, 돼지고기...</span>가 있어요.
+                  <span>식재료들을</span>더 채우러 갈까요?
                 </p>
-                <p>더 채우러 갈까요?</p>
               </>
             ) : (
-              <p>로그인해서 나만의 냉장고를 채워보세요!</p>
+              <>
+                <p>로그인해서</p>
+                <p>
+                  {" "}
+                  <span>나만의 냉장고</span>를 채워보세요!
+                </p>
+              </>
             )}
-            <span className="go-fill">채우러가기 ╰(*°▽°*)╯</span>
+            <S.GoFill>채우러가기 ╰(*°▽°*)╯</S.GoFill>
           </div>
         </S.RefrigeratorContainer>
         <PortalModal handleShowModal={showModal} size={"40%"}>
@@ -122,7 +127,7 @@ function Home() {
         <Container>
           <S.Text>
             <p>
-              <span>5스타 </span>레시피
+              <span>인기 </span>레시피
             </p>
             <S.SeeMoreLink to="/recipe/popular">더보기</S.SeeMoreLink>
           </S.Text>

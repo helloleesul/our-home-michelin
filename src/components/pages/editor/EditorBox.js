@@ -1,6 +1,7 @@
 import React from "react";
 import * as S from "./EditorBox.style";
 import { useNavigate } from "react-router-dom";
+import editorDefaultImg from "../../../assets/img/chef1.png";
 
 function EditorBox({ editorList }) {
   const navigate = useNavigate();
@@ -24,6 +25,9 @@ function EditorBox({ editorList }) {
               style={{ pointerEvents: "none" }}
               src={editor.profileImageURL}
               alt={editor.nickName}
+              onError={(e) => {
+                e.target.src = editorDefaultImg;
+              }}
             />
           </S.ImageWrapper>
           <p style={{ pointerEvents: "none" }}>{editor.nickName}</p>
