@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import CloseIcon from "../assets/CloseIcon.js";
 import requestApi from "../libs/const/api.js";
@@ -22,6 +22,7 @@ function RecipeWrite(props) {
   const updateRecipeData = location.state?.recipe;
   const [isEditMode, setIsEditMode] = useState();
   const { isAuth, isAuthUser } = useAuthStatus();
+  const inputRef = useRef();
 
   useEffect(() => {
     if (updateRecipeData) {
@@ -310,36 +311,38 @@ function RecipeWrite(props) {
                       }}
                     >
                       <img
+                        onClick={() => inputRef.current.click()}
                         src={
-                          recipeImg
-                            ? recipeImg.startsWith("/")
-                              ? recipeImg
-                              : `/${recipeImg}`
-                            : plzUploadImgUrl
+                          recipeImg ? recipeImg : plzUploadImgUrl
+                          // recipeImg
+                          //   ? recipeImg.startsWith("/")
+                          //     ? recipeImg
+                          //     : `/${recipeImg}`
+                          //   : plzUploadImgUrl
                         }
                         alt="recipeImg"
+                      />
+                      <label
+                        htmlFor="fileInput"
+                        className="label"
+                        style={{
+                          width: "inherit",
+                          height: "inherit",
+                          cursor: "pointer",
+                          display: "inline-block",
+                        }}
                       >
-                        <label
-                          htmlFor="fileInput"
-                          className="label"
-                          style={{
-                            width: "inherit",
-                            height: "inherit",
-                            cursor: "pointer",
-                            display: "inline-block",
-                          }}
-                        >
-                          <input
-                            style={{ position: "absolute", top: "-1000px" }}
-                            id="fileInput"
-                            type="file"
-                            name="uploadRecipeImg"
-                            accept="image/*"
-                            // onChange={handleImgUpload}
-                            onChange={handleImgChange}
-                          />
-                        </label>
-                      </img>
+                        <input
+                          ref={inputRef}
+                          style={{ position: "absolute", top: "-1000px" }}
+                          id="fileInput"
+                          type="file"
+                          name="uploadRecipeImg"
+                          accept="image/*"
+                          // onChange={handleImgUpload}
+                          onChange={handleImgChange}
+                        />
+                      </label>
                     </div>
                   </form>
                 </div>
