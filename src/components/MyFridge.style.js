@@ -235,9 +235,14 @@ export const CurrentIngrBox = styled.div`
       border: 1px solid ${MAIN_THEME_COLOR[0]};
       cursor: pointer;
       background: #f7411f1a;
+      color: ${MAIN_THEME_COLOR[0]};
       padding: 10px;
       font-variant-numeric: tabular-nums;
       border-radius: 10px;
+      &:disabled {
+        background: #d8d8d8;
+        border-color: #464646;
+      }
     }
   }
 `;

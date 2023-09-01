@@ -94,6 +94,7 @@ export const ImageWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 18px;
   &:hover {
     transform: rotate(180deg);
   }
