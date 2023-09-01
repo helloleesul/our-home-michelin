@@ -188,7 +188,56 @@ export const BtnGroup = styled.div`
 export const CurrentIngrBox = styled.div`
   ${commonStyle}
   section.title {
+    position: relative;
+    span {
+      color: #fff;
+      background: ${MAIN_THEME_COLOR[0]};
+      border-radius: 999px;
+      box-shadow: 0px 3px 9px -3px;
+      flex: 1;
+      text-align: center;
+      padding: 10px;
+      font-size: 24px;
+      display: block;
+      font-weight: 600;
+    }
+    button {
+      border: none;
+      background: none;
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      svg {
+        width: 18px;
+      }
+    }
+  }
+  div.date {
     display: flex;
+    margin: 20px 0;
+    font-size: 18px;
     justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    img {
+      flex: 1;
+    }
+    img + span {
+      flex: 10;
+      & + span {
+        font-variant-numeric: tabular-nums;
+      }
+    }
+    button {
+      font-size: inherit;
+      border: 1px solid ${MAIN_THEME_COLOR[0]};
+      cursor: pointer;
+      background: #f7411f1a;
+      padding: 10px;
+      font-variant-numeric: tabular-nums;
+      border-radius: 10px;
+    }
   }
 `;

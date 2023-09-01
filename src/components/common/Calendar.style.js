@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { MAIN_THEME_COLOR } from "../../libs/const/color";
 
 export const CalendarWrap = styled.div`
-  width: 300px;
+  // width: 300px;
   margin: auto;
 `;
 
@@ -11,7 +11,7 @@ export const CalendarHeader = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 10px;
-  background-color: ${MAIN_THEME_COLOR[0]};
+  background-color: ${MAIN_THEME_COLOR[1]};
   color: #fff;
   button {
     background: none;
