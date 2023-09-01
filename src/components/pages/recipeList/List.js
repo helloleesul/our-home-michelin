@@ -36,7 +36,7 @@ function List({ recipe, isBookmarked: initialIsBookmarked, isLoggedIn }) {
           <img
             // src={`/${recipe.imageUrl}`}
             src={
-              recipe.imageUrl.startsWith("/")
+              recipe.imageUrl?.startsWith("/")
                 ? recipe.imageUrl
                 : "/" + recipe.imageUrl
             }

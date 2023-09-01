@@ -30,7 +30,12 @@ function RecipeWrite(props) {
       setSelectedServing(updateRecipeData.recipeServing);
       setIngredients(updateRecipeData.ingredients);
       setProcess(updateRecipeData.process);
-      setRecipeImg(updateRecipeData.imageUrl);
+      // setRecipeImg(updateRecipeData.imageUrl);
+      setRecipeImg(
+        updateRecipeData.imageUrl?.startsWith("/")
+          ? updateRecipeData.imageUrl
+          : "/" + updateRecipeData.imageUrl
+      );
       setIsEditMode(true);
       if (updateRecipeData.imageUrl) {
         const recipeImgUrl = updateRecipeData.imageUrl;
