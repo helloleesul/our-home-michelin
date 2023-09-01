@@ -303,7 +303,7 @@ function RecipeWrite(props) {
                         width: "200px",
                         height: "200px",
                         backgroundImage: recipeImg
-                          ? `url(${recipeImg})`
+                          ? `url(${recipeImg.replace(/&quot;/g, '"')})`
                           : `url(${plzUploadImgUrl})`,
                         backgroundSize: "cover",
                         backgroundPosition: "center",
