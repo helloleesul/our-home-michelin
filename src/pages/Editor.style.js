@@ -74,12 +74,13 @@ export const Section = styled.div`
   display: flex;
   flex-flow: row wrap;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   padding: 20px 0;
   cursor: pointer;
   text-align: center;
   padding: 20px 0;
   cursor: pointer;
+  gap: calc(100% / 24);
 `;
 
 export const ImageWrapper = styled.div`

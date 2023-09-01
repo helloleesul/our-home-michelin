@@ -26,27 +26,29 @@ export const RefrigeratorContainer = styled.div`
     padding: 10px;
   }
 
+  h3 {
+    opacity: 0;
+    bottom: -30px;
+    position: absolute;
+    right: 30%;
+    font-weight: 700;
+    color: ${MAIN_THEME_COLOR[0]};
+    transition: 0.3s;
+    font-size: 10px;
+  }
+
+  &:hover {
+    .go-fill {
+      opacity: 1;
+      bottom: 0;
+      font-size: 16px;
+    }
+  }
+
   p span {
     font-weight: 800;
     font-size: 20px;
     color: ${MAIN_THEME_COLOR[0]};
-  }
-`;
-
-export const GoFill = styled.p`
-  opacity: 0;
-  bottom: -50px;
-  position: absolute;
-  right: 30%;
-  font-weight: 700;
-  color: ${MAIN_THEME_COLOR[0]};
-  transition: 0.3s;
-  font-size: 10px;
-
-  &:hover .go-fill {
-    opacity: 1;
-    bottom: 0;
-    font-size: 16px;
   }
 `;
 
@@ -57,7 +59,7 @@ export const SeeMoreLink = styled(Link)`
 `;
 
 export const Text = styled.nav`
-  width: 100%;
+  width: 1000px;
   font-weight: 800;
   font-size: 24px;
   box-sizing: border-box;
