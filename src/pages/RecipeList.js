@@ -26,7 +26,7 @@ function RecipeList({ title }) {
   const [showOnlyMyIngredients, setShowOnlyMyIngredients] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 50;
+  const itemsPerPage = 20;
 
   const totalPages = Math.ceil(recipes.length / itemsPerPage);
 
@@ -81,6 +81,16 @@ function RecipeList({ title }) {
     } catch (error) {
       console.log("Failed to fetch filtered recipes", error);
     }
+  };
+
+  const getDisplayedRecipes = () => {
+    const indexOfLastRecipe = currentPage * itemsPerPage;
+    const indexOfFirstRecipe = indexOfLastRecipe - itemsPerPage;
+    return recipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
+  };
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
   };
 
   useEffect(() => {
