@@ -180,9 +180,12 @@ function RecipeList({ title }) {
 
       <div>
         {Array.from({ length: totalPages }, (_, index) => (
-          <button key={index} onClick={() => handlePageChange(index + 1)}>
+          <S.PaginationButton
+            key={index}
+            onClick={() => handlePageChange(index + 1)}
+          >
             {index + 1}
-          </button>
+          </S.PaginationButton>
         ))}
       </div>
     </>
