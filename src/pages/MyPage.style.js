@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { MAIN_THEME_COLOR } from "../libs/const/color";
+
 export const Container = styled.div`
   display: flex;
   justify-content: center;
@@ -21,6 +22,12 @@ export const ProfileImg = styled.img`
   padding-left: 50px;
   width: 120px;
   height: 120px;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+
+  &:hover {
+    transform: rotate(3deg);
+  }
 `;
 
 export const InfoContainer = styled.div`
@@ -69,12 +76,12 @@ export const TextContainer = styled.div`
   gap: 10px;
 `;
 
-// 레시피 목록
 export const RecipeBoxContainer = styled.div`
   display: flex;
-  flex-grow: 1; // width 값을 고정할지 그냥 목록 크기에 맞게할지
+  flex-grow: 1;
   border-radius: 10px;
 `;
+
 export const RecipeContainer = styled.div`
   width: 100%;
   border-radius: 10px;
@@ -87,10 +94,10 @@ export const RecipeList = styled.div`
   gap: 20px;
   border: 2px solid ${MAIN_THEME_COLOR[2]};
   padding-left: 34px;
-  /* border-radius: 10px; */
   border-right: none;
   border-left: none;
 `;
+
 export const RecipeItemBox = styled.div`
   width: calc(18%);
   display: flex;
@@ -107,6 +114,7 @@ export const RecipeImg = styled.img`
   border: 2px solid ${MAIN_THEME_COLOR[2]};
   cursor: pointer;
 `;
+
 export const RecipeText = styled.p`
   text-align: center;
   font-size: 14px;
@@ -138,17 +146,18 @@ export const TabButton = styled.button`
 
 export const countContainer = styled.div`
   margin-bottom: 15px;
-  /* border-radius: 10px; */
   display: flex;
   border: 2px solid ${MAIN_THEME_COLOR[2]};
   border-right: none;
   border-left: none;
   align-items: center;
 `;
+
 export const line = styled.div`
   border-right: 2px solid ${MAIN_THEME_COLOR[2]};
   height: 35px;
 `;
+
 export const allCount = styled.div`
   width: 20%;
   display: flex;
@@ -181,7 +190,6 @@ export const menuCountBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-
   align-items: center;
 `;
 

@@ -7,7 +7,7 @@ const text = "로그인";
 const subText = "회원가입";
 const showBtn = false;
 
-function Login(props) {
+function Login() {
   return (
     <UserAccessForm
       inputs={customInputs}

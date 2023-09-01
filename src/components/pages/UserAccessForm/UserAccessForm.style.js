@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
-
 import { MAIN_THEME_COLOR } from "../../../libs/const/color";
+
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -22,6 +22,7 @@ export const Text = styled.h2`
     border-color: orange;
   }
 `;
+
 export const InputContainer = styled.div`
   width: 550px;
   border: 1px solid #ffe9e4;
@@ -33,6 +34,7 @@ export const InputContainer = styled.div`
   padding-top: 25px;
   box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.3);
 `;
+
 export const Btn = styled.button`
   width: 170px;
   height: 40px;

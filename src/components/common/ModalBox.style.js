@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { MAIN_THEME_COLOR } from "../../libs/const/color";
+
 export const ModalContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -10,6 +11,7 @@ export const ModalContainer = styled.div`
   padding-top: 30px;
   position: relative;
 `;
+
 export const ModalBtn = styled.button`
   width: 360px;
   height: 40px;
@@ -20,7 +22,6 @@ export const ModalBtn = styled.button`
   color: white;
   font-size: 16px;
   margin-bottom: 25px;
-  right: 590px;
 `;
 
 export const Input = styled.input`
@@ -40,6 +41,7 @@ export const Input = styled.input`
     border-color: orange;
   }
 `;
+
 export const Label = styled.label`
   font-weight: bold;
   font-size: 12px;

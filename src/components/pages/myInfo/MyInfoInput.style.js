@@ -5,6 +5,7 @@ export const Label = styled.label`
   font-size: 12px;
   margin-bottom: 4px;
 `;
+
 export const Input = styled.input`
   width: 350px;
   height: 35px;
@@ -12,15 +13,18 @@ export const Input = styled.input`
   border: 1px solid #ccc;
   border-radius: 15px;
   position: relative;
+
   &:focus {
     outline: none;
     border-color: orange;
   }
+
   &:hover {
     cursor: pointer;
     border-color: orange;
   }
 `;
+
 export const InputContainer = styled.div`
   display: flex;
   flex-direction: column;

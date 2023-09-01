@@ -7,7 +7,7 @@ import chef1 from "../assets/img/chef1.png";
 import PortalModal from "../components/common/PortalModal";
 import ModalBox from "../components/common/ModalBox";
 
-function MyInfo(props) {
+function MyInfo() {
   const [showModal, setShowModal] = useState(false);
   const [nickname, setNickname] = useState("");
   const [userEmail, setUserEmail] = useState("");
@@ -24,7 +24,7 @@ function MyInfo(props) {
         setNickname(response.nickName);
         setUserEmail(response.email);
       } catch (error) {
-        console.log(error.response.data.error);
+        console.error(error);
       }
     })();
   }, []);
@@ -51,8 +51,8 @@ function MyInfo(props) {
       alert("비밀번호가 일치하지 않습니다.");
       return;
     }
-    const saveConfrim = window.confirm("저장 하시겠습니까?");
-    if (!saveConfrim) {
+    const saveConfirm = window.confirm("저장 하시겠습니까?");
+    if (!saveConfirm) {
       return;
     }
     const userData = {
@@ -69,7 +69,6 @@ function MyInfo(props) {
       }
     } catch (error) {
       console.error("에러", error);
-      console.log(error.response.data.message);
     }
   };
 

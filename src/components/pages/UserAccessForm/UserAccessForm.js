@@ -4,7 +4,6 @@ import requestApi from "../../../libs/const/api";
 import * as S from "./UserAccessForm.style";
 import chef1 from "../../../assets/img/chef1.png";
 import Input from "./Input";
-
 import { useDispatch } from "react-redux";
 import { setUserIngrData } from "../../../libs/utils/fridgeIngrSlice";
 
@@ -12,7 +11,6 @@ function UserAccessForm(props) {
   const { inputs, text, subText, showBtn } = props;
   const location = useLocation();
   const navigate = useNavigate();
-
   const inputRefs = [useRef(), useRef(), useRef(), useRef(), useRef()];
 
   const [inputValues, setInputValues] = useState(["", "", "", "", ""]);
