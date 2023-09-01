@@ -97,11 +97,17 @@ function MyPage() {
     setShowModal(false);
   };
 
-  const handleImg = (event) => {
+  const handleImg = async (event) => {
     const file = event.target.files[0];
     if (file) {
       const imageUrl = URL.createObjectURL(file);
+      const formData = new FormData();
       setSelectedImage(imageUrl);
+      formData.append("profileImage", file);
+      const response = await requestApi("patch", "/myinfo", formData);
+      if (response) {
+        alert("프로필 이미지 수정 완료");
+      }
     }
   };
 
@@ -140,6 +146,7 @@ function MyPage() {
           />
           <input
             type="file"
+            accept="image/*"
             style={{ display: "none" }}
             onChange={handleImg}
             ref={inputRef}
