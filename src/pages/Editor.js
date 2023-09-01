@@ -107,7 +107,7 @@ function Editor() {
   //내 정보 가져오기
   const fetchMyInfo = async () => {
     try {
-      const response = await axios.get("/api/myinfo");
+      const response = await requestApi("get", "/myinfo");
       setLikeRecipes(response.data.likeRecipes);
     } catch (error) {
       console.log("Failed to fetch user info", error);

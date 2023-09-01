@@ -150,13 +150,14 @@ function RecipeWrite(props) {
       }
 
       if (isEditMode) {
-        const response = await axios.patch(
-          `/api/recipes/${updateRecipeData._id}`,
+        const response = await requestApi(
+          "patch",
+          `/recipes/${updateRecipeData._id}`,
           formData
         );
         alert("레시피가 성공적으로 수정되었습니다!");
       } else {
-        const response = await axios.post("/api/recipes", formData);
+        const response = await requestApi("post", "/recipes", formData);
         alert("레시피가 성공적으로 등록되었습니다!");
       }
       navigate("/");

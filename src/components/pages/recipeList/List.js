@@ -4,6 +4,7 @@ import * as S from "./List.style.js"; // Contents 스타일을 모두 가져옴
 import axios from "axios";
 import recipeDefaultImg from "../../../assets/img/recipeDefaultImg.png";
 import { FillHeart, StrokeHeart } from "../../../assets/HeartIcon.js";
+import requestApi from "../../../libs/const/api.js";
 
 // function List({ foodList }) {
 //     // const visibleFoods = foodList.slice(startIndex, startIndex + itemsPerPage);
@@ -17,7 +18,7 @@ function List({ recipe, isBookmarked: initialIsBookmarked, isLoggedIn }) {
 
   const toggleLike = async (recipeId) => {
     try {
-      await axios.post(`/api/toggleLikeRecipes`, { recipeId });
+      await requestApi("post", `/toggleLikeRecipes`, { recipeId });
       setIsBookmarked(!isBookmarked);
     } catch (error) {
       // console.log("Failed", error);

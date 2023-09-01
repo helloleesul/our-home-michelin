@@ -5,6 +5,7 @@ import * as S from "./RecipeList.style";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { setLoading } from "../libs/utils/layoutSlice";
+import requestApi from "../libs/const/api";
 
 function chunkArray(myArray, chunk_size) {
   let index = 0;
@@ -56,7 +57,7 @@ function RecipeList({ title }) {
 
   const fetchMyInfo = async () => {
     try {
-      const response = await axios.get("/api/myinfo");
+      const response = await requestApi("get", "/myinfo");
       setLikeRecipes(response.data.likeRecipes);
     } catch (error) {
       console.log("Failed to fetch user info", error);
@@ -65,7 +66,7 @@ function RecipeList({ title }) {
 
   const fetchRecipes = async () => {
     try {
-      const response = await axios.get("/api/recipes");
+      const response = await requestApi("get", "/recipes");
       setRecipes(sortRecipes(response.data));
     } catch (error) {
       console.log("Failed to fetch recipes", error);
@@ -86,8 +87,9 @@ function RecipeList({ title }) {
       const myIngredients = safeIngr.map(
         (ingredient) => ingredient.ingredientName
       );
-      const recipesResponse = await axios.post(
-        "/api/search-ingredients-recipes",
+      const recipesResponse = await requestApi(
+        "post",
+        "/search-ingredients-recipes",
         { ingredients: myIngredients }
       );
       setRecipes(sortRecipes(recipesResponse.data));
