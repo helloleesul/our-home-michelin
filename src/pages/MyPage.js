@@ -10,7 +10,6 @@ import { setLoading } from "../libs/utils/layoutSlice";
 
 function MyPage() {
   const [showModal, setShowModal] = useState(false);
-  const [tabColor, setTabColor] = useState("myRecipes");
   const [titleColor, setTitleColor] = useState("전체");
   const [nickname, setNickname] = useState("");
   const [userEmail, setUserEmail] = useState("");
@@ -111,10 +110,6 @@ function MyPage() {
     }
   };
 
-  const handleTapButton = (check) => {
-    setTabColor(check);
-  };
-
   const handleTitleText = (check) => {
     setSelectedType(check);
     setTitleColor(check);
@@ -169,27 +164,8 @@ function MyPage() {
         </S.UserContainer>
       </S.Container>
       <S.RecipeBoxContainer>
-        <S.TabsContainer>
-          <S.TabButton
-            onClick={() => handleTapButton("myRecipes")}
-            isActive={tabColor === "myRecipes"}
-          >
-            나의 레시피
-          </S.TabButton>
-          <S.TabButton
-            onClick={() => handleTapButton("bookmarkRecipes")}
-            isActive={tabColor === "bookmarkRecipes"}
-          >
-            북마크 레시피
-          </S.TabButton>
-          <S.TabButton
-            onClick={() => handleTapButton("likedRecipes")}
-            isActive={tabColor === "likedRecipes"}
-          >
-            좋아요 레시피
-          </S.TabButton>
-        </S.TabsContainer>
         <S.RecipeContainer>
+          <S.myRecipeText>나의레시피</S.myRecipeText>
           <S.countContainer>
             <S.allCount>
               <S.conterTitleText
@@ -233,5 +209,4 @@ function MyPage() {
     </>
   );
 }
-
 export default MyPage;
