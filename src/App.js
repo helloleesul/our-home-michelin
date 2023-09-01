@@ -16,13 +16,12 @@ import Editor from "./pages/Editor";
 import MyPage from "./pages/MyPage";
 import MyInfo from "./pages/MyInfo";
 
-import useAuthStatus from "./libs/hooks/useAuthStatus";
-import { createPortal } from "react-dom";
 import { useSelector } from "react-redux";
+import { createPortal } from "react-dom";
 import Loading from "./components/common/GlobalLoading";
 
 function App() {
-  const { isAuth } = useAuthStatus();
+  const storeAuth = useSelector((state) => state.layout.isAuth);
   const isLoading = useSelector((state) => state.layout.isLoading);
 
   return (
@@ -33,11 +32,11 @@ function App() {
           <Route path="/" element={<Home />}></Route>
           <Route
             path="/login"
-            element={!isAuth ? <Login /> : <Navigate replace to={"/"} />}
+            element={!storeAuth ? <Login /> : <Navigate replace to={"/"} />}
           ></Route>
           <Route
             path="/join"
-            element={!isAuth ? <Join /> : <Navigate replace to={"/"} />}
+            element={!storeAuth ? <Join /> : <Navigate replace to={"/"} />}
           ></Route>
           <Route path="/editor" element={<Editor />}></Route>
           <Route
@@ -52,7 +51,7 @@ function App() {
           <Route
             path="/recipe/write"
             element={
-              !isAuth ? <Navigate replace to={"/login"} /> : <RecipeWrite />
+              !storeAuth ? <Navigate replace to={"/login"} /> : <RecipeWrite />
             }
           ></Route>
           <Route
@@ -62,11 +61,11 @@ function App() {
 
           <Route
             path="/mypage"
-            element={isAuth ? <MyPage /> : <Navigate replace to={"/"} />}
+            element={storeAuth ? <MyPage /> : <Navigate replace to={"/"} />}
           ></Route>
           <Route
             path="/mypage/info"
-            element={isAuth ? <MyInfo /> : <Navigate replace to={"/"} />}
+            element={storeAuth ? <MyInfo /> : <Navigate replace to={"/"} />}
           ></Route>
 
           {/* 상단에 위치하는 라우트들의 규칙을 모두 확인, 일치하는 라우트가 없는경우 처리 */}

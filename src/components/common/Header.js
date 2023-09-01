@@ -30,7 +30,7 @@ function Header() {
 
   return (
     <header>
-      <Container>
+      <Container style={{ textAlign: "center" }}>
         {storeAuth ? (
           // 로그인 상태일 때
           <S.User>

@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { MAIN_THEME_COLOR } from "../libs/const/color";
 
 // export const YearEditors = styled.div`
 //   display: flex;
@@ -60,7 +61,7 @@ export const EditorRecipes = styled.div`
   text-align: center;
 
   span {
-    color: #f7411f;
+    color: ${MAIN_THEME_COLOR[0]};
     font-size: 32px;
     font-weight: 800;
     margin: 0 5px;
@@ -106,7 +107,7 @@ export const EditorImage = styled.img`
 
 export const EditorLink = styled.div`
   text-decoration: none;
-  color: #464646;
+  color: ${MAIN_THEME_COLOR[1]};
   transition: 0.5s;
   &:hover {
     opacity: 0.8;

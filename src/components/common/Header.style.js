@@ -2,11 +2,8 @@ import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 
 export const Title = styled(Link)`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-block;
+  width: auto;
   font-size: 32px;
   text-align: center;
   padding: 4px 0 36px;

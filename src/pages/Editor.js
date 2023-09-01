@@ -4,9 +4,10 @@ import nextEditor from "../../src/assets/img/editorNext.png";
 import prevEditor from "../../src/assets/img/editorPrev.png";
 import requestApi from "../libs/const/api";
 import * as S from "./Editor.style";
-import CustomLoading from "../components/CustomLoading";
 import editorDefaultImg from "../assets/img/chef1.png";
 import { useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setLoading } from "../libs/utils/layoutSlice";
 
 function Editor() {
   const limitValue = 6;
@@ -15,18 +16,30 @@ function Editor() {
   const [totalPage, setTotalPage] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectEditor, setSelectEditor] = useState("");
-  const [loading, setLoading] = useState(false);
   const location = useLocation();
   const editorId = location.state?.editorId;
-  console.log("editorId", editorId);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    setSelectEditor(editorId);
+    dispatch(setLoading(true));
+    getEditorsRecipes();
+    getEditorPagenation(1, limitValue);
+    if (editorId) {
+      setSelectEditor(editorId);
+    }
   }, []);
+
+  useEffect(() => {
+    if (editorId) {
+      setSelectEditor(editorId);
+    } else {
+      setSelectEditor(editorList[0]?._id);
+    }
+  }, [editorList]);
 
   //에디터 페이지네이션 가져오기
   const getEditorPagenation = async (pageNum, limit) => {
-    setLoading(true);
+    dispatch(setLoading(true));
     try {
       const res = await requestApi(
         "get",
@@ -36,26 +49,21 @@ function Editor() {
       if (res.editors.length !== 0) {
         setEditorList(res.editors);
         setTotalPage(res.totalPages);
-        setLoading(false);
       }
     } catch (error) {
       console.log(error);
-      setLoading(false);
     }
   };
 
   //에디터가 작성한 레시피 가져오기
   const getEditorsRecipes = async (editorId) => {
-    setLoading(true);
-
     try {
       const res = await requestApi("get", "/editorRecipes/" + editorId);
       setSelectList(res); // 데이터 설정
       console.log("getTargetRecepies  :", res);
-      setLoading(false);
+      dispatch(setLoading(false));
     } catch (error) {
       error.response.data.message && alert(error.response.data.message);
-      setLoading(false);
       // 에러 처리 로직 추가
     }
   };
@@ -84,26 +92,25 @@ function Editor() {
   };
 
   //READY useEffect
-  useEffect(() => {
-    //에디터 목록 페이지네이션
-    getEditorPagenation(1, limitValue);
+  // useEffect(() => {
+  //   //에디터 목록 페이지네이션
+  //   getEditorPagenation(1, limitValue);
 
-    //세션에 저장된 선택한 에디터 가져오기
-    const target = sessionStorage.getItem("selectEditor");
+  //   //세션에 저장된 선택한 에디터 가져오기
+  //   // const target = sessionStorage.getItem("selectEditor");
 
-    //세션에 저장된 5스타 레시피 가져오기
-    getEditorsRecipes(target);
-  }, []);
+  //   //세션에 저장된 5스타 레시피 가져오기
+  //   // getEditorsRecipes(selectEditor);
+  // }, []);
 
   //에디터 클릭해서 state 변경시 동작
   useEffect(() => {
     getEditorsRecipes(selectEditor);
+    dispatch(setLoading(true));
   }, [selectEditor]);
 
   return (
     <>
-      <CustomLoading loading={loading} />
-
       <S.CenterBox>
         {/* <S.YearEditors>
           <h4>
@@ -125,7 +132,7 @@ function Editor() {
                 <S.ImageWrapper>
                   <S.EditorImage
                     style={{ pointerEvents: "none" }}
-                    src={editor.profileImageURL}
+                    src={`/${editor.profileImageURL}`}
                     alt={editor.nickName}
                     onError={(e) => {
                       e.target.src = editorDefaultImg;
