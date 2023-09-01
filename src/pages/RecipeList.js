@@ -29,6 +29,11 @@ function RecipeList(props) {
   const userIngrData = useSelector((state) => state.fridge.userIngrData);
   const [showOnlyMyIngredients, setShowOnlyMyIngredients] = useState(false);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 50;
+
+  const totalPages = Math.ceil(recipes.length / itemsPerPage);
+
   const location = useLocation();
   const searchRecipes = location.state?.searchRecipes;
 
@@ -72,6 +77,16 @@ function RecipeList(props) {
     } catch (error) {
       console.log("Failed to fetch fridge info", error);
     }
+  };
+
+  const getDisplayedRecipes = () => {
+    const indexOfLastRecipe = currentPage * itemsPerPage;
+    const indexOfFirstRecipe = indexOfLastRecipe - itemsPerPage;
+    return recipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
+  };
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
   };
 
   // const checkLoginStatus = async () => {
@@ -192,7 +207,7 @@ function RecipeList(props) {
       </div>
 
       <S.Lists>
-        {chunkArray(recipes, 5).map((recipeRow, index) => (
+        {chunkArray(getDisplayedRecipes(), 5).map((recipeRow, index) => (
           <S.Row key={index}>
             {recipeRow.map((recipe) => (
               <List
@@ -205,6 +220,14 @@ function RecipeList(props) {
           </S.Row>
         ))}
       </S.Lists>
+
+      <div>
+        {Array.from({ length: totalPages }, (_, index) => (
+          <button key={index} onClick={() => handlePageChange(index + 1)}>
+            {index + 1}
+          </button>
+        ))}
+      </div>
     </>
   );
 }
