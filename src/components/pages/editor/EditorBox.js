@@ -7,7 +7,7 @@ function EditorBox({ editorList }) {
   const navigate = useNavigate();
 
   const handleEditorClick = (id) => {
-    console.log("editor id :", id);
+    // console.log("editor id :", id);
     // sessionStorage.setItem("selectEditor", id);
     navigate("/editor", {
       state: {

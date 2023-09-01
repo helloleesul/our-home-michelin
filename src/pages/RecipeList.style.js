@@ -55,19 +55,20 @@ export const Row = styled.div`
 
 export const ToggleButton = styled.button`
   background-color: #fff;
-  color: grey;
-  border: 2px solid grey;
+  color: #f7411f;
+  border: 1px solid #f7411f;
   font-weight: 1000;
-  padding: 10px;
-  border-radius: 12px; // 둥근 모서리
+  padding: 10px 23px;
+  border-radius: 12px;
   cursor: pointer;
   outline: none;
-  transition: all 0.3s ease; // 애니메이션 효과 추가
+  transition: all 0.3s ease;
+  font-size: 18px;
+  box-shadow: 0 2px 8px -2px;
 
   &:hover {
     opacity: 0.9;
-    border-color: ${(props) => props.themeColor}; // hover 시 테두리 색상
-    color: ${(props) => props.themeColor}; // hover 시 글자 색상
+    background-color: #fddcd5;
   }
 `;
 

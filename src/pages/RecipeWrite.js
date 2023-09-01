@@ -42,8 +42,8 @@ function RecipeWrite(props) {
   }, []);
 
   useEffect(() => {
-    console.log("stateFile:", stateFile);
-    console.log("recipeImg:", recipeImg);
+    // console.log("stateFile:", stateFile);
+    // console.log("recipeImg:", recipeImg);
   }, [stateFile, recipeImg]);
 
   const navigate = useNavigate();

@@ -59,7 +59,7 @@ function Editor() {
         `/editors?page=${pageNum}&limit=${limit}`
       );
 
-      console.log("getEditorPagenation :", res);
+      // console.log("getEditorPagenation :", res);
       if (res.editors.length !== 0) {
         setEditorList(res.editors);
         setTotalPage(res.totalPages);
@@ -74,7 +74,7 @@ function Editor() {
     try {
       const res = await requestApi("get", "/editorRecipes/" + editorId);
       setSelectList(res); // 데이터 설정
-      console.log("getTargetRecepies  :", res);
+      // console.log("getTargetRecepies  :", res);
       dispatch(setLoading(false));
     } catch (error) {
       error.response.data.message && alert(error.response.data.message);
@@ -99,7 +99,7 @@ function Editor() {
 
   //에디터 목록에서 클릭
   const handleEditorClick = (id) => {
-    console.log("editor id :", id);
+    // console.log("editor id :", id);
     // sessionStorage.setItem("selectEditor", id);
     setSelectEditor(id);
   };

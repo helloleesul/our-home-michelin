@@ -3,7 +3,8 @@ import { MAIN_THEME_COLOR } from "../libs/const/color";
 import List from "../components/pages/recipeList/List";
 import * as S from "./RecipeList.style";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setLoading } from "../libs/utils/layoutSlice";
 
 function chunkArray(myArray, chunk_size) {
   let index = 0;
@@ -19,11 +20,14 @@ function chunkArray(myArray, chunk_size) {
 }
 
 function RecipeList({ title }) {
+  const dispatch = useDispatch();
+
   const [recipes, setRecipes] = useState([]);
   const [likeRecipes, setLikeRecipes] = useState([]);
   const storeAuth = useSelector((state) => state.layout.isAuth);
   const userIngrData = useSelector((state) => state.fridge.userIngrData);
   const [showOnlyMyIngredients, setShowOnlyMyIngredients] = useState(false);
+  const [recipeEmpty, setRecipeEmpty] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
@@ -70,7 +74,17 @@ function RecipeList({ title }) {
 
   const fetchFilteredRecipes = async () => {
     try {
-      const myIngredients = userIngrData?.map(
+      const currentDate = new Date();
+
+      const safeIngr = [];
+      const filteredIngr = userIngrData?.map((item) => {
+        const itemDate = new Date(item.bestBefore);
+        if (itemDate >= currentDate) {
+          safeIngr.push(item);
+        }
+        return safeIngr;
+      });
+      const myIngredients = filteredIngr?.map(
         (ingredient) => ingredient.ingredientName
       );
       const recipesResponse = await axios.post(
@@ -86,6 +100,7 @@ function RecipeList({ title }) {
   const getDisplayedRecipes = () => {
     const indexOfLastRecipe = currentPage * itemsPerPage;
     const indexOfFirstRecipe = indexOfLastRecipe - itemsPerPage;
+
     return recipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
   };
 
@@ -94,10 +109,24 @@ function RecipeList({ title }) {
   };
 
   useEffect(() => {
-    fetchMyInfo();
+    dispatch(setLoading(true));
+
+    if (storeAuth) {
+      fetchMyInfo();
+    }
   }, []);
 
   useEffect(() => {
+    if (recipes?.length === 0) {
+      setRecipeEmpty(true);
+    } else {
+      setRecipeEmpty(false);
+    }
+    dispatch(setLoading(false));
+  }, [recipes]);
+
+  useEffect(() => {
+    dispatch(setLoading(true));
     if (showOnlyMyIngredients) {
       fetchFilteredRecipes();
     } else {
@@ -162,7 +191,7 @@ function RecipeList({ title }) {
           </S.ToggleButton>
         )}
       </div>
-
+      {recipeEmpty && <p style={{ textAlign: "center" }}>레시피가 없습니다.</p>}
       <S.Lists>
         {chunkArray(getDisplayedRecipes(), 5).map((recipeRow, index) => (
           <S.Row key={index}>
@@ -178,7 +207,7 @@ function RecipeList({ title }) {
         ))}
       </S.Lists>
 
-      <div>
+      <div style={{ textAlign: "center" }}>
         {Array.from({ length: totalPages }, (_, index) => (
           <S.PaginationButton
             key={index}

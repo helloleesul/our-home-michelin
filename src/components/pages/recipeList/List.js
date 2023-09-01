@@ -20,7 +20,7 @@ function List({ recipe, isBookmarked: initialIsBookmarked, isLoggedIn }) {
       await axios.post(`/api/toggleLikeRecipes`, { recipeId });
       setIsBookmarked(!isBookmarked);
     } catch (error) {
-      console.log("Failed", error);
+      // console.log("Failed", error);
     }
   };
   const toggleBookmark = async (event) => {

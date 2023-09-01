@@ -4,7 +4,7 @@ import recipeDefaultImg from "../../../assets/img/recipeDefaultImg.png";
 
 function Contents({ foodList }) {
   if (!foodList || (Array.isArray(foodList) && !foodList.length)) {
-    return <div>Loding</div>;
+    return <div></div>;
   }
 
   return (

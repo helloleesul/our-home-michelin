@@ -31,7 +31,7 @@ function Home() {
         nickName: editor.nickName,
         profileImageURL: editor.profileImageURL,
       }));
-      console.log(list);
+      // console.log(list);
       setEditorList(list);
     } catch (error) {
       console.log(error);
