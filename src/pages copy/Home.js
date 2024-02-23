@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import * as S from "./Home.style";
+import { Container } from "../components/common/Layout";
 import Contents from "../components/pages/home/Contents";
 import EditorBox from "../components/pages/editor/EditorBox";
 import mainRefrigerator from "../assets/img/mainRefrigerator.png";
@@ -9,7 +10,6 @@ import requestApi from "../libs/const/api";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "../libs/utils/layoutSlice";
 import useAuthStatus from "../libs/hooks/useAuthStatus";
-import { Container } from "../styles/common";
 
 function Home() {
   const { isAuth } = useAuthStatus();

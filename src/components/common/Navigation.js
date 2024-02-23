@@ -1,6 +1,6 @@
 import React from "react";
-import { Container } from "./Layout";
 import * as S from "./Navigation.style";
+import { Container } from "../../styles/common";
 
 function Navigation() {
   return (

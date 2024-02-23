@@ -1,11 +1,11 @@
 import React from "react";
 import requestApi from "../../libs/const/api";
-import { Container } from "./Layout";
 import * as S from "./Header.style";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserIngrData } from "../../libs/utils/fridgeIngrSlice";
 import { setAuth } from "../../libs/utils/layoutSlice";
 import { useNavigate } from "react-router-dom";
+import { Container } from "../../styles/common";
 
 function Header() {
   const dispatch = useDispatch();
