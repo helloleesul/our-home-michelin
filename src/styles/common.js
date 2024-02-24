@@ -6,12 +6,9 @@ export const Container = styled.div`
   margin: 0 auto;
 `;
 
-export const Wrap = styled.div`
-  display: flex;
-  flex-direction: column;
+export const Layout = styled.div`
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
   height: 100%;
-  main {
-    flex: 1;
-    min-height: calc(100vh - 306px);
-  }
+  min-height: 100dvh;
 `;

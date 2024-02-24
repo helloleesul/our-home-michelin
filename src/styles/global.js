@@ -8,9 +8,6 @@ const resetFont = `"Pretendard Variable", Pretendard, -apple-system,
 
 export const resetStyles = css`
   ${reset}
-  html,body, #root {
-    min-height: 100%;
-  }
   body,
   input,
   textarea,

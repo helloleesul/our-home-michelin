@@ -1,3 +1,3 @@
-export default function RecipeWrite(props) {
+export default function RecipeWrite() {
   return <>RecipeWrite</>;
 }

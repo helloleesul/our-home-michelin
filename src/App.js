@@ -1,27 +1,27 @@
 import { Outlet, useLocation } from "react-router-dom";
-import { Container, Wrap } from "./styles/common";
-import Header from "./components/common/Header";
-import Footer from "./components/common/Footer";
-import Navigation from "./components/common/Navigation";
-import MyFridgeButton from "./components/common/MyFridgeButton";
+import { Container, Layout } from "./styles/common";
+import Header from "./components/layout/Header";
+import Footer from "./components/layout/Footer";
+import Nav from "./components/layout/Nav";
+// import MyFridgeButton from "./components/common/MyFridgeButton";
 
-const hiddenPathList = ["/recipe/write"];
+// const hiddenPathList = ["/recipe/write"];
 
 export default function App(props) {
-  const location = useLocation();
-  const isHiddenFridge = hiddenPathList.includes(location.pathname);
+  // const location = useLocation();
+  // const isHiddenFridge = hiddenPathList.includes(location.pathname);
 
   return (
-    <Wrap>
+    <Layout>
       <Header />
-      <Navigation />
+      <Nav />
       <main>
         <Container>
           <Outlet />
         </Container>
-        {!isHiddenFridge && <MyFridgeButton />}
+        {/* {!isHiddenFridge && <MyFridgeButton />} */}
       </main>
       <Footer />
-    </Wrap>
+    </Layout>
   );
 }
