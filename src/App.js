@@ -21,6 +21,7 @@ export default function App(props) {
         </Container>
         {/* {!isHiddenFridge && <MyFridgeButton />} */}
       </main>
+      {/* <button>냉장고</button> */}
       <Footer />
     </Layout>
   );

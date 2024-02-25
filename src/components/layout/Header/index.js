@@ -3,7 +3,7 @@ import * as S from "./style";
 
 export default function Header() {
   return (
-    <header>
+    <S.Header>
       <S.Container>
         <S.Title>
           🏠 우리집 <span>냉슐랭</span> 🍚🍒🥐🍋
@@ -15,6 +15,6 @@ export default function Header() {
           {/* <ButtonLink>로그아웃</ButtonLink> */}
         </S.UserLink>
       </S.Container>
-    </header>
+    </S.Header>
   );
 }

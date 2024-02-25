@@ -3,9 +3,7 @@ import theme from "../../../styles/theme";
 import { NavLink } from "react-router-dom";
 
 export const Nav = styled.nav`
-  border: 1px solid ${theme.PALETTE.mainColor};
-  border-right: none;
-  border-left: none;
+  border-bottom: 1px solid ${theme.PALETTE.mainColor};
   position: sticky;
   top: 0;
   background-color: ${theme.PALETTE.white};

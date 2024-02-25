@@ -3,9 +3,13 @@ import { Link } from "react-router-dom";
 import theme from "../../../styles/theme";
 import { Container as C } from "../../../styles/common";
 
+export const Header = styled.header`
+  border-bottom: 1px solid ${theme.PALETTE.mainColor};
+`;
+
 export const Container = styled(C)`
   text-align: center;
-  padding: ${theme.FONT_SIZE.hg};
+  padding: ${theme.FONT_SIZE.hg} 0;
   position: relative;
 `;
 
@@ -25,7 +29,7 @@ export const Title = styled(Link)`
 export const UserLink = styled.div`
   position: absolute;
   right: 0;
-  bottom: ${theme.FONT_SIZE.em};
+  top: 50%;
   display: flex;
   align-items: center;
   gap: 10px;
