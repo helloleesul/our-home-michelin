@@ -11,7 +11,7 @@ export default function Header() {
         <S.UserLink>
           <ButtonLink to="/join">회원가입</ButtonLink>
           <ButtonLink to="/login">로그인</ButtonLink>
-          <ButtonLink to="/mypage">🧑‍🍳 마이페이지</ButtonLink>
+          <ButtonLink to="/mypage/recipes">🧑‍🍳 마이페이지</ButtonLink>
           {/* <ButtonLink>로그아웃</ButtonLink> */}
         </S.UserLink>
       </S.Container>

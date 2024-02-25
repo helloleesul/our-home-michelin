@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import theme from "./theme";
 import { css } from "@emotion/react";
-import { Link, NavLink as N } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export const Container = styled.div`
   min-width: 768px;

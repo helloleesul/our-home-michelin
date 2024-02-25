@@ -17,7 +17,7 @@ export const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        path: "",
+        index: true,
         element: <Home />,
       },
       {
@@ -29,11 +29,11 @@ export const router = createBrowserRouter([
         element: <Join />,
       },
       {
-        path: "recipe",
+        path: "recipes",
         element: <RecipeList />,
       },
       {
-        path: "recipe/:detail",
+        path: "recipes/:detail",
         element: <RecipeDetail />,
       },
       {
@@ -41,11 +41,11 @@ export const router = createBrowserRouter([
         element: <RecipeWrite />,
       },
       {
-        path: "recipe/modify/:recipeId",
+        path: "recipes/modify/:recipeId",
         element: <RecipeWrite />,
       },
       {
-        path: "mypage",
+        path: "mypage/recipes",
         element: <MyPage />,
       },
       {
