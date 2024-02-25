@@ -1,3 +1,4 @@
+import { ButtonLink } from "../../../styles/common";
 import * as S from "./style";
 
 export default function Header() {
@@ -8,10 +9,10 @@ export default function Header() {
           🏠 우리집 <span>냉슐랭</span> 🍚🍒🥐🍋
         </S.Title>
         <S.UserLink>
-          <S.Button to="/join">회원가입</S.Button>
-          <S.Button to="/login">로그인</S.Button>
-          {/* <S.Button to="/mypage">🧑‍🍳 마이페이지</S.Button> */}
-          {/* <S.Button>로그아웃</S.Button> */}
+          <ButtonLink to="/join">회원가입</ButtonLink>
+          <ButtonLink to="/login">로그인</ButtonLink>
+          {/* <ButtonLink to="/mypage">🧑‍🍳 마이페이지</ButtonLink> */}
+          {/* <ButtonLink>로그아웃</ButtonLink> */}
         </S.UserLink>
       </S.Container>
     </header>

@@ -15,7 +15,7 @@ export default function App(props) {
     <Layout>
       <Header />
       <Nav />
-      <main>
+      <main style={{ padding: "50px 0" }}>
         <Container>
           <Outlet />
         </Container>

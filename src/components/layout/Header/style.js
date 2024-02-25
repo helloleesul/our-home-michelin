@@ -12,7 +12,6 @@ export const Container = styled(C)`
 export const Title = styled(Link)`
   font-weight: 900;
   font-size: ${theme.FONT_SIZE.hg};
-  color: ${theme.PALETTE.black};
   background-color: ${theme.PALETTE.white};
   text-decoration: none;
 
@@ -30,14 +29,4 @@ export const UserLink = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
-`;
-
-export const Button = styled(Link)`
-  color: ${theme.PALETTE.gray[300]};
-  text-decoration: none;
-
-  &:hover {
-    color: ${theme.PALETTE.mainColor};
-    text-decoration: underline;
-  }
 `;

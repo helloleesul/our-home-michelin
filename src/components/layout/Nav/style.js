@@ -8,6 +8,7 @@ export const Nav = styled.nav`
   border-left: none;
   position: sticky;
   top: 0;
+  background-color: ${theme.PALETTE.white};
 `;
 
 export const ListGroup = styled.ul`
@@ -22,11 +23,12 @@ export const List = styled.li`
 
 export const Button = styled(NavLink)`
   text-decoration: none;
-  color: ${theme.PALETTE.mainColor};
   font-size: ${theme.FONT_SIZE.em};
+  color: ${theme.PALETTE.mainColor};
   padding: 5px 15px;
 
   span {
+    color: inherit;
     font-weight: 900;
   }
   &.active {

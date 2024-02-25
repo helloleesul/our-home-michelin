@@ -11,6 +11,7 @@ export const Footer = styled.footer`
     color: ${theme.PALETTE.gray[300]};
     b {
       font-weight: 900;
+      color: inherit;
     }
   }
 `;
