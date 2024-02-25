@@ -8,6 +8,8 @@ const globalFont = `"Pretendard Variable", Pretendard, -apple-system,
   "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif`;
 
 export const resetStyles = css`
+  @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+
   ${reset}
   * {
     box-sizing: border-box;
@@ -19,5 +21,19 @@ export const resetStyles = css`
   textarea,
   button {
     font-family: ${globalFont};
+  }
+
+  input,
+  button {
+    outline: none;
+    font-size: inherit;
+  }
+
+  input::placeholder {
+    color: ${theme.PALETTE.gray[200]};
+  }
+
+  button:hover {
+    cursor: pointer;
   }
 `;

@@ -1,15 +1,15 @@
-import { ButtonLink, ColumnCenter, Form, WidthBox } from "../../styles/common";
+import { FlexColumn, Form } from "../../styles/common";
+import Button from "../common/Button";
+import Input from "../common/Input";
 
 export default function LoginForm() {
   return (
-    <ColumnCenter gap={"30"}>
-      <WidthBox width={"50"}>
-        <Form>LoginForm</Form>
-      </WidthBox>
-      <ColumnCenter gap={"10"}>
-        <p>우리집 냉슐랭 요리사가 아니신가요?</p>
-        <ButtonLink>회원가입 하러가기</ButtonLink>
-      </ColumnCenter>
-    </ColumnCenter>
+    <Form>
+      <FlexColumn gap={"20"}>
+        <Input id={"email"} label={"이메일"} placeholder={"Email"} />
+        <Input id={"password"} label={"비밀번호"} placeholder={"Password"} />
+        <Button type={"submit"} value={"로그인"} />
+      </FlexColumn>
+    </Form>
   );
 }

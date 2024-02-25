@@ -14,7 +14,7 @@ export const Container = styled(C)`
 `;
 
 export const Title = styled(Link)`
-  font-weight: 900;
+  font-weight: 800;
   font-size: ${theme.FONT_SIZE.hg};
   background-color: ${theme.PALETTE.white};
   text-decoration: none;

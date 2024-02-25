@@ -24,11 +24,15 @@ export const Form = styled.form`
   padding: ${theme.FONT_SIZE.hg};
 `;
 
-export const ColumnCenter = styled.div`
+export const FlexColumn = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
   width: 100%;
+  ${(props) =>
+    props.center &&
+    css`
+      align-items: center;
+    `}
   ${(props) =>
     css`
       gap: ${props.gap}px;
@@ -47,4 +51,14 @@ export const ButtonLink = styled(Link)`
     color: ${theme.PALETTE.mainColor};
     text-decoration: underline;
   }
+`;
+
+export const ButtonGroup = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  ${(props) =>
+    css`
+      gap: ${props.gap}px;
+    `}
 `;

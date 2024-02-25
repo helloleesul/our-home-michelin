@@ -9,8 +9,9 @@ export const Footer = styled.footer`
   p {
     font-size: ${theme.FONT_SIZE.sm};
     color: ${theme.PALETTE.gray[300]};
+    font-weight: 300;
     b {
-      font-weight: 900;
+      font-weight: 800;
       color: inherit;
     }
   }

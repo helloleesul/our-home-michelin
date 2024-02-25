@@ -10,7 +10,7 @@ export const Group = styled.div`
 `;
 
 export const Header = styled.h2`
-  font-weight: 900;
+  font-weight: 800;
   background-color: ${theme.PALETTE.mainColor};
   color: ${theme.PALETTE.white};
   padding: 2px ${theme.FONT_SIZE.es};

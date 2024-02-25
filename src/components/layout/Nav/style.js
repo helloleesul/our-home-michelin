@@ -24,10 +24,11 @@ export const Button = styled(NavLink)`
   font-size: ${theme.FONT_SIZE.em};
   color: ${theme.PALETTE.mainColor};
   padding: 5px 15px;
+  font-weight: 300;
 
   span {
     color: inherit;
-    font-weight: 900;
+    font-weight: 800;
   }
   &.active {
     background-color: ${theme.PALETTE.mainColor};
