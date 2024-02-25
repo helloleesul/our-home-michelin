@@ -12,10 +12,5 @@ export default function Login() {
         <ButtonLink to="/join">회원가입 하러가기</ButtonLink>
       </UserFormLayout>
     </FlexColumn>
-    // <SplitLayout
-    //   left={<Title icon={"🧑‍🍳"} title={"로그인"} />}
-    //   right={<LoginForm />}
-    //   size={[2, 4]}
-    // />
   );
 }

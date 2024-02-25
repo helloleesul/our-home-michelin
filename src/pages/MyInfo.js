@@ -1,3 +1,5 @@
+import MyLayout from "../components/layout/MyLayout";
+
 export default function MyInfo() {
-  return <>MyInfo</>;
+  return <MyLayout>myinfo</MyLayout>;
 }

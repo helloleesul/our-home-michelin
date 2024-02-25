@@ -5,13 +5,13 @@ export default function Header() {
   return (
     <S.Header>
       <S.Container>
-        <S.Title>
+        <S.Title to="/">
           🏠 우리집 <span>냉슐랭</span> 🍚🍒🥐🍋
         </S.Title>
         <S.UserLink>
           <ButtonLink to="/join">회원가입</ButtonLink>
           <ButtonLink to="/login">로그인</ButtonLink>
-          {/* <ButtonLink to="/mypage">🧑‍🍳 마이페이지</ButtonLink> */}
+          <ButtonLink to="/mypage">🧑‍🍳 마이페이지</ButtonLink>
           {/* <ButtonLink>로그아웃</ButtonLink> */}
         </S.UserLink>
       </S.Container>

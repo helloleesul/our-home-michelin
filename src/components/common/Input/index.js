@@ -1,6 +1,7 @@
 import * as S from "./style";
 
 export default function Input({
+  type,
   id,
   label,
   placeholder,
@@ -14,7 +15,7 @@ export default function Input({
     <S.Group>
       <S.Label htmlFor={id}>{label}</S.Label>
       <S.Input
-        type="text"
+        type={type}
         id={id}
         name={id}
         placeholder={placeholder}

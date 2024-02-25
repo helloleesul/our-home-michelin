@@ -1,3 +1,4 @@
+import { NAV_LIST } from "../../../libs/const/menuList";
 import { Container } from "../../../styles/common";
 import * as S from "./style";
 
@@ -6,21 +7,13 @@ export default function Nav() {
     <S.Nav>
       <Container>
         <S.ListGroup>
-          <S.List>
-            <S.Button to="/">
-              <span>HOME</span> - 홈
-            </S.Button>
-          </S.List>
-          <S.List>
-            <S.Button to="/recipe">
-              <span>RECIPE LIST</span> - 레시피
-            </S.Button>
-          </S.List>
-          <S.List>
-            <S.Button to="/new-recipe">
-              <span>NEW RECIPE</span> - 레시피 만들기
-            </S.Button>
-          </S.List>
+          {NAV_LIST.map((menu) => (
+            <S.List key={menu.value[0]}>
+              <S.Button to={menu.to}>
+                <span>{menu.value[0]}</span> - {menu.value[1]}
+              </S.Button>
+            </S.List>
+          ))}
         </S.ListGroup>
       </Container>
     </S.Nav>

@@ -2,18 +2,22 @@
 import { css } from "@emotion/react";
 import theme from "../../styles/theme";
 
-import { ButtonGroup, FlexColumn, Form } from "../../styles/common";
+import { ButtonGroup, FlexColumn } from "../../styles/common";
 import Button from "../common/Button";
 import Input from "../common/Input";
+import FormLayout from "../layout/FormLayout";
 
 export default function JoinForm() {
   return (
-    <Form>
+    <FormLayout width={"90"}>
       <FlexColumn gap={"20"}>
-        <ButtonGroup gap={"10"}>
-          <Input id={"email"} label={"이메일"} placeholder={"Email"} />
-          <Button width={"100"} type={"button"} value={"인증코드"} />
-        </ButtonGroup>
+        <div>
+          <ButtonGroup gap={"10"}>
+            <Input id={"email"} label={"이메일"} placeholder={"Email"} />
+            <Button width={"100"} type={"button"} value={"인증코드"} />
+          </ButtonGroup>
+          {/* <span>error</span> */}
+        </div>
         <ButtonGroup gap={"10"}>
           <div css={CodeGroup}>
             <Input id={"code"} label={"인증코드"} placeholder={"Code"} />
@@ -21,16 +25,22 @@ export default function JoinForm() {
           </div>
           <Button width={"100"} type={"button"} value={"확인"} />
         </ButtonGroup>
-        <Input id={"nickName"} label={"닉네임"} placeholder={"NickName"} />
-        <Input id={"password"} label={"비밀번호"} placeholder={"Password"} />
-        <Input
-          id={"passwordCheck"}
-          label={"비밀번호 확인"}
-          placeholder={"Password Check"}
-        />
+        <div>
+          <Input id={"nickName"} label={"닉네임"} placeholder={"NickName"} />
+        </div>
+        <div>
+          <Input id={"password"} label={"비밀번호"} placeholder={"Password"} />
+        </div>
+        <div>
+          <Input
+            id={"passwordCheck"}
+            label={"비밀번호 확인"}
+            placeholder={"Password Check"}
+          />
+        </div>
         <Button type={"submit"} value={"회원가입"} />
       </FlexColumn>
-    </Form>
+    </FormLayout>
   );
 }
 

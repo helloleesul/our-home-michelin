@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import theme from "./theme";
 import { css } from "@emotion/react";
-import { Link } from "react-router-dom";
+import { Link, NavLink as N } from "react-router-dom";
 
 export const Container = styled.div`
   min-width: 768px;
@@ -43,11 +43,25 @@ export const WidthBox = styled.div`
   width: ${(props) => (props.width ? props.width : 100)}%;
 `;
 
-export const ButtonLink = styled(Link)`
+const LinkStyle = css`
   color: ${theme.PALETTE.gray[300]};
   text-decoration: none;
 
   &:hover {
+    color: ${theme.PALETTE.mainColor};
+    text-decoration: underline;
+  }
+`;
+
+export const ButtonLink = styled(Link)`
+  ${LinkStyle}
+`;
+
+export const NavLink = styled(ButtonLink)`
+  ${LinkStyle}
+  font-size: ${theme.FONT_SIZE.em};
+
+  &.active {
     color: ${theme.PALETTE.mainColor};
     text-decoration: underline;
   }

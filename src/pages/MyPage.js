@@ -1,3 +1,5 @@
+import MyLayout from "../components/layout/MyLayout";
+
 export default function MyPage() {
-  return <>MyPage</>;
+  return <MyLayout>mypage</MyLayout>;
 }
