@@ -1,16 +1,20 @@
+import { forwardRef } from "react";
 import * as S from "./style";
 
-export default function Input({
-  type,
-  id,
-  label,
-  placeholder,
-  value,
-  onChange,
-  onKeyDown,
-  disabled,
-  readOnly,
-}) {
+export default forwardRef(function Input(
+  {
+    type,
+    id,
+    label,
+    placeholder,
+    value,
+    onChange,
+    onKeyDown,
+    disabled,
+    readOnly,
+  },
+  ref
+) {
   return (
     <S.Group>
       <S.Label htmlFor={id}>{label}</S.Label>
@@ -24,7 +28,8 @@ export default function Input({
         onKeyDown={onKeyDown}
         disabled={disabled}
         readOnly={readOnly}
+        ref={ref}
       />
     </S.Group>
   );
-}
+});
