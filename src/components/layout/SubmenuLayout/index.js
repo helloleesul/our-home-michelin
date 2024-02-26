@@ -1,6 +1,6 @@
 import Title from "../../common/Title";
 import SplitLayout from "../SplitLayout";
-import { FlexColumn, WidthBox, NavLink } from "../../../styles/common";
+import { Flex, WidthBox, NavLink } from "../../../styles/common";
 import { useLocation } from "react-router-dom";
 
 export default function SubmenuLayout({ icon, title, children, menuList }) {
@@ -9,10 +9,10 @@ export default function SubmenuLayout({ icon, title, children, menuList }) {
   return (
     <SplitLayout
       left={
-        <FlexColumn gap={"50"} center>
+        <Flex gap={"50"} center>
           <Title icon={icon} title={title} />
           <WidthBox width={"50"}>
-            <FlexColumn gap={"20"}>
+            <Flex gap={"20"}>
               {menuList?.map((menu, i) => (
                 <NavLink
                   key={`menu-${i}`}
@@ -22,9 +22,9 @@ export default function SubmenuLayout({ icon, title, children, menuList }) {
                   {menu.value}
                 </NavLink>
               ))}
-            </FlexColumn>
+            </Flex>
           </WidthBox>
-        </FlexColumn>
+        </Flex>
       }
       right={children}
       size={[2, 4]}

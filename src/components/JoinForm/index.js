@@ -2,7 +2,7 @@
 import { css } from "@emotion/react";
 import theme from "../../styles/theme";
 
-import { ButtonGroup, FlexColumn } from "../../styles/common";
+import { ButtonGroup, Flex } from "../../styles/common";
 import Button from "../common/Button";
 import Input from "../common/Input";
 import FormLayout from "../layout/FormLayout";
@@ -10,7 +10,7 @@ import FormLayout from "../layout/FormLayout";
 export default function JoinForm() {
   return (
     <FormLayout width={"90"}>
-      <FlexColumn gap={"20"}>
+      <Flex gap={"20"}>
         <div>
           <ButtonGroup gap={"10"}>
             <Input id={"email"} label={"이메일"} placeholder={"Email"} />
@@ -39,7 +39,7 @@ export default function JoinForm() {
           />
         </div>
         <Button type={"submit"} value={"회원가입"} />
-      </FlexColumn>
+      </Flex>
     </FormLayout>
   );
 }

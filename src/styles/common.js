@@ -22,11 +22,12 @@ export const Form = styled.form`
   flex-direction: column;
   border: 1px solid ${theme.PALETTE.mainColor};
   padding: ${theme.FONT_SIZE.hg};
+  width: 100%;
 `;
 
-export const FlexColumn = styled.div`
+export const Flex = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: ${(props) => (props.row ? "row" : "column")};
   width: 100%;
   ${(props) =>
     props.center &&

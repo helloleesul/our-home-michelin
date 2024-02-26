@@ -1,11 +1,11 @@
-import { FlexColumn, Form, WidthBox } from "../../../styles/common";
+import { Flex, Form, WidthBox } from "../../../styles/common";
 
 export default function FormLayout({ children, width, onSubmit }) {
   return (
     <Form onSubmit={onSubmit}>
-      <FlexColumn center>
+      <Flex center>
         <WidthBox width={width}>{children}</WidthBox>
-      </FlexColumn>
+      </Flex>
     </Form>
   );
 }
