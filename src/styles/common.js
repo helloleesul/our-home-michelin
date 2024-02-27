@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import theme from "./theme";
 import { css } from "@emotion/react";
-import { Link } from "react-router-dom";
+import { Link, NavLink as N } from "react-router-dom";
 
 export const Container = styled.div`
   min-width: 768px;
@@ -58,7 +58,7 @@ export const ButtonLink = styled(Link)`
   ${LinkStyle}
 `;
 
-export const NavLink = styled(ButtonLink)`
+export const NavLink = styled(N)`
   ${LinkStyle}
   font-size: ${theme.FONT_SIZE.em};
 

@@ -7,8 +7,9 @@ import Join from "./pages/Join";
 import RecipeList from "./pages/RecipeList";
 import RecipeDetail from "./pages/RecipeDetail";
 import RecipeWrite from "./pages/RecipeWrite";
-import MyPage from "./pages/MyPage";
-import MyInfo from "./pages/MyInfo";
+import MyRecipes from "./pages/MyRecipes";
+import LikeRecipes from "./pages/LikeRecipes";
+import Info from "./pages/Info";
 import NotFound from "./pages/NotFound";
 
 export const router = createBrowserRouter([
@@ -45,12 +46,16 @@ export const router = createBrowserRouter([
         element: <RecipeWrite />,
       },
       {
-        path: "mypage/recipes",
-        element: <MyPage />,
+        path: "mypage/myRecipes",
+        element: <MyRecipes />,
+      },
+      {
+        path: "mypage/likeRecipes",
+        element: <LikeRecipes />,
       },
       {
         path: "mypage/info",
-        element: <MyInfo />,
+        element: <Info />,
       },
       {
         path: "*",
