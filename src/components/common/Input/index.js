@@ -12,12 +12,13 @@ export default forwardRef(function Input(
     onKeyDown,
     disabled,
     readOnly,
+    noLabel,
   },
   ref
 ) {
   return (
     <S.Group>
-      <S.Label htmlFor={id}>{label}</S.Label>
+      {noLabel || <S.Label htmlFor={id}>{label}</S.Label>}
       <S.Input
         type={type}
         id={id}
