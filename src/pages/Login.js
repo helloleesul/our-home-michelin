@@ -2,7 +2,7 @@ import LoginForm from "../components/LoginForm";
 import Title from "../components/common/Title";
 import UserFormLayout from "../components/layout/UserFormLayout";
 import { ButtonLink, Flex } from "../styles/common";
-import STATUS_CODE from "../libs/const/statusCode";
+import STATUS_CODE from "../libs/constants/statusCode";
 import { POST } from "../libs/api";
 import { useRef } from "react";
 

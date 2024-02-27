@@ -1,4 +1,4 @@
-import { MY_MENU_LIST } from "../../../libs/const/menuList";
+import { MY_MENU_LIST } from "../../../libs/constants/listItems";
 import { Flex, NavLink, WidthBox } from "../../../styles/common";
 import Title from "../../common/Title";
 import SplitLayout from "../SplitLayout";

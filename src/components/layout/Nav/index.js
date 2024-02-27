@@ -1,4 +1,4 @@
-import { NAV_LIST } from "../../../libs/const/menuList";
+import { NAV_LIST } from "../../../libs/constants/listItems";
 import { Container } from "../../../styles/common";
 import * as S from "./style";
 
