@@ -4,7 +4,7 @@ import Title from "../../common/Title";
 import SplitLayout from "../SplitLayout";
 
 export default function MyLayout({ children }) {
-  return <SplitLayout left={SideNav} right={children} size={[2, 4]} />;
+  return <SplitLayout left={<SideNav />} right={children} size={[2, 4]} />;
 }
 
 function SideNav() {
