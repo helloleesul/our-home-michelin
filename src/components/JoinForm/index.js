@@ -5,11 +5,11 @@ import theme from "../../styles/theme";
 import { ButtonGroup, Flex } from "../../styles/common";
 import Button from "../common/Button";
 import Input from "../common/Input";
-import FormLayout from "../layout/FormLayout";
+import FormWrap from "../common/FormWrap";
 
 export default function JoinForm() {
   return (
-    <FormLayout width={"90"}>
+    <FormWrap width={"90"}>
       <Flex gap={"20"}>
         <div>
           <ButtonGroup gap={"10"}>
@@ -40,7 +40,7 @@ export default function JoinForm() {
         </div>
         <Button type={"submit"} value={"회원가입"} />
       </Flex>
-    </FormLayout>
+    </FormWrap>
   );
 }
 

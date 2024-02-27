@@ -1,13 +1,13 @@
 import { Flex } from "../../styles/common";
 import Button from "../common/Button";
 import Input from "../common/Input";
-import FormLayout from "../layout/FormLayout";
+import FormWrap from "../common/FormWrap";
 
 export default function LoginForm({ refs }) {
   const { emailRef, passwordRef } = refs;
 
   return (
-    <FormLayout width={"70"}>
+    <FormWrap width={"70"}>
       <Flex gap={"20"}>
         <Input
           type={"email"}
@@ -25,6 +25,6 @@ export default function LoginForm({ refs }) {
         />
         <Button type={"submit"} value={"로그인"} />
       </Flex>
-    </FormLayout>
+    </FormWrap>
   );
 }
