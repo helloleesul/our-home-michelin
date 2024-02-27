@@ -31,7 +31,6 @@ export const RECIPE_ING_AMOUNT_LIST = [
   { label: "작은술", value: "5ml" },
   { label: "컵", value: "200ml" },
   { label: "종이컵", value: "180ml" },
-  { label: "oz", value: "28.3g" },
   { label: "파운드", value: "0.453kg" },
   { label: "갤런", value: "3.78l" },
   { label: "꼬집", value: "2g" },
@@ -39,4 +38,10 @@ export const RECIPE_ING_AMOUNT_LIST = [
   { label: "토막", value: "2~3cm" },
   { label: "근", value: "600g" },
   { label: "봉지", value: "200g" },
+  { label: "개", value: "개" },
+  { label: "온즈(oz)", value: "28.3g" },
+  { label: "밀리리터(ml)", value: "밀리리터(ml)" },
+  { label: "리터(l)", value: "리터(l)" },
+  { label: "그램(g)", value: "그램(g)" },
+  { label: "킬로그램(kg)", value: "킬로그램(kg)" },
 ];
