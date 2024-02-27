@@ -25,3 +25,18 @@ export const RECIPE_TYPE_LIST = [
   { label: "간식", value: "snack" },
   { label: "퓨전", value: "fusion" },
 ];
+
+export const RECIPE_ING_AMOUNT_LIST = [
+  { label: "큰술", value: "15ml" },
+  { label: "작은술", value: "5ml" },
+  { label: "컵", value: "200ml" },
+  { label: "종이컵", value: "180ml" },
+  { label: "oz", value: "28.3g" },
+  { label: "파운드", value: "0.453kg" },
+  { label: "갤런", value: "3.78l" },
+  { label: "꼬집", value: "2g" },
+  { label: "주먹", value: "100g" },
+  { label: "토막", value: "2~3cm" },
+  { label: "근", value: "600g" },
+  { label: "봉지", value: "200g" },
+];
