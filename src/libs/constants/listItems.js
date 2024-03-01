@@ -20,10 +20,10 @@ export const RECIPE_TYPE_LIST = [
   { label: "중식", value: "chinese" },
   { label: "양식", value: "western" },
   { label: "일식", value: "japanese" },
-  { label: "동남아식", value: "southeast_asian" },
   { label: "반찬", value: "side_dish" },
   { label: "간식", value: "snack" },
   { label: "퓨전", value: "fusion" },
+  { label: "기타", value: "etc" },
 ];
 
 export const RECIPE_ING_AMOUNT_LIST = [
