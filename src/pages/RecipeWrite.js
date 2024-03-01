@@ -1,14 +1,25 @@
+/** @jsxImportSource @emotion/react */
 import { useState } from "react";
 import Button from "../components/common/Button";
 import Input from "../components/common/Input";
 import Title from "../components/common/Title";
-import { Flex, Form, WidthBox } from "../styles/common";
+import {
+  AbsoluteText,
+  ColGroup,
+  Flex,
+  Form,
+  RelativeGroup,
+  WidthBox,
+} from "../styles/common";
 import RadioInput from "../components/common/RadioInput";
 import {
   RECIPE_ING_AMOUNT_LIST,
   RECIPE_TYPE_LIST,
 } from "../libs/constants/listItems";
 import Select from "../components/common/Select";
+import { Label } from "../components/common/Input/style";
+import { css } from "@emotion/react";
+import theme from "../styles/theme";
 
 export default function RecipeWrite() {
   // 레시피 이미지
@@ -111,175 +122,203 @@ export default function RecipeWrite() {
               console.log(RECIPE_DATA);
             }}
           >
-            <Flex gap={"20"}>
-              <div style={{ display: "flex", gap: 20, alignItems: "start" }}>
-                <div style={{ width: 300, height: 300, position: "relative" }}>
-                  <div
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      textAlign: "center",
-                      background: "orange",
-                    }}
-                  >
-                    {/* 이미지 업로드 */}
-                    {!imageUrl && (
-                      <>
-                        <input
-                          style={{
-                            opacity: 0,
-                            position: "absolute",
-                            width: "100%",
-                            height: "100%",
-                            cursor: "pointer",
-                            left: 0,
-                            top: 0,
-                          }}
-                          id="file-upload"
-                          type="file"
-                          accept="image/*"
-                          onChange={handleImageChange}
-                        />
-                        <img
-                          src="/favicon.png"
-                          alt="Default"
-                          style={{ maxWidth: "200px" }}
-                        />
-                      </>
-                    )}
-                    {/* 이미지 미리보기 */}
-                    {imageUrl && (
-                      <>
-                        <img
-                          src={imageUrl}
-                          alt="Preview"
-                          style={{
-                            height: "100%",
-                            width: "100%",
-                            objectFit: "contain",
-                          }}
-                        />
-                        <button
-                          type="button"
-                          onClick={handleImageReset}
-                          style={{ position: "absolute", top: 0, right: 0 }}
-                        >
-                          X
-                        </button>
-                      </>
-                    )}
-                  </div>
-                </div>
-                <Flex gap={"20"} style={{ flex: 1 }}>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "300px auto",
+                gap: 20,
+              }}
+            >
+              {/* 이미지 */}
+              <div
+                style={{
+                  width: "100%",
+                  height: "300px",
+                  textAlign: "center",
+                  background: "orange",
+                  position: "relative",
+                }}
+              >
+                {/* 이미지 업로드 */}
+                {!imageUrl && (
+                  <>
+                    <input
+                      style={{
+                        opacity: 0,
+                        position: "absolute",
+                        width: "100%",
+                        height: "100%",
+                        cursor: "pointer",
+                        left: 0,
+                        top: 0,
+                      }}
+                      id="file-upload"
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                    />
+                    <img
+                      src="/favicon.png"
+                      alt="Default"
+                      style={{ maxWidth: "200px" }}
+                    />
+                  </>
+                )}
+                {/* 이미지 미리보기 */}
+                {imageUrl && (
+                  <>
+                    <img
+                      src={imageUrl}
+                      alt="Preview"
+                      style={{
+                        height: "100%",
+                        width: "100%",
+                        objectFit: "contain",
+                      }}
+                    />
+                    <button
+                      type="button"
+                      onClick={handleImageReset}
+                      style={{ position: "absolute", top: 0, right: 0 }}
+                    >
+                      X
+                    </button>
+                  </>
+                )}
+              </div>
+              {/* 레시피 이름, 종류, 양, 식재료 */}
+              <Flex gap={"20"}>
+                <ColGroup gap={"10"}>
+                  {/* 레시피 이름 */}
                   <Input
                     id={"title"}
-                    label={"레시피 이름"}
+                    label={"레시피"}
                     placeholder={"예) 한끼든든 소고기 미역국 "}
                     onChange={(e) => setTitle(e.target.value)}
                     value={title}
                   />
+                  {/* 요리 양 */}
+                  <div css={RelativeGroup}>
+                    <Input
+                      noLabel
+                      width={"70"}
+                      type={"number"}
+                      id={"recipeServing"}
+                      placeholder={"1"}
+                      value={recipeServing}
+                      onChange={(e) => setRecipeServing(e.target.value)}
+                    />
+                    <span css={AbsoluteText}>인분</span>
+                  </div>
+                </ColGroup>
+                {/* 요리 종류 */}
+                <Flex row>
+                  <Label>종류</Label>
                   <RadioInput
                     onChange={setRecipeType}
                     defaultSelected={recipeType}
                     options={RECIPE_TYPE_LIST}
                   />
-                  <Flex row center>
-                    <Input
-                      type={"number"}
-                      id={"recipeServing"}
-                      label={"요리 양"}
-                      value={recipeServing}
-                      onChange={(e) => setRecipeServing(e.target.value)}
-                    />
-                    <span>인분</span>
-                  </Flex>
-                  <Flex row center>
-                    <div>
-                      <Input
-                        type={"text"}
-                        id={"ingredientName"}
-                        label={"식재료"}
-                        placeholder={"예) 소고기"}
-                        value={ingredient.name}
-                        onChange={(e) =>
-                          setIngredient((prev) => ({
-                            ...prev,
-                            name: e.target.value,
-                          }))
-                        }
-                      />
-                      <Flex row center>
-                        <Input
-                          type={"number"}
-                          id={"ingredientAmount"}
-                          label={""}
-                          value={ingredient.amount}
-                          onChange={(e) =>
-                            setIngredient((prev) => ({
-                              ...prev,
-                              amount: e.target.value,
-                            }))
-                          }
-                        />
-                        <Select
-                          options={RECIPE_ING_AMOUNT_LIST}
-                          onChange={handleIngAmountChange}
-                          defaultMessage={"중량을 선택해주세요."}
-                        />
-                        <Button
-                          type={"button"}
-                          value={"추가"}
-                          onClick={addIngredient}
-                        />
-                      </Flex>
-                    </div>
-                  </Flex>
-                  {ingredientsList.map((item, index) => (
-                    <div key={item._id ? item._id : index}>
-                      {item.name} {item.amount}
-                      <Button
-                        type={"button"}
-                        onClick={(e) => removeIngredient(e, index, item._id)}
-                        value={"삭제"}
-                      />
-                    </div>
-                  ))}
                 </Flex>
-              </div>
-              <Flex gap={"20"}>
+                {/* 식재료 추가 */}
+                <Flex row gap={"10"}>
+                  <Input
+                    type={"text"}
+                    id={"ingredientName"}
+                    label={"식재료"}
+                    placeholder={"예) 소고기"}
+                    value={ingredient.name}
+                    onChange={(e) =>
+                      setIngredient((prev) => ({
+                        ...prev,
+                        name: e.target.value,
+                      }))
+                    }
+                  />
+                  <Input
+                    noLabel
+                    width={"50"}
+                    type={"number"}
+                    placeholder={"300"}
+                    id={"ingredientAmount"}
+                    value={ingredient.amount}
+                    onChange={(e) =>
+                      setIngredient((prev) => ({
+                        ...prev,
+                        amount: e.target.value,
+                      }))
+                    }
+                  />
+                  <Select
+                    options={RECIPE_ING_AMOUNT_LIST}
+                    onChange={handleIngAmountChange}
+                    defaultMessage={"중량을 선택해주세요."}
+                  />
+                  <Button
+                    width={"auto"}
+                    type={"button"}
+                    value={"➕"}
+                    onClick={addIngredient}
+                  />
+                </Flex>
+                {/* 식재료 목록 */}
                 <div
                   style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
+                    border: "1px solid",
+                    padding: 10,
+                    height: 140,
+                    overflow: "scroll",
                   }}
                 >
-                  <h3>요리 과정</h3>
+                  <Flex row wrap="true" gap={"10"}>
+                    {ingredientsList.map((item, index) => (
+                      <div key={item._id ? item._id : index}>
+                        <span>{item.name}, </span>
+                        <span>{item.amount} </span>
+                        <Button
+                          width={"auto"}
+                          type={"button"}
+                          onClick={(e) => removeIngredient(e, index, item._id)}
+                          value={"❌"}
+                        />
+                      </div>
+                    ))}
+                  </Flex>
+                </div>
+              </Flex>
+              {/* 요리과정 */}
+              <div style={{ gridColumn: "1/3" }}>
+                <Flex gap={"10"}>
+                  {/* 요리과정 추가 */}
                   <Button
                     type={"button"}
                     onClick={addStep}
-                    value={"요리 과정 추가 +"}
-                    width={"200"}
+                    value={"과정 추가 +"}
+                    width={"100"}
                   />
-                </div>
-                {processSteps.map((step, index) => (
-                  <Flex row center key={step._id ? step._id : index}>
-                    <Input
-                      label={`과정 ${index + 1}.`}
-                      type={"text"}
-                      value={step.text}
-                      onChange={(e) => handleInputChange(index, e.target.value)}
-                    />
-                    <Button
-                      type={"button"}
-                      onClick={(e) => removeStep(e, index, step._id)}
-                      value={"삭제"}
-                    />
-                  </Flex>
-                ))}
-              </Flex>
-              <Button type={"submit"} value={"레시피 등록"} />
-            </Flex>
+                  {/* 요리과정 목록 */}
+                  {processSteps.map((step, index) => (
+                    <ColGroup gap={"10"} key={step._id ? step._id : index}>
+                      <Input
+                        label={`🏃 STEP ${index + 1}`}
+                        type={"text"}
+                        value={step.text}
+                        onChange={(e) =>
+                          handleInputChange(index, e.target.value)
+                        }
+                      />
+                      <Button
+                        type={"button"}
+                        onClick={(e) => removeStep(e, index, step._id)}
+                        value={"삭제"}
+                        width={"auto"}
+                      />
+                    </ColGroup>
+                  ))}
+                  <Button type={"submit"} value={"레시피 등록"} />
+                </Flex>
+              </div>
+            </div>
           </Form>
         </Flex>
       </WidthBox>
