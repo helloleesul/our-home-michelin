@@ -18,8 +18,6 @@ import {
 } from "../libs/constants/listItems";
 import Select from "../components/common/Select";
 import { Label } from "../components/common/Input/style";
-import { css } from "@emotion/react";
-import theme from "../styles/theme";
 
 export default function RecipeWrite() {
   // 레시피 이미지
@@ -158,9 +156,9 @@ export default function RecipeWrite() {
                       onChange={handleImageChange}
                     />
                     <img
-                      src="/favicon.png"
+                      src="/recipeDefault.png"
                       alt="Default"
-                      style={{ maxWidth: "200px" }}
+                      style={{ width: "100%", height: "100%" }}
                     />
                   </>
                 )}

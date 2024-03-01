@@ -22,8 +22,4 @@ export const Input = styled.input`
           width: ${props.width}px;
         `
       : "100%"}
-
-  &:focus {
-    border-color: ${theme.PALETTE.mainColor};
-  }
 `;

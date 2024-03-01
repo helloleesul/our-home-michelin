@@ -29,9 +29,15 @@ export const resetStyles = css`
     font-size: inherit;
   }
 
-  input::placeholder {
-    color: ${theme.PALETTE.gray[200]};
+  input {
+    &::placeholder {
+      color: ${theme.PALETTE.gray[200]};
+    }
+    &:focus {
+      border-color: ${theme.PALETTE.mainColor};
+    }
   }
+
   input[type="number"]::-webkit-outer-spin-button,
   input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;

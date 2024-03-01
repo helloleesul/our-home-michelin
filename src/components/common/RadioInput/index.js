@@ -16,7 +16,11 @@ export default function RadioInput({ options, onChange, defaultSelected }) {
   return (
     <Flex row>
       {options.map((option) => (
-        <label key={option.value} style={{ flex: 1 }}>
+        <label
+          key={option.value}
+          style={{ flex: 1 }}
+          className={selectedOption === option.value ? "active" : ""}
+        >
           <input
             style={{ display: "none" }}
             type="radio"
