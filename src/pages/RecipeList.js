@@ -6,7 +6,7 @@ import { GET } from "../libs/api";
 import { Flex, WidthBox } from "../styles/common";
 
 export default function RecipeList() {
-  const [recipes, setRecipes] = useState();
+  const [recipes, setRecipes] = useState([]);
 
   const getRecipes = async () => {
     try {

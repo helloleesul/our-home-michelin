@@ -15,11 +15,12 @@ export const Input = styled.input`
   height: ${theme.FONT_SIZE.hg};
   padding: 0 5px;
   border: 1px solid ${theme.PALETTE.gray[200]};
-  width: ${(props) => (props.width ? `${props.width}px` : "100%")};
   ${(props) =>
     props.width
       ? css`
           width: ${props.width}px;
         `
-      : "100%"}
+      : css`
+          flex-grow: 1;
+        `}
 `;

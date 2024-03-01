@@ -264,15 +264,15 @@ export default function RecipeWrite() {
                   style={{
                     border: "1px solid",
                     padding: 10,
-                    height: 140,
+                    height: 160,
                     overflow: "scroll",
                   }}
                 >
                   <Flex row wrap="true" gap={"10"}>
                     {ingredientsList.map((item, index) => (
                       <div key={item._id ? item._id : index}>
-                        <span>{item.name}, </span>
-                        <span>{item.amount} </span>
+                        <span>{item.name} </span>
+                        <span>({item.amount}) </span>
                         <Button
                           width={"auto"}
                           type={"button"}
