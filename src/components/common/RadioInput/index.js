@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Flex } from "../../../styles/common";
 
 export default function RadioInput({ options, onChange, defaultSelected }) {
   const [selectedOption, setSelectedOption] = useState(defaultSelected);
@@ -13,10 +14,11 @@ export default function RadioInput({ options, onChange, defaultSelected }) {
   };
 
   return (
-    <div>
+    <Flex row>
       {options.map((option) => (
-        <label key={option.value}>
+        <label key={option.value} style={{ flex: 1 }}>
           <input
+            style={{ display: "none" }}
             type="radio"
             value={option.value}
             checked={selectedOption === option.value}
@@ -25,6 +27,6 @@ export default function RadioInput({ options, onChange, defaultSelected }) {
           {option.label}
         </label>
       ))}
-    </div>
+    </Flex>
   );
 }
