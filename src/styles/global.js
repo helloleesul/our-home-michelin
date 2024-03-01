@@ -32,6 +32,10 @@ export const resetStyles = css`
   input::placeholder {
     color: ${theme.PALETTE.gray[200]};
   }
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
 
   button:hover {
     cursor: pointer;

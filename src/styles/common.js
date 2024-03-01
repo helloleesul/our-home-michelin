@@ -1,3 +1,4 @@
+/** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import theme from "./theme";
 import { css } from "@emotion/react";
@@ -22,7 +23,6 @@ export const Form = styled.form`
   flex-direction: column;
   border: 1px solid ${theme.PALETTE.mainColor};
   padding: ${theme.FONT_SIZE.hg};
-  width: 100%;
 `;
 
 export const Flex = styled.div`
@@ -35,6 +35,12 @@ export const Flex = styled.div`
       align-items: center;
     `}
   ${(props) =>
+    props.wrap &&
+    css`
+      flex-wrap: wrap;
+    `}
+  ${(props) =>
+    props.gap &&
     css`
       gap: ${props.gap}px;
     `}
@@ -68,12 +74,25 @@ export const NavLink = styled(N)`
   }
 `;
 
-export const ButtonGroup = styled.div`
-  display: flex;
+export const ColGroup = styled.div`
+  display: grid;
+  grid-template-columns: 1fr auto;
   align-items: center;
-  justify-content: space-between;
   ${(props) =>
+    props.gap &&
     css`
       gap: ${props.gap}px;
     `}
+`;
+
+export const RelativeGroup = css`
+  flex: 1;
+  position: relative;
+`;
+export const AbsoluteText = css`
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  color: ${theme.PALETTE.mainColor};
 `;

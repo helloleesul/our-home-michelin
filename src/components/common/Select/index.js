@@ -9,7 +9,11 @@ export default function Select({ options, onChange, defaultMessage }) {
   };
 
   return (
-    <select value={selectedOption} onChange={handleOptionChange}>
+    <select
+      value={selectedOption}
+      onChange={handleOptionChange}
+      style={{ alignSelf: "stretch" }}
+    >
       <option value="">{defaultMessage}</option>
       {options.map((option) => (
         <option key={option.value} value={option.label}>

@@ -1,4 +1,3 @@
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import theme from "../../../styles/theme";
 
@@ -8,10 +7,12 @@ export const Button = styled.button`
   background-color: ${theme.PALETTE.white};
   color: ${theme.PALETTE.mainColor};
   font-weight: 500;
-  ${(props) =>
-    css`
-      width: ${props.width}px;
-    `};
+  width: ${(props) =>
+    props.width === "auto"
+      ? "auto"
+      : !isNaN(props.width)
+      ? `${props.width}px`
+      : "100%"};
 
   &:hover {
     background-color: ${theme.PALETTE.mainColor};

@@ -1,8 +1,10 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-import theme from "../../styles/theme";
-
-import { ButtonGroup, Flex } from "../../styles/common";
+import {
+  AbsoluteText,
+  ColGroup,
+  Flex,
+  RelativeGroup,
+} from "../../styles/common";
 import Button from "../common/Button";
 import Input from "../common/Input";
 import FormWrap from "../common/FormWrap";
@@ -11,20 +13,18 @@ export default function JoinForm() {
   return (
     <FormWrap width={"90"}>
       <Flex gap={"20"}>
-        <div>
-          <ButtonGroup gap={"10"}>
-            <Input id={"email"} label={"이메일"} placeholder={"Email"} />
-            <Button width={"100"} type={"button"} value={"인증코드"} />
-          </ButtonGroup>
+        <ColGroup gap={"10"}>
+          <Input id={"email"} label={"이메일"} placeholder={"Email"} />
+          <Button width={"100"} type={"button"} value={"인증코드"} />
           {/* <span>error</span> */}
-        </div>
-        <ButtonGroup gap={"10"}>
-          <div css={CodeGroup}>
+        </ColGroup>
+        <ColGroup gap={"10"}>
+          <div css={RelativeGroup}>
             <Input id={"code"} label={"인증코드"} placeholder={"Code"} />
-            <span css={Count}>3:00</span>
+            <span css={AbsoluteText}>3:00</span>
           </div>
           <Button width={"100"} type={"button"} value={"확인"} />
-        </ButtonGroup>
+        </ColGroup>
         <div>
           <Input id={"nickName"} label={"닉네임"} placeholder={"NickName"} />
         </div>
@@ -43,15 +43,3 @@ export default function JoinForm() {
     </FormWrap>
   );
 }
-
-const CodeGroup = css`
-  flex: 1;
-  position: relative;
-`;
-const Count = css`
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  transform: translateY(-50%);
-  color: ${theme.PALETTE.mainColor};
-`;

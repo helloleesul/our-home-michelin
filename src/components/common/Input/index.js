@@ -13,6 +13,7 @@ export default forwardRef(function Input(
     disabled,
     readOnly,
     noLabel,
+    width,
   },
   ref
 ) {
@@ -30,6 +31,7 @@ export default forwardRef(function Input(
         disabled={disabled}
         readOnly={readOnly}
         ref={ref}
+        width={width}
       />
     </S.Group>
   );
