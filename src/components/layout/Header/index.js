@@ -1,8 +1,21 @@
 /** @jsxImportSource @emotion/react */
-import { ButtonLink, LinkStyle } from "../../../styles/common";
 import * as S from "./style";
+import { ButtonLink, LinkStyle } from "../../../styles/common";
+
+import { useDispatch, useSelector } from "react-redux";
+import { logout, selectAuth } from "../../../libs/store/authSlice";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
+  const dispatch = useDispatch();
+  const { isAuthenticated } = useSelector(selectAuth);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/");
+  };
+
   return (
     <S.Header>
       <S.Container>
@@ -10,10 +23,19 @@ export default function Header() {
           🏠 우리집 <span>냉슐랭</span> 🍚🍒🥐🍋
         </S.Title>
         <S.UserLink>
-          <ButtonLink to="/join">회원가입</ButtonLink>
-          <ButtonLink to="/login">로그인</ButtonLink>
-          <ButtonLink to="/mypage/myRecipes">🧑‍🍳 마이페이지</ButtonLink>
-          <button css={LinkStyle}>로그아웃</button>
+          {isAuthenticated ? (
+            <>
+              <ButtonLink to="/mypage/myRecipes">🧑‍🍳 마이페이지</ButtonLink>
+              <button css={LinkStyle} onClick={handleLogout}>
+                로그아웃
+              </button>
+            </>
+          ) : (
+            <>
+              <ButtonLink to="/join">회원가입</ButtonLink>
+              <ButtonLink to="/login">로그인</ButtonLink>
+            </>
+          )}
         </S.UserLink>
       </S.Container>
     </S.Header>
