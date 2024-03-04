@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import RecipesWrap from "../components/RecipesWrap";
 import Title from "../components/common/Title";
-import SplitLayout from "../components/layout/SplitLayout";
+import Split from "../components/layout/Split";
 import { GET } from "../libs/api";
 import { Flex, WidthBox } from "../styles/common";
 
@@ -23,7 +23,7 @@ export default function RecipeList() {
   }, []);
 
   return (
-    <SplitLayout
+    <Split
       left={<SideNav />}
       right={<RecipesWrap recipes={recipes} />}
       size={[2, 4]}

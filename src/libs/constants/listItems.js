@@ -1,7 +1,7 @@
 export const MY_MENU_LIST = [
-  { value: "작성한 레시피", to: "/mypage/myRecipes" },
-  { value: "좋아하는 레시피", to: "/mypage/likeRecipes" },
-  { value: "정보 수정", to: "/mypage/info" },
+  { value: "작성한 레시피", to: "/kitchen/my-recipe" },
+  { value: "좋아하는 레시피", to: "/kitchen/favorite-recipe" },
+  { value: "정보 수정", to: "/kitchen/info" },
 ];
 
 export const NAV_LIST = [

@@ -25,7 +25,7 @@ export default function Header() {
         <S.UserLink>
           {isAuthenticated ? (
             <>
-              <ButtonLink to="/mypage/myRecipes">🧑‍🍳 마이페이지</ButtonLink>
+              <ButtonLink to="/kitchen">🧑‍🍳 마이페이지</ButtonLink>
               <button css={LinkStyle} onClick={handleLogout}>
                 로그아웃
               </button>

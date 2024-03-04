@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { Navigate, createBrowserRouter } from "react-router-dom";
 
 import App from "./App";
 import Home from "./pages/Home";
@@ -8,9 +8,14 @@ import RecipeList from "./pages/RecipeList";
 import RecipeDetail from "./pages/RecipeDetail";
 import RecipeWrite from "./pages/RecipeWrite";
 import MyRecipes from "./pages/MyRecipes";
-import LikeRecipes from "./pages/LikeRecipes";
+import FavoriteRecipes from "./pages/FavoriteRecipes";
 import Info from "./pages/Info";
 import NotFound from "./pages/NotFound";
+
+import UserRoute from "./components/router/UserRoute";
+import GuestRoute from "./components/router/GuestRoute";
+
+import Kitchen from "./components/layout/Kitchen";
 
 export const router = createBrowserRouter([
   {
@@ -22,41 +27,62 @@ export const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "login",
-        element: <Login />,
-      },
-      {
-        path: "join",
-        element: <Join />,
-      },
-      {
         path: "recipes",
-        element: <RecipeList />,
+        children: [
+          { index: true, element: <RecipeList /> },
+          {
+            path: ":detail",
+            element: <RecipeDetail />,
+          },
+        ],
       },
+      // 유저 접근 허용
       {
-        path: "recipes/:detail",
-        element: <RecipeDetail />,
+        element: <UserRoute />,
+        children: [
+          {
+            path: "new-recipe",
+            element: <RecipeWrite />,
+          },
+          {
+            path: "kitchen",
+            element: <Kitchen />,
+            children: [
+              {
+                index: true,
+                element: <Navigate to="my-recipe" replace />,
+              },
+              {
+                path: "my-recipe",
+                element: <MyRecipes />,
+              },
+              {
+                path: "favorite-recipe",
+                element: <FavoriteRecipes />,
+              },
+              {
+                path: "info",
+                element: <Info />,
+              },
+            ],
+          },
+        ],
       },
+      // 유저 접근 제한
       {
-        path: "new-recipe",
-        element: <RecipeWrite />,
+        element: <GuestRoute />,
+        children: [
+          {
+            path: "login",
+            element: <Login />,
+          },
+          {
+            path: "join",
+            element: <Join />,
+          },
+        ],
       },
-      {
-        path: "recipes/modify/:recipeId",
-        element: <RecipeWrite />,
-      },
-      {
-        path: "mypage/myRecipes",
-        element: <MyRecipes />,
-      },
-      {
-        path: "mypage/likeRecipes",
-        element: <LikeRecipes />,
-      },
-      {
-        path: "mypage/info",
-        element: <Info />,
-      },
+      // 잘못된 경로
       {
         path: "*",
         element: <NotFound />,

@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import Title from "../components/common/Title";
-import SplitLayout from "../components/layout/SplitLayout";
+import Split from "../components/layout/Split";
 import { GET } from "../libs/api";
 import { useEffect, useState } from "react";
 
@@ -34,7 +34,7 @@ export default function RecipeDetail() {
   }, [detail]);
 
   return (
-    <SplitLayout
+    <Split
       left={<SideNav imageUrl={imageUrl} />}
       right={
         <>

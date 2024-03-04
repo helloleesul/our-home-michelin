@@ -1,6 +1,6 @@
 import LoginForm from "../components/LoginForm";
 import Title from "../components/common/Title";
-import UserFormLayout from "../components/layout/UserFormLayout";
+import UserForm from "../components/layout/UserForm";
 import { ButtonLink, Flex } from "../styles/common";
 
 import STATUS_CODE from "../libs/constants/statusCode";
@@ -50,10 +50,10 @@ export default function Login() {
   return (
     <Flex gap={"30"} onSubmit={handleLogin}>
       <Title icon={"🧑‍🍳"} title={"로그인"} />
-      <UserFormLayout form={<LoginForm refs={{ emailRef, passwordRef }} />}>
+      <UserForm form={<LoginForm refs={{ emailRef, passwordRef }} />}>
         <p>우리집 냉슐랭 요리사가 아니신가요?</p>
         <ButtonLink to="/join">회원가입 하러가기</ButtonLink>
-      </UserFormLayout>
+      </UserForm>
     </Flex>
   );
 }
