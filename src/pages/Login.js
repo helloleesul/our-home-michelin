@@ -2,11 +2,19 @@ import LoginForm from "../components/LoginForm";
 import Title from "../components/common/Title";
 import UserFormLayout from "../components/layout/UserFormLayout";
 import { ButtonLink, Flex } from "../styles/common";
+
 import STATUS_CODE from "../libs/constants/statusCode";
 import { POST } from "../libs/api";
+
 import { useRef } from "react";
+import { useDispatch } from "react-redux";
+import { login } from "../libs/store/authSlice";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const emailRef = useRef();
   const passwordRef = useRef();
 
@@ -31,7 +39,9 @@ export default function Login() {
         throw new Error("로그인에 실패했습니다.");
       }
 
-      console.log("로그인 성공!");
+      alert(response.message);
+      dispatch(login(response.user));
+      navigate("/");
     } catch (error) {
       alert(error.response.data.error);
     }

@@ -1,4 +1,5 @@
-import { ButtonLink } from "../../../styles/common";
+/** @jsxImportSource @emotion/react */
+import { ButtonLink, LinkStyle } from "../../../styles/common";
 import * as S from "./style";
 
 export default function Header() {
@@ -12,7 +13,7 @@ export default function Header() {
           <ButtonLink to="/join">회원가입</ButtonLink>
           <ButtonLink to="/login">로그인</ButtonLink>
           <ButtonLink to="/mypage/myRecipes">🧑‍🍳 마이페이지</ButtonLink>
-          {/* <ButtonLink>로그아웃</ButtonLink> */}
+          <button css={LinkStyle}>로그아웃</button>
         </S.UserLink>
       </S.Container>
     </S.Header>

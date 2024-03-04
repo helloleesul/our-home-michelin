@@ -27,6 +27,8 @@ export const resetStyles = css`
   button {
     outline: none;
     font-size: inherit;
+    border: none;
+    background: none;
   }
 
   input {
@@ -43,7 +45,10 @@ export const resetStyles = css`
     -webkit-appearance: none;
   }
 
-  button:hover {
-    cursor: pointer;
+  button {
+    padding: 0;
+    &:hover {
+      cursor: pointer;
+    }
   }
 `;

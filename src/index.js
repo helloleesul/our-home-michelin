@@ -3,9 +3,9 @@ import ReactDOM from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
 
 import { Provider as ReduxProvider } from "react-redux";
+import store from "./libs/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
-import store from "./libs/utils/store";
 
 import { RouterProvider } from "react-router-dom";
 import { router } from "./router";
@@ -13,15 +13,15 @@ import { router } from "./router";
 import { Global } from "@emotion/react";
 import { resetStyles } from "./styles/global";
 
-let persistor = persistStore(store);
+// let persistor = persistStore(store);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <ReduxProvider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-      <Global styles={resetStyles} />
-      <RouterProvider router={router} />
-    </PersistGate>
+    {/* <PersistGate loading={null} persistor={persistor}> */}
+    <Global styles={resetStyles} />
+    <RouterProvider router={router} />
+    {/* </PersistGate> */}
   </ReduxProvider>
 );
 

@@ -50,7 +50,7 @@ export const WidthBox = styled.div`
   width: ${(props) => (props.width ? props.width : 100)}%;
 `;
 
-const LinkStyle = css`
+export const LinkStyle = css`
   color: ${theme.PALETTE.gray[300]};
   text-decoration: none;
 
