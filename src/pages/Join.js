@@ -1,6 +1,6 @@
-import JoinForm from "../components/JoinForm";
+import JoinForm from "../components/form/JoinForm";
 import Title from "../components/common/Title";
-import UserForm from "../components/layout/UserForm";
+import UserForm from "../components/form/UserForm";
 import { ButtonLink, Flex } from "../styles/common";
 
 export default function Join() {

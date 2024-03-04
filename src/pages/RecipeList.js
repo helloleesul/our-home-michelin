@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import RecipesWrap from "../components/RecipesWrap";
+import RecipesWrap from "../components/recipe/RecipesWrap";
 import Title from "../components/common/Title";
 import Split from "../components/layout/Split";
 import { GET } from "../libs/api";

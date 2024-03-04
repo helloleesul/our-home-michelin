@@ -4,10 +4,10 @@ import {
   ColGroup,
   Flex,
   RelativeGroup,
-} from "../../styles/common";
-import Button from "../common/Button";
-import Input from "../common/Input";
-import FormWrap from "../common/FormWrap";
+} from "../../../styles/common";
+import Button from "../../common/Button";
+import Input from "../../common/Input";
+import FormWrap from "../../common/FormWrap";
 
 export default function JoinForm() {
   return (

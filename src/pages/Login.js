@@ -1,6 +1,6 @@
-import LoginForm from "../components/LoginForm";
+import LoginForm from "../components/form/LoginForm";
 import Title from "../components/common/Title";
-import UserForm from "../components/layout/UserForm";
+import UserForm from "../components/form/UserForm";
 import { ButtonLink, Flex } from "../styles/common";
 
 import STATUS_CODE from "../libs/constants/statusCode";

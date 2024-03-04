@@ -5,15 +5,17 @@ import { persistReducer } from "redux-persist";
 import thunk from "redux-thunk";
 
 import authReducer from "./authSlice";
+import fridgeReducer from "./fridgeSlice";
 
 const reducers = combineReducers({
   auth: authReducer,
+  fridge: fridgeReducer,
 });
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth"],
+  whitelist: ["auth", "fridge"],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);

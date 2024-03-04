@@ -1,7 +1,7 @@
-import { Flex } from "../../styles/common";
-import Button from "../common/Button";
-import Input from "../common/Input";
-import FormWrap from "../common/FormWrap";
+import { Flex } from "../../../styles/common";
+import Button from "../../common/Button";
+import Input from "../../common/Input";
+import FormWrap from "../../common/FormWrap";
 
 export default function LoginForm({ refs }) {
   const { emailRef, passwordRef } = refs;

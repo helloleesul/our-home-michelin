@@ -1,15 +1,15 @@
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { Container, Layout } from "./styles/common";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import Nav from "./components/layout/Nav";
-// import MyFridgeButton from "./components/common/MyFridgeButton";
+import FridgeButton from "./components/fridge/FridgeButton";
+import Fridge from "./components/fridge/Fridge";
 
-// const hiddenPathList = ["/recipe/write"];
+import { useModal } from "./libs/hooks/useModal";
 
 export default function App(props) {
-  // const location = useLocation();
-  // const isHiddenFridge = hiddenPathList.includes(location.pathname);
+  const { isOpen, openModal, closeModal } = useModal();
 
   return (
     <Layout>
@@ -19,9 +19,9 @@ export default function App(props) {
         <Container>
           <Outlet />
         </Container>
-        {/* {!isHiddenFridge && <MyFridgeButton />} */}
       </main>
-      {/* <button>냉장고</button> */}
+      <FridgeButton onClick={openModal} />
+      {isOpen && <Fridge onClose={closeModal} />}
       <Footer />
     </Layout>
   );
