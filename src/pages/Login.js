@@ -18,7 +18,7 @@ export default function Login() {
   const emailRef = useRef();
   const passwordRef = useRef();
 
-  const onLogin = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     if (!emailRef.current.value || !passwordRef.current.value) {
@@ -48,7 +48,7 @@ export default function Login() {
   };
 
   return (
-    <Flex gap={"30"} onSubmit={onLogin}>
+    <Flex gap={"30"} onSubmit={handleLogin}>
       <Title icon={"🧑‍🍳"} title={"로그인"} />
       <UserFormLayout form={<LoginForm refs={{ emailRef, passwordRef }} />}>
         <p>우리집 냉슐랭 요리사가 아니신가요?</p>
