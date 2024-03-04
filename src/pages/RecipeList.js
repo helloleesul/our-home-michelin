@@ -14,7 +14,7 @@ export default function RecipeList() {
       console.log(response);
       setRecipes(response);
     } catch (error) {
-      alert(error.response.data.error);
+      console.log("🚀 ~ getRecipes ~ error:", error);
     }
   };
 

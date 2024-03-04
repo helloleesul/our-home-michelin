@@ -27,7 +27,7 @@ export default function RecipeDetail() {
         setRecipe(response);
         console.log(response);
       } catch (error) {
-        alert(error.response.data.error);
+        console.log("🚀 ~ getRecipe ~ error:", error);
       }
     };
     getRecipe();

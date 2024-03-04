@@ -5,15 +5,21 @@ import { ButtonLink, LinkStyle } from "../../../styles/common";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, selectAuth } from "../../../libs/store/authSlice";
 import { useNavigate } from "react-router-dom";
+import { POST } from "../../../libs/api";
 
 export default function Header() {
   const dispatch = useDispatch();
   const { isAuthenticated } = useSelector(selectAuth);
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    dispatch(logout());
-    navigate("/");
+  const handleLogout = async () => {
+    try {
+      await POST("/logout", {});
+      dispatch(logout());
+      navigate("/");
+    } catch (error) {
+      console.log("🚀 ~ handleLogout ~ error:", error);
+    }
   };
 
   return (

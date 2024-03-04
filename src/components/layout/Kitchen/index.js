@@ -3,15 +3,18 @@ import { MY_MENU_LIST } from "../../../libs/constants/listItems";
 import { Flex, NavLink, WidthBox } from "../../../styles/common";
 import Title from "../../common/Title";
 import Split from "../Split";
+import { useSelector } from "react-redux";
+import { selectAuth } from "../../../libs/store/authSlice";
 
 export default function Kitchen() {
   return <Split left={<SideNav />} right={<Outlet />} size={[2, 4]} />;
 }
 
 function SideNav() {
+  const { user } = useSelector(selectAuth);
   return (
     <Flex gap={"50"} center>
-      <Title icon={"🧑‍🍳"} title={"나의 주방"} />
+      <Title icon={"🧑‍🍳"} title={`${user.nickName}의 주방`} />
       <WidthBox width={"50"}>
         <Flex gap={"20"}>
           {MY_MENU_LIST?.map((menu, i) => (

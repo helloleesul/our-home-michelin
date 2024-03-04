@@ -43,6 +43,7 @@ export default function Login() {
       dispatch(login(response.user));
       navigate("/");
     } catch (error) {
+      console.log("🚀 ~ handleLogin ~ error:", error);
       alert(error.response.data.error);
     }
   };
