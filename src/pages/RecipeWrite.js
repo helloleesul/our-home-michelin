@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { useState } from "react";
-import Button from "../components/common/Button";
-import Input from "../components/common/Input";
-import Title from "../components/common/Title";
+import Button from "@/components/common/Button";
+import Input from "@/components/common/Input";
+import Title from "@/components/common/Title";
 import {
   AbsoluteText,
   ColGroup,
@@ -10,14 +10,14 @@ import {
   Form,
   RelativeGroup,
   WidthBox,
-} from "../styles/common";
-import RadioInput from "../components/common/RadioInput";
+} from "@/styles/common";
+import RadioInput from "@/components/common/RadioInput";
 import {
   RECIPE_ING_AMOUNT_LIST,
   RECIPE_TYPE_LIST,
-} from "../libs/constants/listItems";
-import Select from "../components/common/Select";
-import { Label } from "../components/common/Input/style";
+} from "@/libs/constants/listItems";
+import Select from "@/components/common/Select";
+import { Label } from "@/components/common/Input/style";
 
 export default function RecipeWrite() {
   // 레시피 이미지
@@ -111,7 +111,7 @@ export default function RecipeWrite() {
 
   return (
     <Flex gap={"30"} center>
-      <Title icon={"📝"} title={"새 레시피"} />
+      <Title icon={"🔥🧾🥣"} title={"새 레시피"} />
       <WidthBox width={"70"}>
         <Flex center>
           <Form

@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import theme from "../../../styles/theme";
+import theme from "@/styles/theme";
 
 export const Footer = styled.footer`
   background-color: ${theme.PALETTE.gray[100]};

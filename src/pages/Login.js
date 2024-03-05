@@ -1,15 +1,16 @@
-import LoginForm from "../components/form/LoginForm";
-import Title from "../components/common/Title";
-import UserForm from "../components/form/UserForm";
-import { ButtonLink, Flex } from "../styles/common";
+import LoginForm from "@/components/form/LoginForm";
+import Title from "@/components/common/Title";
+import UserForm from "@/components/form/UserForm";
+import { ButtonLink, Flex } from "@/styles/common";
 
-import STATUS_CODE from "../libs/constants/statusCode";
-import { POST } from "../libs/api";
+import STATUS_CODE from "@/libs/constants/statusCode";
+import { POST } from "@/libs/api";
 
 import { useRef } from "react";
 import { useDispatch } from "react-redux";
-import { login } from "../libs/store/authSlice";
+import { login } from "@/libs/store/authSlice";
 import { useNavigate } from "react-router-dom";
+import { updateIngredients } from "@/libs/store/fridgeSlice";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -35,12 +36,17 @@ export default function Login() {
         password: passwordRef.current.value,
       });
 
+      console.log("🚀 ~ handleLogin ~ response:", response);
+
       if (!response.status === STATUS_CODE.OK) {
         throw new Error("로그인에 실패했습니다.");
       }
 
       alert(response.message);
+
       dispatch(login(response.user));
+      dispatch(updateIngredients(response.fridge));
+
       navigate("/");
     } catch (error) {
       console.log("🚀 ~ handleLogin ~ error:", error);

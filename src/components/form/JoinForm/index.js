@@ -1,13 +1,8 @@
 /** @jsxImportSource @emotion/react */
-import {
-  AbsoluteText,
-  ColGroup,
-  Flex,
-  RelativeGroup,
-} from "../../../styles/common";
-import Button from "../../common/Button";
-import Input from "../../common/Input";
-import FormWrap from "../../common/FormWrap";
+import { AbsoluteText, ColGroup, Flex, RelativeGroup } from "@/styles/common";
+import Button from "@/components/common/Button";
+import Input from "@/components/common/Input";
+import FormWrap from "@/components/common/FormWrap";
 
 export default function JoinForm() {
   return (

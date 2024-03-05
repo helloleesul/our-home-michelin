@@ -1,5 +1,5 @@
-import { NAV_LIST } from "../../../libs/constants/listItems";
-import { Container } from "../../../styles/common";
+import { NAV_LIST } from "@/libs/constants/listItems";
+import { Container } from "@/styles/common";
 import * as S from "./style";
 
 export default function Nav() {

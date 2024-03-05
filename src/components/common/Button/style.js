@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import theme from "../../../styles/theme";
+import theme from "@/styles/theme";
 
 export const Button = styled.button`
   height: ${theme.FONT_SIZE.hg};

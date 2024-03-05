@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import * as S from "./style";
-import { ButtonLink, LinkStyle } from "../../../styles/common";
+import { ButtonLink, LinkStyle } from "@/styles/common";
 
 import { useDispatch, useSelector } from "react-redux";
-import { logout, selectAuth } from "../../../libs/store/authSlice";
+import { logout, selectAuth } from "@/libs/store/authSlice";
 import { useNavigate } from "react-router-dom";
-import { POST } from "../../../libs/api";
+import { POST } from "@/libs/api";
 
 export default function Header() {
   const dispatch = useDispatch();

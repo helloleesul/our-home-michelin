@@ -1,4 +1,4 @@
-import { Flex, Form, WidthBox } from "../../../styles/common";
+import { Flex, Form, WidthBox } from "@/styles/common";
 
 export default function FormWrap({ children, width, onSubmit }) {
   return (

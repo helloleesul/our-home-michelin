@@ -1,5 +1,5 @@
-import Title from "../components/common/Title";
-import { Flex } from "../styles/common";
+import Title from "@/components/common/Title";
+import { Flex } from "@/styles/common";
 
 export default function Home() {
   return (

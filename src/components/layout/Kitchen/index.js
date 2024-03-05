@@ -1,10 +1,10 @@
 import { Outlet } from "react-router-dom";
-import { MY_MENU_LIST } from "../../../libs/constants/listItems";
-import { Flex, NavLink, WidthBox } from "../../../styles/common";
-import Title from "../../common/Title";
+import { MY_MENU_LIST } from "@/libs/constants/listItems";
+import { Flex, NavLink, WidthBox } from "@/styles/common";
+import Title from "@/components/common/Title";
 import Split from "../Split";
 import { useSelector } from "react-redux";
-import { selectAuth } from "../../../libs/store/authSlice";
+import { selectAuth } from "@/libs/store/authSlice";
 
 export default function Kitchen() {
   return <Split left={<SideNav />} right={<Outlet />} size={[2, 4]} />;

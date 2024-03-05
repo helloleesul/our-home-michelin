@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { selectAuth } from "../../../libs/store/authSlice";
+import { selectAuth } from "@/libs/store/authSlice";
 
 export default function UserRoute() {
   const { isAuthenticated } = useSelector(selectAuth);

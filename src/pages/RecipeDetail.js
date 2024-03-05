@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
-import Title from "../components/common/Title";
-import Split from "../components/layout/Split";
-import { GET } from "../libs/api";
+import Title from "@/components/common/Title";
+import Split from "@/components/layout/Split";
+import { GET } from "@/libs/api";
 import { useEffect, useState } from "react";
 
 export default function RecipeDetail() {

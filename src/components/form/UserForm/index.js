@@ -1,4 +1,4 @@
-import { Flex, WidthBox } from "../../../styles/common";
+import { Flex, WidthBox } from "@/styles/common";
 
 export default function UserForm({ form, children }) {
   return (

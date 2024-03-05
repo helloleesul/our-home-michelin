@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
 
 import { Provider as ReduxProvider } from "react-redux";
-import store from "./libs/store";
+import store from "@/libs/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
 
@@ -11,7 +11,7 @@ import { RouterProvider } from "react-router-dom";
 import { router } from "./router";
 
 import { Global } from "@emotion/react";
-import { resetStyles } from "./styles/global";
+import { resetStyles } from "@/styles/global";
 
 let persistor = persistStore(store);
 

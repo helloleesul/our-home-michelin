@@ -1,21 +1,21 @@
 import { Navigate, createBrowserRouter } from "react-router-dom";
 
 import App from "./App";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Join from "./pages/Join";
-import RecipeList from "./pages/RecipeList";
-import RecipeDetail from "./pages/RecipeDetail";
-import RecipeWrite from "./pages/RecipeWrite";
-import MyRecipes from "./pages/MyRecipes";
-import FavoriteRecipes from "./pages/FavoriteRecipes";
-import Info from "./pages/Info";
-import NotFound from "./pages/NotFound";
+import Home from "@/pages/Home";
+import Login from "@/pages/Login";
+import Join from "@/pages/Join";
+import RecipeList from "@/pages/RecipeList";
+import RecipeDetail from "@/pages/RecipeDetail";
+import RecipeWrite from "@/pages/RecipeWrite";
+import MyRecipes from "@/pages/MyRecipes";
+import FavoriteRecipes from "@/pages/FavoriteRecipes";
+import Info from "@/pages/Info";
+import NotFound from "@/pages/NotFound";
 
-import UserRoute from "./components/router/UserRoute";
-import GuestRoute from "./components/router/GuestRoute";
+import UserRoute from "@/components/router/UserRoute";
+import GuestRoute from "@/components/router/GuestRoute";
 
-import Kitchen from "./components/layout/Kitchen";
+import Kitchen from "@/components/layout/Kitchen";
 
 export const router = createBrowserRouter([
   {

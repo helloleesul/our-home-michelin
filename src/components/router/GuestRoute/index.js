@@ -1,6 +1,6 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { selectAuth } from "../../../libs/store/authSlice";
+import { selectAuth } from "@/libs/store/authSlice";
 import { useEffect } from "react";
 
 export default function GuestRoute() {

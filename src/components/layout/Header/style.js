@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
-import theme from "../../../styles/theme";
-import { Container as C } from "../../../styles/common";
+import theme from "@/styles/theme";
+import { Container as C } from "@/styles/common";
 
 export const Header = styled.header`
   border-bottom: 1px solid ${theme.PALETTE.mainColor};
