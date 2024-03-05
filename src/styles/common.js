@@ -96,3 +96,9 @@ export const AbsoluteText = css`
   transform: translateY(-50%);
   color: ${theme.PALETTE.mainColor};
 `;
+export const ErrorText = css`
+  font-size: ${theme.FONT_SIZE.xs};
+  text-align: right;
+  color: ${theme.PALETTE.mainColor};
+  margin-top: -10px;
+`;

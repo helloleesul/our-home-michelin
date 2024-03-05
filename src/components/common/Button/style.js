@@ -18,4 +18,9 @@ export const Button = styled.button`
     background-color: ${theme.PALETTE.mainColor};
     color: ${theme.PALETTE.white};
   }
+  &:disabled {
+    background-color: ${theme.PALETTE.gray[200]};
+    border-color: ${theme.PALETTE.gray[300]};
+    color: ${theme.PALETTE.gray[300]};
+  }
 `;
