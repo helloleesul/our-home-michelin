@@ -3,16 +3,16 @@ import { createSlice } from "@reduxjs/toolkit";
 export const fridgeSlice = createSlice({
   name: "fridge",
   initialState: {
-    ingrData: [],
+    ingredients: [],
   },
   reducers: {
-    updateIngrData: (state, action) => {
-      state.ingrData = action.payload;
+    updateIngredients: (state, action) => {
+      state.ingredients = action.payload;
     },
   },
 });
 
-export const { updateIngrData } = fridgeSlice.actions;
+export const { updateIngredients } = fridgeSlice.actions;
 
 export const selectFridge = (state) => state.fridge;
 

@@ -8,7 +8,7 @@ import { updateIngredients } from "@/libs/store/fridgeSlice";
 import { Flex } from "@/styles/common";
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
-import FormWrap from "@/components/common/FormWrap";
+import FormWrap from "@/components/form/FormWrap";
 
 import { POST } from "@/libs/api";
 import STATUS_CODE from "@/libs/constants/statusCode";
@@ -21,7 +21,7 @@ export default function LoginForm() {
   const emailRef = useRef();
   const passwordRef = useRef();
 
-  const handleLogin = async (e) => {
+  const onLogin = async (e) => {
     e.preventDefault();
 
     if (!emailRef.current.value || !passwordRef.current.value) {
@@ -38,7 +38,7 @@ export default function LoginForm() {
         password: passwordRef.current.value,
       });
 
-      console.log("🚀 ~ handleLogin ~ response:", response);
+      console.log("🚀 ~ onLogin ~ response:", response);
 
       if (!response.status === STATUS_CODE.OK) {
         throw new Error(MESSAGE.LOGIN.FAILURE);
@@ -49,13 +49,13 @@ export default function LoginForm() {
 
       navigate("/");
     } catch (error) {
-      console.log("🚀 ~ handleLogin ~ error:", error);
+      console.log("🚀 ~ onLogin ~ error:", error);
       alert(error.response.data.error);
     }
   };
 
   return (
-    <FormWrap width={"70"} onSubmit={handleLogin}>
+    <FormWrap width={"70"} onSubmit={onLogin}>
       <Flex gap={"20"}>
         <Input
           type={"email"}

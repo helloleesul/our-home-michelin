@@ -1,6 +1,6 @@
 import LoginForm from "@/components/form/LoginForm";
 import Title from "@/components/common/Title";
-import UserForm from "@/components/form/UserForm";
+import UserForm from "@/components/user/UserForm";
 import { ButtonLink, Flex } from "@/styles/common";
 
 export default function Login() {

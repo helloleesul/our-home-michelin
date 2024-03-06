@@ -12,13 +12,13 @@ export default function Header() {
   const { isAuthenticated } = useSelector(selectAuth);
   const navigate = useNavigate();
 
-  const handleLogout = async () => {
+  const onLogout = async () => {
     try {
       await POST("/logout", {});
       dispatch(logout());
       navigate("/");
     } catch (error) {
-      console.log("🚀 ~ handleLogout ~ error:", error);
+      console.log("🚀 ~ onLogout ~ error:", error);
     }
   };
 
@@ -31,8 +31,8 @@ export default function Header() {
         <S.UserLink>
           {isAuthenticated ? (
             <>
-              <ButtonLink to="/kitchen">🧑‍🍳 마이페이지</ButtonLink>
-              <button css={LinkStyle} onClick={handleLogout}>
+              <ButtonLink to="/kitchen">💁‍♂️ 마이페이지</ButtonLink>
+              <button css={LinkStyle} onClick={onLogout}>
                 로그아웃
               </button>
             </>

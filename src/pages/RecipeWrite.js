@@ -56,8 +56,7 @@ export default function RecipeWrite() {
     setProcessSteps(newSteps);
   };
 
-  const addIngredient = (e) => {
-    e.preventDefault();
+  const addIngredient = () => {
     setIngredientsList((prev) => [
       ...prev,
       {
@@ -67,21 +66,18 @@ export default function RecipeWrite() {
     ]);
   };
 
-  const removeIngredient = (e, index, id) => {
-    e.preventDefault();
+  const removeIngredient = (index, id) => {
     const newIngredients = ingredientsList.filter((item, idx) =>
       item._id ? id !== item._id : idx !== index
     );
     setIngredientsList(newIngredients);
   };
 
-  const addStep = (e) => {
-    e.preventDefault();
+  const addStep = () => {
     setProcessSteps((prev) => [...prev, { text: "" }]);
   };
 
-  const removeStep = (e, index, id) => {
-    e.preventDefault();
+  const removeStep = (index, id) => {
     const newSteps = processSteps.filter((step, idx) =>
       step._id ? id !== step._id : idx !== index
     );
