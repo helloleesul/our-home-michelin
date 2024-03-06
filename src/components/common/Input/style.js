@@ -23,4 +23,9 @@ export const Input = styled.input`
       : css`
           flex-grow: 1;
         `}
+  &:disabled {
+    background-color: ${theme.PALETTE.gray[200]};
+    border-color: ${theme.PALETTE.gray[300]};
+    color: ${theme.PALETTE.gray[300]};
+  }
 `;

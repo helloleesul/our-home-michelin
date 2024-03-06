@@ -1,5 +1,4 @@
 import { useRef } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { useDispatch } from "react-redux";
 import { confirmed } from "@/libs/store/authSlice";

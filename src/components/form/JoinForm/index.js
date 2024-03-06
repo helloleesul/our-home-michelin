@@ -96,11 +96,11 @@ export default function JoinForm() {
     }
   };
 
-  const onSubmit = async (e) => {
+  const onJoin = async (e) => {
     e.preventDefault();
 
     if (!email || !code || !nickName || !password || !passwordChk) {
-      alert("정보를 모두 입력해주세요!");
+      alert(MESSAGE.CONFIRM.ALL);
       return;
     }
     if (!emailValid || !codeValid || !nickNameValid || !passwordValid) return;
@@ -111,12 +111,12 @@ export default function JoinForm() {
       alert(response.message);
       navigate("/login");
     } catch (error) {
-      console.log("🚀 ~ handleLogout ~ error:", error);
+      console.log("🚀 ~ onJoin ~ error:", error);
       alert(error.response.data.error);
     }
   };
   return (
-    <FormWrap width={"90"} onSubmit={onSubmit}>
+    <FormWrap width={"90"} onSubmit={onJoin}>
       <Flex gap={"20"}>
         <ColGroup gap={"10"}>
           <Input

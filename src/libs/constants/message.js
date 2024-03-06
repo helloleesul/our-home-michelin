@@ -8,6 +8,12 @@ const MESSAGE = {
     SYNTAX_PASSWORD_CHECK: "비밀번호가 일치하지 않습니다.",
     FAILURE: "회원 가입에 실패했습니다.",
   },
+  CONFIRM: {
+    COMPLETE: "정보 수정이 완료되었습니다.",
+    NICKNAME: "현재 닉네임과 동일합니다. 다시 입력해 주세요.",
+    SYNTAX: "잘못 입력된 정보가 있습니다. 다시 입력해 주세요.",
+    ALL: "입력되지 않은 정보가 있습니다. 모두 입력해 주세요.",
+  },
   LOGIN: {
     FAILURE: "로그인에 실패했습니다.",
     ERROR: "로그인에 문제가 발생했습니다. 잠시 후에 다시 시도해 주세요.",
@@ -16,8 +22,7 @@ const MESSAGE = {
   ERROR: {
     DEFAULT: "에러가 발생했습니다. 다시 시도해 주세요.",
     EXPIRED: "로그인이 만료되었습니다. 다시 로그인해 주세요.",
-    ONLY_ADMIN: "관리자 및 부관리자만 접근이 가능합니다.",
-    ONLY_MEMBER: "행성 멤버만 접근이 가능합니다.",
+    ONLY_USER: "회원만 접근이 가능합니다.",
     WRONG: "잘못된 접근입니다.",
   },
   POST: {
