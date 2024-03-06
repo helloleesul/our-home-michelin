@@ -10,6 +10,7 @@ import RecipeWrite from "@/pages/RecipeWrite";
 import MyRecipes from "@/pages/MyRecipes";
 import FavoriteRecipes from "@/pages/FavoriteRecipes";
 import Info from "@/pages/Info";
+import Leave from "@/pages/Leave";
 import NotFound from "@/pages/NotFound";
 
 import UserRoute from "@/components/router/UserRoute";
@@ -62,7 +63,13 @@ export const router = createBrowserRouter([
               },
               {
                 path: "info",
-                element: <Info />,
+                children: [
+                  { index: true, element: <Info /> },
+                  {
+                    path: "leave",
+                    element: <Leave />,
+                  },
+                ],
               },
             ],
           },

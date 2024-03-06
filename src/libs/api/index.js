@@ -34,6 +34,6 @@ export const PATCH = async (url, data) => {
 };
 
 // DELETE 요청을 보내는 함수
-export const DELETE = async (url) => {
-  return await sendRequest("delete", url);
+export const DELETE = async (url, data) => {
+  return await sendRequest("delete", url, data);
 };
