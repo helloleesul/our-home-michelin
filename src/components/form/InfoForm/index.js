@@ -1,27 +1,33 @@
 /** @jsxImportSource @emotion/react */
-import { ErrorText, Flex } from "@/styles/common";
-import FormWrap from "../FormWrap";
-import Input from "@/components/common/Input";
-import Button from "@/components/common/Button";
-import { useEffect, useState } from "react";
-import VALIDATE from "@/libs/constants/validate";
-import { PATCH } from "@/libs/api";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAuth, updateUser } from "@/libs/store/authSlice";
+
+import { ErrorText, Flex } from "@/styles/common";
+
+import Input from "@/components/common/Input";
+import Button from "@/components/common/Button";
+import ImageInput from "@/components/common/ImageInput";
+import FormWrap from "../FormWrap";
+import { PATCH } from "@/libs/api";
+import VALIDATE from "@/libs/constants/validate";
 import MESSAGE from "@/libs/constants/message";
 
 export default function InfoForm() {
   const { user } = useSelector(selectAuth);
   const dispatch = useDispatch();
+
+  const [file, setFile] = useState("");
+  const [profileImageURL, setProfileImageURL] = useState(user.profileImageURL);
   const [nickName, setNickName] = useState(user.nickName);
   const [nickNameValid, setNickNameValid] = useState(false);
   const [password, setPassword] = useState("");
   const [passwordValid, setPasswordValid] = useState(false);
   const [passwordChk, setPasswordChk] = useState("");
 
-  useEffect(() => {
-    setNickNameValid(VALIDATE.USER.NICKNAME.test(nickName));
-  }, [nickName]);
+  const handleFile = (file) => {
+    setFile(file);
+  };
 
   const handleNickName = (e) => {
     setNickNameValid(VALIDATE.USER.NICKNAME.test(e.target.value));
@@ -36,33 +42,51 @@ export default function InfoForm() {
   const onInfoModify = async (e) => {
     e.preventDefault();
 
-    if (
-      // 비밀번호 불일치
-      (password && password !== passwordChk) ||
-      // 비밀번호 유효성검사 실패
-      (password && !passwordValid) ||
-      // 닉네임 유효성검사 실패
-      (nickName && !nickNameValid) ||
-      // 작성 정보 없을 때
-      (!nickName && !password && !passwordChk)
-    ) {
-      alert(MESSAGE.CONFIRM.SYNTAX);
+    // 작성 정보 없음
+    if (!nickName && !password && !passwordChk) {
+      setNickName(user.nickName);
+      alert(MESSAGE.CONFIRM.ALL);
       return;
     }
 
+    // 현재 닉네임과 동일
     if (
-      // 현재 닉네임과 동일할 때
       nickName === user.nickName &&
-      !password
+      profileImageURL === user.profileImageURL &&
+      (!password || !passwordChk)
     ) {
       alert(MESSAGE.CONFIRM.NICKNAME);
       return;
     }
 
-    try {
-      const response = await PATCH("/myinfo", { nickName, password });
+    // 비밀번호 유효성검사 실패
+    // 비밀번호 불일치
+    if (
+      (password && !passwordValid) ||
+      (password && password !== passwordChk)
+    ) {
+      alert(MESSAGE.CONFIRM.PASSWORD);
+      return;
+    }
 
-      dispatch(updateUser({ ...user, nickName: response.nickName }));
+    const formData = new FormData();
+    formData.append("nickName", nickName);
+    formData.append("password", password);
+    formData.append(
+      "profileImageURL",
+      profileImageURL === user.profileImageURL ? profileImageURL : file
+    );
+
+    try {
+      const response = await PATCH("/myinfo", formData);
+
+      dispatch(
+        updateUser({
+          ...user,
+          nickName: response.nickName,
+          profileImageURL: response.profileImageURL,
+        })
+      );
       setNickName(response.nickName);
       setPassword("");
       setPasswordChk("");
@@ -77,6 +101,11 @@ export default function InfoForm() {
   return (
     <FormWrap onSubmit={onInfoModify}>
       <Flex gap={"20"}>
+        <ImageInput
+          defaultImage={profileImageURL}
+          onChange={setProfileImageURL}
+          handleFile={handleFile}
+        />
         <div>
           <Input
             id={"email"}
@@ -96,9 +125,11 @@ export default function InfoForm() {
             placeholder={"NickName"}
           />
         </div>
-        {nickName && !nickNameValid && (
-          <span css={ErrorText}>{MESSAGE.JOIN.SYNTAX_NICKNAME}</span>
-        )}
+        {!VALIDATE.USER.NICKNAME.test(nickName) &&
+          nickName &&
+          !nickNameValid && (
+            <span css={ErrorText}>{MESSAGE.JOIN.SYNTAX_NICKNAME}</span>
+          )}
         <div>
           <Input
             value={password}
