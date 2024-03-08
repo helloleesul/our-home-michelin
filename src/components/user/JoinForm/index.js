@@ -9,7 +9,7 @@ import {
 } from "@/styles/common";
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
-import FormWrap from "@/components/form/FormWrap";
+import FormWrap from "@/components/common/FormWrap";
 import VALIDATE from "@/libs/constants/validate";
 import MESSAGE from "@/libs/constants/message";
 import { POST } from "@/libs/api";

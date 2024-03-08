@@ -8,7 +8,7 @@ import { ErrorText, Flex } from "@/styles/common";
 import Input from "@/components/common/Input";
 import Button from "@/components/common/Button";
 import ImageInput from "@/components/common/ImageInput";
-import FormWrap from "../FormWrap";
+import FormWrap from "../../common/FormWrap";
 import { PATCH } from "@/libs/api";
 import VALIDATE from "@/libs/constants/validate";
 import MESSAGE from "@/libs/constants/message";
@@ -25,9 +25,7 @@ export default function InfoForm() {
   const [passwordValid, setPasswordValid] = useState(false);
   const [passwordChk, setPasswordChk] = useState("");
 
-  const handleFile = (file) => {
-    setFile(file);
-  };
+  const handleFile = (file) => setFile(file);
 
   const handleNickName = (e) => {
     setNickNameValid(VALIDATE.USER.NICKNAME.test(e.target.value));
@@ -69,9 +67,13 @@ export default function InfoForm() {
       return;
     }
 
-    const formData = new FormData();
-    formData.append("nickName", nickName);
-    formData.append("password", password);
+    const formData = new FormData(e.target);
+    const data = {
+      nickName,
+      password,
+    };
+
+    formData.append("data", JSON.stringify(data));
     formData.append(
       "profileImageURL",
       profileImageURL === user.profileImageURL ? profileImageURL : file

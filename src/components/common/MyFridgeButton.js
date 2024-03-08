@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import PortalModal from "../common/PortalModal";
+import PortalModal from "./PortalModal";
 import MyFridge from "../MyFridge";
 import fridgeclose from "../../assets/img/fridge-close.svg";
 import fridgeopen from "../../assets/img/fridge-open.svg";

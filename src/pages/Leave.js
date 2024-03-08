@@ -1,5 +1,5 @@
 import Title from "@/components/common/Title";
-import ConfirmForm, { Mode } from "@/components/form/ConfirmForm";
+import ConfirmForm, { Mode } from "@/components/user/ConfirmForm";
 import UserForm from "@/components/user/UserForm";
 import { Flex } from "@/styles/common";
 

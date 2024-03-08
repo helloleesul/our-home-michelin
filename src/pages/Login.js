@@ -1,4 +1,4 @@
-import LoginForm from "@/components/form/LoginForm";
+import LoginForm from "@/components/user/LoginForm";
 import Title from "@/components/common/Title";
 import UserForm from "@/components/user/UserForm";
 import { ButtonLink, Flex } from "@/styles/common";

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import * as S from "./style";
 
 export default function RadioInput({ options, onChange, defaultSelected }) {
   const [selectedOption, setSelectedOption] = useState(defaultSelected);
@@ -13,13 +14,10 @@ export default function RadioInput({ options, onChange, defaultSelected }) {
   };
 
   return (
-    <div
-      style={{ display: "flex", justifyContent: "space-between", flexGrow: 1 }}
-    >
+    <S.RadioInputWrap>
       {options.map((option) => (
-        <label
+        <S.RadioInputLabel
           key={option.value}
-          style={{ flex: 1, textAlign: "center" }}
           className={selectedOption === option.value ? "active" : ""}
         >
           <input
@@ -30,8 +28,8 @@ export default function RadioInput({ options, onChange, defaultSelected }) {
             onChange={handleOptionChange}
           />
           {option.label}
-        </label>
+        </S.RadioInputLabel>
       ))}
-    </div>
+    </S.RadioInputWrap>
   );
 }

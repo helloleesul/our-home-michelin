@@ -14,6 +14,8 @@ export default forwardRef(function Input(
     readOnly,
     noLabel,
     width,
+    max,
+    min,
   },
   ref
 ) {
@@ -32,6 +34,8 @@ export default forwardRef(function Input(
         readOnly={readOnly}
         ref={ref}
         width={width}
+        max={max}
+        min={min}
       />
     </S.Group>
   );

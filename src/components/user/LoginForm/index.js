@@ -8,7 +8,7 @@ import { updateIngredients } from "@/libs/store/fridgeSlice";
 import { Flex } from "@/styles/common";
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
-import FormWrap from "@/components/form/FormWrap";
+import FormWrap from "@/components/common/FormWrap";
 
 import { POST } from "@/libs/api";
 import STATUS_CODE from "@/libs/constants/statusCode";

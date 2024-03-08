@@ -1,4 +1,4 @@
-import JoinForm from "@/components/form/JoinForm";
+import JoinForm from "@/components/user/JoinForm";
 import Title from "@/components/common/Title";
 import UserForm from "@/components/user/UserForm";
 import { ButtonLink, Flex } from "@/styles/common";

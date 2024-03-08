@@ -1,7 +1,7 @@
 export const MY_MENU_LIST = [
   { value: "작성한 레시피", to: "/kitchen/my-recipe" },
-  { value: "좋아하는 레시피", to: "/kitchen/favorite-recipe" },
-  { value: "계정 정보 수정", to: "/kitchen/info" },
+  { value: "나만의 레시피북", to: "/kitchen/favorite-recipe" },
+  { value: "계정 정보 관리", to: "/kitchen/info" },
 ];
 
 export const NAV_LIST = [

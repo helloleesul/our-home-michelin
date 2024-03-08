@@ -1,5 +1,5 @@
 import Title from "@/components/common/Title";
-import InfoForm from "@/components/form/InfoForm";
+import InfoForm from "@/components/user/InfoForm";
 import UserForm from "@/components/user/UserForm";
 import { ButtonLink, Flex } from "@/styles/common";
 

@@ -1,7 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import * as S from "./style";
 
-export default function Select({ options, onChange, defaultMessage }) {
-  const [selectedOption, setSelectedOption] = useState("");
+export default function Select({
+  options,
+  onChange,
+  defaultMessage,
+  defaultOption,
+}) {
+  const [selectedOption, setSelectedOption] = useState(defaultOption);
+
+  useEffect(() => {
+    setSelectedOption(defaultOption);
+  }, [defaultOption]);
 
   const handleOptionChange = (e) => {
     setSelectedOption(e.target.value);
@@ -9,17 +19,13 @@ export default function Select({ options, onChange, defaultMessage }) {
   };
 
   return (
-    <select
-      value={selectedOption}
-      onChange={handleOptionChange}
-      style={{ alignSelf: "stretch" }}
-    >
+    <S.SelectWrap value={selectedOption} onChange={handleOptionChange}>
       <option value="">{defaultMessage}</option>
       {options.map((option) => (
         <option key={option.value} value={option.label}>
           {option.label}
         </option>
       ))}
-    </select>
+    </S.SelectWrap>
   );
 }

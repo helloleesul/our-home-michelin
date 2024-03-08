@@ -25,12 +25,12 @@ const MESSAGE = {
     ONLY_USER: "회원만 접근이 가능합니다.",
     WRONG: "잘못된 접근입니다.",
   },
-  POST: {
-    COMPLETE: "게시글 작성이 완료되었습니다.",
-    EDIT: "작성한 글을 수정하시겠습니까?",
-    EDITFIN: "게시글 수정이 완료되었습니다.",
-    DELETE: "게시글을 삭제하시겠습니까?",
-    CANCEL: "작성을 취소하시겠습니까?",
+  RECIPE: {
+    COMPLETE: "레시피 작성이 완료되었습니다.",
+    EDIT: "작성한 레시피를 수정하시겠습니까?",
+    EDITFIN: "레시피 수정이 완료되었습니다.",
+    DELETE: "레시피를 삭제하시겠습니까?",
+    CANCEL: "레시피 작성을 취소하시겠습니까?",
   },
   FILE: {
     UPLOAD: "JPEG, JPG, PNG 파일만 업로드 가능합니다.",

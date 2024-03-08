@@ -6,7 +6,7 @@ import { confirmed, logout } from "@/libs/store/authSlice";
 import { Flex } from "@/styles/common";
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
-import FormWrap from "@/components/form/FormWrap";
+import FormWrap from "@/components/common/FormWrap";
 
 import { DELETE, POST } from "@/libs/api";
 import MESSAGE from "@/libs/constants/message";
