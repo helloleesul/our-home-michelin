@@ -7,6 +7,7 @@ import Join from "@/pages/Join";
 import RecipeList from "@/pages/RecipeList";
 import RecipeDetail from "@/pages/RecipeDetail";
 import RecipeWrite from "@/pages/RecipeWrite";
+import RecipeModify from "@/pages/RecipeModify";
 import MyRecipes from "@/pages/MyRecipes";
 import FavoriteRecipes from "@/pages/FavoriteRecipes";
 import Info from "@/pages/Info";
@@ -44,6 +45,10 @@ export const router = createBrowserRouter([
           {
             path: "new-recipe",
             element: <RecipeWrite />,
+          },
+          {
+            path: "recipes/modify",
+            element: <RecipeModify />,
           },
           {
             path: "kitchen",

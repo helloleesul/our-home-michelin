@@ -48,7 +48,7 @@ export default function ImageInput({ onChange, defaultImage, handleFile }) {
             onChange={handleImageChange}
           />
           <img
-            src="/recipeDefault.png"
+            src="/android-chrome-512x512.png"
             alt="Default"
             style={{ width: "100%", height: "100%" }}
           />
@@ -58,9 +58,9 @@ export default function ImageInput({ onChange, defaultImage, handleFile }) {
       {imageUrl && (
         <>
           <img
-            src={imageUrl}
+            src={imageUrl || "/android-chrome-512x512.png"}
             onError={(e) => {
-              e.target.src = "/recipeDefault.png";
+              e.target.src = "/android-chrome-512x512.png";
               setImageUrl("");
             }}
             alt="profileImage"

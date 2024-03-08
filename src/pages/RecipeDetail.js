@@ -1,24 +1,13 @@
 import { useParams } from "react-router-dom";
-import Title from "@/components/common/Title";
 import Split from "@/components/layout/Split";
 import { GET } from "@/libs/api";
 import { useEffect, useState } from "react";
+import RecipeSideNav from "@/components/recipe/RecipeSideNav";
+import RecipeInfo from "@/components/recipe/RecipeInfo";
 
 export default function RecipeDetail() {
   const { detail } = useParams();
-  const [recipe, setRecipe] = useState({});
-
-  const {
-    title,
-    createdDate,
-    imageUrl,
-    ingredients,
-    likeCount,
-    process,
-    recipeServing,
-    recipeType,
-    writer,
-  } = recipe;
+  const [recipe, setRecipe] = useState(null);
 
   useEffect(() => {
     const getRecipe = async () => {
@@ -30,42 +19,20 @@ export default function RecipeDetail() {
         console.log("🚀 ~ getRecipe ~ error:", error);
       }
     };
-    getRecipe();
+    if (detail) {
+      getRecipe();
+    }
   }, [detail]);
 
   return (
-    <Split
-      left={<SideNav imageUrl={imageUrl} />}
-      right={
-        <>
-          <div style={{ position: "sticky", top: 100 }}>
-            <div style={{ display: "flex" }}>
-              <Title icon={"🍔"} title={title} />
-            </div>
-          </div>
-          <div style={{ height: 1000 }}></div>
-        </>
-      }
-      size={[2, 4]}
-    />
-  );
-}
-
-function SideNav(props) {
-  const { imageUrl } = props;
-  return (
-    <div style={{ position: "sticky", top: 100, textAlign: "center" }}>
-      {/* <WidthBox width={"50"}> */}
-      {/* </WidthBox> */}
-      <img
-        src={imageUrl}
-        onError={(e) => {
-          e.target.src = "/recipeDefault.png";
-        }}
-        alt=""
-        width={300}
-        height={300}
+    recipe && (
+      <Split
+        left={<RecipeInfo {...recipe} />}
+        right={
+          <RecipeSideNav imageUrl={recipe.imageUrl} writer={recipe.writer} />
+        }
+        size={[4, 2]}
       />
-    </div>
+    )
   );
 }
