@@ -44,7 +44,7 @@ export default function RecipeList() {
           onChange={(v) => {
             setSearch({ type: v });
           }}
-          defaultSelected={type}
+          defaultSelected={type ? type : "all"}
           options={ALL_RECIPE_TYPE_LIST}
         />
         {recipes && <RecipesWrap recipes={recipes} col={4} />}
