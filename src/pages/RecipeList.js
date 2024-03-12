@@ -4,9 +4,17 @@ import Title from "@/components/common/Title";
 import Split from "@/components/layout/Split";
 import { GET } from "@/libs/api";
 import { Flex, WidthBox } from "@/styles/common";
+import RadioInput from "@/components/common/RadioInput";
+import { RECIPE_TYPE_LIST } from "@/libs/constants/listItems";
+
+const ALL_RECIPE_TYPE_LIST = [
+  { label: "전체", value: "all" },
+  ...RECIPE_TYPE_LIST,
+];
 
 export default function RecipeList() {
   const [recipes, setRecipes] = useState([]);
+  const [recipeType, setRecipeType] = useState("all");
 
   const getRecipes = async () => {
     try {
@@ -23,19 +31,21 @@ export default function RecipeList() {
   }, []);
 
   return (
-    <Split
-      left={<SideNav />}
-      right={<RecipesWrap recipes={recipes} />}
-      size={[2, 4]}
-    />
-  );
-}
-
-function SideNav() {
-  return (
-    <Flex gap={"50"} center>
-      <Title icon={"🍽️"} title={"레시피 목록"} />
-      <WidthBox width={"50"}>{/* 요리 종류별 필터링 체크박스 */}</WidthBox>
-    </Flex>
+    <WidthBox width={"80"}>
+      <Flex gap={"30"}>
+        <Title
+          icon={"🍽️"}
+          title={"레시피 목록"}
+          position={"left"}
+          type={"basic"}
+        />
+        <RadioInput
+          onChange={setRecipeType}
+          defaultSelected={recipeType}
+          options={ALL_RECIPE_TYPE_LIST}
+        />
+        <RecipesWrap recipes={recipes} col={4} />
+      </Flex>
+    </WidthBox>
   );
 }

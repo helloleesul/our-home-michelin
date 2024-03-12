@@ -13,22 +13,27 @@ import { useState } from "react";
 import { selectAuth } from "@/libs/store/authSlice";
 import { useSelector } from "react-redux";
 import * as S from "./style";
-import { POST } from "@/libs/api";
+import { PATCH, POST } from "@/libs/api";
 import MESSAGE from "@/libs/constants/message";
 import { useNavigate } from "react-router-dom";
+import { RECIPR_UPLOAD_IMG } from "@/libs/constants/defaultImages";
 
-export default function RecipeForm() {
+export default function RecipeForm({ modifyRecipe }) {
   const navigate = useNavigate();
   const { user } = useSelector(selectAuth);
   // 레시피 이미지
-  const [imageUrl, setImageUrl] = useState(null);
+  const [imageUrl, setImageUrl] = useState(modifyRecipe?.imageUrl || null);
   const [file, setFile] = useState("");
   // 레시피 이름
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState(modifyRecipe?.title || "");
   // 요리 종류
-  const [recipeType, setRecipeType] = useState("korean");
+  const [recipeType, setRecipeType] = useState(
+    modifyRecipe?.recipeType || "korean"
+  );
   // 요리 양
-  const [recipeServing, setRecipeServing] = useState("1");
+  const [recipeServing, setRecipeServing] = useState(
+    modifyRecipe?.recipeServing || "1"
+  );
   const MIN_VALUE = 1;
   const MAX_VALUE = 99;
   // 식재료
@@ -38,9 +43,13 @@ export default function RecipeForm() {
     amountType: "",
   });
   // 식재료 리스트
-  const [ingredientsList, setIngredientsList] = useState([]);
+  const [ingredientsList, setIngredientsList] = useState(
+    modifyRecipe?.ingredients || []
+  );
   // 요리 과정
-  const [processSteps, setProcessSteps] = useState([{ text: "" }]);
+  const [processSteps, setProcessSteps] = useState(
+    modifyRecipe?.process || [{ text: "" }]
+  );
 
   const handleFile = (file) => setFile(file);
 
@@ -112,16 +121,18 @@ export default function RecipeForm() {
     formData.append("process", JSON.stringify(processSteps));
     formData.append("ingredients", JSON.stringify(ingredientsList));
     formData.append("writer", user.userId);
-    formData.append(
-      "uploadRecipeImg",
-      file
-      //   imageUrl === user.profileImageURL ? imageUrl : file
-    );
+    formData.append("uploadRecipeImg", imageUrl && !file ? imageUrl : file);
 
     try {
-      const response = await POST("/recipes", formData);
-      alert(MESSAGE.RECIPE.COMPLETE);
-      navigate(`/recipes/${response._id}`);
+      if (!modifyRecipe) {
+        const response = await POST("/recipes", formData);
+        alert(MESSAGE.RECIPE.COMPLETE);
+        navigate(`/recipes/${response._id}`);
+      } else {
+        const response = await PATCH(`/recipes/${modifyRecipe._id}`, formData);
+        alert(MESSAGE.RECIPE.EDITFIN);
+        navigate(`/recipes/${response._id}`);
+      }
     } catch (error) {
       console.log("🚀 ~ onInfoModify ~ error:", error);
       alert(error.response.data.error);
@@ -135,6 +146,7 @@ export default function RecipeForm() {
           defaultImage={imageUrl}
           onChange={setImageUrl}
           handleFile={handleFile}
+          uploadImage={RECIPR_UPLOAD_IMG}
         />
         <Flex gap={"20"}>
           <ColGroup gap={"10"}>
@@ -242,7 +254,10 @@ export default function RecipeForm() {
           </Flex>
         </S.StepBox>
         <S.SubmitButton>
-          <Button type={"submit"} value={"레시피 등록"} />
+          <Button
+            type={"submit"}
+            value={modifyRecipe ? "레시피 수정" : "레시피 등록"}
+          />
         </S.SubmitButton>
       </S.RecipeFormWrap>
     </Form>

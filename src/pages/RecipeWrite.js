@@ -5,7 +5,7 @@ import { Flex, WidthBox } from "@/styles/common";
 export default function RecipeWrite() {
   return (
     <Flex gap={"30"} center>
-      <Title icon={"🔥🧾🥣"} title={"새 레시피"} />
+      <Title icon={"🔥🧾🥣"} title={"새 레시피"} type={"primary"} />
       <WidthBox width={"70"}>
         <Flex center>
           <RecipeForm />

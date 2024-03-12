@@ -48,6 +48,7 @@ export const Flex = styled.div`
 
 export const WidthBox = styled.div`
   width: ${(props) => (props.width ? props.width : 100)}%;
+  margin: 0 auto;
 `;
 
 export const LinkStyle = css`

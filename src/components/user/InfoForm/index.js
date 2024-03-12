@@ -12,6 +12,7 @@ import FormWrap from "../../common/FormWrap";
 import { PATCH } from "@/libs/api";
 import VALIDATE from "@/libs/constants/validate";
 import MESSAGE from "@/libs/constants/message";
+import { PROFILE_UPLOAD_IMG } from "@/libs/constants/defaultImages";
 
 export default function InfoForm() {
   const { user } = useSelector(selectAuth);
@@ -107,6 +108,7 @@ export default function InfoForm() {
           defaultImage={profileImageURL}
           onChange={setProfileImageURL}
           handleFile={handleFile}
+          uploadImage={PROFILE_UPLOAD_IMG}
         />
         <div>
           <Input

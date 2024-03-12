@@ -1,7 +1,12 @@
 import { useRef } from "react";
 
-import { useDispatch } from "react-redux";
-import { confirmed, logout } from "@/libs/store/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  confirmed,
+  logout,
+  selectAuth,
+  updateUser,
+} from "@/libs/store/authSlice";
 
 import { Flex } from "@/styles/common";
 import Button from "@/components/common/Button";
@@ -18,6 +23,7 @@ export const Mode = {
 };
 
 export default function ConfirmForm({ mode }) {
+  const { user } = useSelector(selectAuth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const passwordRef = useRef();
@@ -29,11 +35,18 @@ export default function ConfirmForm({ mode }) {
 
     try {
       if (mode === Mode.MODIFY) {
-        await POST("/confirm-password", {
+        const response = await POST("/confirm-password", {
           password: passwordRef.current.value,
         });
-
+        const { email, profileImageURL } = response.user;
         dispatch(confirmed());
+        dispatch(
+          updateUser({
+            ...user,
+            email,
+            profileImageURL,
+          })
+        );
       } else if (mode === Mode.LEAVE) {
         await DELETE("/myinfo", {
           password: passwordRef.current.value,

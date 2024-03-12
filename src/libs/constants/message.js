@@ -38,7 +38,7 @@ const MESSAGE = {
   },
   DELETE: {
     COMPLETE: "삭제가 완료되었습니다.",
-    USER: "회원 탈되가 완료되었습니다.",
+    USER: "회원 탈퇴가 완료되었습니다.",
   },
 };
 

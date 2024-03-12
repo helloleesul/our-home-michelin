@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import * as S from "./style";
 
-export default function ImageInput({ onChange, defaultImage, handleFile }) {
+export default function ImageInput({
+  onChange,
+  defaultImage,
+  handleFile,
+  uploadImage,
+}) {
   const [imageUrl, setImageUrl] = useState(defaultImage);
 
   useEffect(() => {
@@ -48,7 +53,7 @@ export default function ImageInput({ onChange, defaultImage, handleFile }) {
             onChange={handleImageChange}
           />
           <img
-            src="/android-chrome-512x512.png"
+            src={uploadImage}
             alt="Default"
             style={{ width: "100%", height: "100%" }}
           />
@@ -58,9 +63,9 @@ export default function ImageInput({ onChange, defaultImage, handleFile }) {
       {imageUrl && (
         <>
           <img
-            src={imageUrl || "/android-chrome-512x512.png"}
+            src={imageUrl}
             onError={(e) => {
-              e.target.src = "/android-chrome-512x512.png";
+              e.target.src = uploadImage;
               setImageUrl("");
             }}
             alt="profileImage"

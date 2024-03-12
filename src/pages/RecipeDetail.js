@@ -4,6 +4,7 @@ import { GET } from "@/libs/api";
 import { useEffect, useState } from "react";
 import RecipeSideNav from "@/components/recipe/RecipeSideNav";
 import RecipeInfo from "@/components/recipe/RecipeInfo";
+import { WidthBox } from "@/styles/common";
 
 export default function RecipeDetail() {
   const { detail } = useParams();
@@ -26,13 +27,13 @@ export default function RecipeDetail() {
 
   return (
     recipe && (
-      <Split
-        left={<RecipeInfo {...recipe} />}
-        right={
-          <RecipeSideNav imageUrl={recipe.imageUrl} writer={recipe.writer} />
-        }
-        size={[4, 2]}
-      />
+      <WidthBox width={"80"}>
+        <Split
+          left={<RecipeInfo {...recipe} />}
+          right={<RecipeSideNav {...recipe} />}
+          size={[4, 2]}
+        />
+      </WidthBox>
     )
   );
 }
