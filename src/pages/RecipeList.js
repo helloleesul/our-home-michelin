@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import RecipesWrap from "@/components/recipe/RecipesWrap";
 import Title from "@/components/common/Title";
-import Split from "@/components/layout/Split";
 import { GET } from "@/libs/api";
 import { Flex, WidthBox } from "@/styles/common";
 import RadioInput from "@/components/common/RadioInput";
 import { RECIPE_TYPE_LIST } from "@/libs/constants/listItems";
+import { useSearchParams } from "react-router-dom";
 
 const ALL_RECIPE_TYPE_LIST = [
   { label: "전체", value: "all" },
@@ -13,14 +13,15 @@ const ALL_RECIPE_TYPE_LIST = [
 ];
 
 export default function RecipeList() {
+  const [search, setSearch] = useSearchParams();
+  const type = search.get("type");
   const [recipes, setRecipes] = useState([]);
-  const [recipeType, setRecipeType] = useState("all");
 
   useEffect(() => {
     const getRecipes = async () => {
       try {
         const response = await GET(
-          recipeType !== "all" ? `/recipes?type=${recipeType}` : "/recipes"
+          type && type !== "all" ? `/recipes?type=${type}` : "/recipes"
         );
         setRecipes(response);
       } catch (error) {
@@ -28,7 +29,7 @@ export default function RecipeList() {
       }
     };
     getRecipes();
-  }, [recipeType]);
+  }, [type]);
 
   return (
     <WidthBox width={"80"}>
@@ -40,11 +41,13 @@ export default function RecipeList() {
           type={"basic"}
         />
         <RadioInput
-          onChange={setRecipeType}
-          defaultSelected={recipeType}
+          onChange={(v) => {
+            setSearch({ type: v });
+          }}
+          defaultSelected={type}
           options={ALL_RECIPE_TYPE_LIST}
         />
-        <RecipesWrap recipes={recipes} col={4} />
+        {recipes && <RecipesWrap recipes={recipes} col={4} />}
       </Flex>
     </WidthBox>
   );

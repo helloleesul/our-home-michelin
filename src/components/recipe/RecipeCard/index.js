@@ -2,7 +2,6 @@ import { RECIPE_TYPE_DEFAULT_IMG } from "@/libs/constants/defaultImages";
 import { Link } from "react-router-dom";
 
 export default function RecipeCard(props) {
-  console.log(props);
   const { _id, imageUrl, title, recipeType } = props;
 
   return (
