@@ -14,6 +14,8 @@ import VALIDATE from "@/libs/constants/validate";
 import MESSAGE from "@/libs/constants/message";
 import { PROFILE_UPLOAD_IMG } from "@/libs/constants/defaultImages";
 
+import * as S from "./style";
+
 export default function InfoForm() {
   const { user } = useSelector(selectAuth);
   const dispatch = useDispatch();
@@ -104,12 +106,14 @@ export default function InfoForm() {
   return (
     <FormWrap onSubmit={onInfoModify}>
       <Flex gap={"20"}>
-        <ImageInput
-          defaultImage={profileImageURL}
-          onChange={setProfileImageURL}
-          handleFile={handleFile}
-          uploadImage={PROFILE_UPLOAD_IMG}
-        />
+        <S.ProfileImage>
+          <ImageInput
+            defaultImage={profileImageURL}
+            onChange={setProfileImageURL}
+            handleFile={handleFile}
+            uploadImage={PROFILE_UPLOAD_IMG}
+          />
+        </S.ProfileImage>
         <div>
           <Input
             id={"email"}

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import * as S from "./style";
+import Button from "../Button";
 
 export default function ImageInput({
   onChange,
@@ -33,30 +34,17 @@ export default function ImageInput({
   };
 
   return (
-    <S.ImageWrap>
+    <S.ImageWrap className="imageWrap">
       {/* 이미지 업로드 */}
       {!imageUrl && (
         <>
           <input
-            style={{
-              opacity: 0,
-              position: "absolute",
-              width: "100%",
-              height: "100%",
-              cursor: "pointer",
-              left: 0,
-              top: 0,
-            }}
             id="file-upload"
             type="file"
             accept="image/*"
             onChange={handleImageChange}
           />
-          <img
-            src={uploadImage}
-            alt="Default"
-            style={{ width: "100%", height: "100%" }}
-          />
+          <img src={uploadImage} alt="upload" />
         </>
       )}
       {/* 이미지 미리보기 */}
@@ -68,20 +56,14 @@ export default function ImageInput({
               e.target.src = uploadImage;
               setImageUrl("");
             }}
-            alt="profileImage"
-            style={{
-              height: "100%",
-              width: "100%",
-              objectFit: "contain",
-            }}
+            alt="preview"
           />
-          <button
-            type="button"
+          <Button
+            width={"30"}
+            type={"button"}
             onClick={handleImageReset}
-            style={{ position: "absolute", top: 0, right: 0 }}
-          >
-            X
-          </button>
+            value={"✕"}
+          />
         </>
       )}
     </S.ImageWrap>

@@ -7,6 +7,8 @@ export const RecipeFormWrap = styled.div`
   display: grid;
   grid-template-columns: 300px auto;
   gap: 20px;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const ImageBox = styled(ImageInput)``;
