@@ -16,19 +16,19 @@ export default function RecipeList() {
   const [recipes, setRecipes] = useState([]);
   const [recipeType, setRecipeType] = useState("all");
 
-  const getRecipes = async () => {
-    try {
-      const response = await GET("/recipes");
-      console.log(response);
-      setRecipes(response);
-    } catch (error) {
-      console.log("🚀 ~ getRecipes ~ error:", error);
-    }
-  };
-
   useEffect(() => {
+    const getRecipes = async () => {
+      try {
+        const response = await GET(
+          recipeType !== "all" ? `/recipes?type=${recipeType}` : "/recipes"
+        );
+        setRecipes(response);
+      } catch (error) {
+        console.log("🚀 ~ getRecipes ~ error:", error);
+      }
+    };
     getRecipes();
-  }, []);
+  }, [recipeType]);
 
   return (
     <WidthBox width={"80"}>
