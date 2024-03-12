@@ -17,6 +17,8 @@ import { PATCH, POST } from "@/libs/api";
 import MESSAGE from "@/libs/constants/message";
 import { useNavigate } from "react-router-dom";
 import { RECIPR_UPLOAD_IMG } from "@/libs/constants/defaultImages";
+import Title from "@/components/common/Title";
+import ImageInput from "@/components/common/ImageInput";
 
 export default function RecipeForm({ modifyRecipe }) {
   const navigate = useNavigate();
@@ -140,20 +142,42 @@ export default function RecipeForm({ modifyRecipe }) {
   };
 
   return (
-    <Form onSubmit={onRecipeSubmit}>
-      <S.RecipeFormWrap>
-        <S.ImageBox
-          defaultImage={imageUrl}
-          onChange={setImageUrl}
-          handleFile={handleFile}
-          uploadImage={RECIPR_UPLOAD_IMG}
+    <form onSubmit={onRecipeSubmit}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          marginBottom: 20,
+        }}
+      >
+        <Title
+          icon={"🔥🧾🥣"}
+          title={modifyRecipe ? "레시피 수정" : "새 레시피"}
+          type={"primary"}
+          position={"left"}
         />
+        <Button
+          width={"200"}
+          type={"submit"}
+          value={modifyRecipe ? "수정" : "등록"}
+        />
+      </div>
+      <S.RecipeFormWrap>
+        <S.ImageBox>
+          <ImageInput
+            defaultImage={imageUrl}
+            onChange={setImageUrl}
+            handleFile={handleFile}
+            uploadImage={RECIPR_UPLOAD_IMG}
+          />
+        </S.ImageBox>
         <Flex gap={"20"}>
           <ColGroup gap={"10"}>
             <Input
               id={"title"}
               label={"레시피"}
-              placeholder={"예) 한끼든든 소고기 미역국 "}
+              placeholder={"예) 한끼든든 소고기 미역국"}
               onChange={handleTitle}
               value={title}
             />
@@ -253,13 +277,7 @@ export default function RecipeForm({ modifyRecipe }) {
             />
           </Flex>
         </S.StepBox>
-        <S.SubmitButton>
-          <Button
-            type={"submit"}
-            value={modifyRecipe ? "레시피 수정" : "레시피 등록"}
-          />
-        </S.SubmitButton>
       </S.RecipeFormWrap>
-    </Form>
+    </form>
   );
 }

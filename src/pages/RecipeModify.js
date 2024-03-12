@@ -28,11 +28,8 @@ export default function RecipeModify() {
   }, [navigate, recipeId]);
 
   return (
-    <Flex gap={"30"} center>
-      <Title icon={"🔥🧾🥣"} title={"레시피 수정"} type={"primary"} />
-      <WidthBox width={"70"}>
-        <Flex center>{recipe && <RecipeForm modifyRecipe={recipe} />}</Flex>
-      </WidthBox>
-    </Flex>
+    <WidthBox width={"80"}>
+      {recipe && <RecipeForm modifyRecipe={recipe} />}
+    </WidthBox>
   );
 }

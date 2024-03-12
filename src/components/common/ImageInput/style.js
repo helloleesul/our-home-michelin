@@ -1,8 +1,6 @@
 import styled from "@emotion/styled";
 
 export const ImageWrap = styled.div`
-  width: 300px;
-  height: 300px;
   margin: 0 auto;
   position: relative;
   input {
