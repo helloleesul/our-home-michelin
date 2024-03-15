@@ -6,10 +6,13 @@ import Nav from "@/components/layout/Nav";
 import FridgeButton from "@/components/fridge/FridgeButton";
 import Fridge from "@/components/fridge/Fridge";
 
-import { useModal } from "@/libs/hooks/useModal";
+import useModals from "./libs/hooks/useModals";
 
-export default function App(props) {
-  const { isOpen, openModal, closeModal } = useModal();
+export default function App() {
+  const { openModal } = useModals();
+  const handleOnclick = () => {
+    openModal(Fridge, { title: "내 냉장고" });
+  };
 
   return (
     <Layout>
@@ -20,8 +23,7 @@ export default function App(props) {
           <Outlet />
         </Container>
       </main>
-      <FridgeButton onClick={openModal} />
-      {isOpen && <Fridge onClose={closeModal} />}
+      <FridgeButton onClick={handleOnclick} />
       <Footer />
     </Layout>
   );

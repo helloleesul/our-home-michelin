@@ -66,4 +66,22 @@ export const resetStyles = css`
       cursor: pointer;
     }
   }
+
+  .ModalOverlay {
+    position: fixed;
+    inset: 0px;
+    background-color: rgba(255, 255, 255, 0.75);
+    z-index: 1;
+  }
+  .ModalContent {
+    position: absolute;
+    inset: 40px;
+    border: 1px solid rgb(204, 204, 204);
+    background: rgb(255, 255, 255);
+    overflow: auto;
+    border-radius: 4px;
+    outline: none;
+    padding: 20px;
+    border: 1px solid ${theme.PALETTE.mainColor};
+  }
 `;
