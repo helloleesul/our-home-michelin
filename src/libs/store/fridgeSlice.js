@@ -6,13 +6,16 @@ export const fridgeSlice = createSlice({
     ingredients: [],
   },
   reducers: {
-    updateIngredients: (state, action) => {
+    fetchIngredients: (state, action) => {
       state.ingredients = action.payload;
+    },
+    removeIngredients: (state) => {
+      state.ingredients = [];
     },
   },
 });
 
-export const { updateIngredients } = fridgeSlice.actions;
+export const { fetchIngredients, removeIngredients } = fridgeSlice.actions;
 
 export const selectFridge = (state) => state.fridge;
 

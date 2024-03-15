@@ -3,9 +3,8 @@ import * as S from "./style";
 import { ButtonLink, LinkStyle } from "@/styles/common";
 
 import { useDispatch, useSelector } from "react-redux";
-import { logout, selectAuth } from "@/libs/store/authSlice";
+import { asyncLogout, selectAuth } from "@/libs/store/authSlice";
 import { useNavigate } from "react-router-dom";
-import { POST } from "@/libs/api";
 
 export default function Header() {
   const dispatch = useDispatch();
@@ -13,13 +12,8 @@ export default function Header() {
   const navigate = useNavigate();
 
   const onLogout = async () => {
-    try {
-      await POST("/logout", {});
-      dispatch(logout());
-      navigate("/");
-    } catch (error) {
-      console.log("🚀 ~ onLogout ~ error:", error);
-    }
+    dispatch(asyncLogout());
+    navigate("/");
   };
 
   return (

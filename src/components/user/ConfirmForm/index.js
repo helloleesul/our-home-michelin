@@ -1,12 +1,7 @@
 import { useRef } from "react";
 
-import { useDispatch, useSelector } from "react-redux";
-import {
-  confirmed,
-  logout,
-  selectAuth,
-  updateUser,
-} from "@/libs/store/authSlice";
+import { useDispatch } from "react-redux";
+import { asyncLogout } from "@/libs/store/authSlice";
 
 import { Flex } from "@/styles/common";
 import Button from "@/components/common/Button";
@@ -22,8 +17,7 @@ export const Mode = {
   LEAVE: "leave",
 };
 
-export default function ConfirmForm({ mode }) {
-  const { user } = useSelector(selectAuth);
+export default function ConfirmForm({ mode, onResult }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const passwordRef = useRef();
@@ -38,21 +32,14 @@ export default function ConfirmForm({ mode }) {
         const response = await POST("/confirm-password", {
           password: passwordRef.current.value,
         });
-        const { email, profileImageURL } = response.user;
-        dispatch(confirmed());
-        dispatch(
-          updateUser({
-            ...user,
-            email,
-            profileImageURL,
-          })
-        );
+        alert(response.message);
+        onResult(response.confirm);
       } else if (mode === Mode.LEAVE) {
         await DELETE("/myinfo", {
           password: passwordRef.current.value,
         });
         alert(MESSAGE.DELETE.USER);
-        dispatch(logout());
+        dispatch(asyncLogout());
         navigate("/");
       }
     } catch (error) {

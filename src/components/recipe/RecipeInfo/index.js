@@ -72,7 +72,7 @@ export default function RecipeInfo(props) {
             day: "numeric",
           })}
         </span>
-        {writer._id === user?.userId && (
+        {writer?._id === user?.userId && (
           <div>
             <Link to={"/recipes/modify"} state={_id}>
               수정

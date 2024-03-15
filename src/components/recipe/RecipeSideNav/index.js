@@ -26,14 +26,14 @@ export default function RecipeSideNav(props) {
       <S.WriterBox>
         <S.ProfileImg>
           <img
-            src={writer.profileImageURL || PROFILE_DEFAULT_IMG}
+            src={writer?.profileImageURL || PROFILE_DEFAULT_IMG}
             onError={(e) => {
               e.target.src = PROFILE_DEFAULT_IMG;
             }}
-            alt={writer.nickName}
+            alt={writer?.nickName}
           />
         </S.ProfileImg>
-        <span>{writer.nickName}</span>
+        <span>{writer?.nickName}</span>
       </S.WriterBox>
     </S.Wrap>
   );

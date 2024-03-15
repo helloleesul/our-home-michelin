@@ -2,17 +2,12 @@ import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useDispatch } from "react-redux";
-import { login } from "@/libs/store/authSlice";
-import { updateIngredients } from "@/libs/store/fridgeSlice";
+import { asyncLogin } from "@/libs/store/authSlice";
 
 import { Flex } from "@/styles/common";
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import FormWrap from "@/components/common/FormWrap";
-
-import { POST } from "@/libs/api";
-import STATUS_CODE from "@/libs/constants/statusCode";
-import MESSAGE from "@/libs/constants/message";
 
 export default function LoginForm() {
   const dispatch = useDispatch();
@@ -32,26 +27,13 @@ export default function LoginForm() {
       return;
     }
 
-    try {
-      const response = await POST("/login", {
+    dispatch(
+      asyncLogin({
         email: emailRef.current.value,
         password: passwordRef.current.value,
-      });
-
-      console.log("🚀 ~ onLogin ~ response:", response);
-
-      if (!response.status === STATUS_CODE.OK) {
-        throw new Error(MESSAGE.LOGIN.FAILURE);
-      }
-
-      dispatch(login(response.user));
-      dispatch(updateIngredients(response.fridge));
-
-      navigate("/");
-    } catch (error) {
-      console.log("🚀 ~ onLogin ~ error:", error);
-      alert(error.response.data.error);
-    }
+      })
+    );
+    navigate("/");
   };
 
   return (
