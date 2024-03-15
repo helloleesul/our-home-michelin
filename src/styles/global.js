@@ -16,6 +16,21 @@ export const resetStyles = css`
     color: ${theme.PALETTE.black};
   }
 
+  body {
+    &::-webkit-scrollbar {
+      width: 10px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: ${theme.PALETTE.primary[100]};
+      // background-clip: padding-box;
+      // border: 2px solid transparent;
+    }
+    &::-webkit-scrollbar-track {
+      border-left: 1px solid ${theme.PALETTE.primary[100]};
+      background-color: ${theme.PALETTE.white};
+    }
+  }
+
   body,
   input,
   textarea,
