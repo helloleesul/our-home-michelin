@@ -3,6 +3,7 @@ import useModals from "@/libs/hooks/useModals";
 import { useContext } from "react";
 import ReactDOM from "react-dom";
 import ReactModal from "react-modal";
+import * as S from "./style";
 
 export default function Modals() {
   const openedModals = useContext(ModalsStateContext);
@@ -20,14 +21,18 @@ export default function Modals() {
           <ReactModal
             className="ModalContent"
             overlayClassName="ModalOverlay"
+            style={{ content: { width: `${props.size}%` } }}
+            onAfterClose={props.onAfterClose}
             key={index}
             isOpen={isOpen}
           >
-            <div>
+            <S.Header>
               {props.title}
               <button onClick={onClose}>닫기</button>
-            </div>
-            <Component {...props} />
+            </S.Header>
+            <S.Content>
+              <Component {...props} />
+            </S.Content>
           </ReactModal>
         );
       })}

@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { Container, Layout } from "@/styles/common";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -7,11 +7,22 @@ import FridgeButton from "@/components/fridge/FridgeButton";
 import Fridge from "@/components/fridge/Fridge";
 
 import useModals from "./libs/hooks/useModals";
+import { selectAuth } from "./libs/store/authSlice";
+import { useSelector } from "react-redux";
+import Alert from "./components/common/Alert";
+import { ONLY_USER } from "./libs/constants/alertData";
 
 export default function App() {
+  const { isAuthenticated } = useSelector(selectAuth);
   const { openModal } = useModals();
+  const navigate = useNavigate();
   const handleOnclick = () => {
-    openModal(Fridge, { title: "내 냉장고" });
+    isAuthenticated
+      ? openModal(Fridge, { title: "내 냉장고", size: 50 })
+      : openModal(Alert, {
+          ...ONLY_USER,
+          onAfterClose: () => navigate("/login"),
+        });
   };
 
   return (

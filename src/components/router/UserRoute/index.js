@@ -2,18 +2,23 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectAuth } from "@/libs/store/authSlice";
 import { useEffect } from "react";
-import MESSAGE from "@/libs/constants/message";
+import useModals from "@/libs/hooks/useModals";
+import Alert from "@/components/common/Alert";
+import { ONLY_USER } from "@/libs/constants/alertData";
 
 export default function UserRoute() {
   const { isAuthenticated } = useSelector(selectAuth);
+  const { openModal } = useModals();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!isAuthenticated) {
-      alert(MESSAGE.LOGIN.REQUIRED);
-      navigate("/login");
+      openModal(Alert, {
+        ...ONLY_USER,
+        onAfterClose: () => navigate("/login"),
+      });
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, navigate, openModal]);
 
   if (isAuthenticated) {
     return <Outlet />;

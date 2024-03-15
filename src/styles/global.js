@@ -16,7 +16,7 @@ export const resetStyles = css`
     color: ${theme.PALETTE.black};
   }
 
-  body {
+  * {
     &::-webkit-scrollbar {
       width: 10px;
     }
@@ -75,13 +75,14 @@ export const resetStyles = css`
   }
   .ModalContent {
     position: absolute;
-    inset: 40px;
     border: 1px solid rgb(204, 204, 204);
     background: rgb(255, 255, 255);
     overflow: auto;
     border-radius: 4px;
     outline: none;
-    padding: 20px;
     border: 1px solid ${theme.PALETTE.mainColor};
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
   }
 `;

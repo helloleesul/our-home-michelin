@@ -14,8 +14,8 @@ export default function Fridge() {
 
   return (
     <div>
-      <S.Header></S.Header>
-      <S.Content></S.Content>
+      {/* <S.Header></S.Header> */}
+      {/* <S.Content></S.Content> */}
     </div>
   );
 }
