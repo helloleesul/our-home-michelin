@@ -4,6 +4,7 @@ import { useContext } from "react";
 import ReactDOM from "react-dom";
 import ReactModal from "react-modal";
 import * as S from "./style";
+import Button from "../Button";
 
 export default function Modals() {
   const openedModals = useContext(ModalsStateContext);
@@ -28,7 +29,12 @@ export default function Modals() {
           >
             <S.Header>
               {props.title}
-              <button onClick={onClose}>닫기</button>
+              <Button
+                type={"button"}
+                onClick={onClose}
+                value={"✕"}
+                width={"30"}
+              />
             </S.Header>
             <S.Content>
               <Component {...props} />

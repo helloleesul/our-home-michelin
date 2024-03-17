@@ -18,11 +18,5 @@ export default function FavoriteRecipes() {
     getRecipes();
   }, []);
 
-  return (
-    recipes && (
-      <>
-        <RecipesWrap recipes={recipes} />
-      </>
-    )
-  );
+  return recipes && <RecipesWrap recipes={recipes} />;
 }

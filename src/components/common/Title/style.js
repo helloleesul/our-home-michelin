@@ -13,13 +13,13 @@ export const Group = styled.div`
 export const Header = styled.h2`
   font-weight: 800;
   ${({ type }) => type && TYPE[type]};
-  padding: 2px ${theme.FONT_SIZE.es};
 `;
 
 const TYPE = {
   primary: css`
     background-color: ${theme.PALETTE.mainColor};
     color: ${theme.PALETTE.white};
+    padding: 2px ${theme.FONT_SIZE.es};
   `,
   basic: css`
     background-color: none;

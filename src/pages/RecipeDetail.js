@@ -17,6 +17,7 @@ export default function RecipeDetail() {
         setRecipe(response);
         console.log(response);
       } catch (error) {
+        // 없는 레시피일 때 처리해야 함
         console.log("🚀 ~ getRecipe ~ error:", error);
       }
     };

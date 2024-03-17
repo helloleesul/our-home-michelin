@@ -78,7 +78,6 @@ export const resetStyles = css`
     border: 1px solid rgb(204, 204, 204);
     background: rgb(255, 255, 255);
     overflow: auto;
-    border-radius: 4px;
     outline: none;
     border: 1px solid ${theme.PALETTE.mainColor};
     left: 50%;

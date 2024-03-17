@@ -16,12 +16,16 @@ export default function RecipeSideNav(props) {
           onError={(e) => {
             e.target.src = RECIPE_TYPE_DEFAULT_IMG[recipeType];
           }}
+          style={{
+            // height: "200px",
+            width: "100%",
+            objectFit: "cover",
+          }}
           alt={title}
           width={300}
           height={300}
         />
-        <Title title={title} position={"center"} type={"basic"} />
-        <p>종류: {recipeType}</p>
+        <Title title={title} position={"left"} type={"basic"} />
       </div>
       <S.WriterBox>
         <S.ProfileImg>

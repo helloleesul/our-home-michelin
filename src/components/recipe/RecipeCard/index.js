@@ -6,13 +6,21 @@ export default function RecipeCard(props) {
 
   return (
     <div>
-      <Link to={`/recipes/${_id}`} style={{ background: "red" }}>
+      <Link
+        to={`/recipes/${_id}`}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          height: "100%",
+        }}
+      >
         <img
           src={imageUrl || RECIPE_TYPE_DEFAULT_IMG[recipeType]}
           onError={(e) => {
             e.target.src = RECIPE_TYPE_DEFAULT_IMG[recipeType];
           }}
-          style={{ height: "100%", width: "100%", objectFit: "cover" }}
+          style={{ height: "200px", width: "100%", objectFit: "cover" }}
           alt=""
         />
         <p>{title}</p>
