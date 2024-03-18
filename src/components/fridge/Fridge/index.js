@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import INGREDIENT_DATA from "@/libs/constants/ingredientData";
 import { ingredientsPost, selectFridge } from "@/libs/store/fridgeSlice";
 
@@ -11,9 +11,9 @@ export default function Fridge() {
   const [editMode, setEditMode] = useState(false);
   const [selectedIngredients, setSelectedIngredients] = useState([]);
 
-  const ingredientsNames = () => {
+  const ingredientsNames = useCallback(() => {
     return ingredients.map((item) => item.name);
-  };
+  }, [ingredients]);
 
   const handleCheckboxChange = (e, ingredient) => {
     const isChecked = e.target.checked;
@@ -70,7 +70,7 @@ export default function Fridge() {
         onClick={() => {
           const data = selectedIngredients.map((prev) => ({
             ...prev,
-            bestBefore: new Date(),
+            bestBefore: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
           }));
           dispatch(ingredientsPost({ ingredients: data }));
         }}
