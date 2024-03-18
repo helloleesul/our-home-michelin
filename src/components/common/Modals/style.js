@@ -8,10 +8,11 @@ export const Header = styled.header`
   justify-content: space-between;
   background-color: ${theme.PALETTE.white};
   border-bottom: 1px solid ${theme.PALETTE.mainColor};
+  color: ${theme.PALETTE.mainColor};
+  font-weight: 500;
 `;
 
 export const Content = styled.div`
-  padding: 10px;
   max-height: 75dvh;
-  overflow-y: scroll;
+  overflow-y: auto;
 `;
