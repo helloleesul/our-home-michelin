@@ -1,4 +1,4 @@
-const ingredients = {
+const INGREDIENT_DATA = {
   육류: [
     { name: "닭", imgUrl: "🐓" },
     { name: "칠면조", imgUrl: "🦃" },
@@ -94,15 +94,15 @@ const ingredients = {
   ],
 };
 
-const INGREDIENT_DATA = Object.keys(ingredients).map((type) => {
-  return {
-    type,
-    ingredient: ingredients[type].map((ingreValue) => ({
-      name: ingreValue.name,
-      imgUrl: ingreValue.imgUrl,
-      selected: false,
-    })),
-  };
-});
+// const INGREDIENT_DATA = Object.keys(ingredients).map((type) => {
+//   return {
+//     type,
+//     ingredient: ingredients[type].map((ingreValue) => ({
+//       name: ingreValue.name,
+//       imgUrl: ingreValue.imgUrl,
+//       selected: false,
+//     })),
+//   };
+// });
 
 export default INGREDIENT_DATA;

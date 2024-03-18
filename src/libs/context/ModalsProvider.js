@@ -6,6 +6,7 @@ const ModalsProvider = ({ children }) => {
   const [openedModals, setOpenedModals] = useState([]);
 
   const open = (Component, props) => {
+    document.body.style.overflow = "hidden";
     setOpenedModals((prevModal) => {
       return [
         ...prevModal,
@@ -19,6 +20,7 @@ const ModalsProvider = ({ children }) => {
   };
 
   const close = (Component) => {
+    document.body.style.overflow = "auto";
     setOpenedModals((prevModals) => {
       return prevModals.filter((v) => v.Component !== Component);
     });

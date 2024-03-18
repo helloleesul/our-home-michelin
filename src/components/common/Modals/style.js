@@ -13,4 +13,5 @@ export const Header = styled.header`
 export const Content = styled.div`
   padding: 10px;
   max-height: 75dvh;
+  overflow-y: scroll;
 `;
