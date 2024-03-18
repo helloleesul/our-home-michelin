@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { ModalsDispatchContext, ModalsStateContext } from "./ModalsContext";
-import Modals from "@/components/common/Modals";
+import Modals from "@/components/modal/Modals";
 
 const ModalsProvider = ({ children }) => {
   const [openedModals, setOpenedModals] = useState([]);

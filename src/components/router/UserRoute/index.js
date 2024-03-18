@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { selectAuth } from "@/libs/store/authSlice";
 import { useEffect } from "react";
 import useModals from "@/libs/hooks/useModals";
-import Alert from "@/components/common/Alert";
+import Alert from "@/components/modal/Alert";
 import { ONLY_USER } from "@/libs/constants/alertData";
 
 export default function UserRoute() {

@@ -9,7 +9,7 @@ import Fridge from "@/components/fridge/Fridge";
 import useModals from "./libs/hooks/useModals";
 import { selectAuth } from "./libs/store/authSlice";
 import { useSelector } from "react-redux";
-import Alert from "./components/common/Alert";
+import Alert from "./components/modal/Alert";
 import { ONLY_USER } from "./libs/constants/alertData";
 
 export default function App() {

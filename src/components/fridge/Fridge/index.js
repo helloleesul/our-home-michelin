@@ -1,14 +1,21 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback, useState } from "react";
 import INGREDIENT_DATA from "@/libs/constants/ingredientData";
-import { newIngredients, selectFridge } from "@/libs/store/fridgeSlice";
+import {
+  deleteAllIngredients,
+  newIngredients,
+  selectFridge,
+} from "@/libs/store/fridgeSlice";
 
 import * as S from "./style";
 import { dateToShortString } from "@/libs/utils";
 import Button from "@/components/common/Button";
+import useModals from "@/libs/hooks/useModals";
+import Confirm from "@/components/modal/Confirm";
 
 export default function Fridge() {
   const dispatch = useDispatch();
+  const { openModal } = useModals();
   const { ingredients } = useSelector(selectFridge);
   const [editMode, setEditMode] = useState(false);
   const [selectedIngredients, setSelectedIngredients] = useState([]);
@@ -36,7 +43,19 @@ export default function Fridge() {
       ) : (
         <>
           <S.FridgeGroup>
-            <Button type={"button"} value={"전체삭제"} width={"auto"} />
+            <Button
+              onClick={() => {
+                openModal(Confirm, {
+                  title: "삭제 안내",
+                  size: 30,
+                  message: "정말로 삭제?",
+                  onClick: () => dispatch(deleteAllIngredients()),
+                });
+              }}
+              type={"button"}
+              value={"전체삭제"}
+              width={"auto"}
+            />
             <S.Fridge>
               {ingredients.map((item) => (
                 <S.FridgeItem key={item._id}>
