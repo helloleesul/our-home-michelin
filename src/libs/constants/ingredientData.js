@@ -94,15 +94,4 @@ const INGREDIENT_DATA = {
   ],
 };
 
-// const INGREDIENT_DATA = Object.keys(ingredients).map((type) => {
-//   return {
-//     type,
-//     ingredient: ingredients[type].map((ingreValue) => ({
-//       name: ingreValue.name,
-//       imgUrl: ingreValue.imgUrl,
-//       selected: false,
-//     })),
-//   };
-// });
-
 export default INGREDIENT_DATA;

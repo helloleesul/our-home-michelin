@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { POST } from "../api";
-import { asyncFridge, resetIngredients } from "./fridgeSlice";
+import { fetchFridge, resetIngredients } from "./fridgeSlice";
 
 export const asyncLogin = createAsyncThunk(
   "auth/asyncLogin",
@@ -8,7 +8,7 @@ export const asyncLogin = createAsyncThunk(
     try {
       const response = await POST("/login", data);
       const { user } = response;
-      dispatch(asyncFridge());
+      dispatch(fetchFridge());
       return user;
     } catch (error) {
       throw error.response.data.error;
