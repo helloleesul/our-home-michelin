@@ -3,6 +3,7 @@ import { useCallback, useState } from "react";
 import INGREDIENT_DATA from "@/libs/constants/ingredientData";
 import {
   deleteAllIngredients,
+  deleteIngredients,
   newIngredients,
   selectFridge,
 } from "@/libs/store/fridgeSlice";
@@ -59,7 +60,12 @@ export default function Fridge() {
             <S.Fridge>
               {ingredients.map((item) => (
                 <S.FridgeItem key={item._id}>
-                  <button className="delete">✕</button>
+                  <button
+                    className="delete"
+                    onClick={() => dispatch(deleteIngredients(item._id))}
+                  >
+                    ✕
+                  </button>
                   <span className="img">{item.imgUrl}</span>
                   <p className="name">{item.name}</p>
                   <S.Date>
