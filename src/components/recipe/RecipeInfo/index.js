@@ -7,6 +7,7 @@ import { RECIPE_TYPE_LIST } from "@/libs/constants/listItems";
 import { DELETE, POST } from "@/libs/api";
 import { useState } from "react";
 import MESSAGE from "@/libs/constants/message";
+import { dateToLongString } from "@/libs/utils";
 
 export default function RecipeInfo(props) {
   const {
@@ -64,14 +65,7 @@ export default function RecipeInfo(props) {
         <S.Type>{type.label}</S.Type>
       </S.TitleBox>
       <S.SubTitleBox>
-        <span>
-          {new Date(createdDate).toLocaleDateString("ko-kr", {
-            weekday: "long",
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })}
-        </span>
+        <span>{dateToLongString(createdDate)}</span>
         {writer?._id === user?.userId && (
           <div>
             <Link to={"/recipes/modify"} state={_id}>
