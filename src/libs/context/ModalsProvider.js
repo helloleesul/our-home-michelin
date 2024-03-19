@@ -1,12 +1,17 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ModalsDispatchContext, ModalsStateContext } from "./ModalsContext";
 import Modals from "@/components/modal/Modals";
 
 const ModalsProvider = ({ children }) => {
   const [openedModals, setOpenedModals] = useState([]);
 
+  useEffect(() => {
+    if (!openedModals.length) {
+      document.body.style.overflow = "auto";
+    } else document.body.style.overflow = "hidden";
+  }, [openedModals]);
+
   const open = (Component, props) => {
-    document.body.style.overflow = "hidden";
     setOpenedModals((prevModal) => {
       return [
         ...prevModal,
@@ -20,7 +25,6 @@ const ModalsProvider = ({ children }) => {
   };
 
   const close = (Component) => {
-    document.body.style.overflow = "auto";
     setOpenedModals((prevModals) => {
       return prevModals.filter((v) => v.Component !== Component);
     });
