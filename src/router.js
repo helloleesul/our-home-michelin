@@ -1,32 +1,48 @@
 import { Navigate, createBrowserRouter } from "react-router-dom";
 
 import App from "./App";
-import Home from "@/pages/Home";
-import Login from "@/pages/Login";
-import Join from "@/pages/Join";
-import RecipeList from "@/pages/RecipeList";
-import RecipeDetail from "@/pages/RecipeDetail";
-import RecipeWrite from "@/pages/RecipeWrite";
-import RecipeModify from "@/pages/RecipeModify";
-import MyRecipes from "@/pages/MyRecipes";
-import FavoriteRecipes from "@/pages/FavoriteRecipes";
-import Info from "@/pages/Info";
-import Leave from "@/pages/Leave";
-import NotFound from "@/pages/NotFound";
+import { Home } from "./pages/Home";
+import Login from "./pages/Login";
+import Join from "./pages/Join";
+import RecipeList from "./pages/RecipeList";
+import RecipeDetail from "./pages/RecipeDetail";
+import RecipeWrite from "./pages/RecipeWrite";
+import RecipeModify from "./pages/RecipeModify";
+import MyRecipes from "./pages/MyRecipes";
+import FavoriteRecipes from "./pages/FavoriteRecipes";
+import Info from "./pages/Info";
+import Leave from "./pages/Leave";
+import NotFound from "./pages/NotFound";
 
-import UserRoute from "@/components/router/UserRoute";
-import GuestRoute from "@/components/router/GuestRoute";
+import UserRoute from "./components/router/UserRoute";
+import GuestRoute from "./components/router/GuestRoute";
 
-import Kitchen from "@/components/layout/Kitchen";
+import Kitchen from "./components/layout/Kitchen";
+import { GET } from "./libs/api";
+import { lazy } from "react";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    // Component: lazy(() => import("./App")),
+
+    // async lazy() {
+    //   let { App } = await import("./App");
+    //   return { Component: App };
+    // },
     children: [
       {
         index: true,
-        element: <Home />,
+        async loader() {
+          const masterChiefResponse = await GET("/master-chief");
+          const popularRecipesResponse = await GET(
+            "/recipes?sort=popular&limit=10"
+          );
+          return { masterChiefResponse, popularRecipesResponse };
+        },
+        Component: lazy(() => import("./pages/Home")),
+        // element: <Home />,
       },
       {
         path: "recipes",

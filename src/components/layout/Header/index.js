@@ -32,8 +32,8 @@ export default function Header() {
             </>
           ) : (
             <>
-              <ButtonLink to="/join">회원가입</ButtonLink>
               <ButtonLink to="/login">로그인</ButtonLink>
+              <ButtonLink to="/join">회원가입</ButtonLink>
             </>
           )}
         </S.UserLink>

@@ -16,9 +16,17 @@ export default function App() {
   const { isAuthenticated } = useSelector(selectAuth);
   const { openModal } = useModals();
   const navigate = useNavigate();
+
   const handleOnclick = () => {
     isAuthenticated
-      ? openModal(Fridge, { title: "내 냉장고", size: 70 })
+      ? openModal(Fridge, {
+          title: "내 냉장고",
+          size: 70,
+          onClick: () =>
+            navigate("/recipes", {
+              state: { fridgeMode: true },
+            }),
+        })
       : openModal(Alert, {
           ...ONLY_USER,
           onAfterClose: () => navigate("/login"),

@@ -4,7 +4,7 @@ import theme from "@/styles/theme";
 import { Container as C } from "@/styles/common";
 
 export const Header = styled.header`
-  border-bottom: 1px solid ${theme.PALETTE.mainColor};
+  border-bottom: 1px dashed ${theme.PALETTE.mainColor};
 `;
 
 export const Container = styled(C)`
