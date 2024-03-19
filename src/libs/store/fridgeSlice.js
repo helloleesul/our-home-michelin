@@ -24,7 +24,7 @@ export const newIngredients = createAsyncThunk(
 
 export const updateIngredients = createAsyncThunk(
   "fridge/updateIngredients",
-  async (id, data) => {
+  async ({ id, data }) => {
     try {
       const response = await PUT(`/myfridge/${id}`, { newBestBefore: data });
       return response;

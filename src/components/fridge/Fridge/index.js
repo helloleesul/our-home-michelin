@@ -6,6 +6,7 @@ import {
   deleteIngredients,
   newIngredients,
   selectFridge,
+  updateIngredients,
 } from "@/libs/store/fridgeSlice";
 
 import * as S from "./style";
@@ -13,6 +14,7 @@ import { dateToShortString } from "@/libs/utils";
 import Button from "@/components/common/Button";
 import useModals from "@/libs/hooks/useModals";
 import Confirm from "@/components/modal/Confirm";
+import Calendar from "@/components/modal/Calandar";
 
 export default function Fridge({ onClose, onClick }) {
   const dispatch = useDispatch();
@@ -76,7 +78,21 @@ export default function Fridge({ onClose, onClick }) {
                       </S.Date>
                       <S.Date>
                         <img src="/icons/bestBefore.svg" alt="유통기한" />
-                        <button>{dateToShortString(item.bestBefore)}</button>
+                        <button
+                          onClick={() =>
+                            openModal(Calendar, {
+                              title: "유통기한 수정",
+                              thisDate: new Date(item.bestBefore),
+                              onThisDate: (v) => {
+                                dispatch(
+                                  updateIngredients({ id: item._id, data: v })
+                                );
+                              },
+                            })
+                          }
+                        >
+                          {dateToShortString(item.bestBefore)}
+                        </button>
                       </S.Date>
                     </S.FridgeItem>
                   ))}

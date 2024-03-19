@@ -1,7 +1,7 @@
 import { Navigate, createBrowserRouter } from "react-router-dom";
 
 import App from "./App";
-import { Home } from "./pages/Home";
+import Home from "./pages/Home copy";
 import Login from "./pages/Login";
 import Join from "./pages/Join";
 import RecipeList from "./pages/RecipeList";
@@ -25,12 +25,6 @@ export const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    // Component: lazy(() => import("./App")),
-
-    // async lazy() {
-    //   let { App } = await import("./App");
-    //   return { Component: App };
-    // },
     children: [
       {
         index: true,
