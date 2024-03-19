@@ -91,7 +91,7 @@ export default function Fridge({ onClose, onClick }) {
                 >
                   레시피 찾기
                 </button>
-                <button onClick={() => setEditMode(true)}>냉장고 채우기</button>
+                <button onClick={() => setEditMode(true)}>재료 찾기</button>
               </S.ButtonGroup>
             </>
           )}
@@ -142,7 +142,7 @@ export default function Fridge({ onClose, onClick }) {
               }}
               disabled={!selectedIngredients.length}
             >
-              재료 담기
+              선택한 재료 담기
             </button>
           </S.ButtonGroup>
         </>

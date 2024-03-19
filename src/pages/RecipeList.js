@@ -31,9 +31,14 @@ export default function RecipeList() {
   useEffect(() => {
     const getFridgeRecipes = async () => {
       try {
-        const response = await POST("/search-ingredients-recipes", {
-          ingredients: ingredients.map((item) => item.name),
-        });
+        const response = await POST(
+          type && type !== "all"
+            ? `/search-ingredients-recipes?type=${type}`
+            : "/search-ingredients-recipes",
+          {
+            ingredients: ingredients.map((item) => item.name),
+          }
+        );
         setRecipes(response);
       } catch (error) {
         console.log("🚀 ~ getRecipes ~ error:", error);
