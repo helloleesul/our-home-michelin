@@ -5,10 +5,11 @@ import { ButtonLink, LinkStyle } from "@/styles/common";
 import { useDispatch, useSelector } from "react-redux";
 import { asyncLogout, selectAuth } from "@/libs/store/authSlice";
 import { useNavigate } from "react-router-dom";
+import { PROFILE_DEFAULT_IMG } from "@/libs/constants/defaultImages";
 
 export default function Header() {
   const dispatch = useDispatch();
-  const { isAuthenticated } = useSelector(selectAuth);
+  const { isAuthenticated, user } = useSelector(selectAuth);
   const navigate = useNavigate();
 
   const onLogout = async () => {
@@ -25,7 +26,26 @@ export default function Header() {
         <S.UserLink>
           {isAuthenticated ? (
             <>
-              <ButtonLink to="/kitchen">💁‍♂️ 마이페이지</ButtonLink>
+              <ButtonLink to="/kitchen">
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 5,
+                    color: "inherit",
+                  }}
+                >
+                  <img
+                    src={user.profileImageURL || PROFILE_DEFAULT_IMG}
+                    alt={user.nickName}
+                    onError={(e) => {
+                      e.target.src = PROFILE_DEFAULT_IMG;
+                    }}
+                    width={30}
+                  />
+                  <span style={{ color: "inherit" }}>{user.nickName}</span>
+                </div>
+              </ButtonLink>
               <button css={LinkStyle} onClick={onLogout}>
                 로그아웃
               </button>
