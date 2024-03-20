@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import RecipesWrap from "@/components/recipe/RecipesWrap";
 import Title from "@/components/common/Title";
 import { GET, POST } from "@/libs/api";
@@ -24,6 +24,11 @@ export default function RecipeList() {
   const [isFridgeMode, setIsFridgeMode] = useState(fridgeMode || false);
   const { ingredients } = useSelector(selectFridge);
 
+  const filterIngredients = useMemo(() => {
+    return () =>
+      ingredients.filter((food) => food.bestBefore >= food.inputDate);
+  }, [ingredients]);
+
   useEffect(() => {
     fridgeMode && setIsFridgeMode(true);
   }, [fridgeMode]);
@@ -36,10 +41,10 @@ export default function RecipeList() {
             ? `/search-ingredients-recipes?type=${type}`
             : "/search-ingredients-recipes",
           {
-            ingredients: ingredients.map((item) => item.name),
+            ingredients: filterIngredients().map((item) => item.name),
           }
         );
-        setRecipes(response);
+        setRecipes(response.recipes);
       } catch (error) {
         console.log("🚀 ~ getRecipes ~ error:", error);
       }
@@ -49,7 +54,7 @@ export default function RecipeList() {
         const response = await GET(
           type && type !== "all" ? `/recipes?type=${type}` : "/recipes"
         );
-        setRecipes(response);
+        setRecipes(response.recipes);
       } catch (error) {
         console.log("🚀 ~ getRecipes ~ error:", error);
       }
@@ -58,7 +63,7 @@ export default function RecipeList() {
     if (isFridgeMode) {
       getFridgeRecipes();
     } else getRecipes();
-  }, [ingredients, isFridgeMode, type]);
+  }, [filterIngredients, isFridgeMode, type]);
 
   return (
     <WidthBox width={"80"}>
