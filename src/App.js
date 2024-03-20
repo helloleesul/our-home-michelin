@@ -27,10 +27,7 @@ export default function App() {
               state: { fridgeMode: true },
             }),
         })
-      : openModal(Alert, {
-          ...ONLY_USER,
-          onAfterClose: () => navigate("/login"),
-        });
+      : openModal(Alert, ONLY_USER);
   };
 
   return (
