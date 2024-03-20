@@ -138,45 +138,52 @@ export default function Fridge({ onClose, onClick }) {
                     </S.FridgeItem>
                   ))}
                 </S.Fridge>
-                <div style={{ filter: "grayscale(1)" }}>
-                  <p>유통기한 지난 재료</p>
-                  <S.Fridge>
-                    {filterIngredients(true).map((item) => (
-                      <S.FridgeItem key={item._id}>
-                        <button
-                          className="delete"
-                          onClick={() => dispatch(deleteIngredients(item._id))}
-                        >
-                          ✕
-                        </button>
-                        <span className="img">{item.imgUrl}</span>
-                        <p className="name">{item.name}</p>
-                        <S.Date>
-                          <img src="/icons/createdDate.svg" alt="저장일자" />
-                          <span>{dateToShortString(item.inputDate)}</span>
-                        </S.Date>
-                        <S.Date>
-                          <img src="/icons/bestBefore.svg" alt="유통기한" />
+                {filterIngredients(true).length > 0 && (
+                  <div style={{ filter: "grayscale(1)" }}>
+                    <p>유통기한 지난 재료</p>
+                    <S.Fridge>
+                      {filterIngredients(true).map((item) => (
+                        <S.FridgeItem key={item._id}>
                           <button
+                            className="delete"
                             onClick={() =>
-                              openModal(Calendar, {
-                                title: "유통기한 수정",
-                                thisDate: new Date(item.bestBefore),
-                                onThisDate: (v) => {
-                                  dispatch(
-                                    updateIngredients({ id: item._id, data: v })
-                                  );
-                                },
-                              })
+                              dispatch(deleteIngredients(item._id))
                             }
                           >
-                            {dateToShortString(item.bestBefore)}
+                            ✕
                           </button>
-                        </S.Date>
-                      </S.FridgeItem>
-                    ))}
-                  </S.Fridge>
-                </div>
+                          <span className="img">{item.imgUrl}</span>
+                          <p className="name">{item.name}</p>
+                          <S.Date>
+                            <img src="/icons/createdDate.svg" alt="저장일자" />
+                            <span>{dateToShortString(item.inputDate)}</span>
+                          </S.Date>
+                          <S.Date>
+                            <img src="/icons/bestBefore.svg" alt="유통기한" />
+                            <button
+                              onClick={() =>
+                                openModal(Calendar, {
+                                  title: "유통기한 수정",
+                                  thisDate: new Date(item.bestBefore),
+                                  onThisDate: (v) => {
+                                    dispatch(
+                                      updateIngredients({
+                                        id: item._id,
+                                        data: v,
+                                      })
+                                    );
+                                  },
+                                })
+                              }
+                            >
+                              {dateToShortString(item.bestBefore)}
+                            </button>
+                          </S.Date>
+                        </S.FridgeItem>
+                      ))}
+                    </S.Fridge>
+                  </div>
+                )}
               </S.FridgeGroup>
               <S.ButtonGroup>
                 <button
