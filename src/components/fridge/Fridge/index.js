@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import INGREDIENT_DATA from "@/libs/constants/ingredientData";
 import {
   deleteAllIngredients,
@@ -15,6 +15,7 @@ import Button from "@/components/common/Button";
 import useModals from "@/libs/hooks/useModals";
 import Confirm from "@/components/modal/Confirm";
 import Calendar from "@/components/modal/Calandar";
+import Input from "@/components/common/Input";
 
 export default function Fridge({ onClose, onClick }) {
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ export default function Fridge({ onClose, onClick }) {
   const { ingredients } = useSelector(selectFridge);
   const [editMode, setEditMode] = useState(false);
   const [selectedIngredients, setSelectedIngredients] = useState([]);
+  const newIngredientInput = useRef();
 
   const ingredientsNames = useCallback(() => {
     return ingredients.map((item) => item.name);
@@ -57,6 +59,36 @@ export default function Fridge({ onClose, onClick }) {
           ) : (
             <>
               <S.FridgeGroup>
+                <div style={{ display: "flex" }}>
+                  <Input noLabel ref={newIngredientInput} />
+                  <Button
+                    type={"button"}
+                    value={"재료 직접 추가"}
+                    width={"auto"}
+                    onClick={() => {
+                      if (!newIngredientInput.current.value) return;
+                      if (
+                        ingredients.some(
+                          (item) =>
+                            item.name === newIngredientInput.current.value
+                        )
+                      )
+                        return;
+                      dispatch(
+                        newIngredients([
+                          {
+                            name: newIngredientInput.current.value,
+                            imgUrl: "😋",
+                            bestBefore: new Date(
+                              Date.now() + 7 * 24 * 60 * 60 * 1000
+                            ),
+                          },
+                        ])
+                      );
+                      newIngredientInput.current.value = "";
+                    }}
+                  />
+                </div>
                 <Button
                   onClick={() => {
                     openModal(Confirm, {
@@ -155,7 +187,9 @@ export default function Fridge({ onClose, onClick }) {
                 >
                   레시피 찾기
                 </button>
-                <button onClick={() => setEditMode(true)}>재료 찾기</button>
+                <button onClick={() => setEditMode(true)}>
+                  냉장고 재료 찾기
+                </button>
               </S.ButtonGroup>
             </>
           )}
