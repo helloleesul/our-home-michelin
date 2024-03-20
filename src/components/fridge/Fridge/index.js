@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import INGREDIENT_DATA from "@/libs/constants/ingredientData";
 import {
   deleteAllIngredients,
@@ -25,6 +25,15 @@ export default function Fridge({ onClose, onClick }) {
 
   const ingredientsNames = useCallback(() => {
     return ingredients.map((item) => item.name);
+  }, [ingredients]);
+
+  const filterIngredients = useMemo(() => {
+    return (isExpired) =>
+      ingredients.filter((food) =>
+        isExpired
+          ? food.bestBefore < food.inputDate
+          : food.bestBefore >= food.inputDate
+      );
   }, [ingredients]);
 
   const handleCheckboxChange = (e, ingredient) => {
@@ -62,7 +71,7 @@ export default function Fridge({ onClose, onClick }) {
                   width={"auto"}
                 />
                 <S.Fridge>
-                  {ingredients.map((item) => (
+                  {filterIngredients(false).map((item) => (
                     <S.FridgeItem key={item._id}>
                       <button
                         className="delete"
@@ -97,6 +106,45 @@ export default function Fridge({ onClose, onClick }) {
                     </S.FridgeItem>
                   ))}
                 </S.Fridge>
+                <div style={{ filter: "grayscale(1)" }}>
+                  <p>유통기한 지난 재료</p>
+                  <S.Fridge>
+                    {filterIngredients(true).map((item) => (
+                      <S.FridgeItem key={item._id}>
+                        <button
+                          className="delete"
+                          onClick={() => dispatch(deleteIngredients(item._id))}
+                        >
+                          ✕
+                        </button>
+                        <span className="img">{item.imgUrl}</span>
+                        <p className="name">{item.name}</p>
+                        <S.Date>
+                          <img src="/icons/createdDate.svg" alt="저장일자" />
+                          <span>{dateToShortString(item.inputDate)}</span>
+                        </S.Date>
+                        <S.Date>
+                          <img src="/icons/bestBefore.svg" alt="유통기한" />
+                          <button
+                            onClick={() =>
+                              openModal(Calendar, {
+                                title: "유통기한 수정",
+                                thisDate: new Date(item.bestBefore),
+                                onThisDate: (v) => {
+                                  dispatch(
+                                    updateIngredients({ id: item._id, data: v })
+                                  );
+                                },
+                              })
+                            }
+                          >
+                            {dateToShortString(item.bestBefore)}
+                          </button>
+                        </S.Date>
+                      </S.FridgeItem>
+                    ))}
+                  </S.Fridge>
+                </div>
               </S.FridgeGroup>
               <S.ButtonGroup>
                 <button
