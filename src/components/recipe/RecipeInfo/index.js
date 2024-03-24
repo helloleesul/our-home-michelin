@@ -60,7 +60,7 @@ export default function RecipeInfo(props) {
   return (
     <>
       <S.TitleBox>
-        <Title title={title} position={"left"} type={"primary"} />
+        <Title title={title} type={"primary"} />
         <S.Line />
         <S.Type>{type.label}</S.Type>
       </S.TitleBox>

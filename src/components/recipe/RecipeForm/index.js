@@ -154,8 +154,7 @@ export default function RecipeForm({ modifyRecipe }) {
         <Title
           icon={"🔥🧾🥣"}
           title={modifyRecipe ? "레시피 수정" : "새 레시피"}
-          type={"primary"}
-          position={"left"}
+          type={"basic"}
         />
         <Button
           width={"200"}

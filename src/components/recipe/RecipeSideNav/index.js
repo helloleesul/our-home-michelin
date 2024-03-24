@@ -24,7 +24,7 @@ export default function RecipeSideNav(props) {
           alt={title}
         />
 
-        <Title title={title} position={"left"} type={"basic"} />
+        <Title title={title} type={"basic"} />
       </div>
       <S.WriterBox>
         <S.ProfileImg>

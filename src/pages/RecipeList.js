@@ -71,7 +71,6 @@ export default function RecipeList() {
         <Title
           icon={"🍽️"}
           title={isFridgeMode ? "내 냉장고 레시피" : "모든 레시피"}
-          position={"left"}
           type={"basic"}
         />
         <label htmlFor="fridge">

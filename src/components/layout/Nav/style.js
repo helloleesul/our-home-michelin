@@ -7,7 +7,7 @@ export const Nav = styled.nav`
   position: sticky;
   top: 0;
   background-color: ${theme.PALETTE.white};
-  z-index: 1;
+  z-index: 2;
 `;
 
 export const ListGroup = styled.ul`

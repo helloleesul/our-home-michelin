@@ -14,12 +14,7 @@ function SideNav() {
   const { user } = useSelector(selectAuth);
   return (
     <Flex gap={"50"}>
-      <Title
-        icon={"🧑‍🍳"}
-        title={`${user.nickName}의 주방`}
-        type={"primary"}
-        position={"left"}
-      />
+      <Title icon={"🧑‍🍳"} title={`${user.nickName}의 주방`} type={"primary"} />
       <Flex gap={"20"}>
         {MY_MENU_LIST?.map((menu, i) => (
           <NavLink key={`menu-${i}`} to={menu.to}>

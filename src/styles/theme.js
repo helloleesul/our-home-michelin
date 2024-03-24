@@ -2,6 +2,7 @@ const PALETTE = {
   mainColor: "#F7411F",
   primary: {
     100: "#ff755b",
+    200: "#FF9A62",
   },
 
   error: "#FF3636",

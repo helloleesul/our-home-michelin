@@ -71,7 +71,7 @@ export const resetStyles = css`
     position: fixed;
     inset: 0px;
     background-color: rgba(255, 255, 255, 0.75);
-    z-index: 1;
+    z-index: 10;
   }
   .ModalContent {
     position: absolute;

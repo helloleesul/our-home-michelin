@@ -8,7 +8,6 @@ export const Header = styled.header`
 `;
 
 export const Container = styled(C)`
-  text-align: center;
   padding: ${theme.FONT_SIZE.hg} 0;
   position: relative;
 `;
@@ -20,9 +19,7 @@ export const Title = styled(Link)`
   text-decoration: none;
 
   span {
-    background-color: ${theme.PALETTE.mainColor};
-    color: ${theme.PALETTE.white};
-    padding: 0 ${theme.FONT_SIZE.es};
+    color: ${theme.PALETTE.mainColor};
   }
 `;
 

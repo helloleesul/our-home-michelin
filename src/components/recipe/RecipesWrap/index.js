@@ -1,6 +1,6 @@
 import RecipeCard from "../RecipeCard";
 
-export default function RecipesWrap({ recipes, col }) {
+export default function RecipesWrap({ recipes, col, index }) {
   console.log("🚀 ~ RecipesWrap ~ recipes:", recipes);
   return (
     <div
@@ -8,11 +8,10 @@ export default function RecipesWrap({ recipes, col }) {
         display: "grid",
         gridTemplateColumns: `repeat(${col ? col : 3}, 1fr)`,
         gap: 20,
-        // gridAutoRows: 200,
       }}
     >
-      {recipes?.map((card) => (
-        <RecipeCard key={card._id} {...card} />
+      {recipes?.map((card, i) => (
+        <RecipeCard key={card._id} index={index && i + 1} {...card} />
       ))}
     </div>
   );

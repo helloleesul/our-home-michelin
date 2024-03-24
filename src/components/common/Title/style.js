@@ -22,7 +22,7 @@ const TYPE = {
     padding: 2px ${theme.FONT_SIZE.es};
   `,
   basic: css`
-    background-color: none;
+    background: none;
     color: ${theme.PALETTE.mainColor};
   `,
 };
