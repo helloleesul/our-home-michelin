@@ -8,7 +8,6 @@ import { ErrorText, Flex } from "@/styles/common";
 import Input from "@/components/common/Input";
 import Button from "@/components/common/Button";
 import ImageInput from "@/components/common/ImageInput";
-import FormWrap from "../../common/FormWrap";
 import { PATCH } from "@/libs/api";
 import VALIDATE from "@/libs/constants/validate";
 import MESSAGE from "@/libs/constants/message";
@@ -104,7 +103,7 @@ export default function InfoForm() {
   };
 
   return (
-    <FormWrap onSubmit={onInfoModify}>
+    <form onSubmit={onInfoModify} style={{ width: "60%" }}>
       <Flex gap={"20"}>
         <S.ProfileImage>
           <ImageInput
@@ -166,6 +165,6 @@ export default function InfoForm() {
         )}
         <Button type={"submit"} value={"정보 수정"} />
       </Flex>
-    </FormWrap>
+    </form>
   );
 }

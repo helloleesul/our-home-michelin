@@ -13,11 +13,11 @@ export const Nav = styled.nav`
 export const ListGroup = styled.ul`
   display: flex;
   align-items: center;
+  height: 50px;
 `;
 export const List = styled.li`
   flex: 1;
   text-align: center;
-  padding: ${theme.FONT_SIZE.md};
 `;
 
 export const Button = styled(NavLink)`

@@ -1,7 +1,6 @@
-import Title from "@/components/common/Title";
 import RecipeForm from "@/components/recipe/RecipeForm";
 import { GET } from "@/libs/api";
-import { Flex, WidthBox } from "@/styles/common";
+import { Contents } from "@/styles/common";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -28,8 +27,10 @@ export default function RecipeModify() {
   }, [navigate, recipeId]);
 
   return (
-    <WidthBox width={"80"}>
-      {recipe && <RecipeForm modifyRecipe={recipe} />}
-    </WidthBox>
+    recipe && (
+      <Contents>
+        <RecipeForm modifyRecipe={recipe} />
+      </Contents>
+    )
   );
 }

@@ -17,14 +17,13 @@ export default function RecipeSideNav(props) {
             e.target.src = RECIPE_TYPE_DEFAULT_IMG[recipeType];
           }}
           style={{
-            // height: "200px",
+            height: "300px",
             width: "100%",
             objectFit: "cover",
           }}
           alt={title}
-          width={300}
-          height={300}
         />
+
         <Title title={title} position={"left"} type={"basic"} />
       </div>
       <S.WriterBox>

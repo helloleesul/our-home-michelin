@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
-import { AbsoluteText, ColGroup, Flex, Form } from "@/styles/common";
+import { AbsoluteText, ColGroup, Flex } from "@/styles/common";
 import RadioInput from "@/components/common/RadioInput";
 import {
   RECIPE_ING_AMOUNT_LIST,

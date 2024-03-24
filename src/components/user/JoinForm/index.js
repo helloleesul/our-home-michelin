@@ -9,7 +9,6 @@ import {
 } from "@/styles/common";
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
-import FormWrap from "@/components/common/FormWrap";
 import VALIDATE from "@/libs/constants/validate";
 import MESSAGE from "@/libs/constants/message";
 import { POST } from "@/libs/api";
@@ -116,7 +115,7 @@ export default function JoinForm() {
     }
   };
   return (
-    <FormWrap width={"90"} onSubmit={onJoin}>
+    <form onSubmit={onJoin} style={{ width: "50%" }}>
       <Flex gap={"20"}>
         <ColGroup gap={"10"}>
           <Input
@@ -195,6 +194,6 @@ export default function JoinForm() {
         )}
         <Button type={"submit"} value={"회원가입"} />
       </Flex>
-    </FormWrap>
+    </form>
   );
 }

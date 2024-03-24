@@ -7,7 +7,6 @@ import { asyncLogin } from "@/libs/store/authSlice";
 import { Flex } from "@/styles/common";
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
-import FormWrap from "@/components/common/FormWrap";
 
 export default function LoginForm() {
   const dispatch = useDispatch();
@@ -37,7 +36,7 @@ export default function LoginForm() {
   };
 
   return (
-    <FormWrap width={"70"} onSubmit={onLogin}>
+    <form onSubmit={onLogin} style={{ width: "40%" }}>
       <Flex gap={"20"}>
         <Input
           type={"email"}
@@ -55,6 +54,6 @@ export default function LoginForm() {
         />
         <Button type={"submit"} value={"로그인"} />
       </Flex>
-    </FormWrap>
+    </form>
   );
 }

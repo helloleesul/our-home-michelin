@@ -1,6 +1,7 @@
 import RecipeCard from "../RecipeCard";
 
 export default function RecipesWrap({ recipes, col }) {
+  console.log("🚀 ~ RecipesWrap ~ recipes:", recipes);
   return (
     <div
       style={{

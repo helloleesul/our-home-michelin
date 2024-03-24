@@ -6,7 +6,6 @@ import { asyncLogout } from "@/libs/store/authSlice";
 import { Flex } from "@/styles/common";
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
-import FormWrap from "@/components/common/FormWrap";
 
 import { DELETE, POST } from "@/libs/api";
 import MESSAGE from "@/libs/constants/message";
@@ -48,7 +47,7 @@ export default function ConfirmForm({ mode, onResult }) {
     }
   };
   return (
-    <FormWrap onSubmit={onConfirm}>
+    <form onSubmit={onConfirm}>
       <Flex gap={"20"}>
         <Input
           type={"password"}
@@ -59,6 +58,6 @@ export default function ConfirmForm({ mode, onResult }) {
         />
         <Button type={"submit"} value={"본인 확인"} />
       </Flex>
-    </FormWrap>
+    </form>
   );
 }

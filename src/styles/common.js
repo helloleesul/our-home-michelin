@@ -6,7 +6,7 @@ import { Link, NavLink as N } from "react-router-dom";
 
 export const Container = styled.div`
   min-width: 768px;
-  max-width: 1200px;
+  max-width: 960px;
   margin: 0 auto;
   height: 100%;
 `;
@@ -18,11 +18,15 @@ export const Layout = styled.div`
   min-height: 100dvh;
 `;
 
-export const Form = styled.form`
+export const Contents = styled.div`
+  padding: 40px 0;
+`;
+
+export const Center = styled.div`
   display: flex;
   flex-direction: column;
-  border: 1px solid ${theme.PALETTE.mainColor};
-  padding: ${theme.FONT_SIZE.hg};
+  height: 100%;
+  justify-content: center;
 `;
 
 export const Flex = styled.div`
@@ -44,12 +48,6 @@ export const Flex = styled.div`
     css`
       gap: ${props.gap}px;
     `}
-`;
-
-export const WidthBox = styled.div`
-  width: ${(props) => (props.width ? props.width : 100)}%;
-  margin: 0 auto;
-  height: 100%;
 `;
 
 export const LinkStyle = css`

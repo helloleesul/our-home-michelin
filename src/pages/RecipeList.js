@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import RecipesWrap from "@/components/recipe/RecipesWrap";
 import Title from "@/components/common/Title";
 import { GET, POST } from "@/libs/api";
-import { Flex, WidthBox } from "@/styles/common";
+import { Contents, Flex } from "@/styles/common";
 import RadioInput from "@/components/common/RadioInput";
 import { RECIPE_TYPE_LIST } from "@/libs/constants/listItems";
 import { useLocation, useSearchParams } from "react-router-dom";
@@ -66,7 +66,7 @@ export default function RecipeList() {
   }, [filterIngredients, isFridgeMode, type]);
 
   return (
-    <WidthBox width={"80"}>
+    <Contents>
       <Flex gap={"30"}>
         <Title
           icon={"🍽️"}
@@ -92,6 +92,6 @@ export default function RecipeList() {
         />
         {recipes && <RecipesWrap recipes={recipes} col={4} />}
       </Flex>
-    </WidthBox>
+    </Contents>
   );
 }

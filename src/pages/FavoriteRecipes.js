@@ -8,7 +8,7 @@ export default function FavoriteRecipes() {
   const getRecipes = async () => {
     try {
       const response = await GET("/my-bookmark-recipes");
-      setRecipes(response);
+      setRecipes(response.recipes);
       console.log(response);
     } catch (error) {
       console.log("🚀 ~ getRecipe ~ error:", error);

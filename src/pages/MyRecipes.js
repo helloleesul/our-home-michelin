@@ -8,7 +8,7 @@ export default function MyRecipes() {
   const getRecipes = async () => {
     try {
       const response = await GET("/myrecipes");
-      setRecipes(response);
+      setRecipes(response.recipes);
       console.log(response);
     } catch (error) {
       console.log("🚀 ~ getRecipe ~ error:", error);
