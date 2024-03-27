@@ -9,6 +9,10 @@ import { useLocation, useSearchParams } from "react-router-dom";
 import { selectFridge } from "@/libs/store/fridgeSlice";
 import { useSelector } from "react-redux";
 import Checkbox from "@/components/common/Checkbox";
+import { selectAuth } from "@/libs/store/authSlice";
+import useModals from "@/libs/hooks/useModals";
+import Alert from "@/components/modal/Alert";
+import { ONLY_USER } from "@/libs/constants/alertData";
 
 const ALL_RECIPE_TYPE_LIST = [
   { label: "전체", value: "all" },
@@ -24,6 +28,8 @@ export default function RecipeList() {
   const [recipes, setRecipes] = useState([]);
   const [isFridgeMode, setIsFridgeMode] = useState(fridgeMode || false);
   const { ingredients } = useSelector(selectFridge);
+  const { isAuthenticated } = useSelector(selectAuth);
+  const { openModal } = useModals();
 
   const filterIngredients = useMemo(() => {
     return () =>
@@ -66,6 +72,12 @@ export default function RecipeList() {
     } else getRecipes();
   }, [filterIngredients, isFridgeMode, type]);
 
+  const handleFridgeCheckbox = () => {
+    isAuthenticated
+      ? setIsFridgeMode((prev) => !prev)
+      : openModal(Alert, ONLY_USER);
+  };
+
   return (
     <Contents>
       <Flex gap={"30"}>
@@ -85,7 +97,7 @@ export default function RecipeList() {
             id={"fridge"}
             label={"냉장고 재료"}
             checked={isFridgeMode}
-            onChange={() => setIsFridgeMode((prev) => !prev)}
+            onChange={handleFridgeCheckbox}
           />
         </div>
         <RadioInput
