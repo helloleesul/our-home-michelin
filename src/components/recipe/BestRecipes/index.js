@@ -1,5 +1,5 @@
 import Title from "@/components/common/Title";
-import RecipesWrap from "@/components/recipe/RecipesWrap";
+import Recipes from "@/components/recipe/RecipesWrap";
 
 export default function BestRecipes({ recipes }) {
   return (
@@ -10,7 +10,7 @@ export default function BestRecipes({ recipes }) {
         type={"basic"}
         position={"center"}
       />
-      <RecipesWrap recipes={recipes} col={5} index={true} />
+      <Recipes recipes={recipes} col={5} index={true} />
     </div>
   );
 }

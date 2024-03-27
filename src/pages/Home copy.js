@@ -1,5 +1,5 @@
 import Title from "@/components/common/Title";
-import RecipesWrap from "@/components/recipe/RecipesWrap";
+import Recipes from "@/components/recipe/RecipesWrap";
 import { GET } from "@/libs/api";
 import { PROFILE_DEFAULT_IMG } from "@/libs/constants/defaultImages";
 import { Flex } from "@/styles/common";
@@ -56,13 +56,11 @@ export default function Home() {
               {user.nickName}
             </button>
           ))}
-          <RecipesWrap recipes={masterChief[filterChief]?.recipes} col={4} />
+          <Recipes recipes={masterChief[filterChief]?.recipes} col={4} />
         </div>
       )}
       <Title icon={"✨🍳"} title={"베스트 레시피"} type={"basic"} />
-      {popularRecipes && (
-        <RecipesWrap recipes={popularRecipes.recipes} col={5} />
-      )}
+      {popularRecipes && <Recipes recipes={popularRecipes.recipes} col={5} />}
     </Flex>
   );
 }

@@ -1,5 +1,5 @@
 import Title from "@/components/common/Title";
-import RecipesWrap from "@/components/recipe/RecipesWrap";
+import Recipes from "@/components/recipe/RecipesWrap";
 import { PROFILE_DEFAULT_IMG } from "@/libs/constants/defaultImages";
 import { useState } from "react";
 import * as S from "./style";
@@ -30,7 +30,7 @@ export default function MasterChiefRecipes({ recipes }) {
             </button>
           ))}
         </S.UserGroup>
-        <RecipesWrap recipes={recipes[filterChief]?.recipes} col={4} />
+        <Recipes recipes={recipes[filterChief]?.recipes} col={4} />
       </S.Wrap>
     </div>
   );

@@ -1,22 +1,35 @@
-import RecipesWrap from "@/components/recipe/RecipesWrap";
+import Recipes from "@/components/recipe/RecipesWrap";
 import { GET } from "@/libs/api";
 import { useEffect, useState } from "react";
 
 export default function FavoriteRecipes() {
   const [recipes, setRecipes] = useState(null);
+  const [totalPage, setTotalPage] = useState();
+  const [page, setPage] = useState();
 
-  const getRecipes = async () => {
-    try {
-      const response = await GET("/my-bookmark-recipes");
-      setRecipes(response.recipes);
-      console.log(response);
-    } catch (error) {
-      console.log("🚀 ~ getRecipe ~ error:", error);
-    }
-  };
   useEffect(() => {
+    const getRecipes = async () => {
+      try {
+        const response = await GET(`/my-bookmark-recipes?page=${page}`);
+        setRecipes(response.recipes);
+        setTotalPage(response.totalPages);
+      } catch (error) {
+        console.log("🚀 ~ getRecipe ~ error:", error);
+      }
+    };
     getRecipes();
-  }, []);
+  }, [page]);
 
-  return <RecipesWrap recipes={recipes} />;
+  useEffect(() => {
+    setPage(1);
+  }, [totalPage]);
+
+  return (
+    <Recipes
+      recipes={recipes}
+      totalPage={totalPage}
+      page={page}
+      onPageChange={setPage}
+    />
+  );
 }

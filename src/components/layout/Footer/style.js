@@ -3,8 +3,8 @@ import theme from "@/styles/theme";
 
 export const Footer = styled.footer`
   background-color: ${theme.PALETTE.gray[100]};
-  text-align: center;
   padding: ${theme.FONT_SIZE.big};
+  text-align: center;
 
   p {
     font-size: ${theme.FONT_SIZE.sm};

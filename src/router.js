@@ -30,7 +30,7 @@ export const router = createBrowserRouter([
         index: true,
         async loader() {
           const masterChief = await GET("/master-chief");
-          const popularRecipes = await GET("/recipes?sort=popular&limit=10");
+          const popularRecipes = await GET("/popular-recipes");
           return { masterChief, popularRecipes };
         },
         Component: lazy(() => import("./pages/Home")),

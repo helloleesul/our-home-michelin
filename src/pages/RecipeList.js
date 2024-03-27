@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import RecipesWrap from "@/components/recipe/RecipesWrap";
+import Recipes from "@/components/recipe/RecipesWrap";
 import Title from "@/components/common/Title";
 import { GET, POST } from "@/libs/api";
 import { Contents, Flex } from "@/styles/common";
@@ -26,6 +26,8 @@ export default function RecipeList() {
   const fridgeMode = location.state;
 
   const [recipes, setRecipes] = useState([]);
+  const [totalPage, setTotalPage] = useState();
+  const [page, setPage] = useState();
   const [isFridgeMode, setIsFridgeMode] = useState(fridgeMode || false);
   const { ingredients } = useSelector(selectFridge);
   const { isAuthenticated } = useSelector(selectAuth);
@@ -45,13 +47,14 @@ export default function RecipeList() {
       try {
         const response = await POST(
           type && type !== "all"
-            ? `/search-ingredients-recipes?type=${type}`
-            : "/search-ingredients-recipes",
+            ? `/search-ingredients-recipes?type=${type}&page=${page}`
+            : `/search-ingredients-recipes?page=${page}`,
           {
             ingredients: filterIngredients().map((item) => item.name),
           }
         );
         setRecipes(response.recipes);
+        setTotalPage(response.totalPages);
       } catch (error) {
         console.log("🚀 ~ getRecipes ~ error:", error);
       }
@@ -59,9 +62,13 @@ export default function RecipeList() {
     const getRecipes = async () => {
       try {
         const response = await GET(
-          type && type !== "all" ? `/recipes?type=${type}` : "/recipes"
+          type && type !== "all"
+            ? `/recipes?type=${type}&page=${page}`
+            : `/recipes?page=${page}`
         );
+        console.log("🚀 ~ getFridgeRecipes ~ response:", response);
         setRecipes(response.recipes);
+        setTotalPage(response.totalPages);
       } catch (error) {
         console.log("🚀 ~ getRecipes ~ error:", error);
       }
@@ -70,7 +77,11 @@ export default function RecipeList() {
     if (isFridgeMode) {
       getFridgeRecipes();
     } else getRecipes();
-  }, [filterIngredients, isFridgeMode, type]);
+  }, [filterIngredients, isFridgeMode, page, type]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [totalPage]);
 
   const handleFridgeCheckbox = () => {
     isAuthenticated
@@ -107,7 +118,13 @@ export default function RecipeList() {
           defaultSelected={type ? type : "all"}
           options={ALL_RECIPE_TYPE_LIST}
         />
-        <RecipesWrap recipes={recipes} col={4} />
+        <Recipes
+          recipes={recipes}
+          col={4}
+          totalPage={totalPage}
+          page={page}
+          onPageChange={setPage}
+        />
       </Flex>
     </Contents>
   );
