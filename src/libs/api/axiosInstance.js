@@ -6,8 +6,8 @@ const axiosInstance = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  credentials: true,
 });
+axiosInstance.defaults.withCredentials = true;
 
 // 요청 인터셉터 추가
 axiosInstance.interceptors.request.use(
