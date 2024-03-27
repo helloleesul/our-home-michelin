@@ -52,9 +52,25 @@ export default function Fridge({ onClose, onClick }) {
       {!editMode ? (
         <>
           {!ingredients.length ? (
-            <div>
-              <p>냉장고가 비었어요</p>
-              <button onClick={() => setEditMode(true)}>냉장고 채우기</button>
+            <div style={{ textAlign: "center", padding: 20 }}>
+              <p style={{ marginBottom: 20, fontSize: 18, opacity: 0.4 }}>
+                <span
+                  style={{
+                    display: "block",
+                    fontSize: 30,
+                    marginBottom: 10,
+                  }}
+                >
+                  🗄️
+                </span>
+                냉장고가 비었어요
+              </p>
+              <Button
+                type={"button"}
+                width={300}
+                onClick={() => setEditMode(true)}
+                value={"냉장고 채우기"}
+              />
             </div>
           ) : (
             <>
@@ -149,7 +165,7 @@ export default function Fridge({ onClose, onClick }) {
                 </S.Fridge>
                 {filterIngredients(true).length > 0 && (
                   <div style={{ filter: "grayscale(1)" }}>
-                    <p>유통기한 지난 재료</p>
+                    <p style={{ margin: "20px 0" }}>유통기한 지난 재료</p>
                     <S.Fridge>
                       {filterIngredients(true).map((item) => (
                         <S.FridgeItem key={item._id}>
