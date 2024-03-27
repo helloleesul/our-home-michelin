@@ -1,6 +1,8 @@
+import * as S from "./style";
+
 export default function FridgeButton({ onClick }) {
   return (
-    <button
+    <S.Button
       onClick={onClick}
       style={{
         position: "fixed",
@@ -10,7 +12,7 @@ export default function FridgeButton({ onClick }) {
         flexDirection: "column",
         alignItems: "center",
         border: "1px solid #F7411F",
-        borderRadius: 1000,
+        borderRadius: 10,
         backgroundColor: "white",
         width: 50,
         height: 50,
@@ -18,7 +20,7 @@ export default function FridgeButton({ onClick }) {
         boxSizing: "content-box",
       }}
     >
-      <span style={{ fontSize: 40 }}>🗄️</span>
-    </button>
+      <S.Fridge>🗄️</S.Fridge>
+    </S.Button>
   );
 }

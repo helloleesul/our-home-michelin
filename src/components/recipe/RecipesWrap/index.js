@@ -16,6 +16,6 @@ export default function RecipesWrap({ recipes, col, index }) {
       ))}
     </div>
   ) : (
-    <>레시피가 없습니다.</>
+    <p>레시피가 없습니다.</p>
   );
 }
