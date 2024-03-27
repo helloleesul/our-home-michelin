@@ -33,8 +33,8 @@ export default function Fridge({ onClose, onClick }) {
     return (isExpired) =>
       ingredients.filter((food) =>
         isExpired
-          ? food.bestBefore < food.inputDate
-          : food.bestBefore >= food.inputDate
+          ? new Date(food.bestBefore) < new Date()
+          : new Date(food.bestBefore) >= new Date()
       );
   }, [ingredients]);
 
@@ -59,49 +59,58 @@ export default function Fridge({ onClose, onClick }) {
           ) : (
             <>
               <S.FridgeGroup>
-                <div style={{ display: "flex" }}>
-                  <Input noLabel ref={newIngredientInput} />
-                  <Button
-                    type={"button"}
-                    value={"재료 직접 추가"}
-                    width={"auto"}
-                    onClick={() => {
-                      if (!newIngredientInput.current.value) return;
-                      if (
-                        ingredients.some(
-                          (item) =>
-                            item.name === newIngredientInput.current.value
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginBottom: 20,
+                  }}
+                >
+                  <div style={{ display: "flex", gap: 5 }}>
+                    <Input noLabel ref={newIngredientInput} />
+                    <Button
+                      type={"button"}
+                      value={"재료 직접 추가"}
+                      width={120}
+                      onClick={() => {
+                        if (!newIngredientInput.current.value) return;
+                        if (
+                          ingredients.some(
+                            (item) =>
+                              item.name === newIngredientInput.current.value
+                          )
                         )
-                      )
-                        return;
-                      dispatch(
-                        newIngredients([
-                          {
-                            name: newIngredientInput.current.value,
-                            imgUrl: "😋",
-                            bestBefore: new Date(
-                              Date.now() + 7 * 24 * 60 * 60 * 1000
-                            ),
-                          },
-                        ])
-                      );
-                      newIngredientInput.current.value = "";
+                          return;
+                        dispatch(
+                          newIngredients([
+                            {
+                              name: newIngredientInput.current.value,
+                              imgUrl: "😋",
+                              bestBefore: new Date(
+                                Date.now() + 7 * 24 * 60 * 60 * 1000
+                              ),
+                            },
+                          ])
+                        );
+                        newIngredientInput.current.value = "";
+                      }}
+                    />
+                  </div>
+                  <Button
+                    onClick={() => {
+                      openModal(Confirm, {
+                        title: "삭제 안내",
+                        size: 30,
+                        message: "정말로 삭제?",
+                        onClick: () => dispatch(deleteAllIngredients()),
+                      });
                     }}
+                    type={"button"}
+                    value={"전체삭제"}
+                    width={100}
                   />
                 </div>
-                <Button
-                  onClick={() => {
-                    openModal(Confirm, {
-                      title: "삭제 안내",
-                      size: 30,
-                      message: "정말로 삭제?",
-                      onClick: () => dispatch(deleteAllIngredients()),
-                    });
-                  }}
-                  type={"button"}
-                  value={"전체삭제"}
-                  width={"auto"}
-                />
                 <S.Fridge>
                   {filterIngredients(false).map((item) => (
                     <S.FridgeItem key={item._id}>

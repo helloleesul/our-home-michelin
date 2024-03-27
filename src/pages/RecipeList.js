@@ -26,7 +26,7 @@ export default function RecipeList() {
 
   const filterIngredients = useMemo(() => {
     return () =>
-      ingredients.filter((food) => food.bestBefore >= food.inputDate);
+      ingredients.filter((food) => new Date(food.bestBefore) >= new Date());
   }, [ingredients]);
 
   useEffect(() => {
