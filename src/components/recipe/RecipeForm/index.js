@@ -159,7 +159,7 @@ export default function RecipeForm({ modifyRecipe }) {
         <Button
           width={"200"}
           type={"submit"}
-          value={modifyRecipe ? "수정" : "등록"}
+          value={modifyRecipe ? "수정 완료" : "등록하기"}
         />
       </div>
       <S.RecipeFormWrap>
@@ -207,7 +207,7 @@ export default function RecipeForm({ modifyRecipe }) {
             <Input
               type={"text"}
               id={"name"}
-              label={"식재료"}
+              label={"재료"}
               placeholder={"예) 소고기"}
               value={ingredient.name}
               onChange={handleIngredient}

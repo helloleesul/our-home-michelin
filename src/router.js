@@ -29,11 +29,9 @@ export const router = createBrowserRouter([
       {
         index: true,
         async loader() {
-          const masterChiefResponse = await GET("/master-chief");
-          const popularRecipesResponse = await GET(
-            "/recipes?sort=popular&limit=10"
-          );
-          return { masterChiefResponse, popularRecipesResponse };
+          const masterChief = await GET("/master-chief");
+          const popularRecipes = await GET("/recipes?sort=popular&limit=10");
+          return { masterChief, popularRecipes };
         },
         Component: lazy(() => import("./pages/Home")),
         // element: <Home />,

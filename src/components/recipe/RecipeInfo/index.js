@@ -1,30 +1,19 @@
 import Title from "@/components/common/Title";
 import { selectAuth } from "@/libs/store/authSlice";
 import { useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
 import * as S from "./style";
-import { RECIPE_TYPE_LIST } from "@/libs/constants/listItems";
 import { DELETE, POST } from "@/libs/api";
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import Button from "@/components/common/Button";
 import MESSAGE from "@/libs/constants/message";
-import { dateToLongString } from "@/libs/utils";
+import { dateToShortString } from "@/libs/utils";
 
 export default function RecipeInfo(props) {
-  const {
-    _id,
-    title,
-    writer,
-    createdDate,
-    recipeType,
-    recipeServing,
-    likeUsers,
-    ingredients,
-    process,
-  } = props;
+  const { _id, writer, title, likeUsers, process, createdDate } = props;
 
-  const { user } = useSelector(selectAuth);
+  const { user, isAuthenticated } = useSelector(selectAuth);
   const navigate = useNavigate();
-  const type = RECIPE_TYPE_LIST.find((item) => item.value === recipeType);
 
   const [likeNumber, setLikeNumber] = useState(likeUsers.length);
   const [liked, setLiked] = useState(likeUsers.find((v) => v === user?.userId));
@@ -58,45 +47,57 @@ export default function RecipeInfo(props) {
   };
 
   return (
-    <>
-      <S.TitleBox>
+    <S.Wrap>
+      <S.TitleGroup>
         <Title title={title} type={"primary"} />
         <S.Line />
-        <S.Type>{type.label}</S.Type>
-      </S.TitleBox>
-      <S.SubTitleBox>
-        <span>{dateToLongString(createdDate)}</span>
-        {writer?._id === user?.userId && (
-          <div>
-            <Link to={"/recipes/modify"} state={_id}>
-              수정
-            </Link>
-            <button onClick={handleDelete}>삭제</button>
-          </div>
-        )}
-      </S.SubTitleBox>
+        <S.LikeButton onClick={handleLiked} disabled={!isAuthenticated}>
+          <img
+            src={`/icons/${liked ? "heart_full" : "heart"}.svg`}
+            alt="좋아요 아이콘"
+            loading="lazy"
+            width="32"
+            height="28"
+          />
+          <span>{likeNumber}</span>
+        </S.LikeButton>
+      </S.TitleGroup>
 
-      <div>
-        <p>양: {recipeServing} 인분</p>
-        <p>좋아요 수: {likeNumber}</p>
-        <button onClick={handleLiked}>좋아요 {liked ? "y" : "n"}</button>
+      <S.InfoGroup>
+        <S.Writer>
+          <span>by {writer?.nickName}</span>
+          <span>•</span>
+          <span className="date">{dateToShortString(createdDate)}</span>
+        </S.Writer>
+
+        {writer?._id === user?.userId && (
+          <S.EditButtons>
+            <Link to={"/recipes/modify"} state={_id}>
+              <Button type={"button"} value={"수정"} width={50} />
+            </Link>
+            <Button
+              type={"button"}
+              onClick={handleDelete}
+              value={"삭제"}
+              width={50}
+            />
+          </S.EditButtons>
+        )}
+      </S.InfoGroup>
+
+      <S.ProcessGroup>
+        <span>요리과정</span>
         <ul>
-          <li>식재료:</li>
-          {ingredients.map((list) => (
-            <li key={list._id}>
-              {list.name} - {list.amount}
-            </li>
-          ))}
-        </ul>
-        <ul>
-          <li>요리과정:</li>
           {process.map((list, idx) => (
             <li key={list._id}>
-              {idx + 1}. {list.text}
+              <div>
+                <span>{idx + 1}</span>
+              </div>
+              <p>{list.text}</p>
             </li>
           ))}
         </ul>
-      </div>
-    </>
+      </S.ProcessGroup>
+    </S.Wrap>
   );
 }

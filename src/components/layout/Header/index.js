@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import * as S from "./style";
-import { ButtonLink, LinkStyle } from "@/styles/common";
+import { ButtonLink, Container, LinkStyle } from "@/styles/common";
 
 import { useDispatch, useSelector } from "react-redux";
 import { asyncLogout, selectAuth } from "@/libs/store/authSlice";
@@ -19,45 +19,47 @@ export default function Header() {
 
   return (
     <S.Header>
-      <S.Container>
-        <S.Title to="/">
-          🏠 우리집 <span>냉슐랭</span> 🍚🍒🥐🍋
-        </S.Title>
-        <S.UserLink>
-          {isAuthenticated ? (
-            <>
-              <ButtonLink to="/kitchen">
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 5,
-                    color: "inherit",
-                  }}
-                >
-                  <img
-                    src={user.profileImageURL || PROFILE_DEFAULT_IMG}
-                    alt={user.nickName}
-                    onError={(e) => {
-                      e.target.src = PROFILE_DEFAULT_IMG;
+      <Container>
+        <S.Wrap>
+          <S.Title to="/">
+            🏠 우리집 <span>냉슐랭</span> 🍚🍒🥐🍋
+          </S.Title>
+          <S.UserLink>
+            {isAuthenticated ? (
+              <>
+                <ButtonLink to="/kitchen">
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 5,
+                      color: "inherit",
                     }}
-                    width={30}
-                  />
-                  <span style={{ color: "inherit" }}>{user.nickName}</span>
-                </div>
-              </ButtonLink>
-              <button css={LinkStyle} onClick={onLogout}>
-                로그아웃
-              </button>
-            </>
-          ) : (
-            <>
-              <ButtonLink to="/login">로그인</ButtonLink>
-              <ButtonLink to="/join">회원가입</ButtonLink>
-            </>
-          )}
-        </S.UserLink>
-      </S.Container>
+                  >
+                    <img
+                      src={user.profileImageURL || PROFILE_DEFAULT_IMG}
+                      alt={user.nickName}
+                      onError={(e) => {
+                        e.target.src = PROFILE_DEFAULT_IMG;
+                      }}
+                      width={30}
+                    />
+                    <span style={{ color: "inherit" }}>{user.nickName}</span>
+                  </div>
+                </ButtonLink>
+                <button css={LinkStyle} onClick={onLogout}>
+                  로그아웃
+                </button>
+              </>
+            ) : (
+              <>
+                <ButtonLink to="/login">로그인</ButtonLink>
+                <ButtonLink to="/join">회원가입</ButtonLink>
+              </>
+            )}
+          </S.UserLink>
+        </S.Wrap>
+      </Container>
     </S.Header>
   );
 }

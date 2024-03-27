@@ -1,15 +1,16 @@
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 import theme from "@/styles/theme";
-import { Container as C } from "@/styles/common";
 
 export const Header = styled.header`
   border-bottom: 1px dashed ${theme.PALETTE.mainColor};
 `;
 
-export const Container = styled(C)`
-  padding: ${theme.FONT_SIZE.hg} 0;
-  position: relative;
+export const Wrap = styled.div`
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 export const Title = styled(Link)`
@@ -24,10 +25,9 @@ export const Title = styled(Link)`
 `;
 
 export const UserLink = styled.div`
-  position: absolute;
-  right: 0;
-  top: 50%;
   display: flex;
   align-items: center;
   gap: 10px;
+  align-self: flex-end;
+  margin-bottom: 15px;
 `;

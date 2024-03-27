@@ -89,6 +89,7 @@ export const RelativeGroup = css`
   flex: 1;
   position: relative;
 `;
+
 export const AbsoluteText = css`
   position: absolute;
   top: 50%;
@@ -96,6 +97,7 @@ export const AbsoluteText = css`
   transform: translateY(-50%);
   color: ${theme.PALETTE.mainColor};
 `;
+
 export const ErrorText = css`
   font-size: ${theme.FONT_SIZE.xs};
   text-align: right;
