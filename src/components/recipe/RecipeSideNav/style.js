@@ -54,6 +54,7 @@ export const Ingredients = styled.ul`
     align-items: center;
     gap: 5px;
     font-weight: 500;
+    justify-content: space-between;
 
     .amount {
       color: ${theme.PALETTE.primary[100]};
