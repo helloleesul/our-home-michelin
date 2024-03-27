@@ -1,7 +1,6 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  // setupProxy target설정으로 baseURL의 http://localhost:3001 제외하였음
   baseURL: "/api",
   timeout: 5000,
   headers: {
