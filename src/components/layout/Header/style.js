@@ -30,4 +30,10 @@ export const UserLink = styled.div`
   gap: 10px;
   align-self: flex-end;
   margin-bottom: 15px;
+
+  img {
+    border: 1px solid ${theme.PALETTE.gray[200]};
+    border-radius: 100%;
+    overflow: hidden;
+  }
 `;

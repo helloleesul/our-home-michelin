@@ -8,6 +8,7 @@ import { RECIPE_TYPE_LIST } from "@/libs/constants/listItems";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { selectFridge } from "@/libs/store/fridgeSlice";
 import { useSelector } from "react-redux";
+import Checkbox from "@/components/common/Checkbox";
 
 const ALL_RECIPE_TYPE_LIST = [
   { label: "전체", value: "all" },
@@ -68,20 +69,25 @@ export default function RecipeList() {
   return (
     <Contents>
       <Flex gap={"30"}>
-        <Title
-          icon={"🍽️"}
-          title={isFridgeMode ? "내 냉장고 레시피" : "모든 레시피"}
-          type={"basic"}
-        />
-        <label htmlFor="fridge">
-          냉장고
-          <input
-            type="checkbox"
-            id="fridge"
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <Title
+            icon={"🍽️"}
+            title={isFridgeMode ? "내 냉장고 레시피" : "모든 레시피"}
+            type={"basic"}
+          />
+          <Checkbox
+            id={"fridge"}
+            label={"냉장고 재료"}
             checked={isFridgeMode}
             onChange={() => setIsFridgeMode((prev) => !prev)}
           />
-        </label>
+        </div>
         <RadioInput
           onChange={(v) => {
             setSearch({ type: v });
@@ -89,7 +95,7 @@ export default function RecipeList() {
           defaultSelected={type ? type : "all"}
           options={ALL_RECIPE_TYPE_LIST}
         />
-        {recipes && <RecipesWrap recipes={recipes} col={4} />}
+        <RecipesWrap recipes={recipes} col={4} />
       </Flex>
     </Contents>
   );

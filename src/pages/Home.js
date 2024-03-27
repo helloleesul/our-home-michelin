@@ -1,5 +1,3 @@
-import Title from "@/components/common/Title";
-import RecipesWrap from "@/components/recipe/RecipesWrap";
 import MasterChiefRecipes from "@/components/recipe/MasterChiefRecipes";
 import { Contents, Flex } from "@/styles/common";
 import { useLoaderData } from "react-router-dom";
@@ -10,7 +8,7 @@ export default function Home() {
 
   return (
     <Contents>
-      <Flex gap={"50"}>
+      <Flex gap={"80"}>
         <MasterChiefRecipes recipes={masterChief} />
         <BestRecipes recipes={popularRecipes?.recipes} />
       </Flex>

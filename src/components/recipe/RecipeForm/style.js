@@ -25,7 +25,8 @@ export const TypeBox = styled(Flex)``;
 export const IngredientBox = styled(Flex)``;
 
 export const IngredientsBox = styled.div`
-  border: 1px solid ${theme.PALETTE.mainColor};
+  border: 1px solid ${theme.PALETTE.gray[200]};
+  border-radius: 10px;
   padding: 10px;
   height: 160px;
   overflow-y: auto;
