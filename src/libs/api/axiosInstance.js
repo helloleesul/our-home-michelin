@@ -6,6 +6,7 @@ const axiosInstance = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  credentials: true,
 });
 
 // 요청 인터셉터 추가
