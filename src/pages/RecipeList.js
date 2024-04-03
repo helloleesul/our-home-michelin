@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import Recipes from "@/components/recipe/RecipesWrap";
 import Title from "@/components/common/Title";
-import { GET, POST } from "@/libs/api";
 import { Contents, Flex } from "@/styles/common";
 import RadioInput from "@/components/common/RadioInput";
 import { RECIPE_TYPE_LIST } from "@/libs/constants/listItems";
@@ -13,6 +12,7 @@ import { selectAuth } from "@/libs/store/authSlice";
 import useModals from "@/libs/hooks/useModals";
 import Alert from "@/components/modal/Alert";
 import { ONLY_USER } from "@/libs/constants/alertData";
+import { apiSlice } from "@/libs/store/apiSlice";
 
 const ALL_RECIPE_TYPE_LIST = [
   { label: "전체", value: "all" },
@@ -25,9 +25,7 @@ export default function RecipeList() {
   const location = useLocation();
   const fridgeMode = location.state;
 
-  const [recipes, setRecipes] = useState([]);
-  const [totalPage, setTotalPage] = useState();
-  const [page, setPage] = useState();
+  const [page, setPage] = useState(1);
   const [isFridgeMode, setIsFridgeMode] = useState(fridgeMode || false);
   const { ingredients } = useSelector(selectFridge);
   const { isAuthenticated } = useSelector(selectAuth);
@@ -38,57 +36,42 @@ export default function RecipeList() {
       ingredients.filter((food) => new Date(food.bestBefore) >= new Date());
   }, [ingredients]);
 
+  const { data: currentRecipes, isLoading } = apiSlice.useGetRecipesQuery({
+    type,
+    page,
+  });
+
+  const [setFridgeRecipes, a] = apiSlice.useSetFridgeRecipesMutation();
+  console.log("🚀 ~ RecipeList ~ a:", a);
+  // const aa = setFridgeRecipes({
+  //   type,
+  //   page,
+  //   ingredients: filterIngredients().map((item) => item.name),
+  // });
+
+  useEffect(() => {
+    !type && setSearch({ type: "all" });
+  }, [setSearch, type]);
+
   useEffect(() => {
     fridgeMode && setIsFridgeMode(true);
   }, [fridgeMode]);
 
   useEffect(() => {
-    const getFridgeRecipes = async () => {
-      try {
-        const response = await POST(
-          type && type !== "all"
-            ? `/search-ingredients-recipes?type=${type}&page=${page}`
-            : `/search-ingredients-recipes?page=${page}`,
-          {
-            ingredients: filterIngredients().map((item) => item.name),
-          }
-        );
-        setRecipes(response.recipes);
-        setTotalPage(response.totalPages);
-      } catch (error) {
-        console.log("🚀 ~ getRecipes ~ error:", error);
-      }
-    };
-    const getRecipes = async () => {
-      try {
-        const response = await GET(
-          type && type !== "all"
-            ? `/recipes?type=${type}&page=${page}`
-            : `/recipes?page=${page}`
-        );
-        console.log("🚀 ~ getFridgeRecipes ~ response:", response);
-        setRecipes(response.recipes);
-        setTotalPage(response.totalPages);
-      } catch (error) {
-        console.log("🚀 ~ getRecipes ~ error:", error);
-      }
-    };
-
-    if (isFridgeMode) {
-      getFridgeRecipes();
-    } else getRecipes();
-  }, [filterIngredients, isFridgeMode, page, type]);
-
-  useEffect(() => {
     setPage(1);
-  }, [totalPage]);
+  }, [currentRecipes?.totalPages]);
 
   const handleFridgeCheckbox = () => {
-    isAuthenticated
-      ? setIsFridgeMode((prev) => !prev)
-      : openModal(Alert, ONLY_USER);
+    if (isAuthenticated) {
+      setIsFridgeMode((prev) => !prev);
+    } else {
+      openModal(Alert, ONLY_USER);
+    }
   };
 
+  if (isLoading) {
+    return <>loading</>;
+  }
   return (
     <Contents>
       <Flex gap={"30"}>
@@ -115,13 +98,13 @@ export default function RecipeList() {
           onChange={(v) => {
             setSearch({ type: v });
           }}
-          defaultSelected={type ? type : "all"}
+          defaultSelected={type}
           options={ALL_RECIPE_TYPE_LIST}
         />
         <Recipes
-          recipes={recipes}
+          recipes={currentRecipes?.recipes}
           col={4}
-          totalPage={totalPage}
+          totalPage={currentRecipes?.totalPages}
           page={page}
           onPageChange={setPage}
         />

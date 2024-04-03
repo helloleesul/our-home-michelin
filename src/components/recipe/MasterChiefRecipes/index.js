@@ -1,27 +1,17 @@
 import Title from "@/components/common/Title";
 import Recipes from "@/components/recipe/RecipesWrap";
 import { PROFILE_DEFAULT_IMG } from "@/libs/constants/defaultImages";
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
+import { apiSlice } from "@/libs/store/apiSlice";
 import * as S from "./style";
-import { GET } from "@/libs/api";
 
 export default function MasterChiefRecipes() {
-  const [recipes, setRecipes] = useState();
-  const [filterChief, setFilterChief] = useState(0);
+  const { data: recipes, isLoading } = apiSlice.useGetMasterChiefQuery();
+  const [selectedChief, setSelectedChief] = useState(0);
 
-  const getRecipes = async () => {
-    try {
-      const response = await GET("/master-chief");
-      setRecipes(response);
-    } catch (error) {
-      console.log("🚀 ~ onInfoModify ~ error:", error);
-      alert(error.response.data.error);
-    }
-  };
-
-  useEffect(() => {
-    getRecipes();
-  }, []);
+  const filteredRecipes = useMemo(() => {
+    return recipes && recipes[selectedChief]?.recipes;
+  }, [recipes, selectedChief]);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 40 }}>
@@ -31,28 +21,24 @@ export default function MasterChiefRecipes() {
         type={"basic"}
         position={"center"}
       />
-      {!recipes ? (
-        <S.Wrap>Loading</S.Wrap>
+      {isLoading ? (
+        <S.Wrap>loading</S.Wrap>
       ) : (
         <S.Wrap>
           <S.UserGroup>
             {recipes?.map((user, index) => (
-              <button key={user._id} onClick={() => setFilterChief(index)}>
+              <button key={user._id} onClick={() => setSelectedChief(index)}>
                 <img
                   src={user.profileImageURL || PROFILE_DEFAULT_IMG}
                   alt={user.nickName}
-                  onError={(e) => {
-                    e.target.src = PROFILE_DEFAULT_IMG;
-                  }}
                   width={100}
+                  height={100}
                 />
                 <span>{user.nickName}</span>
               </button>
             ))}
           </S.UserGroup>
-          {recipes && (
-            <Recipes recipes={recipes[filterChief]?.recipes} col={4} />
-          )}
+          <Recipes recipes={filteredRecipes} col={4} />
         </S.Wrap>
       )}
     </div>

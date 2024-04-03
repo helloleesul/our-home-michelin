@@ -1,24 +1,9 @@
 import Title from "@/components/common/Title";
 import Recipes from "@/components/recipe/RecipesWrap";
-import { GET } from "@/libs/api";
-import { useEffect, useState } from "react";
+import { apiSlice } from "@/libs/store/apiSlice";
 
 export default function BestRecipes() {
-  const [recipes, setRecipes] = useState();
-
-  const getRecipes = async () => {
-    try {
-      const response = await GET("/popular-recipes");
-      setRecipes(response);
-    } catch (error) {
-      console.log("🚀 ~ onInfoModify ~ error:", error);
-      alert(error.response.data.error);
-    }
-  };
-
-  useEffect(() => {
-    getRecipes();
-  }, []);
+  const { data: recipes, isLoading } = apiSlice.useGetPopularRecipesQuery();
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 40 }}>
@@ -28,7 +13,11 @@ export default function BestRecipes() {
         type={"basic"}
         position={"center"}
       />
-      <Recipes recipes={recipes} col={5} index={true} />
+      {isLoading ? (
+        <>loading</>
+      ) : (
+        <Recipes recipes={recipes} col={5} index={true} />
+      )}
     </div>
   );
 }
