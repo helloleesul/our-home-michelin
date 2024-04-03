@@ -1,4 +1,4 @@
-import Title from "@/components/common/Title";
+import Title from "@/components/@common/Title";
 import Recipes from "@/components/recipe/RecipesWrap";
 import { PROFILE_DEFAULT_IMG } from "@/libs/constants/defaultImages";
 import { useEffect, useState } from "react";

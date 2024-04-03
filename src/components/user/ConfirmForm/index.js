@@ -4,8 +4,8 @@ import { useDispatch } from "react-redux";
 import { asyncLogout } from "@/libs/store/authSlice";
 
 import { Flex } from "@/styles/common";
-import Button from "@/components/common/Button";
-import Input from "@/components/common/Input";
+import Button from "@/components/@common/Button";
+import Input from "@/components/@common/Input";
 
 import { DELETE, POST } from "@/libs/api";
 import MESSAGE from "@/libs/constants/message";

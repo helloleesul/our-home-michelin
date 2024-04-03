@@ -11,11 +11,11 @@ import {
 
 import * as S from "./style";
 import { dateToShortString } from "@/libs/utils";
-import Button from "@/components/common/Button";
+import Button from "@/components/@common/Button";
 import useModals from "@/libs/hooks/useModals";
 import Confirm from "@/components/modal/Confirm";
 import Calendar from "@/components/modal/Calandar";
-import Input from "@/components/common/Input";
+import Input from "@/components/@common/Input";
 
 export default function Fridge({ onClose, onClick }) {
   const dispatch = useDispatch();

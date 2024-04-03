@@ -7,8 +7,8 @@ import {
   Flex,
   RelativeGroup,
 } from "@/styles/common";
-import Button from "@/components/common/Button";
-import Input from "@/components/common/Input";
+import Button from "@/components/@common/Button";
+import Input from "@/components/@common/Input";
 import VALIDATE from "@/libs/constants/validate";
 import MESSAGE from "@/libs/constants/message";
 import { POST } from "@/libs/api";

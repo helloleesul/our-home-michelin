@@ -1,11 +1,11 @@
-import Title from "@/components/common/Title";
+import Title from "@/components/@common/Title";
 import { selectAuth } from "@/libs/store/authSlice";
 import { useSelector } from "react-redux";
 import * as S from "./style";
 import { DELETE, POST } from "@/libs/api";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Button from "@/components/common/Button";
+import Button from "@/components/@common/Button";
 import MESSAGE from "@/libs/constants/message";
 import { dateToShortString } from "@/libs/utils";
 

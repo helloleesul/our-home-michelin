@@ -1,4 +1,4 @@
-import Title from "@/components/common/Title";
+import Title from "@/components/@common/Title";
 import Recipes from "@/components/recipe/RecipesWrap";
 import { GET } from "@/libs/api";
 import { useEffect, useState } from "react";

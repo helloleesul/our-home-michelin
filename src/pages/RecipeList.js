@@ -1,14 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
 import Recipes from "@/components/recipe/RecipesWrap";
-import Title from "@/components/common/Title";
+import Title from "@/components/@common/Title";
 import { GET, POST } from "@/libs/api";
 import { Contents, Flex } from "@/styles/common";
-import RadioInput from "@/components/common/RadioInput";
+import RadioInput from "@/components/@common/RadioInput";
 import { RECIPE_TYPE_LIST } from "@/libs/constants/listItems";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { selectFridge } from "@/libs/store/fridgeSlice";
 import { useSelector } from "react-redux";
-import Checkbox from "@/components/common/Checkbox";
+import Checkbox from "@/components/@common/Checkbox";
 import { selectAuth } from "@/libs/store/authSlice";
 import useModals from "@/libs/hooks/useModals";
 import Alert from "@/components/modal/Alert";

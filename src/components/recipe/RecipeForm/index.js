@@ -1,14 +1,14 @@
 /** @jsxImportSource @emotion/react */
-import Button from "@/components/common/Button";
-import Input from "@/components/common/Input";
+import Button from "@/components/@common/Button";
+import Input from "@/components/@common/Input";
 import { AbsoluteText, ColGroup, Flex } from "@/styles/common";
-import RadioInput from "@/components/common/RadioInput";
+import RadioInput from "@/components/@common/RadioInput";
 import {
   RECIPE_ING_AMOUNT_LIST,
   RECIPE_TYPE_LIST,
 } from "@/libs/constants/listItems";
-import Select from "@/components/common/Select";
-import { Label } from "@/components/common/Input/style";
+import Select from "@/components/@common/Select";
+import { Label } from "@/components/@common/Input/style";
 import { useState } from "react";
 import { selectAuth } from "@/libs/store/authSlice";
 import { useSelector } from "react-redux";
@@ -17,8 +17,8 @@ import { PATCH, POST } from "@/libs/api";
 import MESSAGE from "@/libs/constants/message";
 import { useNavigate } from "react-router-dom";
 import { RECIPR_UPLOAD_IMG } from "@/libs/constants/defaultImages";
-import Title from "@/components/common/Title";
-import ImageInput from "@/components/common/ImageInput";
+import Title from "@/components/@common/Title";
+import ImageInput from "@/components/@common/ImageInput";
 
 export default function RecipeForm({ modifyRecipe }) {
   const navigate = useNavigate();

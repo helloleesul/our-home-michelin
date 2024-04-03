@@ -5,8 +5,8 @@ import { useDispatch } from "react-redux";
 import { asyncLogin } from "@/libs/store/authSlice";
 
 import { Flex } from "@/styles/common";
-import Button from "@/components/common/Button";
-import Input from "@/components/common/Input";
+import Button from "@/components/@common/Button";
+import Input from "@/components/@common/Input";
 
 export default function LoginForm() {
   const dispatch = useDispatch();

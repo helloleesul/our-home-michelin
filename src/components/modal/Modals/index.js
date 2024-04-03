@@ -4,7 +4,7 @@ import { useContext } from "react";
 import ReactDOM from "react-dom";
 import ReactModal from "react-modal";
 import * as S from "./style";
-import Button from "../../common/Button";
+import Button from "../../@common/Button";
 
 export default function Modals() {
   const openedModals = useContext(ModalsStateContext);

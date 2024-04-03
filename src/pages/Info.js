@@ -1,4 +1,4 @@
-import Title from "@/components/common/Title";
+import Title from "@/components/@common/Title";
 import ConfirmForm, { Mode } from "@/components/user/ConfirmForm";
 import InfoForm from "@/components/user/InfoForm";
 import UserForm from "@/components/user/UserForm";

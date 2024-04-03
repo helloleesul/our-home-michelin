@@ -5,9 +5,9 @@ import { selectAuth, updateUser } from "@/libs/store/authSlice";
 
 import { ErrorText, Flex } from "@/styles/common";
 
-import Input from "@/components/common/Input";
-import Button from "@/components/common/Button";
-import ImageInput from "@/components/common/ImageInput";
+import Input from "@/components/@common/Input";
+import Button from "@/components/@common/Button";
+import ImageInput from "@/components/@common/ImageInput";
 import { PATCH } from "@/libs/api";
 import VALIDATE from "@/libs/constants/validate";
 import MESSAGE from "@/libs/constants/message";

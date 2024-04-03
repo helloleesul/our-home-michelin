@@ -1,5 +1,5 @@
 import JoinForm from "@/components/user/JoinForm";
-import Title from "@/components/common/Title";
+import Title from "@/components/@common/Title";
 import UserForm from "@/components/user/UserForm";
 import { ButtonLink, Center, Flex } from "@/styles/common";
 
