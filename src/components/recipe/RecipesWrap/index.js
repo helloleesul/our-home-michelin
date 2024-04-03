@@ -17,13 +17,13 @@ export default function Recipes(props) {
           <RecipeCard key={card._id} index={index && i + 1} {...card} />
         ))}
       </div>
-      {totalPage > 1 && (
-        <Pagination
-          totalPage={totalPage}
-          page={page}
-          onPageChange={onPageChange}
-        />
-      )}
+      {/* {totalPage > 1 && ( */}
+      <Pagination
+        totalPage={totalPage}
+        page={page}
+        onPageChange={onPageChange}
+      />
+      {/* )} */}
     </div>
   ) : (
     <p>레시피가 없습니다.</p>

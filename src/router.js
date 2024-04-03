@@ -1,7 +1,7 @@
 import { Navigate, createBrowserRouter } from "react-router-dom";
 
 import App from "./App";
-import Home from "./pages/Home copy";
+import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Join from "./pages/Join";
 import RecipeList from "./pages/RecipeList";
@@ -14,12 +14,10 @@ import Info from "./pages/Info";
 import Leave from "./pages/Leave";
 import NotFound from "./pages/NotFound";
 
-import UserRoute from "./components/router/UserRoute";
-import GuestRoute from "./components/router/GuestRoute";
+import UserRoute from "./components/routerGuard/UserRoute";
+import GuestRoute from "./components/routerGuard/GuestRoute";
 
 import Kitchen from "./components/layout/Kitchen";
-import { GET } from "./libs/api";
-import { lazy } from "react";
 
 export const router = createBrowserRouter([
   {
@@ -28,13 +26,7 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        async loader() {
-          const masterChief = await GET("/master-chief");
-          const popularRecipes = await GET("/popular-recipes");
-          return { masterChief, popularRecipes };
-        },
-        Component: lazy(() => import("./pages/Home")),
-        // element: <Home />,
+        element: <Home />,
       },
       {
         path: "recipes",
