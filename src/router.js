@@ -1,23 +1,28 @@
+import { lazy } from "react";
 import { Navigate, createBrowserRouter } from "react-router-dom";
 
 import App from "./App";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Join from "./pages/Join";
-import RecipeList from "./pages/RecipeList";
-import RecipeDetail from "./pages/RecipeDetail";
-import RecipeWrite from "./pages/RecipeWrite";
-import RecipeModify from "./pages/RecipeModify";
-import MyRecipes from "./pages/MyRecipes";
-import FavoriteRecipes from "./pages/FavoriteRecipes";
-import Info from "./pages/Info";
-import Leave from "./pages/Leave";
-import NotFound from "./pages/NotFound";
 
-import UserRoute from "./components/routerGuard/UserRoute";
-import GuestRoute from "./components/routerGuard/GuestRoute";
+const Home = lazy(() => import("./pages/Home"));
+const Login = lazy(() => import("./pages/Login"));
+const Join = lazy(() => import("./pages/Join"));
 
-import Kitchen from "./components/layout/Kitchen";
+const RecipeList = lazy(() => import("./pages/RecipeList"));
+const RecipeDetail = lazy(() => import("./pages/RecipeDetail"));
+const RecipeWrite = lazy(() => import("./pages/RecipeWrite"));
+const RecipeModify = lazy(() => import("./pages/RecipeModify"));
+
+const MyRecipes = lazy(() => import("./pages/MyRecipes"));
+const FavoriteRecipes = lazy(() => import("./pages/FavoriteRecipes"));
+const Info = lazy(() => import("./pages/Info"));
+const Leave = lazy(() => import("./pages/Leave"));
+
+const NotFound = lazy(() => import("./pages/NotFound"));
+
+const UserRoute = lazy(() => import("./components/routerGuard/UserRoute"));
+const GuestRoute = lazy(() => import("./components/routerGuard/GuestRoute"));
+
+const Kitchen = lazy(() => import("./components/layout/Kitchen"));
 
 export const router = createBrowserRouter([
   {

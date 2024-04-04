@@ -11,6 +11,7 @@ import { selectAuth } from "./libs/store/authSlice";
 import { useSelector } from "react-redux";
 import Alert from "./components/modal/Alert";
 import { ONLY_USER } from "./libs/constants/alertData";
+import { Suspense } from "react";
 
 export default function App() {
   const { isAuthenticated } = useSelector(selectAuth);
@@ -36,7 +37,9 @@ export default function App() {
       <Nav />
       <main>
         <Container>
-          <Outlet />
+          <Suspense fallback={<>loading...</>}>
+            <Outlet />
+          </Suspense>
         </Container>
       </main>
       <FridgeButton onClick={handleOnclick} />

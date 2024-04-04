@@ -136,7 +136,7 @@ export default function RecipeForm({ modifyRecipe }) {
         navigate(`/recipes/${response._id}`);
       }
     } catch (error) {
-      console.log("🚀 ~ onInfoModify ~ error:", error);
+      console.log("🚀 ~ onRecipeSubmit ~ error:", error);
       alert(error.response.data.error);
     }
   };
