@@ -19,6 +19,13 @@ export default function ImageInput({
     const file = e.target.files[0];
     if (file) {
       const newImageUrl = URL.createObjectURL(file);
+      const rimiteSize = 5000 * 1024; // 5000KB를 바이트 단위로 변환
+      if (file.size >= rimiteSize) {
+        alert(
+          "이미지 용량이 너무 큽니다. 5000KB 미만의 이미지를 선택해주세요."
+        );
+        return;
+      }
 
       setImageUrl(newImageUrl);
       onChange(newImageUrl);

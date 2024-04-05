@@ -42,7 +42,9 @@ export default function Header() {
                       onError={(e) => {
                         e.target.src = PROFILE_DEFAULT_IMG;
                       }}
+                      style={{ objectFit: "cover" }}
                       width={30}
+                      height={30}
                     />
                     <span style={{ color: "inherit" }}>{user.nickName}</span>
                   </div>

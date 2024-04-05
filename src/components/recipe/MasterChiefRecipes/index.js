@@ -39,12 +39,14 @@ export default function MasterChiefRecipes() {
             {recipes?.map((user, index) => (
               <button key={user._id} onClick={() => setFilterChief(index)}>
                 <img
+                  style={{ objectFit: "cover" }}
                   src={user.profileImageURL || PROFILE_DEFAULT_IMG}
                   alt={user.nickName}
                   onError={(e) => {
                     e.target.src = PROFILE_DEFAULT_IMG;
                   }}
                   width={100}
+                  height={100}
                 />
                 <span>{user.nickName}</span>
               </button>

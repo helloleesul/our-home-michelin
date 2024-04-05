@@ -12,6 +12,7 @@ import { PATCH } from "@/libs/api";
 import VALIDATE from "@/libs/constants/validate";
 import MESSAGE from "@/libs/constants/message";
 import { PROFILE_UPLOAD_IMG } from "@/libs/constants/defaultImages";
+import AWS from "aws-sdk";
 
 import * as S from "./style";
 
@@ -27,7 +28,11 @@ export default function InfoForm() {
   const [passwordValid, setPasswordValid] = useState(false);
   const [passwordChk, setPasswordChk] = useState("");
 
-  const handleFile = (file) => setFile(file);
+  AWS.config.update({
+    region: process.env.REACT_APP_REGION,
+    accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID,
+    secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY,
+  });
 
   const handleNickName = (e) => {
     setNickNameValid(VALIDATE.USER.NICKNAME.test(e.target.value));
@@ -41,6 +46,16 @@ export default function InfoForm() {
 
   const onInfoModify = async (e) => {
     e.preventDefault();
+
+    const now = new Date();
+    const getMilliseconds = now.getTime();
+    const upload = new AWS.S3.ManagedUpload({
+      params: {
+        Bucket: "our-home-michelin-bucket/upload",
+        Key: `${getMilliseconds + "_" + file?.name}`,
+        Body: file,
+      },
+    });
 
     // 작성 정보 없음
     if (!nickName && !password && !passwordChk) {
@@ -69,20 +84,17 @@ export default function InfoForm() {
       return;
     }
 
-    const formData = new FormData(e.target);
-    const data = {
-      nickName,
-      password,
-    };
-
-    formData.append("data", JSON.stringify(data));
-    formData.append(
-      "profileImageURL",
-      profileImageURL === user.profileImageURL ? profileImageURL : file
-    );
-
     try {
-      const response = await PATCH("/myinfo", formData);
+      const resultImage = file && (await upload.promise());
+      const response = await PATCH("/myinfo", {
+        nickName,
+        password,
+        profileImageURL: !profileImageURL
+          ? ""
+          : profileImageURL === user.profileImageURL
+          ? profileImageURL
+          : resultImage.Location.toString(),
+      });
 
       dispatch(
         updateUser({
@@ -109,7 +121,7 @@ export default function InfoForm() {
           <ImageInput
             defaultImage={profileImageURL}
             onChange={setProfileImageURL}
-            handleFile={handleFile}
+            handleFile={setFile}
             uploadImage={PROFILE_UPLOAD_IMG}
           />
         </S.ProfileImage>

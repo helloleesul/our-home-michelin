@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { RECIPR_UPLOAD_IMG } from "@/libs/constants/defaultImages";
 import Title from "@/components/@common/Title";
 import ImageInput from "@/components/@common/ImageInput";
+import AWS from "aws-sdk";
 
 export default function RecipeForm({ modifyRecipe }) {
   const navigate = useNavigate();
@@ -53,7 +54,11 @@ export default function RecipeForm({ modifyRecipe }) {
     modifyRecipe?.process || [{ text: "" }]
   );
 
-  const handleFile = (file) => setFile(file);
+  AWS.config.update({
+    region: process.env.REACT_APP_REGION,
+    accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID,
+    secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY,
+  });
 
   const handleTitle = (e) => setTitle(e.target.value);
 
@@ -106,6 +111,16 @@ export default function RecipeForm({ modifyRecipe }) {
   const onRecipeSubmit = async (e) => {
     e.preventDefault();
 
+    const now = new Date();
+    const getMilliseconds = now.getTime();
+    const upload = new AWS.S3.ManagedUpload({
+      params: {
+        Bucket: "our-home-michelin-bucket/upload",
+        Key: `${getMilliseconds + "_" + file?.name}`,
+        Body: file,
+      },
+    });
+
     const stepValid = processSteps.filter((v) => !v.text).length;
     let alertMessage = "";
     if (!title) alertMessage += "레시피 이름, ";
@@ -118,20 +133,28 @@ export default function RecipeForm({ modifyRecipe }) {
       return;
     }
 
-    const formData = new FormData(e.target);
-    formData.append("recipeType", recipeType);
-    formData.append("process", JSON.stringify(processSteps));
-    formData.append("ingredients", JSON.stringify(ingredientsList));
-    formData.append("writer", user.userId);
-    formData.append("uploadRecipeImg", imageUrl && !file ? imageUrl : file);
-
     try {
+      const resultImage = file && (await upload.promise());
+      const data = {
+        title,
+        recipeType,
+        recipeServing,
+        process: JSON.stringify(processSteps),
+        ingredients: JSON.stringify(ingredientsList),
+        writer: user.userId,
+        uploadRecipeImg:
+          !imageUrl && !file
+            ? ""
+            : imageUrl && !file
+            ? imageUrl
+            : resultImage.Location.toString(),
+      };
       if (!modifyRecipe) {
-        const response = await POST("/recipes", formData);
+        const response = await POST("/recipes", data);
         alert(MESSAGE.RECIPE.COMPLETE);
         navigate(`/recipes/${response._id}`);
       } else {
-        const response = await PATCH(`/recipes/${modifyRecipe._id}`, formData);
+        const response = await PATCH(`/recipes/${modifyRecipe._id}`, data);
         alert(MESSAGE.RECIPE.EDITFIN);
         navigate(`/recipes/${response._id}`);
       }
@@ -167,7 +190,7 @@ export default function RecipeForm({ modifyRecipe }) {
           <ImageInput
             defaultImage={imageUrl}
             onChange={setImageUrl}
-            handleFile={handleFile}
+            handleFile={setFile}
             uploadImage={RECIPR_UPLOAD_IMG}
           />
         </S.ImageBox>
