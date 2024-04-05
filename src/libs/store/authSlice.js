@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { POST } from "../api";
 import { fetchFridge, resetIngredients } from "./fridgeSlice";
+import { redirect } from "react-router-dom";
 
 export const asyncLogin = createAsyncThunk(
   "auth/asyncLogin",
@@ -48,11 +49,12 @@ export const authSlice = createSlice({
     builder.addCase(asyncLogin.fulfilled, (state, action) => {
       state.isAuthenticated = true;
       state.user = action.payload;
+      redirect("/");
     });
     builder.addCase(asyncLogin.rejected, (state, action) => {
       state.isAuthenticated = false;
       state.user = null;
-      console.log("🚀 ~ asyncLogin ~ rejected:", action.error.message);
+      alert(action.error.message);
     });
     // 로그아웃
     builder.addCase(asyncLogout.fulfilled, (state, action) => {
@@ -60,9 +62,7 @@ export const authSlice = createSlice({
       state.user = null;
     });
     builder.addCase(asyncLogout.rejected, (state, action) => {
-      state.isAuthenticated = false;
-      state.user = null;
-      console.log("🚀 ~ asyncLogout ~ rejected:", action.error.message);
+      alert(action.error.message);
     });
   },
 });

@@ -1,5 +1,4 @@
 import { useRef } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { useDispatch } from "react-redux";
 import { asyncLogin } from "@/libs/store/authSlice";
@@ -7,10 +6,12 @@ import { asyncLogin } from "@/libs/store/authSlice";
 import { Flex } from "@/styles/common";
 import Button from "@/components/@common/Button";
 import Input from "@/components/@common/Input";
+import useModals from "@/libs/hooks/useModals";
+import Alert from "@/components/modal/Alert";
 
 export default function LoginForm() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const { openModal } = useModals();
 
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -19,7 +20,11 @@ export default function LoginForm() {
     e.preventDefault();
 
     if (!emailRef.current.value || !passwordRef.current.value) {
-      alert("로그인 정보를 입력해주세요.");
+      openModal(Alert, {
+        title: "안내",
+        size: 30,
+        message: "로그인 정보를 입력해주세요.",
+      });
       !passwordRef.current.value && passwordRef.current.focus();
       !emailRef.current.value && emailRef.current.focus();
 
@@ -32,7 +37,6 @@ export default function LoginForm() {
         password: passwordRef.current.value,
       })
     );
-    navigate("/");
   };
 
   return (
