@@ -25,11 +25,13 @@ export default function FavoriteRecipes() {
   }, [totalPage]);
 
   return (
-    <Recipes
-      recipes={recipes}
-      totalPage={totalPage}
-      page={page}
-      onPageChange={setPage}
-    />
+    <div style={{ padding: "20px 0" }}>
+      <Recipes
+        recipes={recipes}
+        totalPage={totalPage}
+        page={page}
+        onPageChange={setPage}
+      />
+    </div>
   );
 }

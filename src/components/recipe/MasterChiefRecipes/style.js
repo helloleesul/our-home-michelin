@@ -5,6 +5,7 @@ export const Wrap = styled.div`
   background-color: ${theme.PALETTE.gray[100]};
   border-radius: 10px;
   padding: 20px;
+  height: 400px;
 `;
 
 export const UserGroup = styled.div`

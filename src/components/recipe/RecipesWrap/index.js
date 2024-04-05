@@ -4,7 +4,9 @@ import RecipeCard from "../RecipeCard";
 export default function Recipes(props) {
   const { recipes, col, index, totalPage, page, onPageChange } = props;
 
-  return recipes?.length > 0 ? (
+  return !recipes ? (
+    <div>Loading...</div>
+  ) : recipes?.length > 0 ? (
     <div style={{ position: "relative", paddingBottom: 50 }}>
       <div
         style={{
@@ -17,13 +19,11 @@ export default function Recipes(props) {
           <RecipeCard key={card._id} index={index && i + 1} {...card} />
         ))}
       </div>
-      {/* {totalPage > 1 && ( */}
       <Pagination
         totalPage={totalPage}
         page={page}
         onPageChange={onPageChange}
       />
-      {/* )} */}
     </div>
   ) : (
     <p>레시피가 없습니다.</p>

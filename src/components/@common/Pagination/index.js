@@ -1,3 +1,4 @@
+import Button from "../Button";
 import * as S from "./style";
 
 export default function Pagination({ totalPage, page, onPageChange }) {
@@ -7,24 +8,24 @@ export default function Pagination({ totalPage, page, onPageChange }) {
   return (
     <S.Wrap>
       {startPage > 1 && (
-        <button width={30} onClick={() => onPageChange(startPage - 10)}>
+        <Button width={30} onClick={() => onPageChange(startPage - 10)}>
           👈
-        </button>
+        </Button>
       )}
       {Array.from({ length: endPage - startPage + 1 }, (_, i) => (
-        <button
-          style={{ color: page !== startPage + i && "gray" }}
+        <Button
+          disabled={page === startPage + i}
           width={30}
           onClick={() => onPageChange(startPage + i)}
           key={startPage + i - 1}
         >
           {startPage + i}
-        </button>
+        </Button>
       ))}
       {endPage < totalPage && (
-        <button width={30} onClick={() => onPageChange(endPage + 1)}>
+        <Button width={30} onClick={() => onPageChange(endPage + 1)}>
           👉
-        </button>
+        </Button>
       )}
     </S.Wrap>
   );

@@ -32,7 +32,7 @@ export default function MasterChiefRecipes() {
         position={"center"}
       />
       {!recipes ? (
-        <S.Wrap>Loading</S.Wrap>
+        <S.Wrap />
       ) : (
         <S.Wrap>
           <S.UserGroup>
