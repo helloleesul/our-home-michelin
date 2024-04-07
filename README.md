@@ -57,6 +57,7 @@
 [![Node.js]][Node-url] [![Nodemon]][Nodemon-url] [![Express.js]][Express-url] [![MongoDB]][MongoDB-url] [![Mongoose]][Mongoose-url] [![Passport.js]][Passport-url]
 
 ### 기능 목록
+[우리집 냉슐랭 API 명세서](https://helloleesul.notion.site/21e11ad7553544439b23568f2a96e72f)
 | 화면 | 설명 |
 | --- | --- |
 | 나의 냉장고 | 식재료(조회, 추가, 수정, 삭제), 유통기한(수정), 식재료 전체 삭제 |
